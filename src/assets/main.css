@@ -81,7 +81,13 @@
 .icon-speedometer2 {
   width: 1em; }
 
+.icon-trash {
+  width: 1em; }
+
 .icon-wallet2 {
+  width: 1em; }
+
+.icon-x-circle {
   width: 1em; }
 
 /*!
@@ -12634,9 +12640,6 @@ ol {
 
 .fw-500 {
   font-weight: 500; }
-
-.icon {
-  display: inline-block; }
 
 /**
  * Static blocks
