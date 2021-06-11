@@ -1,5 +1,5 @@
 <template>
-  <aside class="sidebar bg-dark" id="sidebarMenu">
+  <aside class="sidebar bg-dark" :class="{'is-compact': toggleClass}" id="sidebarMenu">
     <div class="logo sidebar__logo">
       <app-logo />
     </div>
@@ -48,6 +48,7 @@ import AppLogo from '@/components/ui/AppLogo'
 
 export default {
   name: 'TheSidebar',
+  props: ['toggleClass'],
   components: {
     AppLogo
   }

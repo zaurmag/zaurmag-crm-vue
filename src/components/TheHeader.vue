@@ -1,7 +1,7 @@
 <template>
   <header class="header sticky-top">
     <div class="header__left d-flex align-items-center">
-      <a class="header__sb-collapse header__sb-collapse--js" href="#" data-bs-toggle="tooltip" data-bs-placement="right" title="Свернуть">
+      <a class="header__sb-collapse" href="#" v-tooltip="{title: tooltipTlt, placement: 'right'}" @click.prevent="$emit('toggle')">
         <svg class="icon icon-arrow-bar-left">
           <use xlink:href="#arrow-bar-left"></use>
         </svg>
@@ -28,7 +28,9 @@
 
 <script>
 export default {
-  name: 'TheHeader'
+  name: 'TheHeader',
+  props: ['tooltipTlt'],
+  emits: ['toggle']
 }
 </script>
 
