@@ -9,7 +9,7 @@
           <use xlink:href="#arrow-bar-right"></use>
         </svg>
       </a>
-      <div class="text-secondary small ms-lg-40 ms-15">7 июня 2021 г. 11:05</div>
+      <div class="text-secondary small ms-lg-40 ms-15">{{ $dateF(date, 'datetime') }}</div>
     </div>
     <div class="heeader__right">
       <div class="header__user-dropdown dropdown">
@@ -27,10 +27,30 @@
 </template>
 
 <script>
+import { onMounted, onBeforeMount, ref } from 'vue'
+
 export default {
   name: 'TheHeader',
   props: ['tooltipTlt'],
-  emits: ['toggle']
+  emits: ['toggle'],
+  setup () {
+    const date = ref(Date())
+    const interval = ref(null)
+
+    onMounted(() => {
+      interval.value = setInterval(() => {
+        date.value = Date()
+      }, 1000)
+    })
+
+    onBeforeMount(() => {
+      clearInterval(interval.value)
+    })
+
+    return {
+      date
+    }
+  }
 }
 </script>
 
