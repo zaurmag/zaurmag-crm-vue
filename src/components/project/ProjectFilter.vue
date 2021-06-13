@@ -18,7 +18,7 @@
     <div class="col-xl-auto">
       <div class="d-flex align-items-center">
         <label class="form__label me-3">Тип операции:</label>
-        <select class="select--js" id="filterSelectType">
+        <select class="select--js" ref="filterSelectType">
           <option value="all">Все</option>
           <option value="income">Приход</option>
           <option value="outcome">Расход</option>
@@ -44,8 +44,24 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
+import { Select } from '@/vendor/select'
+
 export default {
-  name: 'ProjectFilter'
+  name: 'ProjectFilter',
+  setup () {
+    const filterSelectType = ref(null)
+
+    onMounted(() => {
+      return new Select(filterSelectType.value, {
+        selectedID: 1
+      })
+    })
+
+    return {
+      filterSelectType
+    }
+  }
 }
 </script>
 
