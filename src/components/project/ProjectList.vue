@@ -30,7 +30,7 @@
         <td>3300</td>
           <td>
             <button class="btn btn-outline-primary btn-sm py-1 fz-12" type="button">Открыть</button>
-            <button class="btn btn-sm text-danger ms-2 fz-16" type="button" title="Удалить">
+            <button class="btn btn-sm text-danger ms-2 fz-16 p-0" type="button" title="Удалить">
               <svg class="icon icon-trash">
                 <use xlink:href="#trash"></use>
               </svg>

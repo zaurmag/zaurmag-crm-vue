@@ -11,7 +11,7 @@
       </a>
       <div class="text-secondary small ms-lg-40 ms-15">{{ $dateF(date, 'datetime') }}</div>
     </div>
-    <div class="heeader__right">
+    <div class="header__right">
       <div class="header__user-dropdown dropdown">
         <a class="dropdown-toggle" href="#" data-bs-toggle="dropdown">
           <img class="header__user-drp-img img-fluid me-2" src="/images/zaurmag.png" alt="Заур">

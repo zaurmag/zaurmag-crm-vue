@@ -35,7 +35,7 @@ export default {
   },
   setup (_, { slots }) {
     return {
-      isFooter: !!slots['footer']
+      isFooter: !!slots.footer
     }
   }
 }
