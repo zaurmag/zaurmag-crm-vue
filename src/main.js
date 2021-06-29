@@ -5,7 +5,7 @@ import router from './router'
 import store from './store'
 import date from '@/utils/date'
 import tooltipDirective from '@/directives/tooltip.directive'
-import 'bootstrap/dist/js/bootstrap'
+import 'bootstrap'
 import '@/assets/css/main.css'
 
 createApp(App)

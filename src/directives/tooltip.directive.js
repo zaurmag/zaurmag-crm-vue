@@ -3,8 +3,7 @@ import { Tooltip } from 'bootstrap'
 export default {
   mounted (el, { value }) {
     return new Tooltip(el, {
-      title: value.title,
-      placement: value.placement,
+      ...value,
       trigger: 'hover'
     })
   },
