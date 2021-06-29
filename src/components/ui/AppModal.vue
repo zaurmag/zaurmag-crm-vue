@@ -4,7 +4,7 @@
       <div class="modal-content">
         <header class="modal-header px-30">
           <h5 class="modal-title">{{ title }}</h5>
-          <button class="btn-close btn btn-icon btn-sm" type="button" data-bs-dismiss="modal" aria-label="Close" @click="$emit('close')"></button>
+          <button class="btn-close btn btn-icon btn-sm" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
         </header>
 
         <div class="modal-body p-30">
@@ -22,7 +22,6 @@
 <script>
 export default {
   name: 'AppModal',
-  emits: ['close'],
   props: {
     id: {
       type: String,

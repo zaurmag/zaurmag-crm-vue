@@ -1,7 +1,8 @@
 <template>
   <app-page title="Главная панель">
     <template #header>
-      <button class="main__add-btn btn btn-primary px-md-3 ms-auto" type="button" data-bs-toggle="modal" data-bs-target="#addRecordForm"><span class="d-sm-inline d-none">Добавить</span>
+      <button class="main__add-btn btn btn-primary px-md-3 ms-auto" type="button" data-bs-toggle="modal" data-bs-target="#addRecordForm">
+        <span class="d-sm-inline d-none">Добавить</span>
         <svg class="icon icon-plus-lg ms-sm-1">
           <use xlink:href="#plus-lg"></use>
         </svg>
@@ -45,14 +46,22 @@
       <project-report />
     </div>
   </app-page>
+
+  <teleport to="body">
+    <app-modal id="addRecordForm" title="Добавить запись">
+      <project-form />
+    </app-modal>
+  </teleport>
 </template>
 
 <script>
-import ProjectList from '@/components/project/ProjectList'
+import AppModal from '@/components/ui/AppModal'
 import AppPagination from '@/components/ui/AppPagination'
 import AppPage from '@/components/ui/AppPage'
+import ProjectList from '@/components/project/ProjectList'
 import ProjectFilter from '@/components/project/ProjectFilter'
 import ProjectReport from '@/components/project/ProjectReport'
+import ProjectForm from '@/components/project/ProjectForm'
 
 export default {
   name: 'Home',
@@ -61,7 +70,9 @@ export default {
     ProjectList,
     AppPagination,
     ProjectFilter,
-    ProjectReport
+    ProjectReport,
+    AppModal,
+    ProjectForm
   }
 }
 </script>
