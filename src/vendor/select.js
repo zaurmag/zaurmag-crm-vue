@@ -63,6 +63,7 @@ export class Select {
   render () {
     const { placeholder, selectedID } = this.options
     this.$el.insertAdjacentHTML('afterbegin', getTemplate(this.data, placeholder, selectedID))
+    this.selectOrigin(selectedID)
   }
 
   get $text () {
@@ -120,7 +121,19 @@ export class Select {
       this.options.onSelect(this.current)
     }
 
+    this.selectOrigin(id)
+
     this.close()
+  }
+
+  selectOrigin (id) {
+    const select = this.$el.querySelector('select')
+    select.selectedIndex = id - 1
+    select.value = this.data[id - 1].value
+
+    // const currentOption = optionsArr.find(el => el.textContent === value)
+    // optionsArr.forEach(option => option.removeAttribute('selected'))
+    // currentOption.setAttribute('selected', 'selected')
   }
 
   get isOpen () {
