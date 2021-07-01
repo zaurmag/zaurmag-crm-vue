@@ -25,11 +25,19 @@ export default {
 
     },
     async add ({ commit, dispatch }, item) {
-      dispatch('setMessage', {
-        type: 'success',
-        value: 'Запись успешно добавлена'
-      }, { root: true })
-      commit('clearMessage', { root: true })
+      try {
+        await axios.post(`/projects.json`, item)
+        dispatch('setMessage', {
+          type: 'success',
+          value: 'Запись успешно добавлена'
+        }, { root: true })
+        commit('clearMessage', null, { root: true })
+      } catch (e) {
+        dispatch('setMessage', {
+          value: e.message,
+          type: 'danger'
+        }, { root: true })
+      }
     },
     async update ({ dispatch }, id) {
 

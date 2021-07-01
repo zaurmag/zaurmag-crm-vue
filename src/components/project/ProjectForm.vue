@@ -12,7 +12,7 @@
     </div>
     <div class="mb-3">
       <label class="form-label">Тип операции</label>
-      <select class="form-select form-select-lg" :class="{'is-invalid': typeError}" id="addRecordType" ref="addRecordType" v-model="type">
+      <select class="form-select form-select-lg" :class="{'is-invalid': typeError}" id="addRecordType" v-model="type">
         <option value="income" selected>Приход</option>
         <option value="outcome">Расход</option>
         <option value="pending">В ожидании</option>
@@ -34,24 +34,14 @@
 </template>
 
 <script>
-import { Select } from '@/vendor/select'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { useProjectForm } from '@/use/project-form'
 
 export default {
   name: 'ProjectForm',
+  props: ['modalID'],
   setup () {
-    const addRecordType = ref(null)
-
-    onMounted(() => {
-      // return new Select(addRecordType.value, {
-      //   selectedID: 1,
-      //   classes: ['select--bordered']
-      // })
-    })
-
     return {
-      addRecordType,
       ...useProjectForm()
     }
   }
