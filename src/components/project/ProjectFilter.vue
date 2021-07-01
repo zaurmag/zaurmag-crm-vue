@@ -19,9 +19,10 @@
       <div class="d-flex align-items-center">
         <label class="form__label me-3">Тип операции:</label>
         <select class="select--js" ref="filterSelectType">
-          <option value="all">Все</option>
-          <option value="income">Приход</option>
-          <option value="outcome">Расход</option>
+          <option value="Все">Все</option>
+          <option value="Приход">Приход</option>
+          <option value="Расход">Расход</option>
+          <option value="В ожидании">В ожидании</option>
         </select>
       </div>
     </div>
