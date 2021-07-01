@@ -17,7 +17,7 @@ dbtAxios.interceptors.request.use(async config => {
     await store.dispatch('auth/refresh')
   }
 
-  config.params['auth'] = store.getters['auth/token']
+  config.params.auth = store.getters['auth/token']
 
   return config
 })

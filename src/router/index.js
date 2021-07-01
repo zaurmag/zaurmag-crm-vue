@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import store from '../store'
 
 const routes = [
   {
@@ -43,6 +44,30 @@ const router = createRouter({
   routes,
   linkActiveClass: 'is-active',
   linkExactActiveClass: 'is-active'
+})
+
+router.beforeEach((to, from, next) => {
+  const requireAuth = to.meta.auth
+  const requireAdmin = to.meta.admin
+  const isAuthenticated = store.getters['auth/isAuthenticated']
+
+  if (requireAdmin) {
+    if (store.getters['auth/isAdmin']) {
+      return next()
+    } else {
+      return next('/sign-in?message=admin')
+    }
+  }
+
+  if (requireAuth) {
+    if (isAuthenticated) {
+      return next()
+    } else {
+      next('/sign-in?message=auth')
+    }
+  }
+
+  next()
 })
 
 export default router
