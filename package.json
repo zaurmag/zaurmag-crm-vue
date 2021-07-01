@@ -15,7 +15,10 @@
     "vuex": "^4.0.0-0",
     "@popperjs/core": "latest",
     "bootstrap": "latest",
-    "enquire.js": "latest"
+    "enquire.js": "latest",
+    "vee-validate": "^4.1.12",
+    "yup": "latest",
+    "axios": "latest"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
