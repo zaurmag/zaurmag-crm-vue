@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive">
-    <table class="table text-center align-middle table-borderless table-nowrap">
+    <table v-if="projects" class="table text-center align-middle table-borderless table-nowrap">
       <thead class="table-light">
         <tr>
           <th>
@@ -16,35 +16,51 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-        <td>
-          <input class="form-check-input float-none" type="checkbox" value="">
-        </td>
-        <td>1</td>
-        <td><a class="fw-medium link-dark text-decoration-none" href="/page.html">Гасан lakia3d.ru</a></td>
-        <td>02.06.20221</td>
-        <td class="no-wrap" style="min-width: 380px">Продление сайта lakia3d.ru Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis, tempore.</td>
-        <td>
-          <div class="badge bg-success">Приход</div>
-        </td>
-        <td>3300</td>
+        <tr v-for="(project, index) in projects" :key="project.id">
           <td>
-            <button class="btn btn-outline-primary btn-sm py-1 fz-12" type="button">Открыть</button>
+            <input class="form-check-input float-none" type="checkbox" value="">
+          </td>
+          <td>{{ index + 1 }}</td>
+          <td><router-link class="fw-medium link-dark text-decoration-none" :to="{name: 'Project', params: { id: project.id }}">{{ project.title }}</router-link></td>
+          <td>{{ $dateF(project.date) }}</td>
+          <td class="no-wrap" style="min-width: 380px">{{ project.desc }}</td>
+          <td>
+            <div class="badge bg-success">{{ project.type }}</div>
+          </td>
+          <td>{{ $currency(project.amount) }}</td>
+          <td>
+            <button class="btn btn-outline-primary btn-sm py-1 fz-12" type="button" @click="$router.push(`/project/${project.id}`)">Открыть</button>
             <button class="btn btn-sm text-danger ms-2 fz-16 p-0" type="button" title="Удалить">
               <svg class="icon icon-trash">
                 <use xlink:href="#trash"></use>
               </svg>
             </button>
           </td>
-      </tr>
+        </tr>
       </tbody>
     </table>
   </div>
 </template>
 
 <script>
+import { computed, onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
-  name: 'ProjectList'
+  name: 'ProjectList',
+  setup () {
+    const loader = ref(true)
+    const store = useStore()
+    onMounted(async () => {
+      await store.dispatch('project/load')
+      loader.value = false
+    })
+    const projects = computed(() => store.getters['project/projects'])
+
+    return {
+      projects
+    }
+  }
 }
 </script>
 

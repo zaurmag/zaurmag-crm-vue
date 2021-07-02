@@ -18,11 +18,20 @@ export default {
   },
   actions: {
     async load ({ commit }) {
-      const data = ''
-      commit('setItems', data)
+      try {
+        const { data } = await axios.get('/projects.json')
+        commit('setItems', transform(data))
+      } catch (e) {
+        throw e
+      }
     },
     async loadOne (_, id) {
-
+      try {
+        const { data } = await axios.get(`/projects${id}.json/`)
+        return { ...data, id }
+      } catch (e) {
+        throw e
+      }
     },
     async add ({ commit, dispatch }, item) {
       try {

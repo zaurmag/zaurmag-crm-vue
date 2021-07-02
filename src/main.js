@@ -4,6 +4,7 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import date from '@/utils/date'
+import currency from '@/utils/currency'
 import tooltipDirective from '@/directives/tooltip.directive'
 import 'bootstrap'
 import '@/assets/css/main.css'
@@ -12,5 +13,6 @@ createApp(App)
   .use(store)
   .use(router)
   .use(date)
+  .use(currency)
   .directive('tooltip', tooltipDirective)
   .mount('#app')
