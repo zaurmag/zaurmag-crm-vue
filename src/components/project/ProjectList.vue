@@ -1,5 +1,6 @@
 <template>
   <div class="table-responsive">
+    <app-loader v-if="loader" />
     <table v-if="projects" class="table text-center align-middle table-borderless table-nowrap">
       <thead class="table-light">
         <tr>
@@ -45,6 +46,7 @@
 <script>
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
+import AppLoader from '@/components/ui/AppLoader'
 
 export default {
   name: 'ProjectList',
@@ -58,12 +60,18 @@ export default {
     const projects = computed(() => store.getters['project/projects'])
 
     return {
-      projects
+      projects,
+      loader
     }
+  },
+  components: {
+    AppLoader
   }
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  .table-responsive {
+    min-height: 200px;
+  }
 </style>
