@@ -14,6 +14,10 @@
   <teleport to="body" v-if="isOverlay">
     <div :class="['overlay', {'is-active': isCompactSb} ]" @click="isCompactSb = false"></div>
   </teleport>
+
+  <teleport to="body">
+    <app-message />
+  </teleport>
 </template>
 
 <script>
@@ -21,6 +25,7 @@ import TheSidebar from '@/components/TheSidebar'
 import TheHeader from '@/components/TheHeader'
 import TheBreadcrumb from '@/components/ui/TheBreadcrumb'
 import TheFooter from '@/components/TheFooter'
+import AppMessage from '@/components/ui/AppMessage'
 import { ref } from 'vue'
 import enquire from 'enquire.js'
 
@@ -47,7 +52,8 @@ export default {
     TheBreadcrumb,
     TheSidebar,
     TheHeader,
-    TheFooter
+    TheFooter,
+    AppMessage
   }
 }
 </script>

@@ -10,11 +10,20 @@
       </div>
     </div>
   </div>
+
+  <teleport to="body">
+    <app-message />
+  </teleport>
 </template>
 
 <script>
+import AppMessage from '@/components/ui/AppMessage'
+
 export default {
-  name: 'EmptyLayout'
+  name: 'EmptyLayout',
+  components: {
+    AppMessage
+  }
 }
 </script>
 

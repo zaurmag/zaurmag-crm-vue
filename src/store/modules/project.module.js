@@ -31,7 +31,6 @@ export default {
           type: 'success',
           value: 'Запись успешно добавлена'
         }, { root: true })
-        commit('clearMessage', null, { root: true })
       } catch (e) {
         dispatch('setMessage', {
           value: e.message,
