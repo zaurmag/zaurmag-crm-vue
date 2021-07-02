@@ -15,7 +15,7 @@
       <div class="header__user-dropdown dropdown">
         <a class="dropdown-toggle" href="#" data-bs-toggle="dropdown">
           <img class="header__user-drp-img img-fluid me-2" src="/images/zaurmag.png" alt="Заур">
-          Заур
+          {{ user.name }}
         </a>
         <ul class="dropdown-menu shadow">
           <li><a class="dropdown-item" href="#">Мой профиль</a></li>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { onMounted, onBeforeMount, ref } from 'vue'
+import { onMounted, onBeforeMount, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -58,7 +58,8 @@ export default {
 
     return {
       date,
-      logout
+      logout,
+      user: computed(() => store.getters['auth/user'])
     }
   }
 }
