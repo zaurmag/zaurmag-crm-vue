@@ -26,12 +26,12 @@
           <td>{{ $dateF(project.date) }}</td>
           <td class="no-wrap" style="min-width: 380px">{{ project.desc }}</td>
           <td>
-            <div class="badge bg-success">{{ project.type }}</div>
+            <app-type :type="project.type" />
           </td>
           <td>{{ $currency(project.amount) }}</td>
           <td>
             <button class="btn btn-outline-primary btn-sm py-1 fz-12" type="button" @click="$router.push(`/project/${project.id}`)">Открыть</button>
-            <button class="btn btn-sm text-danger ms-2 fz-16 p-0" type="button" title="Удалить">
+            <button class="btn btn-sm text-danger ms-2 fz-16 p-0" type="button" title="Удалить" v-tooltip="{title: 'Удалить'}">
               <svg class="icon icon-trash">
                 <use xlink:href="#trash"></use>
               </svg>
@@ -48,6 +48,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import AppLoader from '@/components/ui/AppLoader'
+import AppType from '@/components/ui/AppType'
 
 export default {
   name: 'ProjectList',
@@ -66,7 +67,8 @@ export default {
     }
   },
   components: {
-    AppLoader
+    AppLoader,
+    AppType
   }
 }
 </script>
