@@ -1,5 +1,5 @@
 <template>
-  <header class="main__header" v-if="title">
+  <header class="main__header">
     <h1 class="h4 main__header-tlt">{{ title }}</h1>
     <slot name="header" />
   </header>
@@ -11,7 +11,8 @@ export default {
   name: 'AppPage',
   props: {
     title: {
-      type: String
+      type: String,
+      required: true
     },
     back: {
       type: Boolean,

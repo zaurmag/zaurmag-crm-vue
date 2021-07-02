@@ -83,14 +83,14 @@ export default {
         throw new Error()
       }
     },
-    async createUser ({ commit, dispatch }, payload) {
-      const { data } = await axios.put(`/users/${payload.localId}.json`, {
-        name: payload.name,
+    async createUser ({ commit, dispatch }, { name, email, localId }) {
+      const { data } = await axios.put(`/users/${localId}.json`, {
+        name,
         role: 'user',
-        email: payload.email
+        email
       })
-      commit('setUser', { ...data, id: payload.localId })
-      dispatch('setMessage', { value: 'Регистрация прошла успешно', type: 'primary' }, { root: true })
+      commit('setUser', { ...data, id: localId })
+      dispatch('setMessage', { value: 'Регистрация прошла успешно', type: 'success' }, { root: true })
     },
     async getUser ({ commit, dispatch }, id) {
       try {

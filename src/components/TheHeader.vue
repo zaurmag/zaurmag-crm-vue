@@ -19,7 +19,7 @@
         </a>
         <ul class="dropdown-menu shadow">
           <li><a class="dropdown-item" href="#">Мой профиль</a></li>
-          <li><a class="dropdown-item" href="#">Выход</a></li>
+          <li><a class="dropdown-item" href="#" @click.prevent="logout">Выход</a></li>
         </ul>
       </div>
     </div>
@@ -28,6 +28,8 @@
 
 <script>
 import { onMounted, onBeforeMount, ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'TheHeader',
@@ -36,6 +38,8 @@ export default {
   setup () {
     const date = ref(Date())
     const interval = ref(null)
+    const store = useStore()
+    const router = useRouter()
 
     onMounted(() => {
       interval.value = setInterval(() => {
@@ -47,8 +51,14 @@ export default {
       clearInterval(interval.value)
     })
 
+    const logout = () => {
+      store.commit('auth/logout')
+      router.push('/sign-in')
+    }
+
     return {
-      date
+      date,
+      logout
     }
   }
 }

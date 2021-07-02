@@ -1,20 +1,17 @@
 <template>
-  <app-page>
-    <header class="card-header text-center">
-      <h1 class="h3 mb-0">Авторизация</h1>
-    </header>
-    <div class="card-body p-lg-30">
-      <auth-form />
-      <div class="text-secondary fz-14 mt-4 text-center">
-        <router-link class="text-decoration-none" to="/sign-up">Зарегистрируйтесь</router-link>,
-        если у вас нет еще учетной записи.
-      </div>
+  <header class="card-header text-center">
+    <h1 class="h3 mb-0">Авторизация</h1>
+  </header>
+  <div class="card-body p-lg-30">
+    <auth-form />
+    <div class="text-secondary fz-14 mt-4 text-center">
+      <router-link class="text-decoration-none" to="/sign-up">Зарегистрируйтесь</router-link>,
+      если у вас нет еще учетной записи.
     </div>
-  </app-page>
+  </div>
 </template>
 
 <script>
-import AppPage from '@/components/ui/AppPage'
 import AuthForm from '@/components/AuthForm'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
@@ -27,6 +24,7 @@ export default {
     const store = useStore()
     const route = useRoute()
     const router = useRouter()
+    document.title = 'Вход в систему | Система подсчета доходв/расходов'
 
     if (route.query.message) {
       store.dispatch('setMessage', {
@@ -50,8 +48,7 @@ export default {
     })
   },
   components: {
-    AuthForm,
-    AppPage
+    AuthForm
   }
 }
 </script>
