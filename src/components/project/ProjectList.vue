@@ -1,7 +1,7 @@
 <template>
   <div class="table-responsive">
     <app-loader v-if="loader" />
-    <table v-if="projects" class="table text-center align-middle table-borderless table-nowrap">
+    <table v-if="projects.length" class="table text-center align-middle table-borderless table-nowrap">
       <thead class="table-light">
         <tr>
           <th>
@@ -40,6 +40,7 @@
         </tr>
       </tbody>
     </table>
+    <p class="p-30 text-center fz-14 text-dark" v-else-if="!loader">Записей пока нет.</p>
   </div>
 </template>
 

@@ -84,7 +84,7 @@ export default {
       }
     },
     async createUser ({ commit, dispatch }, { name, email, localId }) {
-      const { data } = await axios.put(`/users/${localId}.json`, {
+      const { data } = await axios.put(`/users/${localId}/info.json`, {
         name,
         role: 'user',
         email
@@ -108,6 +108,7 @@ export default {
     isExpired: state => new Date() >= state.expiresDate,
     isUser: (_, getters) => !getters.user,
     isAdmin: state => state.user.role === 'admin',
-    user: state => state.user
+    user: state => state.user,
+    userID: (_, getters) => getters.user.id
   }
 }

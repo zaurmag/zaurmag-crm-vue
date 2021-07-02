@@ -68,6 +68,7 @@ export function useProjectForm () {
         id: Date.now().toString()
       })
       resetForm()
+      await store.dispatch('project/load')
     } catch (e) {
       console.error(e)
     }

@@ -19,7 +19,8 @@ export default {
   actions: {
     async load ({ commit }) {
       try {
-        const { data } = await axios.get('/projects.json')
+        const uID = store.getters['auth/userID']
+        const { data } = await axios.get(`/users/${uID}/projects.json`)
         commit('setItems', transform(data))
       } catch (e) {
         throw e
@@ -27,7 +28,8 @@ export default {
     },
     async loadOne (_, id) {
       try {
-        const { data } = await axios.get(`/projects${id}.json/`)
+        const uID = store.getters['auth/userID']
+        const { data } = await axios.get(`/users/${uID}/projects/${id}.json/`)
         return { ...data, id }
       } catch (e) {
         throw e
@@ -35,7 +37,8 @@ export default {
     },
     async add ({ commit, dispatch }, item) {
       try {
-        await axios.post(`/projects.json`, item)
+        const uID = store.getters['auth/userID']
+        await axios.post(`/users/${uID}/projects.json`, item)
         dispatch('setMessage', {
           type: 'success',
           value: 'Запись успешно добавлена'
