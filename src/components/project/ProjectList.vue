@@ -31,7 +31,7 @@
           <td>{{ $currency(project.amount) }}</td>
           <td>
             <button class="btn btn-outline-primary btn-sm py-1 fz-12" type="button" @click="$router.push(`/project/${project.id}`)">Открыть</button>
-            <button class="btn btn-sm text-danger ms-2 fz-16 p-0" type="button" title="Удалить" v-tooltip="{title: 'Удалить'}">
+            <button class="btn btn-sm text-danger ms-2 fz-16 p-0" type="button" title="Удалить" v-tooltip="{title: 'Удалить'}" @click="remove">
               <svg class="icon icon-trash">
                 <use xlink:href="#trash"></use>
               </svg>
@@ -42,6 +42,15 @@
     </table>
     <p class="p-30 text-center fz-14 text-dark" v-else-if="!loader">Записей пока нет.</p>
   </div>
+
+  <teleport to="body">
+    <app-confirm
+      ref="confirm"
+      title="Вы уверены?"
+      text="Операцию нельзя будет отменить."
+      @resolve="removeConfirm"
+    />
+  </teleport>
 </template>
 
 <script>
@@ -49,26 +58,40 @@ import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import AppLoader from '@/components/ui/AppLoader'
 import AppType from '@/components/ui/AppType'
+import AppConfirm from '@/components/ui/AppConfirm'
 
 export default {
   name: 'ProjectList',
   setup () {
     const loader = ref(true)
     const store = useStore()
+    const confirm = ref(false)
     onMounted(async () => {
       await store.dispatch('project/load')
       loader.value = false
     })
     const projects = computed(() => store.getters['project/projects'])
 
+    const remove = () => {
+      confirm.value.confirm = true
+    }
+
+    const removeConfirm = () => {
+      confirm.value.confirm = false
+    }
+
     return {
       projects,
-      loader
+      loader,
+      confirm,
+      remove,
+      removeConfirm
     }
   },
   components: {
     AppLoader,
-    AppType
+    AppType,
+    AppConfirm
   }
 }
 </script>

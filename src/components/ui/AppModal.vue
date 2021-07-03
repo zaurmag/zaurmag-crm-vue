@@ -2,12 +2,12 @@
   <div v-if="isShow" class="modal fade shadow d-block" :class="{'show': classShow}" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <header class="modal-header px-30">
+        <header class="modal-header px-20">
           <h5 class="modal-title">{{ title }}</h5>
           <button class="btn-close btn btn-icon btn-sm" type="button" @click="modal = false"></button>
         </header>
 
-        <div class="modal-body p-30">
+        <div class="modal-body px-20 fz-14">
           <slot name="default" />
         </div>
 
