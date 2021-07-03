@@ -15,7 +15,7 @@ function formatDate (date) {
   return yy + '-' + mm + '-' + dd
 }
 
-export function useProjectForm () {
+export function useProjectForm (emit) {
   const store = useStore()
   const { handleSubmit, handleReset, resetForm, setFieldValue } = useForm()
 
@@ -69,6 +69,7 @@ export function useProjectForm () {
       })
       resetForm()
       await store.dispatch('project/load')
+      emit('close')
     } catch (e) {
       console.error(e)
     }

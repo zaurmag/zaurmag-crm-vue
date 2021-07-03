@@ -1,7 +1,7 @@
 <template>
   <app-page title="Главная панель">
     <template #header>
-      <button class="main__add-btn btn btn-primary px-md-3 ms-auto" type="button" data-bs-toggle="modal" data-bs-target="#addRecordForm">
+      <button class="main__add-btn btn btn-primary px-md-3 ms-auto" type="button" @click="openModal">
         <span class="d-sm-inline d-none">Добавить</span>
         <svg class="icon icon-plus-lg ms-sm-1">
           <use xlink:href="#plus-lg"></use>
@@ -48,8 +48,8 @@
   </app-page>
 
   <teleport to="body">
-    <app-modal id="addRecordForm" title="Добавить запись">
-      <project-form />
+    <app-modal ref="modal" title="Добавить запись">
+      <project-form @close="closeModal" />
     </app-modal>
   </teleport>
 </template>
@@ -62,9 +62,26 @@ import ProjectList from '@/components/project/ProjectList'
 import ProjectFilter from '@/components/project/ProjectFilter'
 import ProjectReport from '@/components/project/ProjectReport'
 import ProjectForm from '@/components/project/ProjectForm'
+import { ref } from 'vue'
 
 export default {
   name: 'Home',
+  setup () {
+    const modal = ref(false)
+    const openModal = () => {
+      modal.value.modal = true
+    }
+
+    const closeModal = () => {
+      modal.value.modal = false
+    }
+
+    return {
+      modal,
+      openModal,
+      closeModal
+    }
+  },
   components: {
     AppPage,
     ProjectList,

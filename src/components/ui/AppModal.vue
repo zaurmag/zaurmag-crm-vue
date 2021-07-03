@@ -1,10 +1,10 @@
 <template>
-  <div class="modal fade shadow" :id="id" tabindex="-1">
+  <div v-if="isShow" class="modal fade shadow d-block" :class="{'show': classShow}" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <header class="modal-header px-30">
           <h5 class="modal-title">{{ title }}</h5>
-          <button class="btn-close btn btn-icon btn-sm" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button class="btn-close btn btn-icon btn-sm" type="button" @click="modal = false"></button>
         </header>
 
         <div class="modal-body p-30">
@@ -16,30 +16,54 @@
         </div>
       </div>
     </div>
+    <div class="modal-backdrop fade" :class="{'show': classShow}" @click="modal = false"></div>
   </div>
 </template>
 
 <script>
+import { ref, watch } from 'vue'
+
 export default {
   name: 'AppModal',
   props: {
-    id: {
-      type: String,
-      required: true
-    },
     title: {
       type: String,
       required: true
     }
   },
-  setup (_, { slots }) {
+  emits: ['close'],
+  setup (props, { slots }) {
+    const modal = ref(false)
+    const isShow = ref(false)
+    const classShow = ref(false)
+
+    watch(modal, val => {
+      if (val) {
+        isShow.value = true
+        setTimeout(() => {
+          classShow.value = true
+        }, 100)
+      } else {
+        classShow.value = false
+
+        setTimeout(() => {
+          isShow.value = false
+        }, 100)
+      }
+    })
+
     return {
-      isFooter: !!slots.footer
+      isFooter: !!slots.footer,
+      isShow,
+      classShow,
+      modal
     }
   }
 }
 </script>
 
 <style scoped>
-
+  .modal-dialog {
+    z-index: 1041;
+  }
 </style>

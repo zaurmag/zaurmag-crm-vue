@@ -34,15 +34,14 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import { useProjectForm } from '@/use/project-form'
 
 export default {
   name: 'ProjectForm',
-  props: ['modalID'],
-  setup () {
+  emits: ['close'],
+  setup (_, { emit }) {
     return {
-      ...useProjectForm()
+      ...useProjectForm(emit)
     }
   }
 }
