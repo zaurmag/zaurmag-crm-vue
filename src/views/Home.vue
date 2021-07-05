@@ -9,37 +9,40 @@
       </button>
     </template>
 
-    <div class="card shadow-sm mb-30">
-      <header class="card-header">
-        <div class="row align-items-center">
-          <div class="col-xxl mb-2 mb-xxl-0 d-flex align-items-center justify-content-between">
-            <div v-if="checkboxes.length" class="d-flex align-items-center">
-              <h5 class="h6 mb-0 card-header-title">Список проектов</h5>
-              <div class="text-secondary fz-14 ms-3">Отмечено {{ checkboxes.length }} элементов</div>
-              <button class="btn btn-outline-danger btn-sm ms-2" type="button" @click="removeAll">
-                <svg class="icon icon-trash me-1">
-                  <use xlink:href="#trash"></use>
+    <div class="card shadow-sm mb-30" style="min-height: 300px">
+      <app-loader v-if="loader" />
+      <template v-else>
+        <header class="card-header">
+          <div class="row align-items-center">
+            <div class="col-xxl mb-2 mb-xxl-0 d-flex align-items-center justify-content-between">
+              <div v-if="checkboxes.length" class="d-flex align-items-center">
+                <h5 class="h6 mb-0 card-header-title">Список проектов</h5>
+                <div class="text-secondary fz-14 ms-3">Отмечено {{ checkboxes.length }} элементов</div>
+                <button class="btn btn-outline-danger btn-sm ms-2" type="button" @click="removeAll">
+                  <svg class="icon icon-trash me-1">
+                    <use xlink:href="#trash"></use>
+                  </svg>
+                  Удалить
+                </button>
+              </div>
+              <button class="btn btn-light d-xl-none" type="button" data-bs-toggle="collapse" data-bs-target="#filter" aria-expanded="false">
+                <svg class="icon icon-sliders">
+                  <use xlink:href="#sliders"></use>
                 </svg>
-                Удалить
               </button>
             </div>
-            <button class="btn btn-light d-xl-none" type="button" data-bs-toggle="collapse" data-bs-target="#filter" aria-expanded="false">
-              <svg class="icon icon-sliders">
-                <use xlink:href="#sliders"></use>
-              </svg>
-            </button>
+            <div class="col-xxl-auto collapse d-xl-block" id="filter">
+              <project-filter />
+            </div>
           </div>
-          <div class="col-xxl-auto collapse d-xl-block" id="filter">
-            <project-filter />
-          </div>
-        </div>
-      </header>
+        </header>
 
-      <project-list @selected="selectChbx" />
+        <project-list :projects="paginateProducts" @selected="selectChbx" />
 
-      <footer class="card-footer">
-        <app-pagination />
-      </footer>
+        <footer class="card-footer">
+          <app-pagination :count="projects.length" :pages="PAGE_SIZE" v-model="page" @changeSize="changePageSize" />
+        </footer>
+      </template>
     </div>
 
     <div class="row gy-30">
@@ -62,6 +65,7 @@
 </template>
 
 <script>
+import AppLoader from '@/components/ui/AppLoader'
 import AppModal from '@/components/ui/AppModal'
 import AppConfirm from '@/components/ui/AppConfirm'
 import AppPagination from '@/components/ui/AppPagination'
@@ -70,16 +74,21 @@ import ProjectList from '@/components/project/ProjectList'
 import ProjectFilter from '@/components/project/ProjectFilter'
 import ProjectReport from '@/components/project/ProjectReport'
 import ProjectForm from '@/components/project/ProjectForm'
-import { ref } from 'vue'
+import { useProductPaginate } from '@/use/product-paginate'
+import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   name: 'Home',
   setup () {
+    const loader = ref(true)
     const modal = ref(false)
     const confirm = ref(false)
     const checkboxes = ref([])
     const store = useStore()
+    const PAGE_SIZE = ref(4)
+    const projects = computed(() => store.getters['project/projects'])
+
     const openModal = () => {
       modal.value.modal = true
     }
@@ -104,7 +113,13 @@ export default {
       } catch (e) {}
     }
 
+    onMounted(async () => {
+      await store.dispatch('project/load')
+      loader.value = false
+    })
+
     return {
+      loader,
       modal,
       openModal,
       closeModal,
@@ -112,7 +127,10 @@ export default {
       checkboxes,
       removeAll,
       removeAllConfirm,
-      confirm
+      confirm,
+      PAGE_SIZE,
+      projects,
+      ...useProductPaginate(projects, PAGE_SIZE)
     }
   },
   components: {
@@ -123,7 +141,8 @@ export default {
     ProjectReport,
     AppModal,
     AppConfirm,
-    ProjectForm
+    ProjectForm,
+    AppLoader
   }
 }
 </script>

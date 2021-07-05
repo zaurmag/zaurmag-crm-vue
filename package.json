@@ -19,7 +19,8 @@
     "enquire.js": "latest",
     "vee-validate": "^4.1.12",
     "yup": "latest",
-    "axios": "latest"
+    "axios": "latest",
+    "lodash.chunk": "^4.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

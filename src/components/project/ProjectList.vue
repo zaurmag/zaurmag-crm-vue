@@ -1,6 +1,5 @@
 <template>
   <div class="table-responsive">
-    <app-loader v-if="loader" />
     <table v-if="projects.length" class="table text-center align-middle table-borderless table-nowrap">
       <thead class="table-light">
         <tr>
@@ -63,26 +62,25 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
-import AppLoader from '@/components/ui/AppLoader'
 import AppType from '@/components/ui/AppType'
 import AppConfirm from '@/components/ui/AppConfirm'
 
 export default {
   name: 'ProjectList',
+  props: {
+    projects: {
+      type: Array,
+      required: true
+    }
+  },
   emits: ['selected'],
-  setup (_, { emit }) {
-    const loader = ref(true)
+  setup (props, { emit }) {
     const store = useStore()
     const confirm = ref(false)
     const projectID = ref()
     const checkbox = ref([])
-    onMounted(async () => {
-      await store.dispatch('project/load')
-      loader.value = false
-    })
-    const projects = computed(() => store.getters['project/projects'])
 
     const remove = id => {
       projectID.value = id
@@ -92,9 +90,7 @@ export default {
     const removeConfirm = async () => {
       try {
         await store.dispatch('project/delete', projectID.value)
-        loader.value = true
         await store.dispatch('project/load')
-        loader.value = false
         confirm.value.confirm = false
       } catch (e) {}
     }
@@ -102,16 +98,14 @@ export default {
     const allCheckbox = computed({
       get () {
         emit('selected', checkbox.value)
-        return checkbox.value.length === projects.value.length
+        return checkbox.value.length === props.projects.length
       },
       set (val) {
-        checkbox.value = val ? projects.value.map(n => n.id) : []
+        checkbox.value = val ? props.projects.map(n => n.id) : []
       }
     })
 
     return {
-      projects,
-      loader,
       confirm,
       remove,
       removeConfirm,
@@ -120,15 +114,8 @@ export default {
     }
   },
   components: {
-    AppLoader,
     AppType,
     AppConfirm
   }
 }
 </script>
-
-<style scoped lang="scss">
-  .table-responsive {
-    min-height: 200px;
-  }
-</style>
