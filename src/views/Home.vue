@@ -13,10 +13,10 @@
       <header class="card-header">
         <div class="row align-items-center">
           <div class="col-xxl mb-2 mb-xxl-0 d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
+            <div v-if="checkboxes.length" class="d-flex align-items-center">
               <h5 class="h6 mb-0 card-header-title">Список проектов</h5>
-              <div class="text-secondary fz-14 ms-3">5 элементов</div>
-              <button class="btn btn-outline-danger btn-sm ms-2" type="button">
+              <div class="text-secondary fz-14 ms-3">Отмечено {{ checkboxes.length }} элементов</div>
+              <button class="btn btn-outline-danger btn-sm ms-2" type="button" @click="removeAll">
                 <svg class="icon icon-trash me-1">
                   <use xlink:href="#trash"></use>
                 </svg>
@@ -35,7 +35,7 @@
         </div>
       </header>
 
-      <project-list />
+      <project-list @selected="selectChbx" />
 
       <footer class="card-footer">
         <app-pagination />
@@ -51,11 +51,19 @@
     <app-modal ref="modal" title="Добавить запись">
       <project-form @close="closeModal" />
     </app-modal>
+
+    <app-confirm
+      ref="confirm"
+      :title="'Вы удаляете ' + checkboxes.length + ' элемента'"
+      text="Вы уверены? Операцию нельзя будет отменить."
+      @resolve="removeAllConfirm"
+    />
   </teleport>
 </template>
 
 <script>
 import AppModal from '@/components/ui/AppModal'
+import AppConfirm from '@/components/ui/AppConfirm'
 import AppPagination from '@/components/ui/AppPagination'
 import AppPage from '@/components/ui/AppPage'
 import ProjectList from '@/components/project/ProjectList'
@@ -63,11 +71,15 @@ import ProjectFilter from '@/components/project/ProjectFilter'
 import ProjectReport from '@/components/project/ProjectReport'
 import ProjectForm from '@/components/project/ProjectForm'
 import { ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   name: 'Home',
   setup () {
     const modal = ref(false)
+    const confirm = ref(false)
+    const checkboxes = ref([])
+    const store = useStore()
     const openModal = () => {
       modal.value.modal = true
     }
@@ -76,10 +88,31 @@ export default {
       modal.value.modal = false
     }
 
+    const selectChbx = checkboxIds => {
+      checkboxes.value = checkboxIds
+    }
+
+    const removeAll = () => {
+      confirm.value.confirm = true
+    }
+
+    const removeAllConfirm = async () => {
+      try {
+        await store.dispatch('project/delete', checkboxes.value)
+        await store.dispatch('project/load')
+        confirm.value.confirm = false
+      } catch (e) {}
+    }
+
     return {
       modal,
       openModal,
-      closeModal
+      closeModal,
+      selectChbx,
+      checkboxes,
+      removeAll,
+      removeAllConfirm,
+      confirm
     }
   },
   components: {
@@ -89,6 +122,7 @@ export default {
     ProjectFilter,
     ProjectReport,
     AppModal,
+    AppConfirm,
     ProjectForm
   }
 }

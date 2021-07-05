@@ -54,7 +54,20 @@ export default {
 
     },
     async delete ({ dispatch }, id) {
-
+      try {
+        const uID = store.getters['auth/userID']
+        const ids = Array.isArray(id) ? id.join('; ') : id
+        await axios.delete(`/users/${uID}/projects/${ids}.json`)
+        dispatch('setMessage', {
+          value: 'Запись успешна удалена',
+          type: 'success'
+        }, { root: true })
+      } catch (e) {
+        dispatch('setMessage', {
+          value: e.message,
+          type: 'danger'
+        }, { root: true })
+      }
     }
   },
   getters: {
