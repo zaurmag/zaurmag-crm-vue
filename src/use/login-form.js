@@ -1,7 +1,7 @@
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { computed, watch } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 export function useLoginForm () {
