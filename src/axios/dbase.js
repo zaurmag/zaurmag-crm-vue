@@ -26,7 +26,7 @@ dbtAxios.interceptors.request.use(async config => {
 dbtAxios.interceptors.response.use(null, error => {
   if (error.response.status === 401) {
     store.commit('auth/logout')
-    router.push('/auth?message=auth')
+    router.push('/sign-in?message=auth')
   }
 
   return Promise.reject(error)
