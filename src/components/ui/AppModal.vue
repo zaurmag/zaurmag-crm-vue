@@ -25,6 +25,7 @@ import { ref, watch } from 'vue'
 
 export default {
   name: 'AppModal',
+  emits: ['close'],
   props: {
     title: {
       type: String,
