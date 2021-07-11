@@ -3,18 +3,17 @@
     <li class="breadcrumb-item">
       <router-link to="/">Главная</router-link>
     </li>
-    <li class="breadcrumb-item active">{{ title }}</li>
+    <li class="breadcrumb-item active">{{ current }}</li>
   </nav>
 </template>
 
 <script>
 export default {
   name: 'TheBreadcrumb',
-  setup () {
-    const title = document.title
-
-    return {
-      title
+  props: {
+    current: {
+      type: String,
+      required: true
     }
   }
 }
