@@ -5,8 +5,7 @@
   <div class="card-body p-lg-30">
     <auth-form />
     <div class="text-secondary fz-14 mt-4 text-center">
-      <router-link class="text-decoration-none" to="/sign-up">Зарегистрируйтесь</router-link>,
-      если у вас нет еще учетной записи.
+      <router-link class="text-decoration-none" to="/sign-up">Зарегистрируйтесь</router-link>, если у вас нет еще учетной записи.
     </div>
   </div>
 </template>
@@ -26,6 +25,8 @@ export default {
     const router = useRouter()
     document.title = 'Вход в систему | Система подсчета доходв/расходов'
 
+    console.log(process.env.VUE_APP_FB_KEY)
+
     if (route.query.message) {
       store.dispatch('setMessage', {
         value: error(route.query.message),
@@ -34,7 +35,7 @@ export default {
     }
 
     const isAuth = computed(() => store.getters['auth/isAuthenticated'])
-    const redirectIsAuth = (val) => {
+    const redirectIsAuth = val => {
       const auth = val || isAuth.value
       if (auth && route.path === '/sign-in') {
         router.push('/')
@@ -53,6 +54,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

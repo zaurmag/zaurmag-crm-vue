@@ -52,7 +52,7 @@
 
   <teleport to="body">
     <app-modal ref="modal" title="Добавить запись">
-      <project-form @close="closeModal" />
+      <project-form />
     </app-modal>
 
     <app-confirm
@@ -93,10 +93,6 @@ export default {
       modal.value.modal = true
     }
 
-    const closeModal = () => {
-      modal.value.modal = false
-    }
-
     const selectChbx = checkboxIds => {
       checkboxes.value = checkboxIds
     }
@@ -122,7 +118,6 @@ export default {
       loader,
       modal,
       openModal,
-      closeModal,
       selectChbx,
       checkboxes,
       removeAll,

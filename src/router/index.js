@@ -33,7 +33,7 @@ const routes = [
     name: 'Project',
     component: () => import('../views/Project.vue'),
     meta: {
-      layout: 'empty',
+      layout: 'main',
       auth: true
     }
   }

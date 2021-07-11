@@ -4,7 +4,6 @@
     <div class="content content--right" :class="{'is-full': isCompactSb}">
       <the-header :tooltipTlt="isCompactSb ? 'Развернуть' : 'Свернуть'" @toggle="isCompactSb = !isCompactSb" />
       <main class="main">
-        <the-breadcrumb />
         <router-view />
       </main>
       <the-footer />
@@ -23,7 +22,6 @@
 <script>
 import TheSidebar from '@/components/TheSidebar'
 import TheHeader from '@/components/TheHeader'
-import TheBreadcrumb from '@/components/ui/TheBreadcrumb'
 import TheFooter from '@/components/TheFooter'
 import AppMessage from '@/components/ui/AppMessage'
 import { ref } from 'vue'
@@ -49,7 +47,6 @@ export default {
     }
   },
   components: {
-    TheBreadcrumb,
     TheSidebar,
     TheHeader,
     TheFooter,

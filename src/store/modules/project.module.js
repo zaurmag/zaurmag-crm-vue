@@ -56,7 +56,7 @@ export default {
     async delete ({ dispatch }, id) {
       try {
         const uID = store.getters['auth/userID']
-        const ids = Array.isArray(id) ? id.join('; ') : id
+        const ids = Array.isArray(id) ? id.join(';') : id
         await axios.delete(`/users/${uID}/projects/${ids}.json`)
         dispatch('setMessage', {
           value: 'Запись успешна удалена',

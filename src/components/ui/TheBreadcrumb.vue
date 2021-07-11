@@ -11,7 +11,7 @@
 export default {
   name: 'TheBreadcrumb',
   setup () {
-    const title = 'Проверка'
+    const title = document.title
 
     return {
       title

@@ -31,7 +31,6 @@ export default {
       required: true
     }
   },
-  emits: ['close'],
   setup (props, { slots }) {
     const modal = ref(false)
     const isShow = ref(false)
