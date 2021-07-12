@@ -39,9 +39,10 @@ import { useProjectForm } from '@/use/project-form'
 export default {
   name: 'ProjectForm',
   emits: ['close'],
-  setup (_, { emit }) {
+  props: ['initial'],
+  setup (props, { emit }) {
     return {
-      ...useProjectForm(emit)
+      ...useProjectForm(emit, props.initial)
     }
   }
 }

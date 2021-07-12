@@ -1,14 +1,14 @@
 <template>
   <app-loader v-if="loader" />
   <template v-else-if="project">
-    <the-breadcrumb />
+    <the-breadcrumb :current="project.title" />
     <app-page :title="project.title">
       <div class="card shadow-sm">
         <div class="card-body p-30">
           <div class="row">
             <div class="col-md-6">
-              <div class="text-secondary">
-                <time class="d-block mb-3">Дата: <span class="fw-medium">{{ $dateF(project.date) }}</span></time>
+              <div class="text-secondary fz-14">
+                <time class="d-block mb-3">Дата: <span class="fw-medium">{{ project.date }}</span></time>
                 <div class="mb-3">Сумма: <span class="fw-medium">{{ $currency(project.amount) }}</span></div>
                 <div class="mb-3 d-flex align-items-center"><span class="me-2">Тип операции:</span><app-type :type="project.type" /></div>
                 <div class="mb-3">
@@ -17,8 +17,8 @@
                 </div>
               </div>
               <div class="d-flex">
-                <button class="btn btn-success px-3" type="button" @click="editBtn">Редактировать</button>
-                <button class="btn btn-danger px-3 ms-2" type="button" @click="removeBtn">Удалить</button>
+                <button class="btn btn-success btn-sm px-3" type="button" @click="editBtn">Редактировать</button>
+                <button class="btn btn-danger btn-sm px-3 ms-2" type="button" @click="removeBtn">Удалить</button>
               </div>
             </div>
           </div>
@@ -27,13 +27,12 @@
     </app-page>
   </template>
 
-  <teleport to="body">
+  <teleport to="body" v-if="project">
     <app-modal ref="modal" title="Редактировать запись">
-      <project-form @close="closeModal" />
+      <project-form :initial="project" @close="modal.modal = false" />
     </app-modal>
 
     <app-confirm
-      v-if="project"
       ref="confirm"
       :title="'Вы удаляете проект ' + project.title"
       text="Вы уверены? Операцию нельзя будет отменить."
@@ -51,7 +50,7 @@ import AppConfirm from '@/components/ui/AppConfirm'
 import TheBreadcrumb from '@/components/ui/TheBreadcrumb'
 import ProjectForm from '@/components/project/ProjectForm'
 import { useRoute, useRouter } from 'vue-router'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, toRaw } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -64,9 +63,11 @@ export default {
     const project = ref()
     const modal = ref(false)
     const confirm = ref(false)
+    let initial
 
     onMounted(async () => {
-      project.value = await store.dispatch('project/loadOne', route.params.id)
+      initial = await store.dispatch('project/loadOne', route.params.id)
+      project.value = { ...initial }
       loader.value = false
     })
 
@@ -82,8 +83,10 @@ export default {
       } catch (e) {}
     }
 
-    const editBtn = () => {
+    const editBtn = async () => {
       modal.value.modal = true
+      initial = await store.dispatch('project/loadOne', route.params.id)
+      project.value = { ...initial }
     }
 
     return {

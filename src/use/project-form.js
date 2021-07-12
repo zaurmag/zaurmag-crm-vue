@@ -2,7 +2,7 @@ import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useStore } from 'vuex'
 
-function formatDate (date) {
+function _formatDate (date) {
   let dd = date.getDate()
   if (dd < 10) dd = '0' + dd
 
@@ -15,18 +15,21 @@ function formatDate (date) {
   return yy + '-' + mm + '-' + dd
 }
 
-export function useProjectForm (emit) {
+export function useProjectForm (emit, initialValues) {
   const store = useStore()
-  const { handleSubmit, handleReset, resetForm, setFieldValue } = useForm()
+  const { handleSubmit, handleReset, resetForm, setFieldValue } = useForm({
+    initialValues
+  })
 
   // Date
   const { value: date, errorMessage: dError, handleBlur: dBlur } = useField(
     'date',
-    yup
-      .string()
-      .required('Введите дату проекта')
+    yup.string().required('Введите дату проекта')
   )
-  setFieldValue('date', formatDate(new Date()))
+
+  if (!initialValues) {
+    setFieldValue('date', _formatDate(new Date()))
+  }
 
   // Title
   const { value: title, errorMessage: tError, handleBlur: tBlur } = useField(
@@ -38,37 +41,40 @@ export function useProjectForm (emit) {
   )
 
   // Type
-  const { value: type, errorMessage: typeError, handleBlur: typeBlur } = useField(
-    'type',
-    yup
-      .string()
-      .required('Выберите тип операции')
-  )
+  const {
+    value: type,
+    errorMessage: typeError,
+    handleBlur: typeBlur
+  } = useField('type', yup.string().required('Выберите тип операции'))
 
   // Amount
   const { value: amount, errorMessage: aError, handleBlur: aBlur } = useField(
     'amount',
-    yup
-      .number()
-      .required('Введите сумму операции')
+    yup.number().required('Введите сумму операции')
   )
 
   // Description
-  const { value: desc, errorMessage: descError, handleBlur: descBlur } = useField(
-    'desc',
-    yup
-      .string()
-      .required('Введите описание проекта')
-  )
+  const {
+    value: desc,
+    errorMessage: descError,
+    handleBlur: descBlur
+  } = useField('desc', yup.string().required('Введите описание проекта'))
 
   const onSubmit = handleSubmit(async values => {
     try {
-      await store.dispatch('project/add', {
-        ...values,
-        id: Date.now().toString()
-      })
-      resetForm()
-      await store.dispatch('project/load')
+      if (initialValues) {
+        await store.dispatch('project/update', {
+          ...values,
+          id: initialValues.id
+        })
+      } else {
+        await store.dispatch('project/add', {
+          ...values,
+          id: Date.now().toString()
+        })
+        resetForm()
+        await store.dispatch('project/load')
+      }
       emit('close')
     } catch (e) {
       console.error(e)

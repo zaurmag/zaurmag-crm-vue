@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive">
-    <table v-if="projects.length" class="table text-center align-middle table-borderless table-nowrap">
+    <table v-if="projects && projects.length" class="table text-center align-middle table-borderless table-nowrap">
       <thead class="table-light">
         <tr>
           <th>

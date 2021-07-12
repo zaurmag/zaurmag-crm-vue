@@ -25,8 +25,6 @@ export default {
     const router = useRouter()
     document.title = 'Вход в систему | Система подсчета доходв/расходов'
 
-    console.log(process.env.VUE_APP_FB_KEY)
-
     if (route.query.message) {
       store.dispatch('setMessage', {
         value: error(route.query.message),
