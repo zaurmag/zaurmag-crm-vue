@@ -4,7 +4,7 @@
       <div class="modal-content">
         <header class="modal-header px-20">
           <h5 class="modal-title">{{ title }}</h5>
-          <button class="btn-close btn btn-icon btn-sm" type="button" @click="modal = false"></button>
+          <button class="btn-close btn btn-icon btn-sm" type="button" @click="$emit('close'); modal = false"></button>
         </header>
 
         <div class="modal-body px-20 fz-14">
@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <div class="modal-backdrop fade" :class="{'show': classShow}" @click="modal = false"></div>
+    <div class="modal-backdrop fade" :class="{'show': classShow}" @click="$emit('close'); modal = false"></div>
   </div>
 </template>
 

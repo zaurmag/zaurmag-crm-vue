@@ -1,5 +1,5 @@
 <template>
-  <app-modal ref="modal" :title="title">
+  <app-modal ref="modal" :title="title" @close="close">
     <p class="mb-0">{{ text }}</p>
 
     <template #footer>
