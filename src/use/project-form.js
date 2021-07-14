@@ -63,19 +63,22 @@ export function useProjectForm (emit, initialValues) {
   const onSubmit = handleSubmit(async values => {
     try {
       if (initialValues) {
-        await store.dispatch('project/update', {
+        const data = await store.dispatch('project/update', {
           ...values,
           id: initialValues.id
         })
-      } else {
-        await store.dispatch('project/add', {
-          ...values,
-          id: Date.now().toString()
-        })
-        resetForm()
-        await store.dispatch('project/load')
+        emit('submit', data)
+        emit('close')
+        return
       }
+
+      await store.dispatch('project/add', {
+        ...values,
+        id: Date.now().toString()
+      })
+      resetForm()
       emit('close')
+      await store.dispatch('project/load')
     } catch (e) {
       console.error(e)
     }

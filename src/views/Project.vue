@@ -29,7 +29,11 @@
 
   <teleport to="body" v-if="project">
     <app-modal ref="modal" title="Редактировать запись">
-      <project-form :initial="project" @close="modal.modal = false" />
+      <project-form
+        :initial="initial"
+        @submit="updateProject"
+        @close="modal.modal = false"
+      />
     </app-modal>
 
     <app-confirm
@@ -50,7 +54,7 @@ import AppConfirm from '@/components/ui/AppConfirm'
 import TheBreadcrumb from '@/components/ui/TheBreadcrumb'
 import ProjectForm from '@/components/project/ProjectForm'
 import { useRoute, useRouter } from 'vue-router'
-import { onMounted, ref, toRaw } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -63,11 +67,11 @@ export default {
     const project = ref()
     const modal = ref(false)
     const confirm = ref(false)
-    let initial
+    const initial = ref()
 
     onMounted(async () => {
-      initial = await store.dispatch('project/loadOne', route.params.id)
-      project.value = { ...initial }
+      project.value = await store.dispatch('project/loadOne', route.params.id)
+      initial.value = { ...project.value }
       loader.value = false
     })
 
@@ -85,18 +89,22 @@ export default {
 
     const editBtn = async () => {
       modal.value.modal = true
-      initial = await store.dispatch('project/loadOne', route.params.id)
-      project.value = { ...initial }
+    }
+
+    const updateProject = val => {
+      project.value = val
     }
 
     return {
       project,
+      initial,
       loader,
       modal,
       confirm,
       removeBtn,
       removeConfirm,
-      editBtn
+      editBtn,
+      updateProject
     }
   },
   components: {
