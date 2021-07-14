@@ -17,7 +17,9 @@ export default {
   },
   mutations: {
     setToken (state, { refreshToken, idToken, expiresIn = '3600' }) {
-      const expiresDate = new Date(new Date().getTime() + Number(expiresIn) * 1000)
+      const expiresDate = new Date(
+        new Date().getTime() + Number(expiresIn) * 1000
+      )
       state.token = idToken
       state.refreshToken = refreshToken
       state.expiresDate = expiresDate
@@ -44,21 +46,31 @@ export default {
     async login ({ commit, dispatch }, payload) {
       try {
         const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`
-        const { data } = await axios.post(url, { ...payload, returnSecureToken: true })
+        const { data } = await axios.post(url, {
+          ...payload,
+          returnSecureToken: true
+        })
         commit('setToken', data)
         commit('clearMessage', null, { root: true })
         await dispatch('getUser', data.localId)
       } catch (e) {
-        dispatch('setMessage', { value: error(e.response.data.error.message), type: 'danger' }, { root: true })
+        dispatch(
+          'setMessage',
+          { value: error(e.response.data.error.message), type: 'danger' },
+          { root: true }
+        )
         throw new Error()
       }
     },
     async refresh ({ state, commit }) {
       try {
-        const { data } = await axios.post(`https://securetoken.googleapis.com/v1/token?key=${process.env.VUE_APP_FB_KEY}`, {
-          grand_type: 'refresh_token',
-          refresh_token: state.refreshToken
-        })
+        const { data } = await axios.post(
+          `https://securetoken.googleapis.com/v1/token?key=${process.env.VUE_APP_FB_KEY}`,
+          {
+            grand_type: 'refresh_token',
+            refresh_token: state.refreshToken
+          }
+        )
 
         commit('setToken', {
           refreshToken: data.refresh_token,
@@ -72,14 +84,21 @@ export default {
     async signUp ({ commit, dispatch }, payload) {
       try {
         const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.VUE_APP_FB_KEY}`
-        const { data } = await axios.post(url, { ...payload, returnSecureToken: true })
+        const { data } = await axios.post(url, {
+          ...payload,
+          returnSecureToken: true
+        })
         commit('setToken', data)
         await dispatch('createUser', {
           ...data,
           name: payload.name
         })
       } catch (e) {
-        dispatch('setMessage', { value: error(e.response.data.error.message), type: 'danger' }, { root: true })
+        dispatch(
+          'setMessage',
+          { value: error(e.response.data.error.message), type: 'danger' },
+          { root: true }
+        )
         throw new Error()
       }
     },
@@ -90,7 +109,11 @@ export default {
         email
       })
       commit('setUser', { ...data, id: localId })
-      dispatch('setMessage', { value: 'Регистрация прошла успешно', type: 'success' }, { root: true })
+      dispatch(
+        'setMessage',
+        { value: 'Регистрация прошла успешно', type: 'success' },
+        { root: true }
+      )
     },
     async getUser ({ commit, dispatch }, id) {
       try {
@@ -106,9 +129,9 @@ export default {
     token: state => state.token,
     isAuthenticated: (_, getters) => !!getters.token && !getters.isExpired,
     isExpired: state => new Date() >= state.expiresDate,
-    isUser: (_, getters) => !getters.user,
-    isAdmin: state => state.user.role === 'admin',
-    user: state => state.user,
+    isUser: (_, getters) => !getters.isAdmin,
+    isAdmin: state => state.user.info.role === 'admin',
+    user: state => state.user.info,
     userID: (_, getters) => getters.user.id
   }
 }

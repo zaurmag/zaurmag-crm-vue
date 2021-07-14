@@ -22,21 +22,13 @@
             <span class="nav-text">Отчеты</span>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if="admin">
           <a class="nav-link" href="#">
             <svg class="icon icon-people me-2">
               <use xlink:href="#people"></use>
             </svg>
             <span class="nav-text">Пользователи</span>
           </a>
-        </li>
-        <li class="nav-item">
-          <router-link to="/sign-in" class="nav-link">
-            <svg class="icon people me-2">
-              <use xlink:href="#people"></use>
-            </svg>
-            <span class="nav-text">Авторизация</span>
-          </router-link>
         </li>
       </ul>
     </nav>
@@ -45,10 +37,19 @@
 
 <script>
 import AppLogo from '@/components/ui/AppLogo'
+import { useStore } from 'vuex'
 
 export default {
   name: 'TheSidebar',
   props: ['toggleClass'],
+  setup () {
+    const store = useStore()
+    const admin = store.getters['auth/isAdmin']
+
+    return {
+      admin
+    }
+  },
   components: {
     AppLogo
   }

@@ -11,10 +11,16 @@
       </a>
       <div class="text-secondary small ms-lg-40 ms-15">{{ $dateF(date, 'datetime') }}</div>
     </div>
-    <div class="header__right">
+    <div class="header__right" v-if="user">
       <div class="header__user-dropdown dropdown">
-        <a class="dropdown-toggle" href="#" data-bs-toggle="dropdown">
-          <img class="header__user-drp-img img-fluid me-2" src="/images/zaurmag.png" alt="Заур">
+        <a class="dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">
+          <span class="me-1">
+            <img class="header__user-drp-img img-fluid d-block" src="/images/zaurmag.png" alt="Заур">
+            <span
+              class="badge d-block fz-10 fw-normal"
+              :class="user.role === 'admin' ? 'bg-danger' : 'bg-success'"
+            >{{ user.role === 'admin' ? 'Admin' : 'User' }}</span>
+          </span>
           {{ user.name }}
         </a>
         <ul class="dropdown-menu shadow">
