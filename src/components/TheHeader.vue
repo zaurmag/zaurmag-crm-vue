@@ -18,8 +18,8 @@
             <img class="header__user-drp-img img-fluid d-block" src="/images/zaurmag.png" alt="Заур">
             <span
               class="badge d-block fz-10 fw-normal"
-              :class="user.role === 'admin' ? 'bg-danger' : 'bg-success'"
-            >{{ user.role === 'admin' ? 'Admin' : 'User' }}</span>
+              :class="user.info.role === 'admin' ? 'bg-danger' : 'bg-success'"
+            >{{ user.info.role === 'admin' ? 'Admin' : 'User' }}</span>
           </span>
           {{ user.name }}
         </a>
