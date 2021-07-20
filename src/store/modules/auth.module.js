@@ -131,7 +131,7 @@ export default {
     isExpired: state => new Date() >= state.expiresDate,
     isUser: (_, getters) => !getters.isAdmin,
     isAdmin: state => state.user.info.role === 'admin',
-    user: state => state.user.info,
+    user: state => state.user,
     userID: (_, getters) => getters.user.id
   }
 }
