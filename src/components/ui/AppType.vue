@@ -1,5 +1,6 @@
 <template>
-  <span :class="['badge', 'bg-' + className]">{{ text }}</span>
+  <span :class="['indikator-point', 'me-1', 'bg-' + className]"></span>
+  {{ text }}
 </template>
 
 <script>
