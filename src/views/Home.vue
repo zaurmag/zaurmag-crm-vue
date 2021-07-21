@@ -15,15 +15,17 @@
         <header class="card-header">
           <div class="row align-items-center">
             <div class="col-xxl mb-2 mb-xxl-0 d-flex align-items-center justify-content-between">
-              <div v-if="checkboxes.length" class="d-flex align-items-center">
+              <div class="d-flex align-items-center">
                 <h5 class="h6 mb-0 card-header-title">Список проектов</h5>
-                <div class="text-secondary fz-14 ms-3">Отмечено {{ checkboxes.length }} элементов</div>
-                <button class="btn btn-outline-danger btn-sm ms-2" type="button" @click="removeAll">
-                  <svg class="icon icon-trash me-1">
-                    <use xlink:href="#trash"></use>
-                  </svg>
-                  Удалить
-                </button>
+                <template v-if="checkboxes.length">
+                  <div class="text-secondary fz-14 ms-3">Отмечено {{ checkboxes.length }} элементов</div>
+                  <button class="btn btn-outline-danger btn-sm ms-2" type="button" @click="removeAll">
+                    <svg class="icon icon-trash me-1">
+                      <use xlink:href="#trash"></use>
+                    </svg>
+                    Удалить
+                  </button>
+                </template>
               </div>
               <button class="btn btn-light d-xl-none" type="button" data-bs-toggle="collapse" data-bs-target="#filter" aria-expanded="false">
                 <svg class="icon icon-sliders">
@@ -110,6 +112,7 @@ export default {
         await store.dispatch('project/delete', checkboxes.value)
         await store.dispatch('project/load')
         confirm.value.confirm = false
+        checkboxes.value = []
       } catch (e) {}
     }
 

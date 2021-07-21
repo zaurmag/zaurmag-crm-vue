@@ -89,8 +89,13 @@ export default {
     async delete({ dispatch }, id) {
       try {
         const uID = store.getters['auth/userID']
-        const ids = Array.isArray(id) ? id.join(';') : id
-        await axios.delete(`/users/${uID}/projects/${ids}.json`)
+        if (Array.isArray(id)) {
+          for (const itemID of id) {
+            await axios.delete(`/users/${uID}/projects/${itemID}.json`)
+          }
+        } else {
+          await axios.delete(`/users/${uID}/projects/${id}.json`)
+        }
         dispatch(
           'setMessage',
           {
