@@ -23,16 +23,16 @@ export default {
     const store = useStore()
     const route = useRoute()
     const router = useRouter()
+    const isAuth = computed(() => store.getters['auth/isAuthenticated'])
     document.title = 'Вход в систему | Система подсчета доходв/расходов'
 
-    if (route.query.message) {
+    if (route.query.message && !isAuth.value) {
       store.dispatch('setMessage', {
         value: error(route.query.message),
         type: 'danger'
       })
     }
 
-    const isAuth = computed(() => store.getters['auth/isAuthenticated'])
     const redirectIsAuth = val => {
       const auth = val || isAuth.value
       if (auth && route.path === '/sign-in') {

@@ -59,7 +59,7 @@ export default {
 
     const logout = () => {
       store.commit('auth/logout')
-      router.push('/sign-in')
+      router.push('/sign-in?message=auth')
     }
 
     return {
