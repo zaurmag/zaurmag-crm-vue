@@ -13177,7 +13177,7 @@ body.is-animate .overlay {
     left: 0;
     right: 0;
     z-index: 10;
-    min-width: 100px; }
+    min-width: 120px; }
   .select.is-open .select__dropdown {
     display: block; }
   .select.is-open .select__text::after {
@@ -13195,7 +13195,8 @@ body.is-animate .overlay {
     padding: 0;
     list-style: none;
     font-size: 0.875rem;
-    overflow: hidden; }
+    overflow: hidden;
+    white-space: nowrap; }
     .select__list li {
       padding: 6px 15px;
       cursor: pointer; }
