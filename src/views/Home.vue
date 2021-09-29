@@ -18,7 +18,7 @@
               <div class="d-flex align-items-center">
                 <h5 class="h6 mb-0 card-header-title">Список проектов</h5>
                 <template v-if="checkboxes.length">
-                  <div class="text-secondary fz-14 ms-3">Отмечено {{ checkboxes.length }} элементов</div>
+                  <div class="text-secondary fz-14 ms-3">Отмечено: {{ checkboxes.length }}</div>
                   <button class="btn btn-outline-danger btn-sm ms-2" type="button" @click="removeAll">
                     <svg class="icon icon-trash me-1">
                       <use xlink:href="#trash"></use>

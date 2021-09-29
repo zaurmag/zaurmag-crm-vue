@@ -5,7 +5,7 @@
         <h5 class="card-header-title h6 mb-0">Отчеты</h5>
       </header>
       <div class="card-body">
-        <h2 class="h3">25 000 руб.</h2>
+        <h2 class="h3">{{ $currency(25000) }}</h2>
         <div class="progress rounded-pill mb-2 opacity-75 fz-10" style="height: 10px">
           <div class="progress-bar bg-success" style="width: 25%" data-bs-toggle="tooltip" title="Приход" data-placement="top">25%</div>
           <div class="progress-bar bg-danger" style="width: 20%" data-bs-toggle="tooltip" title="Расход" data-placement="top">20%</div>

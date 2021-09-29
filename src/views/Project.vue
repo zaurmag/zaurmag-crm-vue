@@ -8,7 +8,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="text-secondary fz-14">
-                <time class="d-block mb-3">Дата: <span class="fw-medium">{{ project.date }}</span></time>
+                <time class="d-block mb-3">Дата: <span class="fw-medium">{{ $dateF(project.date) }}</span></time>
                 <div class="mb-3">Сумма: <span class="fw-medium">{{ $currency(project.amount) }}</span></div>
                 <div class="mb-3 d-flex align-items-center"><span class="me-2">Тип операции:</span><app-type :type="project.type" /></div>
                 <div class="mb-3">
