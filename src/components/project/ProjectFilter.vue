@@ -57,19 +57,19 @@ export default {
     const periodOptions = ref([
       {
         name: 'Все',
-        value: 'Все'
+        value: 'all'
       },
       {
         name: 'Приход',
-        value: 'Приход'
+        value: 'income'
       },
       {
         name: 'Расход',
-        value: 'Расход'
+        value: 'outcome'
       },
       {
         name: 'В ожидании',
-        value: 'В ожидании'
+        value: 'pending'
       }
     ])
     const search = ref()
@@ -91,12 +91,6 @@ export default {
     })
 
     const isActive = computed(() => search.value || type.value || periodFrom.value || periodTo.value)
-
-    watch(type, value => {
-      console.log(value)
-    })
-
-    console.log(type.value)
 
     return {
       periodOptions,

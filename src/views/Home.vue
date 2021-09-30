@@ -2,7 +2,7 @@
   <app-page title="Главная панель">
     <template #header>
       <button class="main__add-btn btn btn-primary px-md-3 ms-auto" type="button" @click="openModal">
-        <span class="d-sm-inline d-none">Добавить</span>
+        <span class="d-sm-inline d-none">Добавить запись</span>
         <svg class="icon icon-plus-lg ms-sm-1">
           <use xlink:href="#plus-lg"></use>
         </svg>
@@ -34,7 +34,7 @@
               </button>
             </div>
             <div class="col-xxl-auto collapse d-xl-block" id="filter">
-              <project-filter />
+              <project-filter v-model="filter" />
             </div>
           </div>
         </header>
@@ -88,8 +88,31 @@ export default {
     const confirm = ref(false)
     const checkboxes = ref([])
     const store = useStore()
+    const filter = ref({})
     const PAGE_SIZE = ref(4)
-    const projects = computed(() => store.getters['project/projects'])
+    const projects = computed(() => store.getters['project/projects']
+      .filter(request => {
+        if (filter.value.search) {
+          return request.title.toLowerCase().includes(filter.value.search.toLowerCase())
+        }
+
+        return request
+      })
+      .filter(request => {
+        if (filter.value.type?.value) {
+          return filter.value.type.value === request.type || filter.value.type.value === 'all'
+        }
+
+        return request
+      })
+      .filter(request => {
+        if (filter.value.periodFrom && filter.value.periodTo) {
+          return new Date(filter.value.periodFrom) <= new Date(request.date) && new Date(request.date) <= new Date(filter.value.periodTo)
+        }
+
+        return request
+      })
+    )
 
     const openModal = () => {
       modal.value.modal = true
@@ -133,6 +156,7 @@ export default {
       confirm,
       PAGE_SIZE,
       projects,
+      filter,
       ...useProductPaginate(projects, PAGE_SIZE)
     }
   },
