@@ -4,12 +4,7 @@
       <div class="col-sm-3">
         <div class="pagination__pagesize align-items-center">
           <div class="text-secondary me-2">Показать:</div>
-          <select class="form-select form-select-sm" v-model="selectSize" @change="$emit('changeSize', selectSize)">
-            <option value="4">4</option>
-            <option value="8">8</option>
-            <option value="12">12</option>
-            <option value="16">16</option>
-          </select>
+          <AppSelect :options="options" :current="options[0]" @select="select" />
           <div class="text-secondary ms-3">из</div>
           <div class="text-secondary ms-2">{{ count }}</div>
         </div>
@@ -33,24 +28,47 @@
 
 <script>
 import { computed, ref } from 'vue'
+import AppSelect from '@/components/ui/AppSelect'
 
 export default {
   name: 'AppPagination',
   props: ['count', 'pages', 'modelValue'],
   emits: ['changeSize', 'update:modelValue'],
-  setup (props) {
+  setup (props, { emit }) {
     const selectSize = ref(props.pages)
+    const options = ref([
+      {
+        name: '10',
+        value: '10'
+      },
+      {
+        name: '20',
+        value: '20'
+      },
+      {
+        name: '50',
+        value: '50'
+      },
+      {
+        name: '100',
+        value: '100'
+      }
+    ])
+
+    const select = (value) => {
+      selectSize.value = value.value
+      emit('changeSize', selectSize.value)
+    }
 
     return {
       items: computed(() => Math.ceil(props.count / selectSize.value)),
-      selectSize
+      selectSize,
+      options,
+      select
     }
+  },
+  components: {
+    AppSelect
   }
 }
 </script>
-
-<style scoped>
-  .form-select {
-    max-width: 30%;
-  }
-</style>
