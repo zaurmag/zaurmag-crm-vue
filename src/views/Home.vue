@@ -48,7 +48,7 @@
     </div>
 
     <div class="row gy-30">
-      <project-report />
+      <project-report :projects="projects" />
     </div>
   </app-page>
 
@@ -89,7 +89,7 @@ export default {
     const checkboxes = ref([])
     const store = useStore()
     const filter = ref({})
-    const PAGE_SIZE = ref(4)
+    const PAGE_SIZE = ref(10)
     const projects = computed(() => store.getters['project/projects']
       .filter(request => {
         if (filter.value.search) {

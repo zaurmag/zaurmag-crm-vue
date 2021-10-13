@@ -5,11 +5,17 @@
         <h5 class="card-header-title h6 mb-0">Отчеты</h5>
       </header>
       <div class="card-body">
-        <h2 class="h3">{{ $currency(25000) }}</h2>
+        <h2 class="h3">{{ $currency(totalAmount(projects)) }}</h2>
         <div class="progress rounded-pill mb-2 opacity-75 fz-10" style="height: 10px">
-          <div class="progress-bar bg-success" style="width: 25%" data-bs-toggle="tooltip" title="Приход" data-placement="top">25%</div>
-          <div class="progress-bar bg-danger" style="width: 20%" data-bs-toggle="tooltip" title="Расход" data-placement="top">20%</div>
-          <div class="progress-bar bg-warning" style="width: 10%" data-bs-toggle="tooltip" title="В ожидании" data-placement="top">10%</div>
+          <div class="progress-bar bg-success" style="width: 25%" data-bs-toggle="tooltip" title="Приход"
+               data-placement="top">25%
+          </div>
+          <div class="progress-bar bg-danger" style="width: 20%" data-bs-toggle="tooltip" title="Расход"
+               data-placement="top">20%
+          </div>
+          <div class="progress-bar bg-warning" style="width: 10%" data-bs-toggle="tooltip" title="В ожидании"
+               data-placement="top">10%
+          </div>
         </div>
         <div class="table-responsive mt-30">
           <table class="table table-nowrap card-table">
@@ -45,7 +51,28 @@
 
 <script>
 export default {
-  name: 'ProjectReport'
+  name: 'ProjectReport',
+  props: {
+    projects: {
+      type: Array,
+      required: true
+    }
+  },
+  setup () {
+    const totalAmount = (projects) => {
+      if (projects.length) {
+        return projects.reduce((acc, item) => {
+          acc += +item.amount
+
+          return acc
+        }, 0)
+      }
+    }
+
+    return {
+      totalAmount
+    }
+  }
 }
 </script>
 
