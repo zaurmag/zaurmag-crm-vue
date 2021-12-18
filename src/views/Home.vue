@@ -88,7 +88,7 @@ export default {
     const confirm = ref(false)
     const checkboxes = ref([])
     const store = useStore()
-    const PAGE_SIZE = ref(4)
+    const PAGE_SIZE = ref(10)
     const projects = computed(() => store.getters['project/projects'])
 
     const openModal = () => {
