@@ -1,14 +1,15 @@
 <template>
-  <div :class="['select', {'is-open': isOpen}]">
+  <div :class="['select', {'is-open': isOpen}, dopCls]">
     <div class="select__text" @click="toggle">{{ current ? current.name : text }}</div>
     <div class="select__dropdown">
       <ul class="select__list shadow-sm">
         <li
-          class="select__item"
+          :class="['select__item', {'is-selected': text === option.name}]"
           v-for="option in options"
           :key="option.name"
           :data-value="option.value"
           @click="select(option)"
+          :title="option.name"
         >{{ option.name }}</li>
       </ul>
     </div>
@@ -28,6 +29,10 @@ export default {
     },
     current: {
       type: Object,
+      required: false
+    },
+    dopCls: {
+      type: String,
       required: false
     }
   },

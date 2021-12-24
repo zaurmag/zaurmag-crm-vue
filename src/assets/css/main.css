@@ -42,6 +42,9 @@
  * Tables
  */
 /**
+ * Checkbox
+ */
+/**
  * Utilities
  */
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
@@ -12626,6 +12629,13 @@ textarea.form-control-lg {
 .link-dark:hover {
   color: #0d6efd; }
 
+.tooltip {
+  line-height: 1.2; }
+
+.form-check {
+  font-size: 0.875rem;
+  margin: 0; }
+
 /**
  * Base
  */
@@ -13142,6 +13152,9 @@ body.is-animate .overlay {
   height: 40px;
   /**
 	 * Bordered
+	 */
+  /**
+	 * Styled
 	 */ }
   .select__text {
     -webkit-box-align: center;
@@ -13199,7 +13212,9 @@ body.is-animate .overlay {
     white-space: nowrap; }
     .select__list li {
       padding: 6px 15px;
-      cursor: pointer; }
+      cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis; }
       .select__list li:hover {
         background-color: #f8f9fa; }
       .select__list li.is-selected {
@@ -13212,5 +13227,14 @@ body.is-animate .overlay {
       padding: 14px 20px; }
     .select--bordered .select__dropdown {
       top: 50px; }
+  .select--styled {
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 0.25rem;
+    height: 35px; }
+    .select--styled:hover, .select--styled.is-open {
+      background-color: #cfe2ff;
+      -webkit-transition: background-color .2s ease;
+      transition: background-color .2s ease; }
 
 /*# sourceMappingURL=main.css.map */
