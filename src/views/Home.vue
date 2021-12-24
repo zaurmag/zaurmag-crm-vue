@@ -48,7 +48,7 @@
     </div>
 
     <div class="row gy-30">
-      <project-report />
+      <project-report :projects="projects" />
     </div>
   </app-page>
 

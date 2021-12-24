@@ -4,12 +4,7 @@
       <div class="col-sm-3">
         <div class="pagination__pagesize align-items-center">
           <div class="text-secondary me-2">Показать:</div>
-          <select class="form-select form-select-sm" v-model="selectSize" @change="$emit('changeSize', selectSize)">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
+          <AppSelect :options="options" :current="options[0]" @select="select" />
           <div class="text-secondary ms-3">из</div>
           <div class="text-secondary ms-2">{{ count }}</div>
         </div>
@@ -19,27 +14,18 @@
           <li class="pagination__item" :class="{'is-disabled': modelValue === 1}">
             <a class="pagination__link" href="#" @click.prevent="$emit('update:modelValue', modelValue - 1)">Предыдущая</a>
           </li>
-          <template
-            v-for="p in items"
-            :key="p"
-          >
-            <li v-if="(p === items && Math.abs(p - modelValue) > 3)">...</li>
-
+          <template v-for="p in items" :key="p">
             <li
-              :class="['pagination__item', {'is-active': p === modelValue}]"
-              v-if="p < 9 && modelValue < 9"
+              class="pagination__item"
+              :class="[{'is-active': p === modelValue}]"
+              v-if="p <= 10"
             >
               <a href="#" @click.prevent="$emit('update:modelValue', p)" class="pagination__link">{{ p }}</a>
             </li>
-            <li
-              :class="['pagination__item', {'is-active': p === modelValue}]"
-              v-else-if="Math.abs(p - modelValue) < 3 || p === items || p === 1"
-            >
-              <a href="#" @click.prevent="$emit('update:modelValue', p)" class="pagination__link">{{ p }}</a>
-            </li>
-
-            <li v-if="p === 1 && Math.abs(p - modelValue) > 3">...</li>
           </template>
+          <li v-if="items > 10">
+            <a class="pagination__link" href="#" @click.prevent="$emit('update:modelValue', modelValue + 1)">...</a>
+          </li>
           <li class="pagination__item" :class="{'is-disabled': modelValue === items}">
             <a class="pagination__link" href="#" @click.prevent="$emit('update:modelValue', modelValue + 1)">Следующая</a>
           </li>
@@ -51,24 +37,47 @@
 
 <script>
 import { computed, ref } from 'vue'
+import AppSelect from '@/components/ui/AppSelect'
 
 export default {
   name: 'AppPagination',
   props: ['count', 'pages', 'modelValue'],
   emits: ['changeSize', 'update:modelValue'],
-  setup (props) {
+  setup (props, { emit }) {
     const selectSize = ref(props.pages)
+    const options = ref([
+      {
+        name: '10',
+        value: '10'
+      },
+      {
+        name: '20',
+        value: '20'
+      },
+      {
+        name: '50',
+        value: '50'
+      },
+      {
+        name: '100',
+        value: '100'
+      }
+    ])
+
+    const select = (value) => {
+      selectSize.value = value.value
+      emit('changeSize', selectSize.value)
+    }
 
     return {
       items: computed(() => Math.ceil(props.count / selectSize.value)),
-      selectSize
+      selectSize,
+      options,
+      select
     }
+  },
+  components: {
+    AppSelect
   }
 }
 </script>
-
-<style scoped>
-  .form-select {
-    max-width: 30%;
-  }
-</style>
