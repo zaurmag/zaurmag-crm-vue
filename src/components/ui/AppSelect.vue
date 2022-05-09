@@ -1,10 +1,12 @@
 <template>
-  <div :class="['select', {'is-open': isOpen}, dopCls]">
-    <div class="select__text" @click="toggle">{{ current ? current.name : text }}</div>
+  <div :class="['select', {'is-open': isOpen}, classList]">
+    <div class="select__text" @click="toggle" ref="selectText">
+      {{ current && !reset ? current.name : reset ? placeholder : text }}
+    </div>
     <div class="select__dropdown">
       <ul class="select__list shadow-sm">
         <li
-          :class="['select__item', {'is-selected': text === option.name}]"
+          :class="['select__item', {'is-selected': text === option.name && !reset}]"
           v-for="option in options"
           :key="option.name"
           :data-value="option.value"
@@ -31,13 +33,23 @@ export default {
       type: Object,
       required: false
     },
-    dopCls: {
+    classList: {
+      type: Array,
+      required: false
+    },
+    placeholder: {
       type: String,
+      required: true,
+      default: 'Выберите...'
+    },
+    reset: {
+      type: Boolean,
       required: false
     }
   },
-  setup (_, { emit }) {
-    const text = ref('Выберите...')
+  setup (props, { emit }) {
+    const selectText = ref()
+    const text = ref(props.placeholder)
     const isOpen = ref(false)
     const toggle = () => {
       isOpen.value = !isOpen.value
@@ -47,21 +59,28 @@ export default {
       isOpen.value = false
     }
 
-    const select = (option) => {
+    const select = option => {
       text.value = option.name
       emit('select', option)
       close()
     }
 
+    const clickHandler = event => {
+      if (event.target !== selectText.value) {
+        close()
+      }
+    }
+
     onMounted(() => {
-      document.addEventListener('click', close, true)
+      document.addEventListener('click', clickHandler, true)
     })
 
     onUnmounted(() => {
-      document.removeEventListener('click', close, true)
+      document.removeEventListener('click', clickHandler, true)
     })
 
     return {
+      selectText,
       text,
       isOpen,
       toggle,
