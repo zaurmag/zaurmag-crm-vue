@@ -9,43 +9,51 @@
       </button>
     </template>
 
-    <div class="card shadow-sm mb-30" style="min-height: 300px">
-      <app-loader v-if="loader" />
-      <template v-else>
-        <header class="card-header">
-          <div class="row align-items-center">
-            <div class="col-xxl mb-2 mb-xxl-0 d-flex align-items-center justify-content-between">
-              <div class="d-flex align-items-center">
-                <h5 class="h6 mb-0 card-header-title">Список проектов</h5>
-                <template v-if="checkboxes.length">
-                  <div class="text-secondary fz-14 ms-3">Отмечено: {{ checkboxes.length }}</div>
-                  <button class="btn btn-outline-danger btn-sm ms-2" type="button" @click="removeAll">
-                    <svg class="icon icon-trash me-1">
-                      <use xlink:href="#trash"></use>
-                    </svg>
-                    Удалить
-                  </button>
-                </template>
-              </div>
-              <button class="btn btn-light d-xl-none" type="button" data-bs-toggle="collapse" data-bs-target="#filter" aria-expanded="false">
-                <svg class="icon icon-sliders">
-                  <use xlink:href="#sliders"></use>
-                </svg>
-              </button>
-            </div>
-            <div class="col-xxl-auto collapse d-xl-block" id="filter">
-              <project-filter v-model="filter" />
-            </div>
-          </div>
-        </header>
-
-        <project-list :projects="paginateProducts" @selected="selectChbx" />
-
-        <footer class="card-footer">
-          <app-pagination :count="projects.length" :pages="PAGE_SIZE" v-model="page" @changeSize="changePageSize" />
-        </footer>
+    <AppCard :class-list="['mb-30']">
+      <template #prepend v-if="loader">
+        <app-loader />
       </template>
-    </div>
+
+      <template #header>
+        <div class="row align-items-center">
+          <div class="col-xxl mb-2 mb-xxl-0 d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              <h5 class="h6 mb-0 card-header-title">Проекты</h5>
+
+              <template v-if="checkboxes.length">
+                <div class="text-secondary fz-14 ms-3">Отмечено: {{ checkboxes.length }}</div>
+                <button class="btn btn-outline-danger btn-sm ms-2" type="button" @click="removeAll">
+                  <svg class="icon icon-trash me-1">
+                    <use xlink:href="#trash"></use>
+                  </svg>
+                  Удалить
+                </button>
+              </template>
+            </div>
+            <button
+              class="btn btn-light d-xl-none"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#filter"
+              aria-expanded="false"
+            >
+              <svg class="icon icon-sliders">
+                <use xlink:href="#sliders"></use>
+              </svg>
+            </button>
+          </div>
+          <div class="col-xxl-auto collapse d-xl-block" id="filter">
+            <project-filter v-model="filter" />
+          </div>
+        </div>
+      </template>
+
+      <project-list :projects="paginateProducts" @selected="selectChbx" />
+
+      <template #footer>
+        <app-pagination :count="projects.length" :pages="PAGE_SIZE" v-model="page" @changeSize="changePageSize" />
+      </template>
+    </AppCard>
 
     <div class="row gy-30">
       <project-report :projects="projects" />
@@ -76,6 +84,7 @@ import ProjectList from '@/components/project/ProjectList'
 import ProjectFilter from '@/components/project/ProjectFilter'
 import ProjectReport from '@/components/project/ProjectReport'
 import ProjectForm from '@/components/project/ProjectForm'
+import AppCard from '@/components/ui/AppCard'
 import { useProductPaginate } from '@/use/product-paginate'
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
@@ -108,6 +117,13 @@ export default {
       .filter(request => {
         if (filter.value.periodFrom && filter.value.periodTo) {
           return new Date(filter.value.periodFrom) <= new Date(request.date) && new Date(request.date) <= new Date(filter.value.periodTo)
+        }
+
+        return request
+      })
+      .filter(request => {
+        if (filter.value.period) {
+          return new Date(filter.value.period) <= new Date(request.date) && new Date(request.date) <= Date.now()
         }
 
         return request
@@ -169,7 +185,8 @@ export default {
     AppModal,
     AppConfirm,
     ProjectForm,
-    AppLoader
+    AppLoader,
+    AppCard
   }
 }
 </script>

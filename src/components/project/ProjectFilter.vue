@@ -1,24 +1,28 @@
 <template>
   <div class="form form--filter row align-items-end gy-2">
     <div class="col-xl-auto">
-      <div class="row align-items-center g-3 g-lg-0">
-        <div class="col-sm-2 col-md-auto">
-          <label class="form__label me-3" for="filterDateFrom">Период:</label>
+      <div class="row align-items-center g-4">
+        <div class="col-sm col-md-auto">
+          <AppSelect
+            :options="periodOptions"
+            placeholder="Выбрать период"
+            @select="periodSelect"
+            :reset="!period"
+          />
         </div>
-        <div class="col-sm-5 col-md-auto d-flex align-items-center">
-          <label class="text-secondary me-2">от:</label>
-          <input class="form__control" id="filterDateFrom" type="date" v-model="periodFrom">
-        </div>
-        <div class="col-sm-5 col-md-auto d-flex align-items-center">
-          <label class="form__label me-2" for="filterDateTo">до:</label>
-          <input class="form__control" id="filterDateTo" type="date" v-model="periodTo">
+        <div class="col-sm">
+          <AppArbitraryPeriod v-model="arbitraryPeriod" />
         </div>
       </div>
     </div>
     <div class="col-xl-auto">
       <div class="d-flex align-items-center">
         <label class="form__label me-3">Тип операции:</label>
-        <AppSelect :options="periodOptions" :current="!type ? periodOptions[0] : null" @select="select" />
+        <AppSelect
+          :options="typeOptions"
+          :current="!type ? typeOptions[0] : null"
+          @select="typeSelect"
+        />
       </div>
     </div>
     <div class="col-xl">
@@ -46,15 +50,21 @@
 </template>
 
 <script>
+import { options, fpMap } from '@/utils/filter-period'
 import { ref, watch, computed } from 'vue'
+import { getPeriodLater, dateF } from '@/utils/date'
 import AppSelect from '@/components/ui/AppSelect'
+import AppArbitraryPeriod from '@/components/ui/AppArbitraryPeriod'
 
 export default {
   name: 'ProjectFilter',
   emits: ['update:modelValue'],
   props: ['modelValue'],
   setup (_, { emit }) {
-    const periodOptions = ref([
+    const arbitraryPeriod = ref({})
+    const period = ref()
+    const periodOptions = ref(options)
+    const typeOptions = ref([
       {
         name: 'Все',
         value: 'all'
@@ -72,44 +82,57 @@ export default {
         value: 'pending'
       }
     ])
-    const search = ref()
     const type = ref()
-    const periodFrom = ref()
-    const periodTo = ref()
+    const search = ref()
+    const periodMap = fpMap()
 
-    const select = (value) => {
-      type.value = value
-    }
-
-    watch([search, type, periodFrom, periodTo], values => {
+    watch([search, type, period, arbitraryPeriod], values => {
       emit('update:modelValue', {
         search: values[0],
         type: values[1],
-        periodFrom: values[2],
-        periodTo: values[3]
+        periodFrom: values[3]?.from,
+        periodTo: values[3]?.to,
+        period: periodMap[values[2]?.value]
       })
+
+      console.log(values[3])
     })
 
-    const isActive = computed(() => search.value || type.value || periodFrom.value || periodTo.value)
+    const isActive = computed(() => search.value || type.value || period.value || arbitraryPeriod.value)
 
     return {
+      arbitraryPeriod,
       periodOptions,
+      typeOptions,
+      period,
       search,
       type,
-      periodFrom,
-      periodTo,
       isActive,
-      select,
+      typeSelect: value => {
+        type.value = value
+      },
+      periodSelect: option => {
+        period.value = option
+        const from = getPeriodLater(option.value, true)
+        const to = dateF(Date.now(), { locale: 'fr-CA' })
+
+        arbitraryPeriod.value = {
+          period: option.value,
+          from: option.value === 'today' ? to : from,
+          to
+        }
+      },
       reset: () => {
         search.value = ''
-        type.value = ''
-        periodFrom.value = ''
-        periodTo.value = ''
+        type.value = null
+        arbitraryPeriod.value = {}
+        period.value = ''
       }
     }
   },
   components: {
-    AppSelect
+    AppSelect,
+    AppArbitraryPeriod
   }
 }
 </script>
