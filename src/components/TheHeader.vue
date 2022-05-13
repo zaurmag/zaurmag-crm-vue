@@ -9,7 +9,7 @@
           <use xlink:href="#arrow-bar-right"></use>
         </svg>
       </a>
-      <div class="text-secondary small ms-lg-40 ms-15">{{ $dateF(date, 'datetime') }}</div>
+      <div class="text-secondary small ms-lg-40 ms-15">{{ $dateF(date, {format: 'datetime', month: 'long'}) }}</div>
     </div>
     <div class="header__right" v-if="user">
       <div class="header__user-dropdown dropdown">

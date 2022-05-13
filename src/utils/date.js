@@ -1,22 +1,35 @@
 // Date format
-export function dateF (date, locale = 'ru-RU', format = 'date') {
-  const options = {
+export function dateF (date, args = {}) {
+  const baseOptions = {
+    locale: 'ru-RU',
+    format: 'date',
     year: 'numeric',
     month: '2-digit',
-    day: '2-digit'
+    day: '2-digit',
+    ...args
   }
 
-  if (format === 'datetime') {
-    options.hour = '2-digit'
-    options.minute = 'numeric'
-    options.second = 'numeric'
+  const dateOptions = Object.keys(baseOptions).reduce((acc, key) => {
+    if (key === 'year' || key === 'month' || key === 'day') {
+      acc[key] = baseOptions[key]
+    }
+
+    return acc
+  }, {})
+
+  if (baseOptions.format === 'datetime') {
+    dateOptions.hour = '2-digit'
+    dateOptions.minute = 'numeric'
+    dateOptions.second = 'numeric'
   }
 
-  return new Intl.DateTimeFormat(locale, options).format(new Date(date))
+  return new Intl.DateTimeFormat(args.locale, dateOptions)
+    .format(new Date(date))
+    .replace(/\s*г\./, '')
 }
 
 // Period days later
-export function getPeriodLater (period) {
+export function getPeriodLater (period, format) {
   const date = new Date()
 
   switch (period) {
@@ -40,5 +53,39 @@ export function getPeriodLater (period) {
       date.setFullYear(date.getFullYear() - 1)
   }
 
-  return dateF(date, 'fr-CA', 'date')
+  if (format) {
+    return dateF(date, {
+      locale: 'fr-CA'
+    })
+  }
+
+  return date
+}
+
+export function getRangeDate (date) {
+  if (!date) {
+    throw new Error('Date is available!')
+  }
+
+  const currentMonth = new Date().getMonth() + 1
+  const currentYear = new Date().getFullYear()
+  const month = new Date(date).getMonth()
+  const year = new Date(date).getFullYear()
+  let mm = ''
+  let yy = ''
+
+  function getMM () {
+    return dateF(date.setMonth(month), { month: 'short' }).split(' ').slice(1, 2).join('')
+  }
+
+  if (month + 1 !== currentMonth) {
+    mm = getMM()
+  }
+
+  if (year !== currentYear) {
+    mm = getMM()
+    yy = dateF(date.setFullYear(year)).split('.').splice(-1, 2).join('')
+  }
+
+  return date.getDate() + ' ' + mm + ' ' + yy
 }
