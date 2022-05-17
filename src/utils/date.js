@@ -62,15 +62,16 @@ export function getPeriodLater (period, format) {
   return date
 }
 
-export function getRangeDate (date) {
-  if (!date) {
+export function getRangeDate (dateString) {
+  if (!dateString) {
     throw new Error('Date is available!')
   }
 
+  const date = new Date(dateString)
   const currentMonth = new Date().getMonth() + 1
   const currentYear = new Date().getFullYear()
-  const month = new Date(date).getMonth()
-  const year = new Date(date).getFullYear()
+  const month = date.getMonth()
+  const year = date.getFullYear()
   let mm = ''
   let yy = ''
 

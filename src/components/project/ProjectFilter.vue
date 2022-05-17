@@ -11,7 +11,7 @@
           />
         </div>
         <div class="col-sm">
-          <AppArbitraryPeriod v-model="arbitraryPeriod" />
+          <AppArbitraryPeriod v-model="arbitraryPeriod" @datesOut="arbitraryPeriodOut" />
         </div>
       </div>
     </div>
@@ -85,6 +85,13 @@ export default {
     const type = ref()
     const search = ref()
     const periodMap = fpMap()
+    const arbitraryPeriodOut = date => {
+      period.value = ''
+      emit('update:modelValue', {
+        periodFrom: date.from,
+        periodTo: date.to
+      })
+    }
 
     watch([search, type, period, arbitraryPeriod], values => {
       emit('update:modelValue', {
@@ -94,14 +101,13 @@ export default {
         periodTo: values[3]?.to,
         period: periodMap[values[2]?.value]
       })
-
-      console.log(values[3])
     })
 
     const isActive = computed(() => search.value || type.value || period.value || arbitraryPeriod.value)
 
     return {
       arbitraryPeriod,
+      arbitraryPeriodOut,
       periodOptions,
       typeOptions,
       period,
@@ -117,7 +123,7 @@ export default {
         const to = dateF(Date.now(), { locale: 'fr-CA' })
 
         arbitraryPeriod.value = {
-          period: option.value,
+          // period: option.value,
           from: option.value === 'today' ? to : from,
           to
         }

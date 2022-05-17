@@ -9,95 +9,71 @@
     <div class="dropdown-menu p-3">
       <div class="col-sm col-md-auto d-flex align-items-center">
         <label class="text-secondary me-2">от:</label>
-        <input class="form__control" id="filterDateFrom" type="date" v-model="date.from">
+        <input
+          class="form__control"
+          id="filterDateFrom"
+          type="date"
+          v-model="date.from"
+          @input="changeDateHandler"
+        >
       </div>
 
       <div class="col-sm col-md-auto d-flex align-items-center">
         <label class="form__label me-2" for="filterDateTo">до:</label>
-        <input class="form__control" id="filterDateTo" type="date" v-model="date.to">
+        <input
+          class="form__control"
+          id="filterDateTo"
+          type="date"
+          v-model="date.to"
+          @input="changeDateHandler"
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, watch, computed } from 'vue'
-import { textRangePeriod } from '@/utils/filter-period'
-// import { fpMap } from '@/utils/filter-period'
-// import { dateF } from '@/utils/date'
+import { ref, computed, watch } from 'vue'
+import { textRangePeriod2 } from '@/utils/filter-period'
 
 export default {
   name: 'AppArbitraryPeriod',
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'datesOut'],
   props: ['modelValue'],
-  // eslint-disable-next-line vue/no-setup-props-destructure
   setup (props, { emit }) {
-    // const period = ref(modelValue.period)
-    // const dateFrom = ref(modelValue.dateFrom)
-    // const date = ref({
-    //   from: mValue.value.dateFrom,
-    //   to: mValue.value.dateTo
-    // })
-    // const dateTo = ref(modelValue.dateTo)
-    const from = ref()
-    const to = ref()
     const text = ref('Произвольно')
-    const date = computed({
-      get: () => props.modelValue,
-      set: value => emit('update:modelValue', value)
+    const dateRange = ref({
+      from: '',
+      to: ''
+    })
+    const date = computed(() => props.modelValue)
+
+    watch(date, date => {
+      text.value = textRangePeriod2(date.from, date.to)
+      if (date.from === undefined && date.to === undefined) {
+        text.value = 'Произвольно'
+      }
     })
 
-    watch(date, ({ period }) => {
-      text.value = textRangePeriod(period)
-    })
+    const changeDateHandler = event => {
+      if (event.target.id === 'filterDateFrom') {
+        dateRange.value.from = event.target.value
+      }
 
-    watch([from, to], ([from, to]) => {
-      console.log(from, to)
-    })
+      if (event.target.id === 'filterDateTo') {
+        dateRange.value.to = event.target.value
+      }
 
-    // watch(date, values => {
-    //   if (values[0] && values[1]) {
-    //     emit('update:modelValue', 'period')
-    //   }
-    //
-    //   console.log(values)
-    // })
-
-    // const modelVal = computed(() => props.modelValue)
-
-    // watch(mValue, value => {
-    //   console.log(value)
-    // })
-
-    // computed({
-    //   get: () => modelValue.dateFrom,
-    //   set: value => {
-    //     console.log(value)
-    //     date.value.from = value.dateFrom
-    //     emit('update:modelValue', date.value.from)
-    //   }
-    // })
-    //
-    // computed({
-    //   get: () => modelValue.dateTo,
-    //   set: value => {
-    //     console.log(value)
-    //     date.value.to = value.dateTo
-    //     emit('update:modelValue', date.value.to)
-    //   }
-    // })
-
-    // watch([period, date], ([period, df, dt]) => {
-    //   text.value = textRangePeriod(period)
-    // })
+      if (dateRange.value.from && dateRange.value.to) {
+        emit('datesOut', dateRange.value)
+        text.value = textRangePeriod2(dateRange.value.from, dateRange.value.to)
+      }
+    }
 
     return {
       text,
-      // dateFrom,
-      // dateTo,
       date,
-      from,
-      to
+      changeDateHandler
     }
   }
 }
