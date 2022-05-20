@@ -34,7 +34,7 @@
 
 <script>
 import { ref, computed, watch } from 'vue'
-import { textRangePeriod2 } from '@/utils/filter-period'
+import { textRangePeriod } from '@/utils/filter-period'
 
 export default {
   name: 'AppArbitraryPeriod',
@@ -49,7 +49,7 @@ export default {
     const date = computed(() => props.modelValue)
 
     watch(date, date => {
-      text.value = textRangePeriod2(date.from, date.to)
+      text.value = textRangePeriod(date.from, date.to)
       if (date.from === undefined && date.to === undefined) {
         text.value = 'Произвольно'
       }
@@ -66,7 +66,7 @@ export default {
 
       if (dateRange.value.from && dateRange.value.to) {
         emit('datesOut', dateRange.value)
-        text.value = textRangePeriod2(dateRange.value.from, dateRange.value.to)
+        text.value = textRangePeriod(dateRange.value.from, dateRange.value.to)
       }
     }
 

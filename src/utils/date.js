@@ -90,3 +90,23 @@ export function getRangeDate (dateString) {
 
   return date.getDate() + ' ' + mm + ' ' + yy
 }
+
+/**
+ * Функция, возвращающая ярлык относительной даты
+ * @param dateFrom Дата, например, 2022-05-10
+ * @param dateTo Дата, например, 2022-05-01
+ * @return String Относительная дата, например, today, yesterday, week, month, year
+ */
+export function relativeDate (dateFrom, dateTo) {
+  const getDay = date => new Date(date).getDate()
+
+  if (dateFrom === dateTo) {
+    return 'today'
+  }
+
+  if (getDay(dateFrom) === getDay(Date.now()) - 1) {
+    return 'yesterday'
+  }
+
+  return ''
+}

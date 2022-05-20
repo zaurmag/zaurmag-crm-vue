@@ -3,11 +3,15 @@
     <div class="col-xl-auto">
       <div class="row align-items-center g-4">
         <div class="col-sm col-md-auto">
+<!--          <AppSelect-->
+<!--            :options="periodOptions"-->
+<!--            placeholder="Выбрать период"-->
+<!--            @select="periodSelect"-->
+<!--            :reset="!period"-->
+<!--          />-->
           <AppSelect
             :options="periodOptions"
-            placeholder="Выбрать период"
-            @select="periodSelect"
-            :reset="!period"
+            v-model="periodSelect"
           />
         </div>
         <div class="col-sm">
@@ -18,11 +22,11 @@
     <div class="col-xl-auto">
       <div class="d-flex align-items-center">
         <label class="form__label me-3">Тип операции:</label>
-        <AppSelect
-          :options="typeOptions"
-          :current="!type ? typeOptions[0] : null"
-          @select="typeSelect"
-        />
+<!--        <AppSelect-->
+<!--          :options="typeOptions"-->
+<!--          :current="!type ? typeOptions[0] : null"-->
+<!--          @select="typeSelect"-->
+<!--        />-->
       </div>
     </div>
     <div class="col-xl">
@@ -50,9 +54,9 @@
 </template>
 
 <script>
-import { options, fpMap } from '@/utils/filter-period'
+import { options } from '@/utils/filter-period'
 import { ref, watch, computed } from 'vue'
-import { getPeriodLater, dateF } from '@/utils/date'
+import { getPeriodLater, dateF, relativeDate } from '@/utils/date'
 import AppSelect from '@/components/ui/AppSelect'
 import AppArbitraryPeriod from '@/components/ui/AppArbitraryPeriod'
 
@@ -61,9 +65,10 @@ export default {
   emits: ['update:modelValue'],
   props: ['modelValue'],
   setup (_, { emit }) {
+    const PERIOD_PLACEHOLDER = 'Выбрать период'
     const arbitraryPeriod = ref({})
-    const period = ref()
     const periodOptions = ref(options)
+    const periodSelect = ref({ name: PERIOD_PLACEHOLDER })
     const typeOptions = ref([
       {
         name: 'Все',
@@ -84,55 +89,65 @@ export default {
     ])
     const type = ref()
     const search = ref()
-    const periodMap = fpMap()
     const arbitraryPeriodOut = date => {
-      period.value = ''
-      emit('update:modelValue', {
-        periodFrom: date.from,
-        periodTo: date.to
-      })
+      if (date) {
+        emit('update:modelValue', {
+          periodFrom: date.from,
+          periodTo: date.to
+        })
+
+        const value = relativeDate(date.from, date.to)
+        const name = options.find(option => option.value === value)?.name
+
+        periodSelect.value = {
+          name: name || PERIOD_PLACEHOLDER,
+          value: value || ''
+        }
+
+        return date
+      }
     }
 
-    watch([search, type, period, arbitraryPeriod], values => {
-      emit('update:modelValue', {
+    watch([search, type, periodSelect], values => {
+      const dataValue = {
         search: values[0],
-        type: values[1],
-        periodFrom: values[3]?.from,
-        periodTo: values[3]?.to,
-        period: periodMap[values[2]?.value]
-      })
+        type: values[1]
+      }
+
+      if (values[2].value) {
+        const from = getPeriodLater(values[2].value, true)
+        const to = dateF(Date.now(), { locale: 'fr-CA' })
+
+        arbitraryPeriod.value = {
+          from: values[2].value === 'today' ? to : from,
+          to
+        }
+
+        dataValue.periodFrom = from
+        dataValue.periodTo = to
+      }
+
+      console.log(dataValue, arbitraryPeriodOut())
+
+      emit('update:modelValue', dataValue)
     })
 
-    const isActive = computed(() => search.value || type.value || period.value || arbitraryPeriod.value)
+    const isActive = computed(() => search.value || type.value || periodSelect.value || arbitraryPeriod.value)
 
     return {
+      periodSelect,
       arbitraryPeriod,
       arbitraryPeriodOut,
       periodOptions,
       typeOptions,
-      period,
       search,
       type,
       isActive,
-      typeSelect: value => {
-        type.value = value
-      },
-      periodSelect: option => {
-        period.value = option
-        const from = getPeriodLater(option.value, true)
-        const to = dateF(Date.now(), { locale: 'fr-CA' })
-
-        arbitraryPeriod.value = {
-          // period: option.value,
-          from: option.value === 'today' ? to : from,
-          to
-        }
-      },
       reset: () => {
         search.value = ''
         type.value = null
         arbitraryPeriod.value = {}
-        period.value = ''
+        periodSelect.value = { name: PERIOD_PLACEHOLDER, value: '' }
       }
     }
   },

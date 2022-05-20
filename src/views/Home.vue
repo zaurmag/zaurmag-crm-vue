@@ -116,18 +116,19 @@ export default {
       })
       .filter(request => {
         if (filter.value.periodFrom && filter.value.periodTo) {
+          // console.log(filter.value.periodFrom, filter.value.periodTo, request.date)
           return new Date(filter.value.periodFrom) <= new Date(request.date) && new Date(request.date) <= new Date(filter.value.periodTo)
         }
 
         return request
       })
-      .filter(request => {
-        if (filter.value.period) {
-          return new Date(filter.value.period) <= new Date(request.date) && new Date(request.date) <= Date.now()
-        }
-
-        return request
-      })
+      // .filter(request => {
+      //   if (filter.value.period) {
+      //     return new Date(filter.value.period) <= new Date(request.date) && new Date(request.date) <= Date.now()
+      //   }
+      //
+      //   return request
+      // })
     )
 
     const openModal = () => {
