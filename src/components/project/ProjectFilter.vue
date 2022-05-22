@@ -134,6 +134,10 @@ export default {
       const rDate = relativeDate(dates.from, dates.to)
       const option = periodOptions.value.find(item => item.value === rDate)
 
+      if (!rDate) {
+        periodSelect.value = periodSelectInitial
+      }
+
       if (option) {
         periodSelect.value = {
           name: option.name,

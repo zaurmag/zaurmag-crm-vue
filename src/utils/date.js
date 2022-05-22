@@ -28,8 +28,8 @@ export function dateF (date, args = {}) {
     .replace(/\s*г\./, '')
 }
 
-// Period days later
-export function getPeriodLater (period, format) {
+// Get date from period
+export function getDateFromPeriod (period, format) {
   const date = new Date()
 
   switch (period) {
@@ -98,14 +98,21 @@ export function getRangeDate (dateString) {
  * @return String Относительная дата, например, today, yesterday, week, month, year
  */
 export function relativeDate (dateFrom, dateTo) {
+  const dateNow = Date.now()
   const getDay = date => new Date(date).getDate()
+  const getMonth = date => new Date(date).getMonth() + 1
+  const getYear = date => new Date(date).getFullYear()
 
   if (dateFrom === dateTo) {
     return 'today'
   }
 
-  if (getDay(dateFrom) === getDay(Date.now()) - 1) {
+  if (getDay(dateFrom) === getDay(dateNow) - 1 && getMonth(dateFrom) === getMonth(dateNow) && getYear(dateFrom) === getYear(dateNow)) {
     return 'yesterday'
+  }
+
+  if (getDay(dateFrom) === getDay(dateNow) - 7) {
+    return 'week'
   }
 
   return ''
