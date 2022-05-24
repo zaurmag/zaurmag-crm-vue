@@ -51,7 +51,12 @@
       <project-list :projects="paginateProducts" @selected="selectChbx" />
 
       <template #footer>
-        <app-pagination :count="projects.length" :pages="PAGE_SIZE" v-model="page" @changeSize="changePageSize" />
+        <app-pagination
+          :count="projects.length"
+          :pages="PAGE_SIZE"
+          v-model="page"
+          @changeSize="changePageSize"
+        />
       </template>
     </AppCard>
 
@@ -98,7 +103,7 @@ export default {
     const checkboxes = ref([])
     const store = useStore()
     const filter = ref({})
-    const PAGE_SIZE = ref(10)
+    const PAGE_SIZE = ref({ name: 10, value: 10 })
     const projects = computed(() => store.getters['project/projects']
       .filter(request => {
         if (filter.value.search) {
@@ -123,6 +128,10 @@ export default {
         return request
       })
     )
+
+    // watch(filter, value => {
+    //   console.log(value)
+    // })
 
     const openModal = () => {
       modal.value.modal = true
