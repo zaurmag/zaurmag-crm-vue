@@ -121,13 +121,6 @@ export default {
 
         return request
       })
-      .filter(request => {
-        if (filter.value.period) {
-          return new Date(filter.value.period) <= new Date(request.date) && new Date(request.date) <= Date.now()
-        }
-
-        return request
-      })
     )
 
     const openModal = () => {

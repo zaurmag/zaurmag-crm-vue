@@ -13,7 +13,7 @@
           class="form__control"
           id="filterDateFrom"
           type="date"
-          v-model="date.from"
+          v-model="from"
           @input="changeDateHandler"
         >
       </div>
@@ -24,7 +24,7 @@
           class="form__control"
           id="filterDateTo"
           type="date"
-          v-model="date.to"
+          v-model="to"
           @input="changeDateHandler"
         >
       </div>
@@ -33,24 +33,44 @@
 </template>
 
 <script>
-import { ref, computed, watch } from 'vue'
-import { textRangePeriod2 } from '@/utils/filter-period'
+import { computed, ref, watch } from 'vue'
+import { textRangePeriod } from '@/utils/filter-period'
 
 export default {
   name: 'AppArbitraryPeriod',
-  emits: ['update:modelValue', 'datesOut'],
-  props: ['modelValue'],
+  props: ['dateFrom', 'dateTo'],
+  emits: ['update:dateFrom', 'update:dateTo', 'datesOut'],
   setup (props, { emit }) {
     const text = ref('Произвольно')
+    const from = computed({
+      get () {
+        return props.dateFrom
+      },
+      set (value) {
+        emit('update:dateFrom', value)
+      }
+    })
+
+    const to = computed({
+      get () {
+        return props.dateTo
+      },
+      set (value) {
+        emit('update:dateTo', value)
+      }
+    })
+
     const dateRange = ref({
       from: '',
       to: ''
     })
-    const date = computed(() => props.modelValue)
 
-    watch(date, date => {
-      text.value = textRangePeriod2(date.from, date.to)
-      if (date.from === undefined && date.to === undefined) {
+    watch([from, to], ([dateFrom, dateTo]) => {
+      if (dateFrom && dateTo) {
+        text.value = textRangePeriod(dateFrom, dateTo)
+      }
+
+      if (!dateFrom && !dateTo) {
         text.value = 'Произвольно'
       }
     })
@@ -66,13 +86,13 @@ export default {
 
       if (dateRange.value.from && dateRange.value.to) {
         emit('datesOut', dateRange.value)
-        text.value = textRangePeriod2(dateRange.value.from, dateRange.value.to)
       }
     }
 
     return {
       text,
-      date,
+      from,
+      to,
       changeDateHandler
     }
   }

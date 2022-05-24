@@ -4,7 +4,7 @@
       <div class="col-sm-3">
         <div class="pagination__pagesize align-items-center">
           <div class="text-secondary me-2">Показать:</div>
-          <AppSelect :options="options" :current="options[0]" @select="select" />
+          <!-- <AppSelect :options="options" :current="options[0]" @select="select" />-->
           <div class="text-secondary ms-3">из</div>
           <div class="text-secondary ms-2">{{ count }}</div>
         </div>
@@ -37,7 +37,7 @@
 
 <script>
 import { computed, ref } from 'vue'
-import AppSelect from '@/components/ui/AppSelect'
+// import AppSelect from '@/components/ui/AppSelect'
 
 export default {
   name: 'AppPagination',
@@ -77,7 +77,7 @@ export default {
     }
   },
   components: {
-    AppSelect
+    // AppSelect
   }
 }
 </script>
