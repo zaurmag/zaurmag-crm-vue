@@ -3,12 +3,6 @@
     <div class="col-xl-auto">
       <div class="row align-items-center g-4">
         <div class="col-sm col-md-auto">
-<!--          <AppSelect-->
-<!--            :options="periodOptions"-->
-<!--            placeholder="Выбрать период"-->
-<!--            @select="periodSelect"-->
-<!--            :reset="!period"-->
-<!--          />-->
           <AppSelect
             :options="periodOptions"
             v-model="periodSelect"
@@ -26,11 +20,10 @@
     <div class="col-xl-auto">
       <div class="d-flex align-items-center">
         <label class="form__label me-3">Тип операции:</label>
-<!--        <AppSelect-->
-<!--          :options="typeOptions"-->
-<!--          :current="!type ? typeOptions[0] : null"-->
-<!--          @select="typeSelect"-->
-<!--        />-->
+        <AppSelect
+          :options="typeOptions"
+          v-model="typeSelect"
+        />
       </div>
     </div>
     <div class="col-xl">
@@ -94,7 +87,7 @@ export default {
         value: 'pending'
       }
     ])
-    const type = ref()
+    const typeSelect = ref(typeOptions.value[0])
 
     const search = ref()
 
@@ -103,8 +96,9 @@ export default {
       arbitraryPeriodTo.value = ''
     }
 
-    watch([search, type], ([search, type]) => {
-      emit('update:modelValue', { search, type })
+    watch([search, typeSelect], ([search, typeSelect]) => {
+      console.log(typeSelect)
+      emit('update:modelValue', { search, type: typeSelect })
     })
 
     watch([arbitraryPeriodFrom, arbitraryPeriodTo], ([periodFrom, periodTo]) => {
@@ -146,7 +140,7 @@ export default {
       }
     }
 
-    const isActive = computed(() => search.value || type.value || periodSelect.value || arbitraryPeriodFrom.value || arbitraryPeriodTo)
+    const isActive = computed(() => search.value || typeSelect.value || periodSelect.value || arbitraryPeriodFrom.value || arbitraryPeriodTo)
 
     return {
       arbitraryPeriodFrom,
@@ -155,12 +149,12 @@ export default {
       periodSelect,
       periodOptions,
       typeOptions,
+      typeSelect,
       search,
-      type,
       isActive,
       reset: () => {
         search.value = ''
-        type.value = null
+        typeSelect.value = typeOptions.value[0]
         arbitraryPeriodFromReset()
         periodSelect.value = periodSelectInitial
       }
