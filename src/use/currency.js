@@ -1,5 +1,5 @@
 export default {
-  install (App, options) {
+  install (App) {
     const currency = App.config.globalProperties.$currency = function (amount, currency = 'RUB') {
       return new Intl.NumberFormat('ru-RU', {
         style: 'currency',

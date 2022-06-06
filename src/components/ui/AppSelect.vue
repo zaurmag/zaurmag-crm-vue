@@ -1,6 +1,8 @@
 <template>
-  <div :class="['select', {'is-open': isOpen}, dopCls]">
-    <div class="select__text" @click="toggle">{{ current ? current.name : text }}</div>
+  <div :class="['select', {'is-open': isOpen}, classList]">
+    <div class="select__text" @click="toggle" ref="selectText">
+      {{ text }}
+    </div>
     <div class="select__dropdown">
       <ul class="select__list shadow-sm">
         <li
@@ -17,27 +19,27 @@
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 
 export default {
   name: 'AppSelect',
-  emits: ['select'],
+  emits: ['update:modelValue'],
   props: {
+    modelValue: {
+      type: Object
+    },
     options: {
       type: Array,
       required: true
     },
-    current: {
-      type: Object,
-      required: false
-    },
-    dopCls: {
-      type: String,
+    classList: {
+      type: Array,
       required: false
     }
   },
-  setup (_, { emit }) {
-    const text = ref('Выберите...')
+  setup (props, { emit }) {
+    const selectText = ref()
+    const text = ref(props.modelValue.name)
     const isOpen = ref(false)
     const toggle = () => {
       isOpen.value = !isOpen.value
@@ -47,21 +49,33 @@ export default {
       isOpen.value = false
     }
 
-    const select = (option) => {
-      text.value = option.name
-      emit('select', option)
+    const mVal = computed(() => props.modelValue)
+
+    watch(mVal, value => {
+      text.value = value.name
+    })
+
+    const select = option => {
+      emit('update:modelValue', option)
       close()
     }
 
+    const clickHandler = event => {
+      if (event.target !== selectText.value) {
+        close()
+      }
+    }
+
     onMounted(() => {
-      document.addEventListener('click', close, true)
+      document.addEventListener('click', clickHandler, true)
     })
 
     onUnmounted(() => {
-      document.removeEventListener('click', close, true)
+      document.removeEventListener('click', clickHandler, true)
     })
 
     return {
+      selectText,
       text,
       isOpen,
       toggle,

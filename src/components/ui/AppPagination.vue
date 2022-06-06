@@ -4,7 +4,7 @@
       <div class="col-sm-3">
         <div class="pagination__pagesize align-items-center">
           <div class="text-secondary me-2">Показать:</div>
-          <AppSelect :options="options" :current="options[0]" @select="select" />
+            <AppSelect :options="optionsSize" v-model="selectSize" />
           <div class="text-secondary ms-3">из</div>
           <div class="text-secondary ms-2">{{ count }}</div>
         </div>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import AppSelect from '@/components/ui/AppSelect'
 
 export default {
@@ -44,8 +44,7 @@ export default {
   props: ['count', 'pages', 'modelValue'],
   emits: ['changeSize', 'update:modelValue'],
   setup (props, { emit }) {
-    const selectSize = ref(props.pages)
-    const options = ref([
+    const optionsSize = ref([
       {
         name: '10',
         value: '10'
@@ -63,17 +62,16 @@ export default {
         value: '100'
       }
     ])
+    const selectSize = ref(props.pages)
 
-    const select = (value) => {
-      selectSize.value = value.value
-      emit('changeSize', selectSize.value)
-    }
+    watch(selectSize, size => {
+      emit('changeSize', size.value)
+    })
 
     return {
-      items: computed(() => Math.ceil(props.count / selectSize.value)),
+      items: computed(() => Math.ceil(props.count / selectSize.value.value)),
       selectSize,
-      options,
-      select
+      optionsSize
     }
   },
   components: {
