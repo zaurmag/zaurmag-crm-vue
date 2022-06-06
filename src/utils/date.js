@@ -103,16 +103,43 @@ export function relativeDate (dateFrom, dateTo) {
   const getMonth = date => new Date(date).getMonth() + 1
   const getYear = date => new Date(date).getFullYear()
 
-  if (dateFrom === dateTo) {
+  function checkPeriod (days) {
+    if (days === 0) {
+      return dateFrom === dateF(dateNow, { locale: 'fr-CA' })
+    }
+
+    if (days === 1 || days === 7) {
+      return getDay(dateFrom) === getDay(dateNow) - days
+    }
+
+    return getDay(dateFrom) === getDay(dateNow) - days && getMonth(dateFrom) === getMonth(dateNow) && getYear(dateFrom) === getYear(dateNow)
+  }
+
+  console.log(getDay(dateFrom), getDay(dateNow))
+
+  // Today
+  if (checkPeriod(0)) {
     return 'today'
   }
 
-  if (getDay(dateFrom) === getDay(dateNow) - 1 && getMonth(dateFrom) === getMonth(dateNow) && getYear(dateFrom) === getYear(dateNow)) {
+  // Yesterday
+  if (checkPeriod(1)) {
     return 'yesterday'
   }
 
-  if (getDay(dateFrom) === getDay(dateNow) - 7) {
+  // Week
+  if (checkPeriod(7)) {
     return 'week'
+  }
+
+  // Month
+  if (getMonth(dateFrom) - 1 === getMonth(dateNow) - 1 && getDay(dateFrom) === getDay(dateNow)) {
+    return 'month'
+  }
+
+  // Quarter
+  if (checkPeriod(7)) {
+    return 'quarter'
   }
 
   return ''

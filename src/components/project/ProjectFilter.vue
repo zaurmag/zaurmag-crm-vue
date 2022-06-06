@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { options } from '@/utils/filter-period'
+import { PERIOD_OPTIONS, TYPE_OPTIONS } from '@/constans'
 import { ref, watch, computed } from 'vue'
 import { dateF, relativeDate, getDateFromPeriod } from '@/utils/date'
 import AppSelect from '@/components/ui/AppSelect'
@@ -66,27 +66,10 @@ export default {
     const arbitraryPeriodTo = ref()
 
     const periodSelectInitial = { name: 'Выбрать период', value: '' }
-    const periodOptions = ref(options)
+    const periodOptions = ref(PERIOD_OPTIONS)
     const periodSelect = ref(periodSelectInitial)
 
-    const typeOptions = ref([
-      {
-        name: 'Все',
-        value: 'all'
-      },
-      {
-        name: 'Приход',
-        value: 'income'
-      },
-      {
-        name: 'Расход',
-        value: 'outcome'
-      },
-      {
-        name: 'В ожидании',
-        value: 'pending'
-      }
-    ])
+    const typeOptions = ref(TYPE_OPTIONS)
     const typeSelect = ref(typeOptions.value[0])
 
     const search = ref()
@@ -96,22 +79,17 @@ export default {
       arbitraryPeriodTo.value = ''
     }
 
-    watch([search, typeSelect], ([search, typeSelect]) => {
-      console.log(typeSelect)
-      emit('update:modelValue', { search, type: typeSelect })
-    })
-
-    watch([arbitraryPeriodFrom, arbitraryPeriodTo], ([periodFrom, periodTo]) => {
-      if (periodFrom && periodTo) {
-        emit('update:modelValue', { periodFrom, periodTo })
-      }
-    })
-
-    watch(periodSelect, period => {
-      const periodFrom = getDateFromPeriod(period.value, true)
+    watch([
+      search,
+      typeSelect,
+      arbitraryPeriodFrom,
+      arbitraryPeriodTo,
+      periodSelect
+    ], ([search, type, apFrom, apTo, periodSelect]) => {
+      const periodFrom = getDateFromPeriod(periodSelect.value, true)
       const periodTo = dateF(Date.now(), { locale: 'fr-CA' })
 
-      if (period.value) {
+      if (periodSelect.value) {
         arbitraryPeriodFromReset()
 
         arbitraryPeriodFrom.value = periodFrom
@@ -119,8 +97,10 @@ export default {
       }
 
       emit('update:modelValue', {
-        periodFrom: arbitraryPeriodFrom.value,
-        periodTo: arbitraryPeriodTo.value
+        search,
+        type,
+        periodFrom: apFrom || arbitraryPeriodFrom.value,
+        periodTo: apTo || arbitraryPeriodTo.value
       })
     })
 

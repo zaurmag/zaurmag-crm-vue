@@ -1,31 +1,5 @@
-import { dateF, getPeriodLater, getRangeDate } from '@/utils/date'
-
-export const options = [
-  {
-    name: 'Сегодня',
-    value: 'today'
-  },
-  {
-    name: 'Вчера',
-    value: 'yesterday'
-  },
-  {
-    name: 'Неделя',
-    value: 'week'
-  },
-  {
-    name: 'Месяц',
-    value: 'month'
-  },
-  {
-    name: 'Квартал',
-    value: 'quarter'
-  },
-  {
-    name: 'Год',
-    value: 'year'
-  }
-]
+import { dateF, getDateFromPeriod, getRangeDate } from '@/utils/date'
+import { PERIOD_OPTIONS } from '@/constans'
 
 /**
  * Карта дат для селекта "Выбрать период" в фильтре
@@ -33,8 +7,8 @@ export const options = [
  * Example: {name: week, value: 2022-05-10}
  */
 export function fpMap () {
-  return options.reduce((acc, item) => {
-    acc[item.value] = getPeriodLater(item.value, true)
+  return PERIOD_OPTIONS.reduce((acc, item) => {
+    acc[item.value] = getDateFromPeriod(item.value, true)
 
     return acc
   }, {})
