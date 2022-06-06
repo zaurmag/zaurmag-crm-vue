@@ -28,40 +28,33 @@
     <div class="table-responsive mt-30">
       <table class="table table-nowrap card-table">
         <tbody>
-        <tr>
+        <tr v-if="income">
           <th scope="row">
             <span class="indikator bg-success me-2"></span>
             Приход
           </th>
           <td>{{ $currency(income) }}</td>
-          <td>
-            <div
-              class="badge bg-info opacity-75"
-              v-tooltip="{
-                      title: 'По сравнению с прошлым мес.',
-                      placement: 'right',
-                    }">+ 12%</div>
-          </td>
         </tr>
-        <tr>
+        <tr v-if="outcome">
           <th scope="row">
             <span class="indikator bg-danger me-2"></span>
             Расход
           </th>
           <td>{{ $currency(outcome) }}</td>
-          <td>
-            <div class="badge bg-info opacity-75">- 5%</div>
-          </td>
         </tr>
-        <tr v-if="pending > 0">
+        <tr v-if="pending">
           <th scope="row">
             <span class="indikator bg-warning me-2"></span>
             В ожидании
           </th>
           <td>{{ $currency(pending) }}</td>
-          <td>
-            <div class="badge bg-warning opacity-75">- 5%</div>
-          </td>
+        </tr>
+        <tr v-if="income && outcome">
+          <th scope="row">
+            <span class="indikator bg-primary me-2"></span>
+            Чистый доход
+          </th>
+          <td><strong>{{ $currency(profit) }}</strong></td>
         </tr>
         </tbody>
       </table>
@@ -70,19 +63,24 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
-import { useStore } from 'vuex'
+import { computed, ref, watch } from 'vue'
 import AppCard from '@/components/ui/AppCard'
 
 export default {
   name: 'ProjectReportCommon',
-  setup () {
-    const store = useStore()
+  props: {
+    items: {
+      type: Array,
+      required: true
+    }
+  },
+  setup (props) {
     const total = ref(0)
     const income = ref(0)
     const outcome = ref(0)
     const pending = ref(0)
-    const projects = computed(() => store.getters['project/projects'])
+    const profit = ref(0)
+    const projects = computed(() => props.items)
 
     const getValue = type => {
       return projects.value
@@ -94,24 +92,25 @@ export default {
         }, 0)
     }
 
-    onMounted(async () => {
-      await store.dispatch('project/load')
-
+    watch(projects, val => {
       total.value = projects.value.reduce((acc, item) => {
         acc += +item.amount
 
         return acc
       }, 0)
+
       income.value = getValue('income')
       outcome.value = getValue('outcome')
       pending.value = getValue('pending')
+      profit.value = income.value - outcome.value
     })
 
     return {
       total,
       income,
       outcome,
-      pending
+      pending,
+      profit
     }
   },
   components: {

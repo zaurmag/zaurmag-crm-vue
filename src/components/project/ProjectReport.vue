@@ -4,7 +4,7 @@
   </div>
 
   <div class="col-xl-6">
-    <ProjectReportCommon />
+    <ProjectReportCommon :items="projects" />
   </div>
 </template>
 
@@ -14,6 +14,12 @@ import ProjectReportCommon from '@/components/project/ProjectReportCommon'
 
 export default {
   name: 'ProjectReport',
+  props: {
+    projects: {
+      type: Array,
+      required: true
+    }
+  },
   components: {
     // ProjectReportPeriod,
     ProjectReportCommon
