@@ -1,4 +1,10 @@
-// Date format
+/**
+ * Функция форматирования даты
+ * @param date Дата, в формате datestamp или полная дата new Date()
+ * @param args Объект с аргументами, переопределяет объект baseOptions
+ * @return String Форматированная дата, например - 2 мая 2022. Буква "г." вырезается, или 02.05.2022
+ */
+
 export function dateF (date, args = {}) {
   const baseOptions = {
     locale: 'ru-RU',
@@ -28,7 +34,13 @@ export function dateF (date, args = {}) {
     .replace(/\s*г\./, '')
 }
 
-// Get date from period
+/**
+ * Функция получения даты из переданного периода, относительно текущей даты
+ * @param period:String Название периода, например, yesterday, week, month...
+ * @param format:Boolean Нужно ли форматировать дату на выходе в формат, например, 2022-05-02
+ * @return String Дата полном формате, например, Date Mon May 30 2022 18:17:32 GMT+0300 (Москва, стандартное время)
+ */
+
 export function getDateFromPeriod (period, format) {
   const date = new Date()
 
@@ -61,6 +73,12 @@ export function getDateFromPeriod (period, format) {
 
   return date
 }
+
+/**
+ * Функция получения периода дат, относительно текущей. Название месяца выводится с коротким алиасом, например - июн.
+ * @param dateString Дата в формате, например, 2022-05-02
+ * @return String Дата: вывод числа, мес. и года зависит от передаваемой даты. Если текущий мес. и год, то выведет только день, например - 2. Если текущий год, то выведет число и мес., например - 2 мая. Если не текущий год, то выведет полную дату, например, 2 мая 2021
+ */
 
 export function getRangeDate (dateString) {
   if (!dateString) {
@@ -97,6 +115,7 @@ export function getRangeDate (dateString) {
  * @param dateTo Дата, например, 2022-05-01
  * @return String Относительная дата, например, today, yesterday, week, month, year
  */
+
 export function relativeDate (dateFrom, dateTo) {
   const dateNow = Date.now()
   const getDay = date => new Date(date).getDate()
