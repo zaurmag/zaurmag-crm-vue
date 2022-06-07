@@ -1,6 +1,6 @@
 <template>
   <div class="col-xl-6">
-<!--<ProjectReportPeriod />-->
+    <ProjectReportPeriod />
   </div>
 
   <div class="col-xl-6">
@@ -10,7 +10,7 @@
 
 <script>
 import ProjectReportCommon from '@/components/project/ProjectReportCommon'
-// import ProjectReportPeriod from '@/components/project/ProjectReportPeriod'
+import ProjectReportPeriod from '@/components/project/ProjectReportPeriod'
 
 export default {
   name: 'ProjectReport',
@@ -21,7 +21,7 @@ export default {
     }
   },
   components: {
-    // ProjectReportPeriod,
+    ProjectReportPeriod,
     ProjectReportCommon
   }
 }
