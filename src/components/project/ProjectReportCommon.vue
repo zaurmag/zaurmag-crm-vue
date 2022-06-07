@@ -1,5 +1,5 @@
 <template>
-  <AppCard title="Общий отчет">
+  <AppCard v-if="total" title="Общий отчет">
     <h2 class="h3">{{ $currency(total) }}</h2>
     <div
       class="progress rounded-pill mb-2 opacity-75 fz-10"
@@ -52,7 +52,7 @@
         <tr v-if="income && outcome">
           <th scope="row">
             <span class="indikator bg-primary me-2"></span>
-            Чистый доход
+            Доход
           </th>
           <td><strong>{{ $currency(profit) }}</strong></td>
         </tr>
@@ -92,8 +92,12 @@ export default {
         }, 0)
     }
 
-    watch(projects, val => {
-      total.value = projects.value.reduce((acc, item) => {
+    const progress = value => {
+      return +Math.round(value / total.value) * 100 + '%'
+    }
+
+    watch(projects, value => {
+      total.value = value.reduce((acc, item) => {
         acc += +item.amount
 
         return acc
@@ -105,12 +109,18 @@ export default {
       profit.value = income.value - outcome.value
     })
 
+    const incomeProgress = computed({
+      get: () => income,
+      set: progress
+    })
+
     return {
       total,
       income,
       outcome,
       pending,
-      profit
+      profit,
+      incomeProgress
     }
   },
   components: {
