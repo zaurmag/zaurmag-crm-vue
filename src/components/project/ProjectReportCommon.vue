@@ -7,22 +7,22 @@
     >
       <div
         class="progress-bar bg-success"
-        :style="'width:' + Math.round(+(income / total) * 100) + '%'"
+        :style="'width:' + incomeProgress"
       >
-        {{ Math.round(+(income / total) * 100) + '%' }}
+        {{ incomeProgress }}
       </div>
       <div
         class="progress-bar bg-danger"
-        :style="'width:' + Math.round(+(outcome / total) * 100) + '%'"
+        :style="'width:' + outcomeProgress"
       >
-        {{ Math.round(+(outcome / total) * 100) + '%' }}
+        {{ outcomeProgress }}
       </div>
       <div
         v-if="pending > 0"
         class="progress-bar bg-warning"
-        :style="'width:' + Math.round(+(pending / total) * 100) + '%'"
+        :style="'width:' + pendingProgress"
       >
-        {{ Math.round(+(pending / total) * 100) + '%' }}
+        {{ pendingProgress }}
       </div>
     </div>
     <div class="table-responsive mt-30">
@@ -63,8 +63,9 @@
 </template>
 
 <script>
-import { computed, ref, watch } from 'vue'
 import AppCard from '@/components/ui/AppCard'
+import { computed, ref, watch } from 'vue'
+import { getAmountSumm, progress, getSumm } from '@/utils/report'
 
 export default {
   name: 'ProjectReportCommon',
@@ -80,38 +81,22 @@ export default {
     const outcome = ref(0)
     const pending = ref(0)
     const profit = ref(0)
+    const incomeProgress = ref()
+    const outcomeProgress = ref()
+    const pendingProgress = ref()
     const projects = computed(() => props.items)
 
-    const getValue = type => {
-      return projects.value
-        .filter((item) => item.type === type)
-        .reduce((acc, item) => {
-          acc += +item.amount
-
-          return acc
-        }, 0)
-    }
-
-    const progress = value => {
-      return +Math.round(value / total.value) * 100 + '%'
-    }
-
     watch(projects, value => {
-      total.value = value.reduce((acc, item) => {
-        acc += +item.amount
+      total.value = getSumm(value)
 
-        return acc
-      }, 0)
-
-      income.value = getValue('income')
-      outcome.value = getValue('outcome')
-      pending.value = getValue('pending')
+      income.value = getAmountSumm('income', projects.value)
+      outcome.value = getAmountSumm('outcome', projects.value)
+      pending.value = getAmountSumm('pending', projects.value)
       profit.value = income.value - outcome.value
-    })
 
-    const incomeProgress = computed({
-      get: () => income,
-      set: progress
+      incomeProgress.value = progress(income.value, total.value)
+      outcomeProgress.value = progress(outcome.value, total.value)
+      pendingProgress.value = progress(pending.value, total.value)
     })
 
     return {
@@ -120,7 +105,9 @@ export default {
       outcome,
       pending,
       profit,
-      incomeProgress
+      incomeProgress,
+      outcomeProgress,
+      pendingProgress
     }
   },
   components: {
