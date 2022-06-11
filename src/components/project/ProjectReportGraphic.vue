@@ -15,6 +15,7 @@ import ChartLine from '@/components/ui/ChartLine'
 import { computed, watch, ref } from 'vue'
 import { months } from '@/constans'
 import { getAmountByMonths, getMonthName } from '@/utils/report'
+import { currency } from '@/utils/currency'
 
 export default {
   name: 'ProjectReportGraphic',
@@ -48,12 +49,14 @@ export default {
           data: incomeAmount.value,
           backgroundColor: 'transparent',
           borderColor: '#377dff',
+          pointStyle: 'circle',
           borderWidth: 2,
-          pointRadius: 0,
+          pointRadius: 3,
           hoverBorderColor: '#377dff',
           pointBackgroundColor: '#377dff',
           pointBorderColor: '#fff',
-          pointHoverRadius: 0
+          pointHoverRadius: 4,
+          cubicInterpolationMode: 'monotone'
         },
         {
           label: 'Расход',
@@ -61,11 +64,12 @@ export default {
           backgroundColor: 'transparent',
           borderColor: '#00c9db',
           borderWidth: 2,
-          pointRadius: 0,
+          pointRadius: 3,
           hoverBorderColor: '#00c9db',
           pointBackgroundColor: '#00c9db',
           pointBorderColor: '#fff',
-          pointHoverRadius: 0
+          pointHoverRadius: 4,
+          cubicInterpolationMode: 'monotone'
         }]
       }
     })
@@ -73,18 +77,43 @@ export default {
     const chartOptions = computed(() => {
       return {
         responsive: true,
-        tooltips: {
-          prefix: '$',
-          postfix: 'k',
-          hasIndicator: true,
-          mode: 'index',
-          intersect: false,
-          lineMode: true,
-          lineWithLineColor: 'rgba(19, 33, 68, 0.075)'
+        scales: {
+          x: {
+            display: true,
+            grid: {
+              display: false
+            },
+            title: {
+              display: false,
+              text: 'Месяцы'
+            }
+          },
+          y: {
+            display: true,
+            title: {
+              display: false,
+              text: 'Суммы'
+            }
+          }
         },
-        hover: {
-          mode: 'nearest',
-          intersect: true
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label (context) {
+                let label = context.dataset.label || ''
+
+                if (label) {
+                  label += ': '
+                }
+
+                if (context.parsed.y) {
+                  label += currency(context.parsed.y)
+                }
+
+                return label
+              }
+            }
+          }
         }
       }
     })
