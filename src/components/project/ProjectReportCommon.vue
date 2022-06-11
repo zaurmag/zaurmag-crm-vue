@@ -1,5 +1,5 @@
 <template>
-  <AppCard v-if="total" title="Общий отчет">
+  <AppCard v-if="total" title="Общий отчет" class-list="h-100">
     <h2 class="h3">{{ $currency(total) }}</h2>
     <div
       class="progress rounded-pill mb-2 opacity-75 fz-10"
