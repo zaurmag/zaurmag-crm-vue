@@ -9,18 +9,20 @@
     "lint:scripts --fix": "./node_modules/.bin/eslint src/**/*.js --fix"
   },
   "dependencies": {
+    "@popperjs/core": "latest",
+    "axios": "latest",
+    "bootstrap": "latest",
+    "chart.js": "^3.8.0",
     "core-js": "^3.6.5",
+    "enquire.js": "latest",
+    "lodash.chunk": "^4.2.0",
     "register-service-worker": "^1.7.1",
+    "vee-validate": "^4.1.12",
     "vue": "^3.2.26",
+    "vue-chartjs": "^4.1.1",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
-    "@popperjs/core": "latest",
-    "bootstrap": "latest",
-    "enquire.js": "latest",
-    "vee-validate": "^4.1.12",
-    "yup": "latest",
-    "axios": "latest",
-    "lodash.chunk": "^4.2.0"
+    "yup": "latest"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

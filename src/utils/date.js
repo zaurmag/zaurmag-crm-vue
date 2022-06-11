@@ -134,8 +134,6 @@ export function relativeDate (dateFrom, dateTo) {
     return getDay(dateFrom) === getDay(dateNow) - days && getMonth(dateFrom) === getMonth(dateNow) && getYear(dateFrom) === getYear(dateNow)
   }
 
-  console.log(getDay(dateFrom), getDay(dateNow))
-
   // Today
   if (checkPeriod(0)) {
     return 'today'
@@ -162,4 +160,13 @@ export function relativeDate (dateFrom, dateTo) {
   }
 
   return ''
+}
+
+/**
+ * Функция получения числа месяца из даты
+ * @param dateString Дата в формате, например, 2022-06-07
+ * @return Number Число месяца, например, 6
+ */
+export function getMonth (dateString) {
+  return +dateString.split('-').slice(1, 2).join('')
 }

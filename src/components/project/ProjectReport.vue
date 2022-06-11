@@ -1,16 +1,16 @@
 <template>
   <div class="col-xl-6">
-    <ProjectReportPeriod />
+    <project-report-graphic :items="projects" />
   </div>
 
   <div class="col-xl-6">
-    <ProjectReportCommon :items="projects" />
+    <project-report-common :items="projects" />
   </div>
 </template>
 
 <script>
 import ProjectReportCommon from '@/components/project/ProjectReportCommon'
-import ProjectReportPeriod from '@/components/project/ProjectReportPeriod'
+import ProjectReportGraphic from '@/components/project/ProjectReportGraphic'
 
 export default {
   name: 'ProjectReport',
@@ -21,7 +21,7 @@ export default {
     }
   },
   components: {
-    ProjectReportPeriod,
+    ProjectReportGraphic,
     ProjectReportCommon
   }
 }
