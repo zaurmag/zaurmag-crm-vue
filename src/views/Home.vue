@@ -129,10 +129,6 @@ export default {
       })
     )
 
-    // watch(filter, value => {
-    //   console.log(value)
-    // })
-
     const openModal = () => {
       modal.value.modal = true
     }

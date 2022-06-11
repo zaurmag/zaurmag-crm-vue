@@ -20,7 +20,16 @@
 <script>
 export default {
   name: 'Card',
-  props: ['title', 'classList']
+  props: {
+    title: {
+      type: String,
+      required: false
+    },
+    classList: {
+      type: String,
+      required: false
+    }
+  }
 }
 </script>
 

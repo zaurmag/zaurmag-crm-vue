@@ -43,3 +43,5 @@ export const TYPE_OPTIONS = [
     value: 'pending'
   }
 ]
+
+export const months = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Ноя', 'Дек']
