@@ -13,7 +13,7 @@
 import AppCard from '@/components/ui/AppCard'
 import ChartLine from '@/components/ui/ChartLine'
 import { computed, watch, ref } from 'vue'
-import { months } from '@/constans'
+import { MONTHS } from '@/constans'
 import { getAmountByMonths, getMonthName } from '@/utils/report'
 import { currency } from '@/utils/currency'
 
@@ -29,17 +29,27 @@ export default {
     const projects = computed(() => props.items)
     const incomeAmount = ref()
     const outcomeAmount = ref()
-    const monthsRef = ref(months)
+    const monthsRef = ref(MONTHS)
 
     watch(projects, items => {
       const income = items.filter(p => p.type === 'income')
       const outcome = items.filter(p => p.type === 'outcome')
 
-      monthsRef.value = getMonthName(items, months)
+      monthsRef.value = getMonthName(items, MONTHS)
 
-      incomeAmount.value = getAmountByMonths(income, months)
-      outcomeAmount.value = getAmountByMonths(outcome, months)
+      incomeAmount.value = getAmountByMonths(income, MONTHS)
+      outcomeAmount.value = getAmountByMonths(outcome, MONTHS)
     })
+
+    const chartTotalOptions = {
+      backgroundColor: 'transparent',
+      pointStyle: 'circle',
+      borderWidth: 2,
+      pointRadius: 3,
+      pointBorderColor: '#fff',
+      pointHoverRadius: 4,
+      cubicInterpolationMode: 'monotone'
+    }
 
     const chartData = computed(() => {
       return {
@@ -47,29 +57,18 @@ export default {
         datasets: [{
           label: 'Приход',
           data: incomeAmount.value,
-          backgroundColor: 'transparent',
-          borderColor: '#377dff',
-          pointStyle: 'circle',
-          borderWidth: 2,
-          pointRadius: 3,
           hoverBorderColor: '#377dff',
           pointBackgroundColor: '#377dff',
-          pointBorderColor: '#fff',
-          pointHoverRadius: 4,
-          cubicInterpolationMode: 'monotone'
+          borderColor: '#377dff',
+          ...chartTotalOptions
         },
         {
           label: 'Расход',
           data: outcomeAmount.value,
-          backgroundColor: 'transparent',
           borderColor: '#00c9db',
-          borderWidth: 2,
-          pointRadius: 3,
           hoverBorderColor: '#00c9db',
           pointBackgroundColor: '#00c9db',
-          pointBorderColor: '#fff',
-          pointHoverRadius: 4,
-          cubicInterpolationMode: 'monotone'
+          ...chartTotalOptions
         }]
       }
     })
