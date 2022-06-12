@@ -74,11 +74,6 @@ export default {
 
     const search = ref()
 
-    const arbitraryPeriodFromReset = () => {
-      arbitraryPeriodFrom.value = ''
-      arbitraryPeriodTo.value = ''
-    }
-
     watch([
       search,
       typeSelect,
@@ -86,14 +81,9 @@ export default {
       arbitraryPeriodTo,
       periodSelect
     ], ([search, type, apFrom, apTo, periodSelect]) => {
-      const periodFrom = getDateFromPeriod(periodSelect.value, true)
-      const periodTo = dateF(Date.now(), { locale: 'fr-CA' })
-
       if (periodSelect.value) {
-        arbitraryPeriodFromReset()
-
-        arbitraryPeriodFrom.value = periodFrom
-        arbitraryPeriodTo.value = periodTo
+        arbitraryPeriodFrom.value = getDateFromPeriod(periodSelect.value, true)
+        arbitraryPeriodTo.value = dateF(Date.now(), { locale: 'fr-CA' })
       }
 
       emit('update:modelValue', {
@@ -108,9 +98,10 @@ export default {
       const rDate = relativeDate(dates.from, dates.to)
       const option = periodOptions.value.find(item => item.value === rDate)
 
-      if (!rDate) {
-        periodSelect.value = periodSelectInitial
-      }
+      arbitraryPeriodFrom.value = dates.from
+      arbitraryPeriodTo.value = dates.to
+
+      periodSelect.value = !rDate ? periodSelectInitial : {}
 
       if (option) {
         periodSelect.value = {
@@ -135,7 +126,8 @@ export default {
       reset: () => {
         search.value = ''
         typeSelect.value = typeOptions.value[0]
-        arbitraryPeriodFromReset()
+        arbitraryPeriodFrom.value = ''
+        arbitraryPeriodTo.value = ''
         periodSelect.value = periodSelectInitial
       }
     }

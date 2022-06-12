@@ -84,9 +84,7 @@ export default {
         dateRange.value.to = event.target.value
       }
 
-      if (dateRange.value.from && dateRange.value.to) {
-        emit('datesOut', dateRange.value)
-      }
+      emit('datesOut', dateRange.value)
     }
 
     return {
