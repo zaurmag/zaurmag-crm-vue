@@ -41,35 +41,34 @@ export default {
       outcomeAmount.value = getAmountByMonths(outcome, months)
     })
 
+    const chartTotalOptions = {
+      backgroundColor: 'transparent',
+      pointStyle: 'circle',
+      borderWidth: 2,
+      pointRadius: 3,
+      pointBorderColor: '#fff',
+      pointHoverRadius: 4,
+      cubicInterpolationMode: 'monotone'
+    }
+
     const chartData = computed(() => {
       return {
         labels: monthsRef.value,
         datasets: [{
           label: 'Приход',
           data: incomeAmount.value,
-          backgroundColor: 'transparent',
-          borderColor: '#377dff',
-          pointStyle: 'circle',
-          borderWidth: 2,
-          pointRadius: 3,
           hoverBorderColor: '#377dff',
           pointBackgroundColor: '#377dff',
-          pointBorderColor: '#fff',
-          pointHoverRadius: 4,
-          cubicInterpolationMode: 'monotone'
+          borderColor: '#377dff',
+          ...chartTotalOptions
         },
         {
           label: 'Расход',
           data: outcomeAmount.value,
-          backgroundColor: 'transparent',
           borderColor: '#00c9db',
-          borderWidth: 2,
-          pointRadius: 3,
           hoverBorderColor: '#00c9db',
           pointBackgroundColor: '#00c9db',
-          pointBorderColor: '#fff',
-          pointHoverRadius: 4,
-          cubicInterpolationMode: 'monotone'
+          ...chartTotalOptions
         }]
       }
     })
