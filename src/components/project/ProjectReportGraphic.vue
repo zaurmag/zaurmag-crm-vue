@@ -13,7 +13,7 @@
 import AppCard from '@/components/ui/AppCard'
 import ChartLine from '@/components/ui/ChartLine'
 import { computed, watch, ref } from 'vue'
-import { months } from '@/constans'
+import { MONTHS } from '@/constans'
 import { getAmountByMonths, getMonthName } from '@/utils/report'
 import { currency } from '@/utils/currency'
 
@@ -29,16 +29,16 @@ export default {
     const projects = computed(() => props.items)
     const incomeAmount = ref()
     const outcomeAmount = ref()
-    const monthsRef = ref(months)
+    const monthsRef = ref(MONTHS)
 
     watch(projects, items => {
       const income = items.filter(p => p.type === 'income')
       const outcome = items.filter(p => p.type === 'outcome')
 
-      monthsRef.value = getMonthName(items, months)
+      monthsRef.value = getMonthName(items, MONTHS)
 
-      incomeAmount.value = getAmountByMonths(income, months)
-      outcomeAmount.value = getAmountByMonths(outcome, months)
+      incomeAmount.value = getAmountByMonths(income, MONTHS)
+      outcomeAmount.value = getAmountByMonths(outcome, MONTHS)
     })
 
     const chartTotalOptions = {
