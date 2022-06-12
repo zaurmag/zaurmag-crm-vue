@@ -107,7 +107,6 @@ export default {
     const projects = computed(() => store.getters['project/projects']
       .filter(request => {
         if (filter.value.search) {
-          console.log(filter.value.search)
           return request.title.toLowerCase().includes(filter.value.search.toLowerCase())
         }
 
