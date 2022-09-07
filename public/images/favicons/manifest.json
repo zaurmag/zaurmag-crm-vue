@@ -1,7 +1,7 @@
 {
-  "name": "My App",
-  "short_name": "App",
-  "description": "This is my application",
+  "name": "zm-crm",
+  "short_name": "zm-crm",
+  "description": "Zaurmag CRM html project",
   "dir": "auto",
   "lang": "ru-RU",
   "display": "standalone",

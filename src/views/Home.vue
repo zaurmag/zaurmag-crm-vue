@@ -3,8 +3,8 @@
     <template #header>
       <button class="main__add-btn btn btn-primary px-md-3 ms-auto" type="button" @click="openModal">
         <span class="d-sm-inline d-none">Добавить запись</span>
-        <svg class="icon icon-plus-lg ms-sm-1">
-          <use xlink:href="#plus-lg"></use>
+        <svg class="icon icon-pencil-square me-sm-2">
+          <use xlink:href="#pencil-square"></use>
         </svg>
       </button>
     </template>
