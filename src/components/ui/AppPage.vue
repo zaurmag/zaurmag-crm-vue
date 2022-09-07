@@ -24,7 +24,7 @@ export default {
     }
   },
   setup (props) {
-    document.title = `${props.title} | Система подсчета доходв/расходов`
+    document.title = `${props.title} | Система подсчета доходов/расходов`
   }
 }
 </script>
