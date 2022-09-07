@@ -10224,28 +10224,23 @@ a.is-transition {
 
 .logo {
   font-weight: 700;
-  font-size: 1.5rem; }
-  .logo__link {
-    align-items: center;
-    display: inline-flex;
-    text-decoration: none;
-    color: #377dff; }
-    @media (min-width: 992px) {
-      .logo__link:hover {
-        color: #6a9eff; } }
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: default; }
   .logo__text {
-    margin-left: 0.9375rem; }
+    margin-left: 0.9375rem;
+    color: #377dff; }
   .logo__img {
     width: 1.5625rem;
     height: auto; }
     @media (min-width: 992px) {
       .logo__img {
         transition: opacity .3s ease; } }
-  .logo--dark .logo__link {
+  .logo--dark .logo__text {
     color: #495057; }
-    @media (min-width: 992px) {
-      .logo--dark .logo__link:hover {
-        color: #606a73; } }
   .logo--lg {
     font-weight: 800;
     font-size: 1.875rem; }
@@ -10749,7 +10744,7 @@ a.is-transition {
       transition: background-color .2s ease; }
 
 /*!
- * Quill Editor v1.3.6
+ * Quill Editor v1.3.7
  * https://quilljs.com/
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com
@@ -11152,7 +11147,7 @@ a.is-transition {
   right: 0.9375rem; }
 
 /*!
- * Quill Editor v1.3.6
+ * Quill Editor v1.3.7
  * https://quilljs.com/
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com
