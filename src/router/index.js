@@ -36,6 +36,15 @@ const routes = [
       layout: 'main',
       auth: true
     }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('../views/Profile.vue'),
+    meta: {
+      layout: 'main',
+      auth: true
+    }
   }
 ]
 

@@ -1,5 +1,5 @@
 <template>
-  <header class="main__header">
+  <header class="main__header" v-if="$slots.header || title">
     <h1 class="h4 main__header-tlt">{{ title }}</h1>
     <slot name="header" />
   </header>
