@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import AppLogo from '@/components/ui/AppLogo'
+import AppLogo from '@/components/AppLogo'
 import AppNav from '@/components/AppNav'
 import { defineProps, ref } from 'vue'
 
