@@ -10542,21 +10542,8 @@ a.is-transition {
   justify-content: space-between; }
   @media (min-width: 992px) {
     .header {
-      padding: 0.8125rem 1.875rem; } }
-  .header__right {
-    padding-top: 0.625rem;
-    padding-bottom: 0.625rem; }
-  .header__user-dropdown {
-    font-size: 0.875rem; }
-    .header__user-dropdown .dropdown-toggle {
-      color: #96a2c1;
-      text-decoration: none; }
-    .header__user-dropdown .dropdown-menu {
-      font-size: 0.875rem; }
-  .header__user-drp-img {
-    border-radius: 50%;
-    overflow: hidden;
-    width: 2rem; }
+      padding: 0.5rem 1.875rem;
+      min-height: 4.0625rem; } }
   @media (max-width: 991.98px) {
     .header {
       padding-left: 4.0625rem;
@@ -10564,14 +10551,15 @@ a.is-transition {
       min-height: 3.75rem; } }
 
 .logo {
-  font-weight: 700;
-  font-size: 1.5rem;
   display: flex;
   align-items: center;
   text-decoration: none;
   cursor: default; }
   .logo__text {
     margin-left: 0.9375rem;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1;
     color: #377dff; }
   .logo__img {
     width: 1.5625rem;
@@ -10662,7 +10650,7 @@ a.is-transition {
   .sidebar__collapse-btn {
     position: absolute;
     right: 0;
-    top: 0.625rem;
+    top: 0.8125rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10706,20 +10694,22 @@ a.is-transition {
       .is-full .sidebar__collapse-btn .icon-arrow-bar-left {
         display: none; } }
   .sidebar__logo {
-    padding: 0.75rem 1rem; }
+    padding: 0.9375rem 0; }
     @media (min-width: 992px) {
-      .is-sb-collapsed .sidebar__logo,
-      .is-compact .sidebar__logo {
-        text-align: center;
-        padding-left: 0;
-        padding-right: 0; }
-        .is-sb-collapsed .sidebar__logo .icon,
-        .is-compact .sidebar__logo .icon {
-          font-size: 1.75rem;
-          margin-right: 0 !important; }
-        .is-sb-collapsed .sidebar__logo .logo__text,
-        .is-compact .sidebar__logo .logo__text {
-          display: none; } }
+      .sidebar__logo {
+        height: 4.0625rem; }
+        .is-sb-collapsed .sidebar__logo,
+        .is-compact .sidebar__logo {
+          text-align: center;
+          padding-left: 0;
+          padding-right: 0; }
+          .is-sb-collapsed .sidebar__logo .icon,
+          .is-compact .sidebar__logo .icon {
+            font-size: 1.75rem;
+            margin-right: 0 !important; }
+          .is-sb-collapsed .sidebar__logo .logo__text,
+          .is-compact .sidebar__logo .logo__text {
+            display: none; } }
 
 .footer {
   padding: 1.875rem;
