@@ -1,5 +1,5 @@
 <template>
-  <div class="card shadow-sm card__report" :class="classList">
+  <div class="card shadow-sm-soft" :class="classList">
     <slot name="prepend" />
 
     <header class="card-header" v-if="$slots.header || title">
@@ -7,9 +7,11 @@
       <slot name="header" />
     </header>
 
-    <div class="card-body">
+    <div class="card-body" v-if="$slots.default">
       <slot name="default" />
     </div>
+
+    <slot name="append" />
 
     <footer class="card-footer" v-if="$slots.footer">
       <slot name="footer" />
