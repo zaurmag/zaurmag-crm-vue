@@ -7,11 +7,11 @@
           <button class="btn-close btn btn-icon btn-sm" type="button" @click="$emit('close'); modal = false"></button>
         </header>
 
-        <div class="modal-body px-20 fz-14">
+        <div class="modal-body p-20">
           <slot name="default" />
         </div>
 
-        <div class="modal-footer px-20 text-center" v-if="isFooter">
+        <div class="modal-footer p-20 text-center" v-if="isFooter">
           <slot name="footer" />
         </div>
       </div>
@@ -64,6 +64,6 @@ export default {
 
 <style scoped>
   .modal-dialog {
-    z-index: 1041;
+    z-index: 1051;
   }
 </style>

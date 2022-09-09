@@ -1,61 +1,54 @@
 <template>
-  <aside class="sidebar bg-dark" :class="{'is-compact': toggleClass}" id="sidebarMenu">
-    <div class="logo sidebar__logo">
-      <app-logo />
-    </div>
+  <aside class="sidebar" :class="{'is-compact': toggleSb}" id="sidebarMenu">
+    <button
+      class="btn-round p-0 sidebar__collapse-btn"
+      :class="{'is-active': toggleSb}"
+      type="button"
+      data-bs-toggle="tooltip"
+      data-bs-placement="right"
+      data-bs-title="Свернуть"
+      @click="toggleSbHandler"
+      v-tooltip="{title: toogleBtnTooltip, placement: 'right'}"
+      :key="toogleBtnTooltip"
+    >
+      <svg class="icon icon-arrow-bar-left">
+        <use xlink:href="#arrow-bar-left"></use>
+      </svg>
+      <svg class="icon icon-arrow-bar-right">
+        <use xlink:href="#arrow-bar-right"></use>
+      </svg>
+    </button>
 
-    <nav class="mt-30">
-      <ul class="nav nav-pills flex-column mb-auto navbar-nav">
-        <li class="nav-item">
-          <router-link to="/" class="nav-link">
-            <svg class="icon icon-speedometer2 me-2">
-              <use xlink:href="#speedometer2"></use>
-            </svg>
-            <span class="nav-text">Главная</span>
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <svg class="icon icon-graph-up me-2">
-              <use xlink:href="#graph-up"></use>
-            </svg>
-            <span class="nav-text">Отчеты</span>
-          </a>
-        </li>
-        <li class="nav-item" v-if="admin">
-          <a class="nav-link" href="#">
-            <svg class="icon icon-people me-2">
-              <use xlink:href="#people"></use>
-            </svg>
-            <span class="nav-text">Пользователи</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <app-logo url="/" classList="sidebar__logo mb-25" />
+    <app-nav />
   </aside>
 </template>
 
-<script>
-import AppLogo from '@/components/ui/AppLogo'
-import { useStore } from 'vuex'
+<script setup>
+import AppLogo from '@/components/AppLogo'
+import AppNav from '@/components/AppNav'
+import { defineProps, ref } from 'vue'
 
-export default {
-  name: 'TheSidebar',
-  props: ['toggleClass'],
-  setup () {
-    const store = useStore()
-    const admin = store.getters['auth/isAdmin']
+defineProps({
+  toggleClass: {
+    type: Boolean,
+    required: false,
+    default: true
+  }
+})
 
-    return {
-      admin
-    }
-  },
-  components: {
-    AppLogo
+const toggleSb = ref(false)
+const toogleBtnTooltip = ref('свернуть')
+const body = document.body
+const toggleSbHandler = () => {
+  toggleSb.value = !toggleSb.value
+
+  if (toggleSb.value) {
+    body.classList.add('is-sb-collapsed')
+    toogleBtnTooltip.value = 'развернуть'
+  } else {
+    body.classList.remove('is-sb-collapsed')
+    toogleBtnTooltip.value = 'свернуть'
   }
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -1,12 +1,13 @@
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
-import { computed, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 export function useRegisterForm () {
   const router = useRouter()
   const store = useStore()
+  const loading = ref(false)
   const { handleSubmit, isSubmitting, submitCount } = useForm()
 
   const { value: name, errorMessage: nError, handleBlur: nBlur } = useField(
@@ -66,11 +67,13 @@ export function useRegisterForm () {
 
         return
       }
+      loading.value = true
       await store.dispatch('auth/signUp', {
         name: values.name,
         email: values.email,
         password: values.password
       })
+      loading.value = false
       await router.push('/')
     } catch (e) {}
   })

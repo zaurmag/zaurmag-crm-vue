@@ -26,23 +26,24 @@
         />
       </div>
     </div>
-    <div class="col-xl">
+    <div class="col-xl-auto">
       <div class="d-flex align-items-center">
-        <div class="form__group form__group--icon">
+        <div class="form__group form__group--icon w-100">
           <svg class="icon icon-search">
             <use xlink:href="#search"></use>
           </svg>
           <input class="form__control" type="search" placeholder="Поиск по наименованию" v-model="search">
         </div>
+
         <button
-          class="btn btn-sm ms-2 text-success"
+          class="btn btn-outline-secondary btn-round fz-16 ms-3 p-0"
           type="button"
           v-if="isActive"
-          v-tooltip="{title: 'Сбросить фильтр', placement: 'right'}"
+          v-tooltip="{ title: 'Сбросить фильтр', placement: 'right' }"
           @click="reset"
         >
-          <svg class="icon icon-x-circle">
-            <use xlink:href="#x-circle"></use>
+          <svg class="icon icon-x">
+            <use xlink:href="#x"></use>
           </svg>
         </button>
       </div>

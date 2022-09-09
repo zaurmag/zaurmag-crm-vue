@@ -1,6 +1,6 @@
 <template>
   <div :class="['select', {'is-open': isOpen}, classList]">
-    <div class="select__text" @click="toggle" ref="selectText">
+    <div class="select__text btn btn-light" @click="toggle" ref="selectText">
       {{ text }}
     </div>
     <div class="select__dropdown">
@@ -84,7 +84,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

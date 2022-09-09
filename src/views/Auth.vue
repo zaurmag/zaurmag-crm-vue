@@ -1,11 +1,10 @@
 <template>
-  <header class="card-header text-center">
-    <h1 class="h3 mb-0">Авторизация</h1>
-  </header>
-  <div class="card-body p-lg-30">
+  <div class="card-body p-lg-40">
+    <h1 class="h4 text-center mb-25">Авторизация</h1>
     <auth-form />
     <div class="text-secondary fz-14 mt-4 text-center">
-      <router-link class="text-decoration-none" to="/sign-up">Зарегистрируйтесь</router-link>, если у вас нет еще учетной записи.
+      <router-link class="text-decoration-none" to="/sign-up">Зарегистрируйтесь</router-link>,
+      если нет учетной записи.
     </div>
   </div>
 </template>
@@ -51,5 +50,3 @@ export default {
   }
 }
 </script>
-
-<style scoped></style>

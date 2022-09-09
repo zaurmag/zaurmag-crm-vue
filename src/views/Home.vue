@@ -1,11 +1,11 @@
 <template>
   <app-page title="Главная панель">
     <template #header>
-      <button class="main__add-btn btn btn-primary px-md-3 ms-auto" type="button" @click="openModal">
-        <span class="d-sm-inline d-none">Добавить запись</span>
+      <button class="main__add-btn btn btn-primary shadow-sm-soft" type="button" @click="openModal">
         <svg class="icon icon-pencil-square me-sm-2">
           <use xlink:href="#pencil-square"></use>
         </svg>
+        <span class="d-sm-inline d-none">Добавить запись</span>
       </button>
     </template>
 
@@ -16,39 +16,22 @@
 
       <template #header>
         <div class="row align-items-center">
-          <div class="col-xxl mb-2 mb-xxl-0 d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
-              <h5 class="h6 mb-0 card-header-title">Проекты</h5>
-
-              <template v-if="checkboxes.length">
-                <div class="text-secondary fz-14 ms-3">Отмечено: {{ checkboxes.length }}</div>
-                <button class="btn btn-outline-danger btn-sm ms-2" type="button" @click="removeAll">
-                  <svg class="icon icon-trash me-1">
-                    <use xlink:href="#trash"></use>
-                  </svg>
-                  Удалить
-                </button>
-              </template>
-            </div>
-            <button
-              class="btn btn-light d-xl-none"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#filter"
-              aria-expanded="false"
-            >
-              <svg class="icon icon-sliders">
-                <use xlink:href="#sliders"></use>
-              </svg>
-            </button>
+          <div class="col-xxl mb-0 mb-xl-2 mb-xxl-0 d-flex align-items-center justify-content-between">
+            <project-list-header
+              :checkboxes="checkboxes"
+              @remove="removeAll"
+            />
           </div>
+
           <div class="col-xxl-auto collapse d-xl-block" id="filter">
             <project-filter v-model="filter" />
           </div>
         </div>
       </template>
 
-      <project-list :projects="paginateProducts" @selected="selectChbx" />
+      <template #append>
+        <project-list :projects="paginateProducts" @selected="selectChbx" />
+      </template>
 
       <template #footer>
         <app-pagination
@@ -86,6 +69,7 @@ import AppConfirm from '@/components/ui/AppConfirm'
 import AppPagination from '@/components/ui/AppPagination'
 import AppPage from '@/components/ui/AppPage'
 import ProjectList from '@/components/project/ProjectList'
+import ProjectListHeader from '@/components/project/ProjectListHeader'
 import ProjectFilter from '@/components/project/ProjectFilter'
 import ProjectReport from '@/components/project/ProjectReport'
 import ProjectForm from '@/components/project/ProjectForm'
@@ -177,6 +161,7 @@ export default {
   components: {
     AppPage,
     ProjectList,
+    ProjectListHeader,
     AppPagination,
     ProjectFilter,
     ProjectReport,

@@ -2,28 +2,41 @@
   <app-loader v-if="loader" />
   <template v-else-if="project">
     <the-breadcrumb :current="project.title" />
+
     <app-page :title="project.title">
-      <div class="card shadow-sm">
-        <div class="card-body p-30">
-          <div class="row">
+      <app-card>
+        <template #append>
+          <div class="p-sm-30 p-20">
+            <div class="row">
             <div class="col-md-6">
-              <div class="text-secondary fz-14">
+              <div class="text-secondary fz-16">
                 <time class="d-block mb-3">Дата: <span class="fw-medium">{{ project.date }}</span></time>
                 <div class="mb-3">Сумма: <span class="fw-medium">{{ $currency(project.amount) }}</span></div>
-                <div class="mb-3 d-flex align-items-center"><span class="me-2">Тип операции:</span><app-type :type="project.type" /></div>
+                <div class="mb-4 d-flex align-items-center"><span class="me-2">Тип операции:</span><app-type :type="project.type" /></div>
                 <div class="mb-3">
-                  <h6 class="mb-2">Описание:</h6>
+                  <h5 class="mb-2">Описание:</h5>
                   <p>{{ project.desc }}</p>
                 </div>
               </div>
               <div class="d-flex">
-                <button class="btn btn-success btn-sm px-3" type="button" @click="editBtn">Редактировать</button>
-                <button class="btn btn-danger btn-sm px-3 ms-2" type="button" @click="removeBtn">Удалить</button>
+                <button class="btn btn-primary py-2" type="button" @click="editBtn">
+                  <svg class="icon me-2">
+                    <use xlink:href="#pencil"></use>
+                  </svg>
+                  Редактировать
+                </button>
+                <button class="btn btn-danger py-2 ms-2" type="button" @click="removeBtn">
+                  <svg class="icon me-2">
+                    <use xlink:href="#trash"></use>
+                  </svg>
+                  Удалить
+                </button>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+          </div>
+        </template>
+      </app-card>
     </app-page>
   </template>
 
@@ -46,12 +59,13 @@
 </template>
 
 <script>
+import AppCard from '@/components/ui/AppCard'
 import AppType from '@/components/ui/AppType'
 import AppPage from '@/components/ui/AppPage'
 import AppLoader from '@/components/ui/AppLoader'
 import AppModal from '@/components/ui/AppModal'
 import AppConfirm from '@/components/ui/AppConfirm'
-import TheBreadcrumb from '@/components/ui/TheBreadcrumb'
+import TheBreadcrumb from '@/components/AppBreadcrumb'
 import ProjectForm from '@/components/project/ProjectForm'
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
@@ -108,6 +122,7 @@ export default {
     }
   },
   components: {
+    AppCard,
     AppPage,
     AppType,
     TheBreadcrumb,

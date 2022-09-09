@@ -1,29 +1,19 @@
 <template>
   <header class="header sticky-top">
     <div class="header__left d-flex align-items-center">
-      <a class="header__sb-collapse" href="#" v-tooltip="{title: tooltipTlt, placement: 'right'}" @click.prevent="$emit('toggle')">
-        <svg class="icon icon-arrow-bar-left">
-          <use xlink:href="#arrow-bar-left"></use>
-        </svg>
-        <svg class="icon icon-arrow-bar-right">
-          <use xlink:href="#arrow-bar-right"></use>
-        </svg>
-      </a>
-      <div class="text-secondary small ms-lg-40 ms-15">{{ $dateF(date, {format: 'datetime', month: 'long'}) }}</div>
+      <div class="text-secondary">{{ $dateF(date, {format: 'datetime', month: 'long'}) }}</div>
     </div>
-    <div class="header__right py-0" v-if="user">
+    <div class="header__right" v-if="user">
       <div class="header__user-dropdown dropdown">
-        <a class="dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">
-          <span class="me-1">
-            <img class="header__user-drp-img img-fluid d-block" src="/images/zaurmag.png" alt="Заур">
-            <span
-              class="badge d-block fz-10 fw-normal"
-              :class="user.info.role === 'admin' ? 'bg-danger' : 'bg-success'"
-            >{{ user.info.role === 'admin' ? 'Admin' : 'User' }}</span>
-          </span>
-          {{ user.name }}
-        </a>
-        <ul class="dropdown-menu shadow">
+        <button
+          class="dropdown-toggle btn"
+          type="button"
+          data-bs-toggle="dropdown"
+        >
+          <img class="rounded-circle img-fluid me-2" src="/images/zaurmag.png" width="32" :alt="user.name" />
+          {{ user.info.name }}
+        </button>
+        <ul class="dropdown-menu shadow-sm-soft">
           <li><router-link class="dropdown-item" to="/profile">Мой профиль</router-link></li>
           <li><a class="dropdown-item" href="#" @click.prevent="logout">Выход</a></li>
         </ul>
