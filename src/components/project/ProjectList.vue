@@ -1,20 +1,22 @@
 <template>
   <div class="table-responsive">
-    <table v-if="projects && projects.length" class="table align-middle table-borderless table-nowrap">
+    <table v-if="projects && projects.length" class="table align-middle table-borderless card-table mb-0">
       <thead class="table-light">
         <tr>
-          <th>
-            <input
-              class="form-check-input float-none"
-              type="checkbox"
-              v-model="allCheckbox"
-            >
+          <th class="table-cell-check">
+            <div class="form-check">
+              <input
+                class="form-check-input float-none"
+                type="checkbox"
+                v-model="allCheckbox"
+              >
+            </div>
           </th>
           <th>#</th>
           <th>Наименование</th>
           <th>Дата</th>
           <th class="no-wrap">Описание</th>
-          <th>Тип операции</th>
+          <th class="no-wrap">Тип операции</th>
           <th>Сумма</th>
           <th>Действие</th>
         </tr>
@@ -22,24 +24,40 @@
       <tbody>
         <tr v-for="(project, index) in projects" :key="project.id">
           <td>
-            <input
-              class="form-check-input float-none"
-              type="checkbox"
-              v-model="checkbox"
-              :value="project.id"
-            >
+            <div class="form-check">
+              <input
+                class="form-check-input float-none"
+                type="checkbox"
+                v-model="checkbox"
+                :value="project.id"
+              >
+            </div>
           </td>
           <td>{{ index + 1 }}</td>
-          <td><router-link class="fw-medium link-dark text-decoration-none" :to="{name: 'Project', params: { id: project.id }}">{{ project.title }}</router-link></td>
-          <td>{{ $dateF(project.date) }}</td>
-          <td class="no-wrap" style="min-width: 380px">{{ project.desc }}</td>
-          <td>
-            <app-type :type="project.type" />
+          <td style="min-width: 215px">
+            <router-link
+              class="table-cell-title-link is-transition"
+              :to="{name: 'Project', params: { id: project.id }}"
+            >
+              {{ project.title }}
+            </router-link>
           </td>
+          <td>{{ $dateF(project.date) }}</td>
+          <td style="min-width: 380px">{{ project.desc }}</td>
+          <td><app-type :type="project.type" /></td>
           <td>{{ $currency(project.amount) }}</td>
-          <td>
-            <button class="btn btn-outline-primary btn-sm py-1 fz-12" type="button" @click="$router.push(`/project/${project.id}`)">Открыть</button>
-            <button class="btn btn-sm text-danger ms-2 fz-16 p-0" type="button" title="Удалить" v-tooltip="{title: 'Удалить'}" @click="remove(project.id)">
+          <td style="min-width: 140px">
+            <button
+              class="btn btn-outline-primary btn-sm py-1 fz-12"
+              type="button"
+              @click="$router.push(`/project/${project.id}`)"
+            >Открыть</button>
+            <button
+              class="btn text-danger ms-1 fz-16 p-1"
+              type="button"
+              v-tooltip="{ title: 'Удалить' }"
+              @click="remove(project.id)"
+            >
               <svg class="icon icon-trash">
                 <use xlink:href="#trash"></use>
               </svg>
