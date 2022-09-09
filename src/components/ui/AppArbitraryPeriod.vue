@@ -1,10 +1,15 @@
 <template>
   <div class="dropdown">
-    <a
-      href="#"
-      class="dropdown-toggle btn btn-outline-secondary px-3 btn-sm"
+    <button
+      class="btn btn-light"
+      type="button"
       data-bs-toggle="dropdown"
-    >{{ text }}</a>
+    >
+      <svg class="icon icon-calendar3">
+        <use xlink:href="#calendar3"></use>
+      </svg>
+      <span class="ms-2">{{ text }}</span>
+    </button>
 
     <div class="dropdown-menu p-3">
       <div class="col-sm col-md-auto d-flex align-items-center">
@@ -96,7 +101,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>
