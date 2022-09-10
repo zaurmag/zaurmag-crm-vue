@@ -24,7 +24,8 @@ export default {
     }
   },
   setup (props) {
-    document.title = `${props.title} | Система подсчета доходов/расходов`
+    const title = props.title ? props.title + ' |' : ''
+    document.title = `${title} Система подсчета доходов/расходов`
   }
 }
 </script>
