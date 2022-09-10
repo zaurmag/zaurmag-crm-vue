@@ -14,7 +14,7 @@
           {{ user.info.name }}
         </button>
         <ul class="dropdown-menu shadow-sm-soft">
-          <li><router-link class="dropdown-item" to="/profile">Мой профиль</router-link></li>
+          <li><router-link class="dropdown-item" :to="{name: 'Profile', params: { id: user.id }}">Мой профиль</router-link></li>
           <li><a class="dropdown-item" href="#" @click.prevent="logout">Выход</a></li>
         </ul>
       </div>
