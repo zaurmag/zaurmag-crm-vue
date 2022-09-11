@@ -10,10 +10,6 @@
     </template>
 
     <AppCard :class-list="['mb-30']">
-      <template #prepend v-if="loader">
-        <app-loader />
-      </template>
-
       <template #header>
         <div class="row align-items-center">
           <div class="col-xxl mb-0 mb-xl-2 mb-xxl-0 d-flex align-items-center justify-content-between">
@@ -30,7 +26,12 @@
       </template>
 
       <template #append>
-        <project-list :projects="paginateProducts" @selected="selectChbx" />
+        <project-list
+          :projects="paginateProducts"
+          :loader="loader"
+          :pageSize="PAGE_SIZE.value"
+          @selected="selectChbx"
+        />
       </template>
 
       <template #footer>
@@ -63,7 +64,6 @@
 </template>
 
 <script>
-import AppLoader from '@/components/ui/AppLoader'
 import AppModal from '@/components/ui/AppModal'
 import AppConfirm from '@/components/ui/AppConfirm'
 import AppPagination from '@/components/ui/AppPagination'
@@ -168,7 +168,6 @@ export default {
     AppModal,
     AppConfirm,
     ProjectForm,
-    AppLoader,
     AppCard
   }
 }
