@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive">
-    <table v-if="projects && projects.length" class="table align-middle table-borderless card-table mb-0">
+    <table class="table align-middle table-borderless card-table mb-0">
       <thead class="table-light">
         <tr>
           <th class="table-cell-check">
@@ -21,52 +21,82 @@
           <th>Действие</th>
         </tr>
       </thead>
-      <tbody>
-        <tr v-for="(project, index) in projects" :key="project.id">
-          <td>
-            <div class="form-check">
-              <input
-                class="form-check-input float-none"
-                type="checkbox"
-                v-model="checkbox"
-                :value="project.id"
-              >
+
+      <tbody v-if="loader">
+        <tr>
+          <td colspan="8">
+            <div class="placeholder-glow px-3">
+              <div v-for="i in pageSize * 2" :key="i" class="row gx-2 mb-2">
+                <div
+                  v-for="n in 8"
+                  :key="n"
+                  :class="
+                n === 3 || n === 4
+                ? 'col-2'
+                : n === 5 ? 'col-3'
+                : 'col-1'
+              "
+                >
+                  <div class="placeholder placeholder w-100 d-block"></div>
+                </div>
+              </div>
             </div>
           </td>
-          <td>{{ index + 1 }}</td>
-          <td style="min-width: 215px">
-            <router-link
-              class="table-cell-title-link is-transition"
-              :to="{name: 'Project', params: { id: project.id }}"
-            >
-              {{ project.title }}
-            </router-link>
-          </td>
-          <td>{{ $dateF(project.date) }}</td>
-          <td style="min-width: 380px">{{ project.desc }}</td>
-          <td><app-type :type="project.type" /></td>
-          <td>{{ $currency(project.amount) }}</td>
-          <td style="min-width: 140px">
-            <button
-              class="btn btn-outline-primary btn-sm py-1 fz-12"
-              type="button"
-              @click="$router.push(`/project/${project.id}`)"
-            >Открыть</button>
-            <button
-              class="btn text-danger ms-1 fz-16 p-1"
-              type="button"
-              v-tooltip="{ title: 'Удалить' }"
-              @click="remove(project.id)"
-            >
-              <svg class="icon icon-trash">
-                <use xlink:href="#trash"></use>
-              </svg>
-            </button>
+        </tr>
+      </tbody>
+
+      <tbody v-else>
+        <template v-if="projects && projects.length">
+          <tr v-for="(project, index) in projects" :key="project.id">
+            <td>
+              <div class="form-check">
+                <input
+                  class="form-check-input float-none"
+                  type="checkbox"
+                  v-model="checkbox"
+                  :value="project.id"
+                >
+              </div>
+            </td>
+            <td>{{ index + 1 }}</td>
+            <td style="min-width: 215px">
+              <router-link
+                class="table-cell-title-link is-transition"
+                :to="{name: 'Project', params: { id: project.id }}"
+              >
+                {{ project.title }}
+              </router-link>
+            </td>
+            <td>{{ $dateF(project.date) }}</td>
+            <td style="min-width: 380px">{{ project.desc }}</td>
+            <td><app-type :type="project.type" /></td>
+            <td>{{ $currency(project.amount) }}</td>
+            <td style="min-width: 140px">
+              <button
+                class="btn btn-outline-primary btn-sm py-1 fz-12"
+                type="button"
+                @click="$router.push(`/project/${project.id}`)"
+              >Открыть</button>
+              <button
+                class="btn text-danger ms-1 fz-16 p-1"
+                type="button"
+                v-tooltip="{ title: 'Удалить' }"
+                @click="remove(project.id)"
+              >
+                <svg class="icon icon-trash">
+                  <use xlink:href="#trash"></use>
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </template>
+        <tr v-else>
+          <td colspan="8">
+            <p class="p-30 text-center text-dark">Записей пока нет.</p>
           </td>
         </tr>
       </tbody>
     </table>
-    <p class="p-30 text-center fz-14 text-dark" v-else-if="!loader">Записей пока нет.</p>
   </div>
 
   <teleport to="body">
@@ -90,7 +120,19 @@ export default {
   props: {
     projects: {
       type: Array,
+      required: true,
+      default () {
+        return []
+      }
+    },
+    loader: {
+      type: Boolean,
       required: true
+    },
+    pageSize: {
+      type: Number,
+      required: false,
+      default: 10
     }
   },
   emits: ['selected'],
@@ -116,7 +158,7 @@ export default {
     const allCheckbox = computed({
       get () {
         emit('selected', checkbox.value)
-        return checkbox.value.length === props.projects.length
+        return checkbox.value.length === props.projects.length && props.projects.length !== 0
       },
       set (val) {
         checkbox.value = val ? props.projects.map(n => n.id) : []

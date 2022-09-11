@@ -28,7 +28,7 @@ export default {
     if (route.query.message && !isAuth.value) {
       store.dispatch('setMessage', {
         value: error(route.query.message),
-        type: 'danger'
+        type: 'info'
       })
     }
 
