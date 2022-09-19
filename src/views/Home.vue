@@ -27,7 +27,7 @@
 
       <template #append>
         <project-list
-          :projects="paginateProducts"
+          :projects="paginateItems"
           :loader="loader"
           :pageSize="PAGE_SIZE.value"
           @selected="selectChbx"

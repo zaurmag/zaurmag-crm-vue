@@ -11,7 +11,7 @@ export function useProductPaginate (products, size) {
 
   onMounted(_setPage)
   watch(page, _setPage)
-  const paginateProducts = computed(() => {
+  const paginateItems = computed(() => {
     return chunk(products.value, size.value.value)[page.value - 1]
   })
   const changePageSize = value => {
@@ -20,7 +20,7 @@ export function useProductPaginate (products, size) {
 
   return {
     page,
-    paginateProducts,
+    paginateItems,
     changePageSize
   }
 }
