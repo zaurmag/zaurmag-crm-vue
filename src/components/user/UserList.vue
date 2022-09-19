@@ -1,0 +1,85 @@
+<template>
+  <div v-if="users && users.length" class="table-responsive">
+    <table class="table align-middle table-borderless card-table mb-0">
+      <thead class="table-light">
+      <tr>
+        <th class="table-cell-check">
+          <div class="form-check">
+            <input class="form-check-input float-none" type="checkbox" v-model="allCheckbox">
+          </div>
+        </th>
+        <th>#</th>
+        <th>ФИО</th>
+        <th>Дата регистрации</th>
+        <th class="no-wrap">Статус</th>
+        <th class="no-wrap">Роль</th>
+        <th style="width: 40px">Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="(user, idx) in users" :key="user.id">
+        <td>
+          <div class="form-check">
+            <input
+              class="form-check-input float-none"
+              type="checkbox"
+              v-model="checkbox"
+              :value="user.id"
+            >
+          </div>
+        </td>
+        <td>{{ idx + 1 }}</td>
+        <td style="min-width: 215px">
+          <div class="d-flex align-items-center">
+            <img class="img-thumbnail rounded-circle me-3" :src="user.imgUrl" width="40" alt="" />
+            <a class="table-cell-title-link is-transition" href="#">{{ user.name }}</a>
+          </div>
+        </td>
+        <td>{{ $dateF(user.dateRegister, { month: 'long' }) }}</td>
+        <td>
+          <app-indicator :classList="user.status ? 'bg-success me-2' : 'bg-secondary me-2'" />
+          {{ user.status ? 'Активен' : 'Не активен' }}
+        </td>
+        <td>{{ user.role }}</td>
+        <td style="min-width: 140px">
+          <button class="btn btn-light fz-12 px-2" type="button">
+            <svg class="icon icon-pencil">
+              <use xlink:href="#pencil"></use>
+            </svg>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div v-else class="card-body">
+    <p class="m-0 text-secondary text-center">Нет пользователей для отображения.</p>
+  </div>
+</template>
+
+<script setup>
+import AppIndicator from '@/components/ui/AppIndicator'
+import { defineProps, computed, defineEmits, ref } from 'vue'
+
+const emit = defineEmits(['selected'])
+const props = defineProps({
+  users: {
+    type: Array,
+    required: true,
+    default () {
+      return []
+    }
+  }
+})
+
+const checkbox = ref([])
+const allCheckbox = computed({
+  get () {
+    emit('selected', checkbox.value)
+    return checkbox.value.length === props.users.length && props.users.length !== 0
+  },
+  set (val) {
+    checkbox.value = val ? props.users.map(n => n.id) : []
+  }
+})
+</script>

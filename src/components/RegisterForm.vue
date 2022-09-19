@@ -45,7 +45,8 @@ import togglePassword from '@/utils/toggle-password'
 
 export default {
   name: 'RegisterForm',
-  setup () {
+  emits: ['complete'],
+  setup (_, { emit }) {
     const togglePass = ref(null)
     const togglePass2 = ref(null)
 
@@ -55,14 +56,10 @@ export default {
     })
 
     return {
-      ...useRegisterForm(),
+      ...useRegisterForm(emit),
       togglePass,
       togglePass2
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
