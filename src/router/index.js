@@ -54,6 +54,15 @@ const routes = [
       layout: 'main',
       auth: true
     }
+  },
+  {
+    path: '/dbreplacer',
+    name: 'dbreplacer',
+    component: () => import('../views/DbReplacer'),
+    meta: {
+      layout: 'main',
+      auth: true
+    }
   }
 ]
 

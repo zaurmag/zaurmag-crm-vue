@@ -68,7 +68,7 @@ export function useRegisterForm (emit) {
         return
       }
       loading.value = true
-      await store.dispatch('auth/signUp', {
+      await store.dispatch('users/signUp', {
         name: values.name,
         email: values.email,
         password: values.password

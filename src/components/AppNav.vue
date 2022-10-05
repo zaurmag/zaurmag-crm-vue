@@ -9,12 +9,20 @@
           <span class="nav-text">Главная</span>
         </router-link>
       </li>
-      <li class="nav-item" v-if="admin">
+      <li class="nav-item" v-if="isAdmin">
         <router-link class="nav-link" to="/users">
           <svg class="icon icon-people">
             <use xlink:href="#people"></use>
           </svg>
           <span class="nav-text">Пользователи</span>
+        </router-link>
+      </li>
+      <li class="nav-item" v-if="isAdmin">
+        <router-link class="nav-link" to="/dbreplacer">
+          <svg class="icon icon-people">
+            <use xlink:href="#people"></use>
+          </svg>
+          <span class="nav-text">Рефактор БД</span>
         </router-link>
       </li>
     </ul>
@@ -25,5 +33,5 @@
 import { useStore } from 'vuex'
 
 const store = useStore()
-const admin = store.getters['auth/isAdmin']
+const isAdmin = store.getters['users/isAdmin']
 </script>

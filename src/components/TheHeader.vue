@@ -10,7 +10,7 @@
           type="button"
           data-bs-toggle="dropdown"
         >
-          <img class="rounded-circle img-fluid me-2" src="/images/zaurmag.png" width="32" :alt="user.name" />
+          <img class="rounded-circle img-fluid me-2" src="/images/zaurmag.png" width="32" :alt="user.info.name" />
           {{ user.info.name }}
         </button>
         <ul class="dropdown-menu shadow-sm-soft">
@@ -48,19 +48,15 @@ export default {
     })
 
     const logout = () => {
-      store.commit('auth/logout')
+      store.dispatch('auth/logout')
       router.push('/sign-in?message=auth')
     }
 
     return {
       date,
       logout,
-      user: computed(() => store.getters['auth/user'])
+      user: computed(() => store.getters['users/user'])
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
