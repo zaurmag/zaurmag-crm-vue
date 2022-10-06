@@ -70,10 +70,10 @@ import UserList from '@/components/user/UserList'
 import RegisterForm from '@/components/RegisterForm'
 import AppPagination from '@/components/ui/AppPagination'
 import { useProductPaginate } from '@/use/product-paginate'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 
-// const users = computed(() => store.getters['users/users'])
+const users = computed(() => store.getters['users/users'])
 
 const store = useStore()
 const modal = ref(false)
@@ -104,56 +104,56 @@ const removeAllConfirm = async () => {
 }
 
 // Mock users
-const users = ref([
-  {
-    id: 1,
-    name: 'Заур',
-    imgUrl: '/images/zaurmag.png',
-    email: 'zaurmag@gmail.com',
-    phone: '+79064495544',
-    city: 'Каспийск',
-    desc: 'Текст описания...',
-    dateRegister: '2022-05-10',
-    role: 'admin',
-    status: 1
-  },
-  {
-    id: 2,
-    name: 'Хаджи-Мустафа',
-    imgUrl: '/images/zaurmag.png',
-    email: 'hadj-m@gmail.com',
-    phone: '+9069999999',
-    city: 'Ново-Габцах',
-    desc: 'Текст описания...',
-    dateRegister: '2022-07-15',
-    role: 'user',
-    status: 1
-  },
-  {
-    id: 3,
-    name: 'Кистаман',
-    imgUrl: '/images/zaurmag.png',
-    email: 'kisya@gmail.com',
-    phone: '+9039999999',
-    city: 'Дербент',
-    desc: 'Текст описания...',
-    dateRegister: '2022-08-20',
-    role: 'user',
-    status: 0
-  },
-  {
-    id: 4,
-    name: 'Фатима',
-    imgUrl: '/images/zaurmag.png',
-    email: 'fatimamag8422@gmail.com',
-    phone: '+9064828422',
-    city: 'Каспийск',
-    desc: 'Текст описания...',
-    dateRegister: '2022-05-20',
-    role: 'user',
-    status: 1
-  }
-])
+// const users = ref([
+//   {
+//     id: 1,
+//     name: 'Заур',
+//     imgUrl: '/images/zaurmag.png',
+//     email: 'zaurmag@gmail.com',
+//     phone: '+79064495544',
+//     city: 'Каспийск',
+//     desc: 'Текст описания...',
+//     dateRegister: '2022-05-10',
+//     role: 'admin',
+//     status: 1
+//   },
+//   {
+//     id: 2,
+//     name: 'Хаджи-Мустафа',
+//     imgUrl: '/images/zaurmag.png',
+//     email: 'hadj-m@gmail.com',
+//     phone: '+9069999999',
+//     city: 'Ново-Габцах',
+//     desc: 'Текст описания...',
+//     dateRegister: '2022-07-15',
+//     role: 'user',
+//     status: 1
+//   },
+//   {
+//     id: 3,
+//     name: 'Кистаман',
+//     imgUrl: '/images/zaurmag.png',
+//     email: 'kisya@gmail.com',
+//     phone: '+9039999999',
+//     city: 'Дербент',
+//     desc: 'Текст описания...',
+//     dateRegister: '2022-08-20',
+//     role: 'user',
+//     status: 0
+//   },
+//   {
+//     id: 4,
+//     name: 'Фатима',
+//     imgUrl: '/images/zaurmag.png',
+//     email: 'fatimamag8422@gmail.com',
+//     phone: '+9064828422',
+//     city: 'Каспийск',
+//     desc: 'Текст описания...',
+//     dateRegister: '2022-05-20',
+//     role: 'user',
+//     status: 1
+//   }
+// ])
 const { page, paginateItems, changePageSize } = useProductPaginate(users, PAGE_SIZE)
 
 onMounted(async () => {

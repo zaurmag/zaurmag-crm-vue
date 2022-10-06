@@ -77,6 +77,7 @@ export default {
     isUser: (_, getters) => !getters.isAdmin,
     isAdmin: state => state.user.role === 'admin',
     user: state => state.user,
-    userID: (_, getters) => getters.user.id
+    userID: (_, getters) => getters.user.id,
+    userById: (state, getters) => id => getters.users.find(user => user.id === id)
   }
 }
