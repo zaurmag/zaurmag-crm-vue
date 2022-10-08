@@ -1,19 +1,7 @@
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useStore } from 'vuex'
-
-function _formatDate (date) {
-  let dd = date.getDate()
-  if (dd < 10) dd = '0' + dd
-
-  let mm = date.getMonth() + 1
-  if (mm < 10) mm = '0' + mm
-
-  let yy = date.getFullYear()
-  if (yy < 10) yy = '0' + yy
-
-  return yy + '-' + mm + '-' + dd
-}
+import { dateF } from '@/utils/date'
 
 export function useProjectForm (emit, initialValues) {
   const store = useStore()
@@ -28,7 +16,7 @@ export function useProjectForm (emit, initialValues) {
   )
 
   if (!initialValues) {
-    setFieldValue('date', _formatDate(new Date()))
+    setFieldValue('date', dateF(new Date(), { locale: 'sv-SE' }))
   }
 
   // Title
