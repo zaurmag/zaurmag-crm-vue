@@ -66,10 +66,16 @@
               <label class="form-label">О себе</label>
               <textarea class="form-control py-2 d-none" cols="10" rows="5"></textarea>
               <div class="w-editor">
-                <div class="w-editor__container" id="editor">
-                  {{ user.description }}
+                <div class="w-editor__container ql-container ql-snow">
+                  <quill-editor
+                    theme="snow"
+                    toolbar="minimal"
+                    contentType="html"
+                    v-model:content="user.description"
+                    placeholder="Напишите кратко о себе"
+                  />
+                  </div>
                 </div>
-              </div>
             </div>
             <button class="btn btn-primary py-2 px-3" type="submit">Сохранить</button>
           </form>
