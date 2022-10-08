@@ -47,6 +47,15 @@ const routes = [
     }
   },
   {
+    path: '/edit-profile/:id',
+    name: 'EditProfile',
+    component: () => import('../views/EditProfile.vue'),
+    meta: {
+      layout: 'main',
+      auth: true
+    }
+  },
+  {
     path: '/users',
     name: 'users',
     component: () => import('../views/Users.vue'),

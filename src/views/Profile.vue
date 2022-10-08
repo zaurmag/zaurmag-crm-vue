@@ -1,22 +1,22 @@
 <template>
   <app-breadcrumb current="Заур Магомедов" />
 
-  <app-page v-if="user" :title="`Профиль пользователя ${user.name}`">
+  <app-page v-if="user">
     <div class="row justify-content-center">
       <div class="col-xxl-10">
         <div class="profile">
-          <header class="profile__header" style="background-image: url('/images/profile/header.jpg')">
+          <header class="profile__header" :style="`background-image: url(${user.profileHeader})`">
             <div class="profile__edit">
-              <a class="btn btn-light py-2" href="/edit-profile.html">
+              <router-link class="btn btn-light py-2" :to="`/edit-profile/${user.id}`">
                 <svg class="icon icon-pencil-square me-lg-2">
                   <use xlink:href="#pencil-square"></use>
                 </svg>
                 <span class="d-none d-lg-inline">Редактировать</span>
-              </a>
+              </router-link>
             </div>
             <div class="profile__short-info">
               <div class="profile__avatar">
-                <img class="profile__avatar-img" src="/images/zaurmag.png" alt="Заур Магомедов">
+                <img class="profile__avatar-img" :src="user.imgUrl" alt="Заур Магомедов">
                 <app-indicator size="xl" classList="profile__avatar-indicator bg-success" />
               </div>
               <h2 class="h5 profile__name">{{ user.name }}</h2>
@@ -31,13 +31,13 @@
                       <svg class="icon icon-building">
                         <use xlink:href="#building"></use>
                       </svg>
-                      г. Каспийск, рес. Дагестан
+                      {{ user.address }}
                     </li>
                     <li class="profile__contact-item">
                       <svg class="icon icon-phone">
                         <use xlink:href="#phone"></use>
                       </svg>
-                      <a class="is-transition" href="tel:+79064495544">+ 7 (906) 449-55-44</a>
+                      <a class="is-transition" :href="`tel:${user.phone}`">{{ user.phone }}</a>
                     </li>
                     <li class="profile__contact-item">
                       <svg class="icon icon-envelope">
@@ -50,8 +50,7 @@
               </div>
               <div class="col-xl-8 col-md-7">
                 <app-card title="О себе" classList="h-100">
-                  <p>Я программист - фронтенд-разработчик. Работаю удаленно в IT-компании. Постоянно учусь и развиваюсь в своей сфере. Здесь без этого нельзя. Веду свой блог <a href="https://zaurmag.ru" target="_blank">zaurmag.ru</a>.</p>
-                  <p>Женат, имею троих детей - девочки. Все они школьники.</p>
+                  <div v-html="user.description" />
                 </app-card>
               </div>
             </div>
