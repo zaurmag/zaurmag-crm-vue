@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: 'Card',
+  name: 'AppCard',
   props: {
     title: {
       type: String,
@@ -34,7 +34,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

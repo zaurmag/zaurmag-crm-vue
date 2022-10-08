@@ -11,6 +11,7 @@
               <span class="d-none d-lg-inline">Загрузить картинку</span>
             </button>
           </template>
+
           <template #headerShortInfo>
             <div class="profile__avatar">
               <img class="profile__avatar-img" :src="user.imgUrl" :alt="user.name" />
@@ -66,7 +67,7 @@
               <label class="form-label">О себе</label>
               <textarea class="form-control py-2 d-none" cols="10" rows="5"></textarea>
               <div class="w-editor">
-                <div class="w-editor__container ql-container ql-snow">
+                <div class="w-editor__container">
                   <quill-editor
                     theme="snow"
                     toolbar="minimal"
@@ -86,10 +87,7 @@
 </template>
 
 <script setup>
-import AppPage from '../components/ui/AppPage.vue'
-import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 import TheProfile from '@/components/profile/TheProfile'
-import AppIcon from '@/components/ui/AppIcon'
 import { getUser } from '@/use/user'
 const user = getUser()
 </script>

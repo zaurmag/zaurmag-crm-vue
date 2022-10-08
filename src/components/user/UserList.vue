@@ -43,9 +43,7 @@
         <td>{{ user.role }}</td>
         <td style="min-width: 140px">
           <button class="btn btn-light fz-12 px-2" type="button">
-            <svg class="icon icon-pencil">
-              <use xlink:href="#pencil"></use>
-            </svg>
+            <app-icon name="pencil" />
           </button>
         </td>
       </tr>
@@ -58,7 +56,6 @@
 </template>
 
 <script setup>
-import AppIndicator from '@/components/ui/AppIndicator'
 import { defineProps, computed, defineEmits, ref } from 'vue'
 
 const emit = defineEmits(['selected'])
