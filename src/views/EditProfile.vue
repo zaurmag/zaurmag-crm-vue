@@ -1,32 +1,26 @@
 <template>
-  <app-breadcrumb current="Пользователи" />
+  <app-breadcrumb v-if="user" :current="`Редактирование профиля ${user.name}`" />
 
   <app-page v-if="user">
     <div class="row justify-content-center">
       <div class="col-xxl-10">
-      <div class="profile">
-        <header class="profile__header" :style="`background-image: url(${user.profileHeader})`">
-          <div class="profile__edit">
+        <the-profile :headerImg="user.profileHeader">
+          <template #headerEdit>
             <button class="btn btn-light py-2" type="button" data-bs-toggle="modal" data-bs-target="#uploadFile">
-              <svg class="icon icon-image me-lg-2">
-                <use xlink:href="#image"></use>
-              </svg>
+              <app-icon name="image" classList="me-lg-2" />
               <span class="d-none d-lg-inline">Загрузить картинку</span>
             </button>
-          </div>
-          <div class="profile__short-info">
+          </template>
+          <template #headerShortInfo>
             <div class="profile__avatar">
               <img class="profile__avatar-img" :src="user.imgUrl" :alt="user.name" />
               <button class="btn btn-light rounded-circle profile__avatar-edit" type="button" data-bs-toggle="modal" data-bs-target="#uploadFile">
-                <svg class="icon icon-pencil">
-                  <use xlink:href="#pencil"></use>
-                </svg>
+                <app-icon name="pencil" />
               </button>
             </div>
             <h2 class="h5 profile__name">{{ user.name }}</h2>
-          </div>
-        </header>
-        <div class="profile__content">
+          </template>
+
           <form>
             <div class="row gy-25 gy-lg-0">
               <div class="col-md-6">
@@ -79,8 +73,7 @@
             </div>
             <button class="btn btn-primary py-2 px-3" type="submit">Сохранить</button>
           </form>
-        </div>
-      </div>
+        </the-profile>
     </div>
     </div>
   </app-page>
@@ -89,14 +82,8 @@
 <script setup>
 import AppPage from '../components/ui/AppPage.vue'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
-import { onMounted, computed } from 'vue'
-import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
-
-const route = useRoute()
-const store = useStore()
-const user = computed(() => store.getters['users/userById'](route.params.id))
-onMounted(async () => {
-  await store.dispatch('users/load')
-})
+import TheProfile from '@/components/profile/TheProfile'
+import AppIcon from '@/components/ui/AppIcon'
+import { getUser } from '@/use/user'
+const user = getUser()
 </script>
