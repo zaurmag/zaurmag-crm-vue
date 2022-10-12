@@ -1,26 +1,47 @@
 import axios from '@/axios/dbase'
 import { transform } from '@/utils/transform'
 import { error } from '@/utils/error'
-const USER_KEY = 'crm-user'
+import { dateF } from '@/utils/date'
+const USER_CURRENT_KEY = 'crm-current-user'
+const USERS_KEY = 'crm-users'
 
 export default {
   namespaced: true,
   state () {
     return {
-      user: JSON.parse(localStorage.getItem(USER_KEY)) ?? {},
-      users: []
+      currentUser: JSON.parse(localStorage.getItem(USER_CURRENT_KEY)) ?? {},
+      users: JSON.parse(localStorage.getItem(USERS_KEY)) ?? []
     }
   },
   mutations: {
     setUsers (state, users) {
       state.users = users
+      localStorage.setItem(USERS_KEY, JSON.stringify(users))
     },
     setUser (state, user) {
-      state.user = user
-      localStorage.setItem(USER_KEY, JSON.stringify(user))
+      state.currentUser = user
+      localStorage.setItem(USER_CURRENT_KEY, JSON.stringify(user))
+    },
+    updateCurrentUser (state, data) {
+      const user = JSON.parse(localStorage.getItem(USER_CURRENT_KEY))
+
+      state.currentUser = {
+        ...user,
+        ...data
+      }
+    },
+    setUserById (state, data) {
+      const user = state.users.find(user => user.id === data.id)
+      const idx = state.users.findIndex(u => u.id === data.id)
+      state.users[idx] = {
+        ...user,
+        ...data
+      }
+      localStorage.setItem(USERS_KEY, JSON.stringify(state.users))
     },
     logout (state) {
-      state.user = {}
+      state.currentUser = {}
+      state.users = []
     }
   },
   actions: {
@@ -53,12 +74,27 @@ export default {
       const { data } = await axios.put(`/users/${localId}.json`, {
         name,
         email,
+        dateRegister: dateF(new Date(), { locale: 'sv-SE' }),
         role: 'user'
       })
       commit('setUser', { ...data, id: localId })
       dispatch(
         'setMessage',
         { value: 'Регистрация прошла успешно', type: 'success' },
+        { root: true }
+      )
+    },
+    async update ({ commit, dispatch, getters }, payload) {
+      const { data } = await axios.patch(`/users/${payload.id}.json`, payload)
+      if (payload.id === getters.user.id) {
+        commit('updateCurrentUser', data)
+        commit('setUserById', data)
+      } else {
+        commit('setUserById', data)
+      }
+      dispatch(
+        'setMessage',
+        { value: 'Информация успешно обновлена!', type: 'success' },
         { root: true }
       )
     },
@@ -75,8 +111,8 @@ export default {
   getters: {
     users: state => state.users,
     isUser: (_, getters) => !getters.isAdmin,
-    isAdmin: state => state.user.role === 'admin',
-    user: state => state.user,
+    isAdmin: state => state.currentUser.role === 'admin',
+    user: state => state.currentUser,
     userID: (_, getters) => getters.user.id,
     userById: (state, getters) => id => getters.users.find(user => user.id === id)
   }

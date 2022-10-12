@@ -22,7 +22,7 @@
             <h2 class="h5 profile__name">{{ user.name }}</h2>
           </template>
 
-          <form>
+          <form action="#" @submit.prevent="onSubmit">
             <div class="row gy-25 gy-lg-0">
               <div class="col-md-6">
                 <div class="card shadow-sm-soft h-100">
@@ -32,15 +32,36 @@
                   <div class="card-body">
                     <div class="mb-3">
                       <label class="form-label" for="name">Имя</label>
-                      <input class="form-control py-2" id="name" type="text" value="Заур Магомедов">
+                      <input
+                        :class="['form-control', 'py-2', {'is-invalid': nError}]"
+                        id="name"
+                        type="text"
+                        v-model="name"
+                        @blur="nBlur"
+                      >
+                      <div class="invalid-feedback d-block fz-12" v-if="nError">{{ nError }}</div>
                     </div>
                     <div class="mb-3">
                       <label class="form-label" for="email">E-mail</label>
-                      <input class="form-control py-2" id="email" type="email" value="demo@zaurmag.ru">
+                      <input
+                        :class="['form-control', 'py-2', {'is-invalid': eError}]"
+                        id="email"
+                        type="email"
+                        v-model="email"
+                        @blur="eBlur"
+                      >
+                      <div class="invalid-feedback d-block fz-12" v-if="eError">{{ eError }}</div>
                     </div>
                     <div class="mb-3">
                       <label class="form-label" for="phone">Телефон</label>
-                      <input class="form-control py-2" id="phone" type="text" value="+7 (906) 449-55-44">
+                      <input
+                        :class="['form-control', 'py-2', {'is-invalid': pnError}]"
+                        id="phone"
+                        type="text"
+                        v-model="phone"
+                        @blur="pnBlur"
+                      >
+                      <div class="invalid-feedback d-block fz-12" v-if="pnError">{{ pnError }}</div>
                     </div>
                   </div>
                 </div>
@@ -65,20 +86,28 @@
             </div>
             <div class="my-4">
               <label class="form-label">О себе</label>
-              <textarea class="form-control py-2 d-none" cols="10" rows="5"></textarea>
+              <textarea class="form-control py-2 d-none" v-model="description" cols="10" rows="5"></textarea>
               <div class="w-editor">
                 <div class="w-editor__container">
                   <quill-editor
                     theme="snow"
                     toolbar="minimal"
                     contentType="html"
-                    v-model:content="user.description"
+                    v-model:content="description"
                     placeholder="Напишите кратко о себе"
                   />
                   </div>
                 </div>
             </div>
-            <button class="btn btn-primary py-2 px-3" type="submit">Сохранить</button>
+            <div class="progress h-auto d-inline-block">
+              <button
+                class="btn btn-primary py-2 px-3"
+                :class="{ 'progress-bar progress-bar-striped progress-bar-animated': isSubmitting }"
+                type="submit"
+                :disabled="isToManyAttempts"
+              >Сохранить</button>
+            </div>
+            <div class="invalid-feedback d-block fz-12" v-if="isToManyAttempts">Вы делаете слишком много попыток!</div>
           </form>
         </the-profile>
     </div>
@@ -86,8 +115,22 @@
   </app-page>
 </template>
 
-<script setup>
+<script>
 import TheProfile from '@/components/profile/TheProfile'
+import { useEditProfileForm } from '@/use/edit-profile-form'
 import { getUser } from '@/use/user'
-const user = getUser()
+
+export default {
+  setup () {
+    const user = getUser()
+
+    return {
+      user,
+      ...useEditProfileForm(user)
+    }
+  },
+  components: {
+    TheProfile
+  }
+}
 </script>

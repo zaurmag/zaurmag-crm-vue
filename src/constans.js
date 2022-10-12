@@ -61,3 +61,5 @@ export const USER_STATUS = [
     value: 'inactive'
   }
 ]
+
+export const PASS_MINLENGTH = 3

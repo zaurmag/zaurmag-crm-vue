@@ -10,5 +10,5 @@ export function getUser () {
     await store.dispatch('users/load')
   })
 
-  return computed(() => store.getters['users/userById'](route.params.id))
+  return computed(() => store.getters['users/userById'](route.params.id) || {})
 }
