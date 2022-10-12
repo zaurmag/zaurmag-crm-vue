@@ -1,49 +1,47 @@
-/* eslint-disable */
-
 import store from '../../store'
 import axios from '@/axios/dbase'
 import { transform } from '@/utils/transform'
 
 export default {
   namespaced: true,
-  state() {
+  state () {
     return {
-      projects: [],
+      projects: []
     }
   },
   mutations: {
-    setItems(state, data) {
+    setItems (state, data) {
       state.projects = data
-    },
+    }
   },
   actions: {
-    async load({ commit }) {
+    async load ({ commit }) {
       try {
-        const uID = store.getters['auth/userID']
-        const { data } = await axios.get(`/users/${uID}/projects.json`)
+        const uID = store.getters['users/userID']
+        const { data } = await axios.get(`/projects/${uID}.json`)
         commit('setItems', transform(data))
       } catch (e) {
         throw e
       }
     },
-    async loadOne(_, id) {
+    async loadOne (_, id) {
       try {
-        const uID = store.getters['auth/userID']
-        const { data } = await axios.get(`/users/${uID}/projects/${id}.json/`)
+        const uID = store.getters['users/userID']
+        const { data } = await axios.get(`/projects/${uID}/${id}.json`)
         return { ...data, id }
       } catch (e) {
         throw e
       }
     },
-    async add({ commit, dispatch }, item) {
+    async add ({ commit, dispatch }, item) {
       try {
-        const uID = store.getters['auth/userID']
-        await axios.post(`/users/${uID}/projects.json`, item)
+        const uID = store.getters['users/userID']
+        await axios.post(`/projects/${uID}.json`, item)
         dispatch(
           'setMessage',
           {
             type: 'success',
-            value: 'Запись успешно добавлена',
+            value: 'Запись успешно добавлена'
           },
           { root: true }
         )
@@ -58,18 +56,18 @@ export default {
         )
       }
     },
-    async update({ dispatch }, item) {
+    async update ({ dispatch }, item) {
       try {
-        const uID = store.getters['auth/userID']
+        const uID = store.getters['users/userID']
         const { data } = await axios.put(
-          `/users/${uID}/projects/${item.id}.json`,
+          `/projects/${uID}/${item.id}.json`,
           item
         )
         dispatch(
           'setMessage',
           {
             type: 'success',
-            value: 'Запись успешно обновлена!',
+            value: 'Запись успешно обновлена!'
           },
           { root: true }
         )
@@ -80,27 +78,27 @@ export default {
           'setMessage',
           {
             value: e.message,
-            type: 'danger',
+            type: 'danger'
           },
           { root: true }
         )
       }
     },
-    async delete({ dispatch }, id) {
+    async delete ({ dispatch }, id) {
       try {
-        const uID = store.getters['auth/userID']
+        const uID = store.getters['users/userID']
         if (Array.isArray(id)) {
           for (const itemID of id) {
-            await axios.delete(`/users/${uID}/projects/${itemID}.json`)
+            await axios.delete(`/projects/${uID}/${itemID}.json`)
           }
         } else {
-          await axios.delete(`/users/${uID}/projects/${id}.json`)
+          await axios.delete(`/projects/${uID}/${id}.json`)
         }
         dispatch(
           'setMessage',
           {
             value: 'Запись успешна удалена',
-            type: 'success',
+            type: 'success'
           },
           { root: true }
         )
@@ -109,14 +107,14 @@ export default {
           'setMessage',
           {
             value: e.message,
-            type: 'danger',
+            type: 'danger'
           },
           { root: true }
         )
       }
-    },
+    }
   },
   getters: {
     projects: state => state.projects.sort((a, b) => new Date(b.date) - new Date(a.date)),
-  },
+  }
 }

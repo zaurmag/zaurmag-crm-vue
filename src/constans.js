@@ -45,3 +45,21 @@ export const TYPE_OPTIONS = [
 ]
 
 export const MONTHS = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Ноя', 'Дек']
+
+// Users
+export const USER_STATUS = [
+  {
+    name: 'Все',
+    value: 'all'
+  },
+  {
+    name: 'Активен',
+    value: 'active'
+  },
+  {
+    name: 'Не активен',
+    value: 'inactive'
+  }
+]
+
+export const PASS_MINLENGTH = 3

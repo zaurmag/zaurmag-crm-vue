@@ -45,6 +45,33 @@ const routes = [
       layout: 'main',
       auth: true
     }
+  },
+  {
+    path: '/edit-profile/:id',
+    name: 'EditProfile',
+    component: () => import('../views/EditProfile.vue'),
+    meta: {
+      layout: 'main',
+      auth: true
+    }
+  },
+  {
+    path: '/users',
+    name: 'users',
+    component: () => import('../views/Users.vue'),
+    meta: {
+      layout: 'main',
+      auth: true
+    }
+  },
+  {
+    path: '/dbreplacer',
+    name: 'dbreplacer',
+    component: () => import('../views/DbReplacer'),
+    meta: {
+      layout: 'main',
+      auth: true
+    }
   }
 ]
 

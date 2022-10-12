@@ -11,8 +11,7 @@ export default {
     return {
       token: localStorage.getItem(JWT_TOKEN),
       refreshToken: localStorage.getItem(JWT_REFRESH_TOKEN),
-      expiresDate: new Date(localStorage.getItem(EXPIRES_KEY)),
-      user: JSON.parse(localStorage.getItem(USER_KEY)) ?? {}
+      expiresDate: new Date(localStorage.getItem(EXPIRES_KEY))
     }
   },
   mutations: {
@@ -27,15 +26,10 @@ export default {
       localStorage.setItem(JWT_REFRESH_TOKEN, refreshToken)
       localStorage.setItem(EXPIRES_KEY, expiresDate.toString())
     },
-    setUser (state, user) {
-      state.user = user
-      localStorage.setItem(USER_KEY, JSON.stringify(user))
-    },
     logout (state) {
       state.token = null
       state.refreshToken = null
       state.expiresDate = null
-      state.user = {}
       localStorage.removeItem(JWT_TOKEN)
       localStorage.removeItem(JWT_REFRESH_TOKEN)
       localStorage.removeItem(EXPIRES_KEY)
@@ -52,7 +46,7 @@ export default {
         })
         commit('setToken', data)
         commit('clearMessage', null, { root: true })
-        await dispatch('getUser', data.localId)
+        await dispatch('users/getUser', data.localId, { root: true })
       } catch (e) {
         dispatch(
           'setMessage',
@@ -81,57 +75,14 @@ export default {
         console.error('Error:', e.message)
       }
     },
-    async signUp ({ commit, dispatch }, payload) {
-      try {
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.VUE_APP_FB_KEY}`
-        const { data } = await axios.post(url, {
-          ...payload,
-          returnSecureToken: true
-        })
-        commit('setToken', data)
-        await dispatch('createUser', {
-          ...data,
-          name: payload.name
-        })
-      } catch (e) {
-        dispatch(
-          'setMessage',
-          { value: error(e.response.data.error.message), type: 'danger' },
-          { root: true }
-        )
-        throw new Error()
-      }
-    },
-    async createUser ({ commit, dispatch }, { name, email, localId }) {
-      const { data } = await axios.put(`/users/${localId}/info.json`, {
-        name,
-        role: 'user',
-        email
-      })
-      commit('setUser', { ...data, id: localId })
-      dispatch(
-        'setMessage',
-        { value: 'Регистрация прошла успешно', type: 'success' },
-        { root: true }
-      )
-    },
-    async getUser ({ commit, dispatch }, id) {
-      try {
-        const { data } = await axios.get(`/users/${id}.json`)
-        commit('setUser', { ...data, id })
-        commit('clearMessage', null, { root: true })
-      } catch (e) {
-        console.error(e.message)
-      }
+    logout ({ commit }) {
+      commit('logout')
+      commit('users/logout', null, { root: true })
     }
   },
   getters: {
     token: state => state.token,
     isAuthenticated: (_, getters) => !!getters.token && !getters.isExpired,
-    isExpired: state => new Date() >= state.expiresDate,
-    isUser: (_, getters) => !getters.isAdmin,
-    isAdmin: state => state.user.info.role === 'admin',
-    user: state => state.user,
-    userID: (_, getters) => getters.user.id
+    isExpired: state => new Date() >= state.expiresDate
   }
 }

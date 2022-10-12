@@ -1,15 +1,13 @@
 <template>
-  <app-page title="Главная панель">
+  <app-page title="Проекты">
     <template #header>
       <button class="main__add-btn btn btn-primary shadow-sm-soft" type="button" @click="openModal">
-        <svg class="icon icon-pencil-square me-sm-2">
-          <use xlink:href="#pencil-square"></use>
-        </svg>
+        <app-icon name="pencil-square" classList="me-sm-2" />
         <span class="d-sm-inline d-none">Добавить запись</span>
       </button>
     </template>
 
-    <AppCard :class-list="['mb-30']">
+    <app-card :classList="['mb-30']">
       <template #header>
         <div class="row align-items-center">
           <div class="col-xxl mb-0 mb-xl-2 mb-xxl-0 d-flex align-items-center justify-content-between">
@@ -27,7 +25,7 @@
 
       <template #append>
         <project-list
-          :projects="paginateProducts"
+          :projects="paginateItems"
           :loader="loader"
           :pageSize="PAGE_SIZE.value"
           @selected="selectChbx"
@@ -42,7 +40,7 @@
           @changeSize="changePageSize"
         />
       </template>
-    </AppCard>
+    </app-card>
 
     <div class="row gy-30">
       <project-report :projects="projects" />
@@ -64,16 +62,11 @@
 </template>
 
 <script>
-import AppModal from '@/components/ui/AppModal'
-import AppConfirm from '@/components/ui/AppConfirm'
-import AppPagination from '@/components/ui/AppPagination'
-import AppPage from '@/components/ui/AppPage'
 import ProjectList from '@/components/project/ProjectList'
 import ProjectListHeader from '@/components/project/ProjectListHeader'
 import ProjectFilter from '@/components/project/ProjectFilter'
 import ProjectReport from '@/components/project/ProjectReport'
 import ProjectForm from '@/components/project/ProjectForm'
-import AppCard from '@/components/ui/AppCard'
 import { useProductPaginate } from '@/use/product-paginate'
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
@@ -159,16 +152,11 @@ export default {
     }
   },
   components: {
-    AppPage,
     ProjectList,
     ProjectListHeader,
-    AppPagination,
     ProjectFilter,
     ProjectReport,
-    AppModal,
-    AppConfirm,
-    ProjectForm,
-    AppCard
+    ProjectForm
   }
 }
 </script>

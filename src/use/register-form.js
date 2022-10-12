@@ -4,7 +4,7 @@ import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
-export function useRegisterForm () {
+export function useRegisterForm (emit) {
   const router = useRouter()
   const store = useStore()
   const loading = ref(false)
@@ -68,12 +68,13 @@ export function useRegisterForm () {
         return
       }
       loading.value = true
-      await store.dispatch('auth/signUp', {
+      await store.dispatch('users/signUp', {
         name: values.name,
         email: values.email,
         password: values.password
       })
       loading.value = false
+      emit('complete')
       await router.push('/')
     } catch (e) {}
   })
