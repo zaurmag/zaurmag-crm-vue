@@ -17,7 +17,7 @@
             />
           </div>
 
-          <div class="col-xxl-auto collapse d-xl-block" id="filter">
+          <div class="col-xxl-auto d-xl-block collapse" id="filter">
             <project-filter v-model="filter" />
           </div>
         </div>

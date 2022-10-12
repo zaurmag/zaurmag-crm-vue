@@ -10698,9 +10698,14 @@ a.is-transition {
       min-height: 4.0625rem; } }
   @media (max-width: 991.98px) {
     .header {
-      padding-left: 4.0625rem;
+      padding-left: 3.625rem;
       padding-right: 0.9375rem;
-      min-height: 3.75rem; } }
+      min-height: 3.75rem; }
+      .header__user-dropdown .btn span {
+        width: 3.125rem;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap; } }
 
 .logo {
   display: flex;

@@ -14,7 +14,7 @@
         <div class="row align-items-center">
           <div class="col-xxl mb-0 mb-xl-2 mb-xxl-0 d-flex align-items-center justify-content-between">
             <button class="btn btn-light fz-18 p-2 d-xl-none ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#filter" aria-expanded="false">
-              <app-icon name="filter" />
+              <app-icon name="sliders" />
             </button>
           </div>
           <div class="col-xxl-auto collapse d-xl-block" id="filter">

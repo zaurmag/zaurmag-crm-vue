@@ -4,9 +4,8 @@
       <div class="d-lg-flex align-items-center">
         <div class="dropdown ms-lg-2 mt-2 mt-lg-0">
           <button class="btn btn-light" type="button" data-bs-toggle="dropdown">
-            <svg class="icon icon-calendar3">
-              <use xlink:href="#calendar3"></use>
-            </svg><span class="ms-2">Дата регистрации</span>
+            <app-icon name="calendar3" />
+            <span class="ms-2">Дата регистрации</span>
           </button>
           <div class="dropdown-menu p-3">
             <div class="d-flex align-items-center">
@@ -33,15 +32,11 @@
     <div class="col-xl-auto">
       <div class="d-flex align-items-center">
         <div class="form__group form__group--icon w-100">
-          <svg class="icon icon-search">
-            <use xlink:href="#search"></use>
-          </svg>
+          <app-icon name="search" />
           <input class="form__control" type="search" placeholder="Поиск по имени">
         </div>
         <button class="btn btn-outline-secondary btn-round fz-16 ms-3 p-0" type="button" data-bs-toggle="tooltip" title="Сбросить фильтр">
-          <svg class="icon icon-x">
-            <use xlink:href="#x"></use>
-          </svg>
+          <app-icon name="x" />
         </button>
       </div>
     </div>
