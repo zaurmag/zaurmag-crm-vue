@@ -1,5 +1,5 @@
 <template>
-  <div class="form form--filter row align-items-end gy-2">
+  <div class="form form--filter row gy-3 gy-xl-2 gx-4 mt-xl-0 mt-3">
     <div class="col-xl-auto">
       <div class="row align-items-center g-4">
         <div class="col-sm col-md-auto">
@@ -29,9 +29,7 @@
     <div class="col-xl-auto">
       <div class="d-flex align-items-center">
         <div class="form__group form__group--icon w-100">
-          <svg class="icon icon-search">
-            <use xlink:href="#search"></use>
-          </svg>
+          <app-icon name="search" />
           <input class="form__control" type="search" placeholder="Поиск по наименованию" v-model="search">
         </div>
 
@@ -42,9 +40,7 @@
           v-tooltip="{ title: 'Сбросить фильтр', placement: 'right' }"
           @click="reset"
         >
-          <svg class="icon icon-x">
-            <use xlink:href="#x"></use>
-          </svg>
+          <app-icon name="x" />
         </button>
       </div>
     </div>

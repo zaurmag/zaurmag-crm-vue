@@ -11,7 +11,7 @@
           data-bs-toggle="dropdown"
         >
           <img class="rounded-circle img-fluid me-2" src="/images/zaurmag.png" width="32" :alt="user.name" />
-          {{ user.name }}
+          <span>{{ user.name }}</span>
         </button>
         <ul class="dropdown-menu shadow-sm-soft">
           <li><router-link class="dropdown-item" :to="{name: 'Profile', params: { id: user.id }}">Мой профиль</router-link></li>
