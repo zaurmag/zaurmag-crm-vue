@@ -14,8 +14,13 @@
 
           <template #headerShortInfo>
             <div class="profile__avatar">
-              <img class="profile__avatar-img" :src="user.imgUrl" :alt="user.name" />
-              <button class="btn btn-light rounded-circle profile__avatar-edit" type="button" data-bs-toggle="modal" data-bs-target="#uploadFile">
+              <img class="profile__avatar-img" :src="user.imgUrl || '/images/user.png'" :alt="user.name" />
+              <button
+                class="btn btn-light rounded-circle profile__avatar-edit"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#uploadFile"
+              >
                 <app-icon name="pencil" />
               </button>
             </div>
@@ -105,7 +110,9 @@
                 :class="{ 'progress-bar progress-bar-striped progress-bar-animated': isSubmitting }"
                 type="submit"
                 :disabled="isToManyAttempts"
-              >Сохранить</button>
+              >
+                Сохранить
+              </button>
             </div>
             <div class="invalid-feedback d-block fz-12" v-if="isToManyAttempts">Вы делаете слишком много попыток!</div>
           </form>
@@ -113,14 +120,27 @@
     </div>
     </div>
   </app-page>
+
+  <teleport to="body">
+    <app-bs-modal id="uploadFile" title="Загрузить файл">
+      <file-upload />
+
+      <template #footer>
+        <button class="btn btn-primary" type="button">Ok</button>
+        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Отмена</button>
+      </template>
+    </app-bs-modal>
+  </teleport>
 </template>
 
 <script>
 import TheProfile from '@/components/profile/TheProfile'
 import { useEditProfileForm } from '@/use/edit-profile-form'
 import { getUser } from '@/use/user'
+import FileUpload from '@/components/ui/FileUpload'
 
 export default {
+  name: 'EditProfile',
   setup () {
     const user = getUser()
 
@@ -130,7 +150,8 @@ export default {
     }
   },
   components: {
-    TheProfile
+    TheProfile,
+    FileUpload
   }
 }
 </script>

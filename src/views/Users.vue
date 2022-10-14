@@ -3,7 +3,12 @@
 
   <app-page title="Пользователи">
     <template #header>
-      <button class="main__add-btn btn btn-primary shadow-sm-soft" type="button" @click="openModal">
+      <button
+        class="main__add-btn btn btn-primary shadow-sm-soft"
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#addUser"
+      >
         <app-icon name="person-plus" classList="fz-18 me-sm-2" />
         <span class="d-sm-inline d-none">Добавить</span>
       </button>
@@ -42,9 +47,9 @@
   </app-page>
 
   <teleport to="body">
-    <app-modal ref="modal" title="Добавить пользователя">
-      <register-form @complete="closeModal" />
-    </app-modal>
+    <app-bs-modal id="addUser" title="Добавить пользователя">
+      <register-form @complete="closeModal('#addUser')" />
+    </app-bs-modal>
 
     <app-confirm
       ref="confirm"
@@ -62,19 +67,13 @@ import RegisterForm from '@/components/RegisterForm'
 import { useProductPaginate } from '@/use/product-paginate'
 import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
+import { closeModal } from '@/use/bs-modal'
 
 const users = computed(() => store.getters['users/users'])
 
 const store = useStore()
-const modal = ref(false)
 const checkboxes = ref([])
 const PAGE_SIZE = ref({ name: 10, value: 10 })
-const openModal = () => {
-  modal.value.modal = true
-}
-const closeModal = () => {
-  modal.value.modal = false
-}
 
 const selectChbx = checkboxIds => {
   checkboxes.value = checkboxIds

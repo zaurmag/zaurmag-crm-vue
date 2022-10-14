@@ -14,7 +14,7 @@
 
           <template #headerShortInfo>
             <div class="profile__avatar">
-              <img class="profile__avatar-img" :src="user.imgUrl" alt="Заур Магомедов">
+              <img class="profile__avatar-img" :src="user.imgUrl || '/images/user.png'" alt="Заур Магомедов">
               <app-indicator size="xl" classList="profile__avatar-indicator bg-success" />
             </div>
             <h2 class="h5 profile__name">{{ user.name }}</h2>
