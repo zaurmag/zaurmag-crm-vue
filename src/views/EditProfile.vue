@@ -135,14 +135,16 @@
 
 <script>
 import TheProfile from '@/components/profile/TheProfile'
+import FileUpload from '@/components/ui/FileUpload'
 import { useEditProfileForm } from '@/use/edit-profile-form'
 import { getUser } from '@/use/user'
-import FileUpload from '@/components/ui/FileUpload'
+import breadcrumbs from '@/use/breadcrumb'
 
 export default {
   name: 'EditProfile',
   setup () {
     const user = getUser()
+    breadcrumbs.setCurrentBreadcrumbName(user.value.name)
 
     return {
       user,

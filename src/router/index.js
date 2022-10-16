@@ -8,6 +8,7 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: {
+      breadcrumb: 'Главная',
       layout: 'main',
       auth: true
     }
@@ -34,35 +35,62 @@ const routes = [
     component: () => import('../views/Project.vue'),
     meta: {
       layout: 'main',
-      auth: true
-    }
-  },
-  {
-    path: '/profile/:id',
-    name: 'Profile',
-    component: () => import('../views/Profile.vue'),
-    meta: {
-      layout: 'main',
-      auth: true
-    }
-  },
-  {
-    path: '/edit-profile/:id',
-    name: 'EditProfile',
-    component: () => import('../views/EditProfile.vue'),
-    meta: {
-      layout: 'main',
-      auth: true
+      auth: true,
+      breadcrumb ({ path }, label) {
+        return {
+          label,
+          link: path
+        }
+      }
     }
   },
   {
     path: '/users',
-    name: 'users',
-    component: () => import('../views/Users.vue'),
+    name: 'UsersRoot',
+    redirect: { name: 'Users' },
+    component: () => import('../views/UsersRoot.vue'),
     meta: {
+      breadcrumb: 'Пользователи',
       layout: 'main',
       auth: true
-    }
+    },
+    children: [
+      {
+        path: 'list',
+        name: 'Users',
+        component: () => import('../views/Users.vue'),
+        meta: {
+          breadcrumb: false
+        }
+      },
+      {
+        path: 'profile/:id',
+        name: 'Profile',
+        component: () => import('../views/Profile.vue'),
+        meta: {
+          breadcrumb ({ path }, label) {
+            return {
+              label,
+              link: path
+            }
+          }
+        }
+      },
+      {
+        path: 'edit-profile/:id',
+        name: 'EditProfile',
+        component: () => import('../views/EditProfile.vue'),
+        meta: {
+          breadcrumb (route, label) {
+            console.log(label)
+            return {
+              label: `редактирование: ${label}`,
+              link: route.path
+            }
+          }
+        }
+      }
+    ]
   },
   {
     path: '/dbreplacer',
