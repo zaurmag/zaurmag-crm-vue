@@ -1,5 +1,4 @@
 import { reactive } from 'vue'
-import { useRoute } from 'vue-router'
 import router from '@/router'
 
 /*
@@ -35,6 +34,7 @@ class Breadcrumbs {
     }
     let iterablePath = ''
     let spliced = false
+
     arPath.forEach((item, i) => {
       // 1. Get path for crumb
       iterablePath += (i === 1) ? item : '/' + item
@@ -60,30 +60,25 @@ class Breadcrumbs {
   }
 
   setCurrentBreadcrumbName (name) {
-    this.name = name
+    const current = this.routes.find(r => r.current)
+    if (current) {
+      current.label = name
+    }
   }
 
   // Resolves route meta by path and creates breadcrumb object
   createBreadcrumb (path, isCurrent = false) {
     if (!path) return false
     const crumbRoute = this.router.resolve(path)
-    let breadcrumb = crumbRoute.meta?.breadcrumb
-
-    if (typeof breadcrumb === 'function') {
-      breadcrumb = breadcrumb(crumbRoute, this.name)
-    }
+    const breadcrumb = crumbRoute.meta?.breadcrumb
 
     if (!breadcrumb) {
       return false
     }
 
-    const isBcObject = typeof breadcrumb === 'object'
-    // this.name = isBcObject ? breadcrumb.label : breadcrumb
-    // this.setCurrentBreadcrumbName(isBcObject ? breadcrumb.label : breadcrumb)
-
     return {
-      label: isBcObject ? breadcrumb.label : breadcrumb,
-      link: (isBcObject && breadcrumb.link) ? breadcrumb.link : crumbRoute.path,
+      label: breadcrumb,
+      link: crumbRoute.path,
       current: isCurrent,
       _path: path
     }

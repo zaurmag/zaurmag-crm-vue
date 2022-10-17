@@ -4,7 +4,6 @@ import router from './router'
 import store from './store'
 import date from '@/plugins/date-format'
 import currency from '@/plugins/currency-format'
-import breadcrumbs from '@/plugins/breadcrumbs'
 import tooltipDirective from '@/directives/tooltip.directive'
 import globalComponents from '@/components/globals'
 import 'bootstrap'
@@ -18,7 +17,6 @@ app
   .use(router)
   .use(date)
   .use(currency)
-  .use(breadcrumbs)
   .directive('tooltip', tooltipDirective)
   .mount('#app')
 

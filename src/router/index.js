@@ -36,12 +36,7 @@ const routes = [
     meta: {
       layout: 'main',
       auth: true,
-      breadcrumb ({ path }, label) {
-        return {
-          label,
-          link: path
-        }
-      }
+      breadcrumb: true
     }
   },
   {
@@ -66,29 +61,12 @@ const routes = [
       {
         path: 'profile/:id',
         name: 'Profile',
-        component: () => import('../views/Profile.vue'),
-        meta: {
-          breadcrumb ({ path }, label) {
-            return {
-              label,
-              link: path
-            }
-          }
-        }
+        component: () => import('../views/Profile.vue')
       },
       {
         path: 'edit-profile/:id',
         name: 'EditProfile',
-        component: () => import('../views/EditProfile.vue'),
-        meta: {
-          breadcrumb (route, label) {
-            console.log(label)
-            return {
-              label: `редактирование: ${label}`,
-              link: route.path
-            }
-          }
-        }
+        component: () => import('../views/EditProfile.vue')
       }
     ]
   },

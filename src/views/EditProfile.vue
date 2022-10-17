@@ -1,5 +1,5 @@
 <template>
-  <app-breadcrumb v-if="user" :current="`Редактирование профиля ${user.name}`" />
+  <app-breadcrumb />
 
   <app-page v-if="user">
     <div class="row justify-content-center">
@@ -144,7 +144,7 @@ export default {
   name: 'EditProfile',
   setup () {
     const user = getUser()
-    breadcrumbs.setCurrentBreadcrumbName(user.value.name)
+    breadcrumbs.setCurrentBreadcrumbName(`редактирование: ${user.value.name}`)
 
     return {
       user,
