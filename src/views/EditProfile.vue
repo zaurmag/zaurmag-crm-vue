@@ -122,12 +122,36 @@
   </app-page>
 
   <teleport to="body">
-    <app-bs-modal id="uploadFile" title="Загрузить файл">
-      <file-upload />
+    <app-bs-modal
+      id="uploadFile"
+      title="Загрузить файл"
+      :progress="progressModal"
+    >
+      <file-upload
+        @progress="progressUpload"
+        @uploadSuccess="completeUpload"
+        :cancel="fuCancel"
+        :save="fuSave"
+      />
 
       <template #footer>
-        <button class="btn btn-primary" type="button">Ok</button>
-        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Отмена</button>
+        <div class="row align-items-center m-0 w-100" v-if="fuSave && progressModal === 100">
+          <div class="col text-success">
+            <div class="alert alert-info p-2 m-0">Изображение загружено!</div>
+          </div>
+          <div class="col-auto text-success">
+            <button class="btn btn-primary" type="button" data-bs-dismiss="modal" @click="cancelUpload">Закрыть</button>
+          </div>
+        </div>
+        <template v-else>
+          <button class="btn btn-primary" type="button" @click="fuSave = true">Сохранить</button>
+          <button
+            class="btn btn-secondary"
+            type="button"
+            data-bs-dismiss="modal"
+            @click="cancelUpload"
+          >Отмена</button>
+        </template>
       </template>
     </app-bs-modal>
   </teleport>
@@ -139,15 +163,50 @@ import FileUpload from '@/components/ui/FileUpload'
 import { useEditProfileForm } from '@/use/edit-profile-form'
 import { getUser } from '@/use/user'
 import breadcrumbs from '@/use/breadcrumb'
+import { ref } from 'vue'
+import { hideBsModal } from '@/use/bs-modal'
+import { useStore } from 'vuex'
 
 export default {
   name: 'EditProfile',
   setup () {
     const user = getUser()
+    const progressModal = ref(null)
+    const fuCancel = ref(false)
+    const fuSave = ref(false)
+    const store = useStore()
     breadcrumbs.setCurrentBreadcrumbName(`редактирование: ${user.value.name}`)
+
+    const cancelUpload = () => {
+      progressModal.value = null
+      fuCancel.value = true
+
+      hideBsModal('uploadFile', () => {
+        fuCancel.value = false
+        fuSave.value = false
+        console.log(fuSave.value)
+      })
+    }
+
+    const progressUpload = (value) => {
+      progressModal.value = value
+    }
+
+    const completeUpload = (imgUrl) => {
+      store.dispatch('users/update', {
+        id: user.value.id,
+        imgUrl
+      })
+    }
 
     return {
       user,
+      cancelUpload,
+      progressModal,
+      progressUpload,
+      completeUpload,
+      fuCancel,
+      fuSave,
       ...useEditProfileForm(user)
     }
   },

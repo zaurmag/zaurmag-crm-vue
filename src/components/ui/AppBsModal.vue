@@ -11,6 +11,10 @@
           <slot name="default" />
         </div>
 
+        <div class="progress" style="height: 2px" v-if="progress">
+          <div class="progress-bar" role="progressbar" :style="`width: ${progress}%`"></div>
+        </div>
+
         <div class="modal-footer p-20 text-center" v-if="$slots.footer">
           <slot name="footer" />
         </div>
@@ -31,6 +35,10 @@ export default {
     id: {
       type: String,
       required: true
+    },
+    progress: {
+      type: Number,
+      required: false
     }
   }
 }
