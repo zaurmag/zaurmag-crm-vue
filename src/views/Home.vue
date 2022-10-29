@@ -1,7 +1,12 @@
 <template>
   <app-page title="Проекты">
     <template #header>
-      <button class="main__add-btn btn btn-primary shadow-sm-soft" type="button" @click="openModal">
+      <button
+        class="main__add-btn btn btn-primary shadow-sm-soft"
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#addRecord"
+      >
         <app-icon name="pencil-square" classList="me-sm-2" />
         <span class="d-sm-inline d-none">Добавить запись</span>
       </button>
@@ -48,9 +53,9 @@
   </app-page>
 
   <teleport to="body">
-    <app-modal ref="modal" title="Добавить запись">
-      <project-form @close="closeModal" />
-    </app-modal>
+    <app-bs-modal id="addRecord" title="Добавить запись">
+      <project-form @close="closeModal('#addRecord')" />
+    </app-bs-modal>
 
     <app-confirm
       ref="confirm"
@@ -70,12 +75,12 @@ import ProjectForm from '@/components/project/ProjectForm'
 import { useProductPaginate } from '@/use/product-paginate'
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
+import { closeModal } from '@/use/bs-modal'
 
 export default {
   name: 'Home',
   setup () {
     const loader = ref(true)
-    const modal = ref(false)
     const confirm = ref(false)
     const checkboxes = ref([])
     const store = useStore()
@@ -105,14 +110,6 @@ export default {
       })
     )
 
-    const openModal = () => {
-      modal.value.modal = true
-    }
-
-    const closeModal = () => {
-      modal.value.modal = false
-    }
-
     const selectChbx = checkboxIds => {
       checkboxes.value = checkboxIds
     }
@@ -137,10 +134,8 @@ export default {
 
     return {
       loader,
-      modal,
-      openModal,
-      closeModal,
       selectChbx,
+      closeModal,
       checkboxes,
       removeAll,
       removeAllConfirm,

@@ -1,21 +1,22 @@
 <template>
-  <nav aria-label="breadcrumb" v-if="$route.path !== '/'">
+  <nav aria-label="breadcrumb" v-if="breadcrumbs.routes.length">
     <ul class="breadcrumb">
-      <li class="breadcrumb-item">
-        <router-link to="/">Главная</router-link>
+      <li class="breadcrumb-item" v-for="route in breadcrumbs.routes" :key="route.link">
+        <router-link :to="{path: route.link}" v-if="!route.current">{{ route.label }}</router-link>
+        <span v-else>{{ route.label }}</span>
       </li>
-      <li class="breadcrumb-item active">{{ current }}</li>
     </ul>
   </nav>
 </template>
 
 <script>
+import breadcrumbs from '@/use/breadcrumb'
+
 export default {
   name: 'AppBreadcrumb',
-  props: {
-    current: {
-      type: String,
-      required: true
+  setup () {
+    return {
+      breadcrumbs
     }
   }
 }

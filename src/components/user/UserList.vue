@@ -31,8 +31,8 @@
         <td>{{ idx + 1 }}</td>
         <td style="min-width: 215px">
           <div class="d-flex align-items-center">
-            <img class="img-thumbnail rounded-circle me-3" :src="user.imgUrl" width="40" alt="" />
-            <router-link class="table-cell-title-link is-transition" :to="`/profile/${user.id}`">{{ user.name }}</router-link>
+            <img class="img-thumbnail rounded-circle me-3" :src="user.imgUrl || '/images/user.png'" width="40" alt="" />
+            <router-link class="table-cell-title-link is-transition" :to="{name: 'Profile', params: {id: user.id}}">{{ user.name }}</router-link>
           </div>
         </td>
         <td>{{ $dateF(user.dateRegister, { month: 'long' }) }}</td>

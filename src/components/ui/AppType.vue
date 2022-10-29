@@ -1,6 +1,8 @@
 <template>
-  <span :class="['indikator-point', 'me-1', 'bg-' + className]"></span>
-  {{ text }}
+  <div class="d-flex align-items-center">
+    <app-indicator :classList="className" />
+    <span class="ms-2">{{ text }}</span>
+  </div>
 </template>
 
 <script>
@@ -18,9 +20,9 @@ export default {
   },
   setup (props) {
     const classesMap = {
-      income: 'success',
-      outcome: 'danger',
-      pending: 'warning'
+      income: 'bg-success',
+      outcome: 'bg-danger',
+      pending: 'bg-warning'
     }
 
     const textMap = {

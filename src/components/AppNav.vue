@@ -2,26 +2,20 @@
   <nav class="navbar">
     <ul class="nav flex-column navbar-nav">
       <li class="nav-item">
-        <router-link class="nav-link" to="/">
-          <svg class="icon icon-speedometer2">
-            <use xlink:href="#speedometer2"></use>
-          </svg>
+        <router-link class="nav-link" :to="{name: 'Home'}">
+          <app-icon name="speedometer2" />
           <span class="nav-text">Главная</span>
         </router-link>
       </li>
       <li class="nav-item" v-if="isAdmin">
-        <router-link class="nav-link" to="/users">
-          <svg class="icon icon-people">
-            <use xlink:href="#people"></use>
-          </svg>
+        <router-link class="nav-link" :to="{name: 'Users'}" :class="{'is-active': route.name === 'Profile'}">
+          <app-icon name="people" />
           <span class="nav-text">Пользователи</span>
         </router-link>
       </li>
       <li class="nav-item" v-if="isAdmin">
         <router-link class="nav-link" to="/dbreplacer">
-          <svg class="icon icon-people">
-            <use xlink:href="#people"></use>
-          </svg>
+          <app-icon name="people" />
           <span class="nav-text">Рефактор БД</span>
         </router-link>
       </li>
@@ -31,7 +25,9 @@
 
 <script setup>
 import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 
 const store = useStore()
+const route = useRoute()
 const isAdmin = store.getters['users/isAdmin']
 </script>

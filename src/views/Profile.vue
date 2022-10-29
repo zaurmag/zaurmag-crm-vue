@@ -1,12 +1,12 @@
 <template>
-  <app-breadcrumb current="Заур Магомедов" />
+  <app-breadcrumb />
 
   <app-page v-if="user">
     <div class="row justify-content-center">
       <div class="col-xxl-10">
-        <the-profile :headerImg="user.profileHeader">
+        <the-profile :headerImg="user.headerUrl || '/images/profile/header.jpg'">
           <template #headerEdit>
-            <router-link class="btn btn-light py-2" :to="`/edit-profile/${user.id}`">
+            <router-link class="btn btn-light py-2" :to="{name: 'EditProfile', params: {id: user.id}}">
               <app-icon name="pencil-square" classList="me-lg-2" />
               <span class="d-none d-lg-inline">Редактировать</span>
             </router-link>
@@ -14,7 +14,7 @@
 
           <template #headerShortInfo>
             <div class="profile__avatar">
-              <img class="profile__avatar-img" :src="user.imgUrl" alt="Заур Магомедов">
+              <img class="profile__avatar-img" :src="user.imgUrl || '/images/user.png'" alt="Заур Магомедов">
               <app-indicator size="xl" classList="profile__avatar-indicator bg-success" />
             </div>
             <h2 class="h5 profile__name">{{ user.name }}</h2>
@@ -54,5 +54,8 @@
 <script setup>
 import TheProfile from '@/components/profile/TheProfile'
 import { getUser } from '@/use/user'
+import breadcrumbs from '@/use/breadcrumb'
+
 const user = getUser()
+breadcrumbs.setCurrentBreadcrumbName(user.value.name)
 </script>

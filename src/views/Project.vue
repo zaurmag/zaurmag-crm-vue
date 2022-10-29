@@ -1,7 +1,7 @@
 <template>
   <app-loader v-if="loader" />
   <template v-else-if="project">
-    <the-breadcrumb :current="project.title" />
+    <app-breadcrumb />
 
     <app-page :title="project.title">
       <app-card>
@@ -63,6 +63,7 @@ import ProjectForm from '@/components/project/ProjectForm'
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
+import breadcrumbs from '@/use/breadcrumb'
 
 export default {
   name: 'Project',
@@ -80,6 +81,7 @@ export default {
       project.value = await store.dispatch('project/loadOne', route.params.id)
       initial.value = { ...project.value }
       loader.value = false
+      breadcrumbs.setCurrentBreadcrumbName(project.value.title)
     })
 
     const removeBtn = () => {
@@ -120,7 +122,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>
