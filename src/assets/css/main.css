@@ -11047,7 +11047,8 @@ a.is-transition {
   align-items: flex-end;
   justify-content: center;
   border-radius: 0.625rem;
-  background-color: #5f97ff; }
+  background-color: #5f97ff;
+  background-size: cover; }
 
 .profile__edit {
   position: absolute;

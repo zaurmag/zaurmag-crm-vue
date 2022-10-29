@@ -1,19 +1,19 @@
 <template>
   <file-pond
-    name="fileUpload"
+    :name="id"
     ref="pond"
     credits=""
     :allow-multiple="false"
-    :files="myFiles"
     imageResizeTargetWidth="400"
     imageResizeTargetHeight="400"
     allowImageResize="true"
     allowImageCrop="true"
     imageCropAspectRatio="16:9"
-    label-idle="Перенесите файлы сюда..."
+    label-idle="Перенесите файлы сюда, или <br /><span class='btn btn-link py-0'>Загрузите</span>"
     accepted-file-types="image/jpeg, image/png"
     @addfile="addFile"
   />
+  <!-- server="http://localhost:2222/api/upload" -->
 </template>
 
 <script setup>
@@ -29,10 +29,18 @@ import { initializeApp } from 'firebase/app'
 import { getStorage, ref as fbRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 
 // Emits
-const emits = defineEmits(['progress', 'uploadCancel', 'uploadSuccess'])
+const emits = defineEmits([
+  'progress',
+  'uploadCancel',
+  'uploadSuccess'
+])
 
 // Props
 const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  },
   cancel: {
     type: Boolean,
     required: false,
@@ -42,6 +50,10 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: false
+  },
+  userId: {
+    type: String,
+    required: true
   }
 })
 
@@ -69,7 +81,6 @@ const fbCloud = initializeApp(firebaseConfig)
 const storage = getStorage(fbCloud)
 
 const pond = ref(null)
-const myFiles = ref([])
 const progress = ref(null)
 const uploadTask = ref(null)
 const spaceRef = ref(null)
@@ -93,8 +104,6 @@ watch(save, val => {
     if (uploadTask.value) {
       uploadTask.value.on('state_changed',
         (snapshot) => {
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           progress.value = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           emits('progress', progress.value)
         },
@@ -128,7 +137,7 @@ watch(save, val => {
 
 const addFile = () => {
   const { file } = pond.value.getFile()
-  spaceRef.value = fbRef(storage, `/users/zaurmag/images/${file.name}`)
+  spaceRef.value = fbRef(storage, `/users/${props.userId}/images/${file.name}`)
 
   uploadTask.value = uploadBytesResumable(spaceRef.value, file)
   uploadTask.value.pause()

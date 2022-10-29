@@ -4,9 +4,9 @@
   <app-page v-if="user">
     <div class="row justify-content-center">
       <div class="col-xxl-10">
-        <the-profile :headerImg="user.profileHeader">
+        <the-profile :headerImg="user.headerUrl || '/images/profile/header.jpg'">
           <template #headerEdit>
-            <button class="btn btn-light py-2" type="button" data-bs-toggle="modal" data-bs-target="#uploadFile">
+            <button class="btn btn-light py-2" type="button" data-bs-toggle="modal" data-bs-target="#uploadHeader">
               <app-icon name="image" classList="me-lg-2" />
               <span class="d-none d-lg-inline">Загрузить картинку</span>
             </button>
@@ -19,7 +19,7 @@
                 class="btn btn-light rounded-circle profile__avatar-edit"
                 type="button"
                 data-bs-toggle="modal"
-                data-bs-target="#uploadFile"
+                data-bs-target="#uploadAvatar"
               >
                 <app-icon name="pencil" />
               </button>
@@ -30,63 +30,53 @@
           <form action="#" @submit.prevent="onSubmit">
             <div class="row gy-25 gy-lg-0">
               <div class="col-md-6">
-                <div class="card shadow-sm-soft h-100">
-                  <div class="card-header">
-                    <h3 class="m-0 card-header-title h6">Основная информация</h3>
+                <app-card title="Основная информация" classList="h-100">
+                  <div class="mb-3">
+                    <label class="form-label" for="name">Имя</label>
+                    <input
+                      :class="['form-control', 'py-2', {'is-invalid': nError}]"
+                      id="name"
+                      type="text"
+                      v-model="name"
+                      @blur="nBlur"
+                    >
+                    <div class="invalid-feedback d-block fz-12" v-if="nError">{{ nError }}</div>
                   </div>
-                  <div class="card-body">
-                    <div class="mb-3">
-                      <label class="form-label" for="name">Имя</label>
-                      <input
-                        :class="['form-control', 'py-2', {'is-invalid': nError}]"
-                        id="name"
-                        type="text"
-                        v-model="name"
-                        @blur="nBlur"
-                      >
-                      <div class="invalid-feedback d-block fz-12" v-if="nError">{{ nError }}</div>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label" for="email">E-mail</label>
-                      <input
-                        :class="['form-control', 'py-2', {'is-invalid': eError}]"
-                        id="email"
-                        type="email"
-                        v-model="email"
-                        @blur="eBlur"
-                      >
-                      <div class="invalid-feedback d-block fz-12" v-if="eError">{{ eError }}</div>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label" for="phone">Телефон</label>
-                      <input
-                        :class="['form-control', 'py-2', {'is-invalid': pnError}]"
-                        id="phone"
-                        type="text"
-                        v-model="phone"
-                        @blur="pnBlur"
-                      >
-                      <div class="invalid-feedback d-block fz-12" v-if="pnError">{{ pnError }}</div>
-                    </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="email">E-mail</label>
+                    <input
+                      :class="['form-control', 'py-2', {'is-invalid': eError}]"
+                      id="email"
+                      type="email"
+                      v-model="email"
+                      @blur="eBlur"
+                    >
+                    <div class="invalid-feedback d-block fz-12" v-if="eError">{{ eError }}</div>
                   </div>
-                </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="phone">Телефон</label>
+                    <input
+                      :class="['form-control', 'py-2', {'is-invalid': pnError}]"
+                      id="phone"
+                      type="text"
+                      v-model="phone"
+                      @blur="pnBlur"
+                    >
+                    <div class="invalid-feedback d-block fz-12" v-if="pnError">{{ pnError }}</div>
+                  </div>
+                </app-card>
               </div>
               <div class="col-md-6">
-                <div class="card shadow-sm-soft h-100">
-                  <div class="card-header">
-                    <h3 class="m-0 card-header-title h6">Сменить пароль</h3>
+                <app-card title="Сменить пароль" classList="h-100">
+                  <div class="mb-3">
+                    <label class="form-label" for="password">Пароль</label>
+                    <input class="form-control py-2" id="password" type="password">
                   </div>
-                  <div class="card-body">
-                    <div class="mb-3">
-                      <label class="form-label" for="password">Пароль</label>
-                      <input class="form-control py-2" id="password" type="password">
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label" for="password2">Повторить пароль</label>
-                      <input class="form-control py-2" id="password2" type="password">
-                    </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="password2">Повторить пароль</label>
+                    <input class="form-control py-2" id="password2" type="password">
                   </div>
-                </div>
+                </app-card>
               </div>
             </div>
             <div class="my-4">
@@ -117,41 +107,60 @@
             <div class="invalid-feedback d-block fz-12" v-if="isToManyAttempts">Вы делаете слишком много попыток!</div>
           </form>
         </the-profile>
-    </div>
+      </div>
     </div>
   </app-page>
 
   <teleport to="body">
+    <!-- Upload avatar -->
     <app-bs-modal
-      id="uploadFile"
+      id="uploadAvatar"
       title="Загрузить файл"
-      :progress="progressModal"
+      :progress="prUplAvatar"
     >
+      <p class="text-secondary text-center">Изображение должно быть квадратным, <br />размером 240x240 пикс.</p>
       <file-upload
-        @progress="progressUpload"
-        @uploadSuccess="completeUpload"
-        :cancel="fuCancel"
-        :save="fuSave"
+        id="uploadAvatar"
+        :cancel="cancelUplAvatar"
+        :save="saveUplAvatar"
+        :userId="user.id"
+        @progress="pUplAvatar"
+        @uploadSuccess="completeAvatarUpload"
       />
 
       <template #footer>
-        <div class="row align-items-center m-0 w-100" v-if="fuSave && progressModal === 100">
-          <div class="col text-success">
-            <div class="alert alert-info p-2 m-0">Изображение загружено!</div>
-          </div>
-          <div class="col-auto text-success">
-            <button class="btn btn-primary" type="button" data-bs-dismiss="modal" @click="cancelUpload">Закрыть</button>
-          </div>
-        </div>
-        <template v-else>
-          <button class="btn btn-primary" type="button" @click="fuSave = true">Сохранить</button>
-          <button
-            class="btn btn-secondary"
-            type="button"
-            data-bs-dismiss="modal"
-            @click="cancelUpload"
-          >Отмена</button>
-        </template>
+        <edit-profile-modal-footer
+          :progress="prUplAvatar"
+          :cancel="cUplAvatar"
+          :save="saveUplAvatar"
+          @save="saveUplAvatar = true"
+        />
+      </template>
+    </app-bs-modal>
+
+    <!-- Upload header -->
+    <app-bs-modal
+      id="uploadHeader"
+      title="Загрузить файл"
+      :progress="prUplHeader"
+    >
+      <p class="text-secondary text-center">Изображение должно быть прямоугольным, <br /> размером 1100x160 пикс.</p>
+      <file-upload
+        id="uploadHeader"
+        :cancel="cancelUplHeader"
+        :save="saveUplHeader"
+        :userId="user.id"
+        @progress="pUplHeader"
+        @uploadSuccess="completeHeaderUpload"
+      />
+
+      <template #footer>
+        <edit-profile-modal-footer
+          :progress="prUplHeader"
+          :cancel="cUplHeader"
+          :save="saveUplHeader"
+          @save="saveUplHeader = true"
+        />
       </template>
     </app-bs-modal>
   </teleport>
@@ -160,59 +169,60 @@
 <script>
 import TheProfile from '@/components/profile/TheProfile'
 import FileUpload from '@/components/ui/FileUpload'
+import EditProfileModalFooter from '@/components/profile/EditProfileModalFooter'
 import { useEditProfileForm } from '@/use/edit-profile-form'
+import { useUploadImage } from '@/use/upload-image'
 import { getUser } from '@/use/user'
 import breadcrumbs from '@/use/breadcrumb'
-import { ref } from 'vue'
-import { hideBsModal } from '@/use/bs-modal'
-import { useStore } from 'vuex'
 
 export default {
   name: 'EditProfile',
   setup () {
     const user = getUser()
-    const progressModal = ref(null)
-    const fuCancel = ref(false)
-    const fuSave = ref(false)
-    const store = useStore()
+
     breadcrumbs.setCurrentBreadcrumbName(`редактирование: ${user.value.name}`)
 
-    const cancelUpload = () => {
-      progressModal.value = null
-      fuCancel.value = true
+    // Upload avatar refs
+    const {
+      cancelUpload: cUplAvatar,
+      progressUpload: pUplAvatar,
+      progressModal: prUplAvatar,
+      cancel: cancelUplAvatar,
+      save: saveUplAvatar,
+      complete: completeAvatarUpload
+    } = useUploadImage('uploadAvatar')
 
-      hideBsModal('uploadFile', () => {
-        fuCancel.value = false
-        fuSave.value = false
-        console.log(fuSave.value)
-      })
-    }
-
-    const progressUpload = (value) => {
-      progressModal.value = value
-    }
-
-    const completeUpload = (imgUrl) => {
-      store.dispatch('users/update', {
-        id: user.value.id,
-        imgUrl
-      })
-    }
+    // Upload header refs
+    const {
+      cancelUpload: cUplHeader,
+      progressUpload: pUplHeader,
+      progressModal: prUplHeader,
+      cancel: cancelUplHeader,
+      save: saveUplHeader,
+      complete: completeHeaderUpload
+    } = useUploadImage('uploadHeader')
 
     return {
       user,
-      cancelUpload,
-      progressModal,
-      progressUpload,
-      completeUpload,
-      fuCancel,
-      fuSave,
+      completeAvatarUpload,
+      cUplAvatar,
+      pUplAvatar,
+      prUplAvatar,
+      cancelUplAvatar,
+      saveUplAvatar,
+      cUplHeader,
+      pUplHeader,
+      prUplHeader,
+      cancelUplHeader,
+      saveUplHeader,
+      completeHeaderUpload,
       ...useEditProfileForm(user)
     }
   },
   components: {
     TheProfile,
-    FileUpload
+    FileUpload,
+    EditProfileModalFooter
   }
 }
 </script>
