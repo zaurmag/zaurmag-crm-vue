@@ -3567,9 +3567,9 @@ textarea.form-control-lg {
   --bs-card-title-spacer-y: 0.5rem;
   --bs-card-border-width: 0.0625rem;
   --bs-card-border-color: rgba(233, 236, 239, 0.95);
-  --bs-card-border-radius: 0.375rem;
+  --bs-card-border-radius: 0.625rem;
   --bs-card-box-shadow: ;
-  --bs-card-inner-border-radius: calc(0.375rem - 0.0625rem);
+  --bs-card-inner-border-radius: 0.5625rem;
   --bs-card-cap-padding-y: 0.9375rem;
   --bs-card-cap-padding-x: 1.25rem;
   --bs-card-cap-bg: rgba(248, 249, 250, 0.3);
@@ -10592,6 +10592,12 @@ textarea.form-control-lg {
 .icon-calendar3 {
   width: 1em; }
 
+.icon-card-list {
+  width: 1em; }
+
+.icon-card-text {
+  width: 1em; }
+
 .icon-envelope {
   width: 1em; }
 
@@ -10604,10 +10610,16 @@ textarea.form-control-lg {
 .icon-filter {
   width: 1em; }
 
+.icon-gear {
+  width: 1em; }
+
 .icon-graph-up {
   width: 1em; }
 
 .icon-image {
+  width: 1em; }
+
+.icon-key {
   width: 1em; }
 
 .icon-pencil {
@@ -10617,6 +10629,9 @@ textarea.form-control-lg {
   width: 1em; }
 
 .icon-people {
+  width: 1em; }
+
+.icon-person {
   width: 1em; }
 
 .icon-person-plus {
@@ -10852,6 +10867,8 @@ a.is-transition {
         display: none; } }
   .sidebar__logo {
     padding: 0.9375rem 0; }
+    .sidebar__logo .logo__text {
+      color: #fff; }
     @media (min-width: 992px) {
       .sidebar__logo {
         height: 4.0625rem; }
@@ -10867,6 +10884,32 @@ a.is-transition {
           .is-sb-collapsed .sidebar__logo .logo__text,
           .is-compact .sidebar__logo .logo__text {
             display: none; } }
+  .sidebar__nav .nav .nav-link {
+    color: #96a2c1; }
+    .sidebar__nav .nav .nav-link.is-active {
+      color: #fff; }
+    .sidebar__nav .nav .nav-link:hover:not(.active) {
+      color: #fff; }
+  @media (min-width: 992px) {
+    .is-sb-collapsed .sidebar__nav .nav,
+    .is-compact .sidebar__nav .nav {
+      text-align: center; }
+      .is-sb-collapsed .sidebar__nav .nav .nav-text,
+      .is-compact .sidebar__nav .nav .nav-text {
+        display: none; }
+      .is-sb-collapsed .sidebar__nav .nav .nav-item,
+      .is-compact .sidebar__nav .nav .nav-item {
+        margin-bottom: 0; }
+        .is-sb-collapsed .sidebar__nav .nav .nav-item:not(:last-child),
+        .is-compact .sidebar__nav .nav .nav-item:not(:last-child) {
+          margin-bottom: 1.875rem; }
+      .is-sb-collapsed .sidebar__nav .nav .nav-link,
+      .is-compact .sidebar__nav .nav .nav-link {
+        padding: 0; }
+        .is-sb-collapsed .sidebar__nav .nav .nav-link .icon,
+        .is-compact .sidebar__nav .nav .nav-link .icon {
+          font-size: 1.625rem;
+          margin-right: 0 !important; } }
 
 .footer {
   padding: 1.875rem;
@@ -10879,7 +10922,7 @@ a.is-transition {
 /**
  * Dev blocks
  */
-.nav .nav-item {
+.nav .nav-item:not(:last-child) {
   margin-bottom: 0.5rem; }
 
 .nav .nav-text {
@@ -10887,35 +10930,13 @@ a.is-transition {
 
 .nav .nav-link {
   display: flex;
-  align-items: center;
-  color: #96a2c1; }
+  color: #000; }
   .nav .nav-link .icon {
+    margin-top: 0.1875rem;
+    flex-shrink: 0;
     font-size: 1rem; }
-  .nav .nav-link.is-active {
-    color: #fff; }
   .nav .nav-link:hover:not(.active) {
-    color: #fff; }
-
-@media (min-width: 992px) {
-  .is-sb-collapsed .nav,
-  .is-compact .nav {
-    text-align: center; }
-    .is-sb-collapsed .nav .nav-text,
-    .is-compact .nav .nav-text {
-      display: none; }
-    .is-sb-collapsed .nav .nav-item,
-    .is-compact .nav .nav-item {
-      margin-bottom: 0; }
-      .is-sb-collapsed .nav .nav-item:not(:last-child),
-      .is-compact .nav .nav-item:not(:last-child) {
-        margin-bottom: 1.875rem; }
-    .is-sb-collapsed .nav .nav-link,
-    .is-compact .nav .nav-link {
-      padding: 0; }
-      .is-sb-collapsed .nav .nav-link .icon,
-      .is-compact .nav .nav-link .icon {
-        font-size: 1.625rem;
-        margin-right: 0 !important; } }
+    color: #377dff; }
 
 .form__group--icon {
   position: relative; }
@@ -11119,6 +11140,13 @@ a.is-transition {
       color: #adb5bd;
       font-size: 1rem;
       width: 1.25rem; }
+
+.profile__nav .nav-link {
+  text-align: left;
+  line-height: normal; }
+  .profile__nav .nav-link.active {
+    background-color: transparent;
+    color: #377dff; }
 
 .w-editor {
   height: 9.375rem; }

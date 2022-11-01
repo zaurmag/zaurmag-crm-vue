@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar">
+  <nav class="navbar sidebar__nav">
     <ul class="nav flex-column navbar-nav">
       <li class="nav-item">
         <router-link class="nav-link" :to="{name: 'Home'}">
