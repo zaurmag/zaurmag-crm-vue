@@ -1,4 +1,5 @@
 import axios from '@/axios/dbase'
+import store from '../../store'
 import { transform } from '@/utils/transform'
 import { error } from '@/utils/error'
 import { dateF } from '@/utils/date'
@@ -56,7 +57,7 @@ export default {
           ...payload,
           returnSecureToken: true
         })
-        commit('setToken', data)
+        commit('auth/setToken', data, { root: true })
         await dispatch('createUser', {
           ...data,
           name: payload.name
@@ -105,6 +106,33 @@ export default {
         commit('clearMessage', null, { root: true })
       } catch (e) {
         console.error(e.message)
+      }
+    },
+    async changePassword ({ commit, dispatch }, { password }) {
+      try {
+        const idToken = store.getters['auth/token']
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.VUE_APP_FB_KEY}`
+        await axios.post(url, {
+          idToken,
+          password,
+          returnSecureToken: false
+        }, {
+          headers: {
+            'X-Firebase-Locale': 'ru-RU'
+          }
+        })
+        dispatch(
+          'setMessage',
+          { value: 'Пароль успешно изменен!', type: 'info' },
+          { root: true }
+        )
+      } catch (e) {
+        dispatch(
+          'setMessage',
+          { value: error(e.response.data.error.message), type: 'danger' },
+          { root: true }
+        )
+        throw new Error()
       }
     }
   },

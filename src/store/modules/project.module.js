@@ -50,7 +50,7 @@ export default {
           'setMessage',
           {
             value: e.message,
-            type: 'danger',
+            type: 'danger'
           },
           { root: true }
         )

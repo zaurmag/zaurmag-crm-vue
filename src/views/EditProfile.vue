@@ -27,85 +27,200 @@
             <h2 class="h5 profile__name">{{ user.name }}</h2>
           </template>
 
-          <form action="#" @submit.prevent="onSubmit">
-            <div class="row gy-25 gy-lg-0">
-              <div class="col-md-6">
-                <app-card title="Основная информация" classList="h-100">
-                  <div class="mb-3">
-                    <label class="form-label" for="name">Имя</label>
-                    <input
-                      :class="['form-control', 'py-2', {'is-invalid': nError}]"
-                      id="name"
-                      type="text"
-                      v-model="name"
-                      @blur="nBlur"
-                    >
-                    <div class="invalid-feedback d-block fz-12" v-if="nError">{{ nError }}</div>
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label" for="email">E-mail</label>
-                    <input
-                      :class="['form-control', 'py-2', {'is-invalid': eError}]"
-                      id="email"
-                      type="email"
-                      v-model="email"
-                      @blur="eBlur"
-                    >
-                    <div class="invalid-feedback d-block fz-12" v-if="eError">{{ eError }}</div>
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label" for="phone">Телефон</label>
-                    <input
-                      :class="['form-control', 'py-2', {'is-invalid': pnError}]"
-                      id="phone"
-                      type="text"
-                      v-model="phone"
-                      @blur="pnBlur"
-                    >
-                    <div class="invalid-feedback d-block fz-12" v-if="pnError">{{ pnError }}</div>
-                  </div>
+          <div class="profile__content">
+            <div class="row gy-lg-0 gy-4">
+              <div class="col-lg-4">
+                <app-card>
+                  <nav class="profile__nav">
+                    <ul class="nav nav-pills flex-column">
+                      <li class="nav-item">
+                        <button
+                          class="nav-link w-100 active"
+                          type="button"
+                          data-bs-toggle="tab"
+                          data-bs-target="#mainInfo"
+                          role="tab"
+                        >
+                          <app-icon name="person" />
+                          <span class="nav-text">Основная информация</span>
+                        </button>
+                      </li>
+                      <li class="nav-item">
+                        <button
+                          class="nav-link w-100"
+                          type="button"
+                          data-bs-toggle="tab"
+                          data-bs-target="#changePass"
+                          role="tab"
+                        >
+                          <app-icon name="key" />
+                          <span class="nav-text">Сменить пароль</span>
+                        </button>
+                      </li>
+                      <li class="nav-item">
+                        <button
+                          class="nav-link w-100"
+                          type="button"
+                          data-bs-toggle="tab"
+                          data-bs-target="#deleteAccount"
+                          role="tab"
+                        >
+                          <app-icon name="trash" />
+                          <span class="nav-text">Удалить аккаунт</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
                 </app-card>
               </div>
-              <div class="col-md-6">
-                <app-card title="Сменить пароль" classList="h-100">
-                  <div class="mb-3">
-                    <label class="form-label" for="password">Пароль</label>
-                    <input class="form-control py-2" id="password" type="password">
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label" for="password2">Повторить пароль</label>
-                    <input class="form-control py-2" id="password2" type="password">
-                  </div>
-                </app-card>
-              </div>
-            </div>
-            <div class="my-4">
-              <label class="form-label">О себе</label>
-              <textarea class="form-control py-2 d-none" v-model="description" cols="10" rows="5"></textarea>
-              <div class="w-editor">
-                <div class="w-editor__container">
-                  <quill-editor
-                    theme="snow"
-                    toolbar="minimal"
-                    contentType="html"
-                    v-model:content="description"
-                    placeholder="Напишите кратко о себе"
-                  />
-                  </div>
+              <div class="tab-content col-lg-8 col-12">
+                <!-- Основная информация-->
+                <div class="tab-pane fade show active" role="tabpanel" id="mainInfo">
+                  <form action="#" @submit.prevent="onSubmit">
+                  <app-card title="Основная информация" classList="h-100">
+                    <div class="mb-3">
+                      <label class="form-label" for="name">Имя</label>
+                      <input
+                        :class="['form-control', 'py-2', {'is-invalid': nError}]"
+                        id="name"
+                        type="text"
+                        v-model="name"
+                        @blur="nBlur"
+                      >
+                      <div class="invalid-feedback d-block fz-12" v-if="nError">{{ nError }}</div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label" for="email">E-mail</label>
+                      <input
+                        :class="['form-control', 'py-2', {'is-invalid': eError}]"
+                        id="email"
+                        type="email"
+                        v-model="email"
+                        @blur="eBlur"
+                      >
+                      <div class="invalid-feedback d-block fz-12" v-if="eError">{{ eError }}</div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label" for="phone">Телефон</label>
+                      <input
+                        :class="['form-control', 'py-2', {'is-invalid': pnError}]"
+                        id="phone"
+                        type="text"
+                        v-model="phone"
+                        @blur="pnBlur"
+                      >
+                      <div class="invalid-feedback d-block fz-12" v-if="pnError">{{ pnError }}</div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label" for="city">Адрес</label>
+                      <input
+                        :class="['form-control', 'py-2', {'is-invalid': aError}]"
+                        id="city"
+                        type="text"
+                        v-model="address"
+                        @blur="aBlur"
+                      >
+                      <div class="invalid-feedback d-block fz-12" v-if="aError">{{ aError }}</div>
+                    </div>
+
+                    <p class="form-label">О себе</p>
+                    <textarea
+                      class="form-control py-2 d-none"
+                      v-model="description"
+                      cols="10"
+                      rows="5"
+                    ></textarea>
+                    <div class="w-editor mb-4">
+                      <div class="w-editor__container">
+                        <quill-editor
+                          theme="snow"
+                          toolbar="minimal"
+                          contentType="html"
+                          v-model:content="description"
+                          placeholder="Напишите кратко о себе"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="progress h-auto d-inline-block">
+                      <button
+                        class="btn btn-primary py-2 px-3"
+                        :class="{ 'progress-bar progress-bar-striped progress-bar-animated': isSubmitting }"
+                        type="submit"
+                        :disabled="isToManyAttempts"
+                      >
+                        Сохранить
+                      </button>
+                    </div>
+                    <div class="invalid-feedback d-block fz-12" v-if="isToManyAttempts">Вы делаете слишком много попыток!</div>
+                  </app-card>
+                  </form>
                 </div>
+                <!-- Сменить пароль-->
+                <div class="tab-pane fade" role="tabpanel" id="changePass">
+                  <app-card title="Сменить пароль" classList="h-100">
+                    <form action="#" @submit.prevent="onSubmitPass">
+                      <div class="mw-lg-50">
+                        <div class="mb-3">
+                          <label class="form-label" for="password">Пароль</label>
+                          <input
+                            class="form-control py-2"
+                            :class="{'is-invalid': chPassError}"
+                            id="password"
+                            type="password"
+                            v-model="chPass"
+                            @blur="chBlurPass"
+                          >
+                          <div class="invalid-feedback d-block fz-12" v-if="chPassError">{{ chPassError }}</div>
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="password2">Повторить пароль</label>
+                          <input
+                            class="form-control py-2"
+                            :class="{'is-invalid': chPassError2}"
+                            id="password2"
+                            type="password"
+                            v-model="chPass2"
+                            @blur="chBlurPass2"
+                          >
+                          <div class="invalid-feedback d-block fz-12" v-if="chPassError2">{{ chPassError2 }}</div>
+                        </div>
+                        <div class="progress h-auto d-inline-block">
+                          <button
+                            class="btn btn-primary py-2 px-3"
+                            :class="{ 'progress-bar progress-bar-striped progress-bar-animated': isSubmittingPass }"
+                            type="submit"
+                            :disabled="isToManyAttemptsPass"
+                          >
+                            Сохранить
+                          </button>
+                        </div>
+                        <div
+                          class="invalid-feedback d-block fz-12"
+                          v-if="isToManyAttemptsPass"
+                        >Вы делаете слишком много попыток!</div>
+                      </div>
+                    </form>
+                  </app-card>
+                </div>
+                <!-- Удалить аккаунт-->
+                <div class="tab-pane fade" role="tabpanel" id="deleteAccount">
+                  <app-card title="Удалить аккаунт">
+                    <p>Вы действительно хотите удалить свою учетную запись? Операцию нельзя будет отменить!</p>
+                    <form action="#">
+                      <div class="mb-4 mw-lg-50">
+                        <label class="form-label">Введите слово "DELETE" для подтверждения</label>
+                        <input class="form-control" type="text">
+                      </div>
+                      <div class="text-end">
+                        <button class="btn btn-danger px-3" type="submit">Удалить</button>
+                      </div>
+                    </form>
+                  </app-card>
+                </div>
+              </div>
             </div>
-            <div class="progress h-auto d-inline-block">
-              <button
-                class="btn btn-primary py-2 px-3"
-                :class="{ 'progress-bar progress-bar-striped progress-bar-animated': isSubmitting }"
-                type="submit"
-                :disabled="isToManyAttempts"
-              >
-                Сохранить
-              </button>
-            </div>
-            <div class="invalid-feedback d-block fz-12" v-if="isToManyAttempts">Вы делаете слишком много попыток!</div>
-          </form>
+          </div>
         </the-profile>
       </div>
     </div>
@@ -171,6 +286,7 @@ import TheProfile from '@/components/profile/TheProfile'
 import FileUpload from '@/components/ui/FileUpload'
 import EditProfileModalFooter from '@/components/profile/EditProfileModalFooter'
 import { useEditProfileForm } from '@/use/edit-profile-form'
+import { useChangePasswordForm } from '@/use/change-password-form'
 import { useUploadImage } from '@/use/upload-image'
 import { getUser } from '@/use/user'
 import breadcrumbs from '@/use/breadcrumb'
@@ -216,7 +332,8 @@ export default {
       cancelUplHeader,
       saveUplHeader,
       completeHeaderUpload,
-      ...useEditProfileForm(user)
+      ...useEditProfileForm(user),
+      ...useChangePasswordForm(user.value.email)
     }
   },
   components: {

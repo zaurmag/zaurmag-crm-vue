@@ -10,9 +10,7 @@
       <div class="form__password">
         <input class="form-control form-control-lg" :class="{'is-invalid': pError}" id="password" type="password" placeholder="Не менее 6-ти знаков" v-model="password" @blur="pBlur">
         <a class="form__password-toggle" href="#" ref="togglePass">
-          <svg class="icon icon-eye">
-            <use xlink:href="#eye"></use>
-          </svg>
+          <app-icon name="eye" />
         </a>
       </div>
       <div class="invalid-feedback d-block fz-12" v-if="pError">{{ pError }}</div>
@@ -35,6 +33,8 @@ import togglePassword from '@/utils/toggle-password'
 
 export default {
   name: 'AuthForm',
+  components: {},
+
   setup () {
     const togglePass = ref(null)
 
