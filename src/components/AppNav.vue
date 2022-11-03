@@ -8,7 +8,7 @@
         </router-link>
       </li>
       <li class="nav-item" v-if="isAdmin">
-        <router-link class="nav-link" :to="{name: 'Users'}" :class="{'is-active': route.name === 'Profile'}">
+        <router-link :to="{name: 'Users'}" :class="['nav-link', {'is-active': route.name === 'Profile'}]">
           <app-icon name="people" />
           <span class="nav-text">Пользователи</span>
         </router-link>

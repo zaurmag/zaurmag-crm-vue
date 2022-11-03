@@ -10,12 +10,26 @@
           type="button"
           data-bs-toggle="dropdown"
         >
-          <img class="rounded-circle img-fluid me-2" src="/images/zaurmag.png" width="32" :alt="user.name" />
+          <img
+            class="rounded-circle img-fluid me-2"
+            :src="user.imgUrl || '/images/user.png'"
+            width="32"
+            :alt="user.name"
+          />
           <span>{{ user.name }}</span>
         </button>
         <ul class="dropdown-menu shadow-sm-soft">
-          <li><router-link class="dropdown-item" :to="{name: 'Profile', params: { id: user.id }}">Мой профиль</router-link></li>
-          <li><a class="dropdown-item" href="#" @click.prevent="logout">Выход</a></li>
+          <li>
+            <router-link
+              class="dropdown-item"
+              :to="{
+                name: 'Profile',
+                params: { id: user.id }
+              }"
+            >Мой профиль
+            </router-link>
+          </li>
+          <li><button class="dropdown-item btn-link" type="button" @click="logout">Выход</button></li>
         </ul>
       </div>
     </div>
