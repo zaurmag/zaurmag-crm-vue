@@ -11,12 +11,8 @@
       v-tooltip="{title: toogleBtnTooltip, placement: 'right'}"
       :key="toogleBtnTooltip"
     >
-      <svg class="icon icon-arrow-bar-left">
-        <use xlink:href="#arrow-bar-left"></use>
-      </svg>
-      <svg class="icon icon-arrow-bar-right">
-        <use xlink:href="#arrow-bar-right"></use>
-      </svg>
+      <app-icon name="arrow-bar-left" />
+      <app-icon name="arrow-bar-right" />
     </button>
 
     <app-logo url="/" classList="sidebar__logo mb-25" />
@@ -27,7 +23,7 @@
 <script setup>
 import AppLogo from '@/components/AppLogo'
 import AppNav from '@/components/AppNav'
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 
 defineProps({
   toggleClass: {

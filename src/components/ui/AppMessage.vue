@@ -31,7 +31,6 @@ export default {
 
 <style scoped>
   .toast-container {
-    opacity: .8;
     z-index: 1021;
   }
 </style>
