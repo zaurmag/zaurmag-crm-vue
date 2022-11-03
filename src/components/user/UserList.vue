@@ -10,6 +10,7 @@
         </th>
         <th>#</th>
         <th>ФИО</th>
+        <th>E-mail</th>
         <th>Дата регистрации</th>
         <th class="no-wrap">Статус</th>
         <th class="no-wrap">Роль</th>
@@ -32,19 +33,29 @@
         <td style="min-width: 215px">
           <div class="d-flex align-items-center">
             <img class="img-thumbnail rounded-circle me-3" :src="user.imgUrl || '/images/user.png'" width="40" alt="" />
-            <router-link class="table-cell-title-link is-transition" :to="{name: 'Profile', params: {id: user.id}}">{{ user.name }}</router-link>
+            <router-link
+              class="table-cell-title-link is-transition"
+              :to="{name: 'Profile', params: {id: user.id}}"
+            >{{ user.name }}</router-link>
           </div>
         </td>
-        <td>{{ $dateF(user.dateRegister, { month: 'long' }) }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ $dateF(user.dateRegister) }}</td>
         <td>
           <app-indicator :classList="user.status ? 'bg-success me-2' : 'bg-secondary me-2'" />
           {{ user.status ? 'Активен' : 'Не активен' }}
         </td>
-        <td>{{ user.role }}</td>
+        <td>
+          <span :class="['badge', user.role === 'admin' ? 'bg-danger' : 'bg-secondary']">{{ user.role }}</span>
+        </td>
         <td style="min-width: 140px">
-          <button class="btn btn-light fz-12 px-2" type="button">
-            <app-icon name="pencil" />
-          </button>
+          <router-link
+            class="btn btn-outline-secondary btn-sm fz-12 px-2 py-1"
+            :to="{name: 'EditProfile', params: {id: user.id}}"
+          >
+            <app-icon name="pencil" classList="me-2" />
+            <span class="d-none d-sm-inline">Редактировать</span>
+          </router-link>
         </td>
       </tr>
       </tbody>
