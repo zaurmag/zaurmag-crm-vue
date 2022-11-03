@@ -134,6 +134,44 @@ export default {
         )
         throw new Error()
       }
+    },
+    async deleteAccount ({ dispatch }) {
+      try {
+        const idToken = store.getters['auth/token']
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${process.env.VUE_APP_FB_KEY}`
+        await axios.post(url, { idToken })
+        dispatch('deleteUser')
+      } catch (e) {
+        dispatch(
+          'setMessage',
+          { value: error(e.response.data.error.message), type: 'danger' },
+          { root: true }
+        )
+        throw new Error()
+      }
+    },
+    async deleteUser ({ commit, dispatch, getters }) {
+      try {
+        const uID = getters.userID
+        await axios.delete(`/users/${uID}.json`)
+        await axios.delete(`/projects/${uID}.json`)
+
+        dispatch(
+          'setMessage',
+          { value: 'Аккаунт успешно удален!', type: 'info' },
+          { root: true }
+        )
+
+        commit('logout')
+        commit('auth/logout', null, { root: true })
+      } catch (e) {
+        dispatch(
+          'setMessage',
+          { value: error(e.response.data.error.message), type: 'danger' },
+          { root: true }
+        )
+        throw new Error()
+      }
     }
   },
   getters: {
