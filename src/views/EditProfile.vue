@@ -33,40 +33,20 @@
                 <app-card>
                   <nav class="profile__nav">
                     <ul class="nav nav-pills flex-column">
-                      <li class="nav-item">
-                        <button
-                          class="nav-link w-100 active"
-                          type="button"
-                          data-bs-toggle="tab"
-                          data-bs-target="#mainInfo"
-                          role="tab"
-                        >
-                          <app-icon name="person" />
-                          <span class="nav-text">Основная информация</span>
-                        </button>
-                      </li>
-                      <li class="nav-item">
+                      <li v-for="(item, idx) in navMenu" :key="item.text" class="nav-item">
                         <button
                           class="nav-link w-100"
+                          :class="[
+                            {'active': idx === 0},
+                            {'text-danger': idx === navMenu.length - 1}
+                            ]"
                           type="button"
                           data-bs-toggle="tab"
-                          data-bs-target="#changePass"
+                          :data-bs-target="item.target"
                           role="tab"
                         >
-                          <app-icon name="key" />
-                          <span class="nav-text">Сменить пароль</span>
-                        </button>
-                      </li>
-                      <li class="nav-item">
-                        <button
-                          class="nav-link w-100"
-                          type="button"
-                          data-bs-toggle="tab"
-                          data-bs-target="#deleteAccount"
-                          role="tab"
-                        >
-                          <app-icon name="trash" />
-                          <span class="nav-text">Удалить аккаунт</span>
+                          <app-icon :name="item.icon" />
+                          <span class="nav-text">{{ item.text }}</span>
                         </button>
                       </li>
                     </ul>
@@ -207,10 +187,17 @@
                 <div class="tab-pane fade" role="tabpanel" id="deleteAccount">
                   <app-card title="Удалить аккаунт">
                     <p>Вы действительно хотите удалить свою учетную запись? Операцию нельзя будет отменить!</p>
-                    <form action="#">
+                    <form action="#" @submit.prevent="onSubmitDelAcc">
                       <div class="mb-4 mw-lg-50">
                         <label class="form-label">Введите слово "DELETE" для подтверждения</label>
-                        <input class="form-control" type="text">
+                        <input
+                          class="form-control"
+                          :class="{'is-invalid': delAccError}"
+                          v-model="delAcc"
+                          @blur="delAccBlur"
+                          type="text"
+                        />
+                        <div class="invalid-feedback d-block fz-12" v-if="delAccError">{{ delAccError }}</div>
                       </div>
                       <div class="text-end">
                         <button class="btn btn-danger px-3" type="submit">Удалить</button>
@@ -287,14 +274,33 @@ import FileUpload from '@/components/ui/FileUpload'
 import EditProfileModalFooter from '@/components/profile/EditProfileModalFooter'
 import { useEditProfileForm } from '@/use/edit-profile-form'
 import { useChangePasswordForm } from '@/use/change-password-form'
+import { useDeleteAccountForm } from '@/use/delete-account-form'
 import { useUploadImage } from '@/use/upload-image'
 import { getUser } from '@/use/user'
 import breadcrumbs from '@/use/breadcrumb'
+import { ref } from 'vue'
 
 export default {
   name: 'EditProfile',
   setup () {
     const user = getUser()
+    const navMenu = ref([
+      {
+        text: 'Основная информация',
+        target: '#mainInfo',
+        icon: 'person'
+      },
+      {
+        text: 'Сменить пароль',
+        target: '#changePass',
+        icon: 'key'
+      },
+      {
+        text: 'Удалить аккаунт',
+        target: '#deleteAccount',
+        icon: 'trash'
+      }
+    ])
 
     breadcrumbs.setCurrentBreadcrumbName(`редактирование: ${user.value.name}`)
 
@@ -319,6 +325,7 @@ export default {
     } = useUploadImage('uploadHeader')
 
     return {
+      navMenu,
       user,
       completeAvatarUpload,
       cUplAvatar,
@@ -333,7 +340,8 @@ export default {
       saveUplHeader,
       completeHeaderUpload,
       ...useEditProfileForm(user),
-      ...useChangePasswordForm(user.value.email)
+      ...useChangePasswordForm(user.value.email),
+      ...useDeleteAccountForm(user)
     }
   },
   components: {

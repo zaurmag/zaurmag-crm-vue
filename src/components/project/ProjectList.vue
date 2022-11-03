@@ -26,17 +26,16 @@
         <tr>
           <td colspan="8">
             <div class="placeholder-glow px-3">
-              <div v-for="i in pageSize * 2" :key="i" class="row gx-2 mb-2">
+              <div v-for="i in pageSize" :key="i" class="row gx-2 mb-2">
                 <div
                   v-for="n in 8"
                   :key="n"
                   :class="
-                n === 3 || n === 4
-                ? 'col-2'
-                : n === 5 ? 'col-3'
-                : 'col-1'
-              "
-                >
+                  n === 3 || n === 4
+                  ? 'col-2'
+                  : n === 5 ? 'col-3'
+                  : 'col-1'
+                ">
                   <div class="placeholder placeholder w-100 d-block"></div>
                 </div>
               </div>
