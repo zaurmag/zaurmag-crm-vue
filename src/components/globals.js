@@ -1,4 +1,5 @@
-import AppPage from '../components/ui/AppPage.vue'
+import AppPage from '../components/ui/AppPage'
+import AppButton from '../components/ui/AppButton'
 import AppIcon from '@/components/ui/AppIcon'
 import AppCard from '@/components/ui/AppCard'
 import AppBreadcrumb from '@/components/AppBreadcrumb'
@@ -21,5 +22,6 @@ export default [
   AppConfirm,
   AppPagination,
   AppIndicator,
-  AppLoader
+  AppLoader,
+  AppButton
 ]
