@@ -4,7 +4,10 @@
       <div class="modal-content">
         <header class="modal-header px-20">
           <h5 class="modal-title">{{ title }}</h5>
-          <button class="btn-close btn btn-icon btn-sm" type="button" data-bs-dismiss="modal"></button>
+          <app-button
+            classListBtn="btn-close btn-icon btn-sm"
+            :attrs="{'data-bs-dismiss': 'modal'}"
+          />
         </header>
 
         <div class="modal-body p-20">

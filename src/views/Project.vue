@@ -22,14 +22,17 @@
                 </div>
               </div>
               <div class="d-flex">
-                <button class="btn btn-primary py-2" type="button" @click="editBtn">
-                  <app-icon name="pencil" classList="me-2" />
-                  Редактировать
-                </button>
-                <button class="btn btn-danger py-2 ms-2" type="button" @click="removeBtn">
-                  <app-icon name="trash" classList="me-2" />
-                  Удалить
-                </button>
+                <app-button
+                  classListBtn="btn-primary py-2"
+                  @click="editBtn"
+                  :icon="{ name: 'pencil', placement: 'prepend', classList: 'me-2' }"
+                >Редактировать</app-button>
+
+                <app-button
+                  classListBtn="btn-danger py-2 ms-2"
+                  :icon="{ name: 'trash', placement: 'prepend', classList: 'me-2' }"
+                  @click="removeBtn"
+                >Удалить</app-button>
               </div>
             </div>
           </div>

@@ -5,9 +5,7 @@
       type="button"
       data-bs-toggle="dropdown"
     >
-      <svg class="icon icon-calendar3">
-        <use xlink:href="#calendar3"></use>
-      </svg>
+     <app-icon name="calendar3" />
       <span class="ms-2">{{ text }}</span>
     </button>
 
@@ -43,6 +41,8 @@ import { textRangePeriod } from '@/utils/filter-period'
 
 export default {
   name: 'AppArbitraryPeriod',
+  components: {},
+
   props: ['dateFrom', 'dateTo'],
   emits: ['update:dateFrom', 'update:dateTo', 'datesOut'],
   setup (props, { emit }) {

@@ -1,5 +1,5 @@
 <template>
-  <span :class="['btn-wrapper', {'progress h-100': Object.keys(animate).length}, classListWrapper]">
+  <span :class="['btn-wrapper', {'progress h-100': Object.keys(animate).length}, classListWrapper]" v-bind="attrsWrapper">
     <button
       :class="['btn', {'progress-bar progress-bar-striped progress-bar-animated': animate.loading}, classListBtn]"
       :id="id"
@@ -7,9 +7,9 @@
       @click="$emit('click')"
       v-bind="attrs"
     >
-      <app-icon v-if="icon?.placement === 'prepend'" :name="icon?.name" />
+      <app-icon v-if="icon?.placement === 'prepend'" :name="icon?.name" :classList="icon.classList" />
       <slot name="default" />
-      <app-icon v-if="icon?.placement === 'append'" :name="icon?.name" />
+      <app-icon v-if="icon?.placement === 'append'" :name="icon?.name" :classList="icon.classList" />
     </button>
   </span>
 </template>
@@ -34,14 +34,14 @@ export default {
     animate: {
       type: Object,
       required: false,
-      default: () => {
+      default () {
         return {}
       }
     },
     icon: {
       type: Object,
       required: false,
-      default: () => {
+      default () {
         return {}
       }
     },
@@ -53,7 +53,14 @@ export default {
     attrs: {
       type: Object,
       required: false,
-      default: () => {
+      default () {
+        return {}
+      }
+    },
+    attrsWrapper: {
+      type: Object,
+      required: false,
+      default () {
         return {}
       }
     }

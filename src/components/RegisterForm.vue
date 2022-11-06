@@ -15,9 +15,7 @@
       <div class="form__password">
         <input class="form-control form-control-lg" :class="{'is-invalid': pError}" id="password" type="password" placeholder="Не менее 6-ти знаков" v-model="password" @blur="pBlur">
         <a class="form__password-toggle" href="#" ref="togglePass">
-          <svg class="icon icon-eye">
-            <use xlink:href="#eye"></use>
-          </svg>
+          <app-icon name="eye" />
         </a>
       </div>
       <div class="invalid-feedback d-block fz-12" v-if="pError">{{ pError }}</div>
@@ -27,14 +25,17 @@
       <div class="form__password">
         <input class="form-control form-control-lg" :class="{'is-invalid': p2Error}" id="password2" type="password" placeholder="Не менее 6-ти знаков" v-model="password2" @blur="p2Blur">
         <a class="form__password-toggle" href="#" ref="togglePass2">
-          <svg class="icon icon-eye">
-            <use xlink:href="#eye"></use>
-          </svg>
+          <app-icon name="eye" />
         </a>
       </div>
       <div class="invalid-feedback d-block fz-12" v-if="p2Error">{{ p2Error }}</div>
     </div>
-    <button class="btn btn-primary btn-lg w-100" type="submit">Создать аккаунт</button>
+    <app-button
+      classListWrapper="w-100"
+      classListBtn="btn-primary btn-lg w-100"
+      type="submit"
+      :animate="{ loading: isSubmitting }"
+    >Создать аккаунт</app-button>
   </form>
 </template>
 
@@ -45,6 +46,8 @@ import togglePassword from '@/utils/toggle-password'
 
 export default {
   name: 'RegisterForm',
+  components: {},
+
   emits: ['complete'],
   setup (_, { emit }) {
     const togglePass = ref(null)

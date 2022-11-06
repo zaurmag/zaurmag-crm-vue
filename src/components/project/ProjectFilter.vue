@@ -33,15 +33,14 @@
           <input class="form__control" type="search" placeholder="Поиск по наименованию" v-model="search">
         </div>
 
-        <button
-          class="btn btn-outline-secondary btn-round fz-16 ms-3 p-0"
-          type="button"
+        <app-button
+          classListWrapper="ms-3"
+          classListBtn="btn-outline-secondary btn-round fz-16 p-0"
           v-if="isActive"
-          v-tooltip="{ title: 'Сбросить фильтр', placement: 'right' }"
+          v-tooltip="{ title: 'Сбросить фильтр' }"
           @click="reset"
-        >
-          <app-icon name="x" />
-        </button>
+          :icon="{ name: 'x', placement: 'prepend' }"
+        />
       </div>
     </div>
   </div>
@@ -62,7 +61,7 @@ export default {
     const arbitraryPeriodFrom = ref()
     const arbitraryPeriodTo = ref()
 
-    const periodSelectInitial = { name: 'Выбрать период', value: '' }
+    const periodSelectInitial = { name: 'Выбрать период' }
     const periodOptions = ref(PERIOD_OPTIONS)
     const periodSelect = ref(periodSelectInitial)
 
@@ -108,7 +107,7 @@ export default {
       }
     }
 
-    const isActive = computed(() => search.value || typeSelect.value || periodSelect.value || arbitraryPeriodFrom.value || arbitraryPeriodTo)
+    const isActive = computed(() => search.value || typeSelect.value.value || periodSelect.value.value || arbitraryPeriodFrom.value || arbitraryPeriodTo.value)
 
     return {
       arbitraryPeriodFrom,

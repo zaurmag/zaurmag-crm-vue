@@ -4,23 +4,20 @@
       <div class="alert alert-info p-2 m-0">Изображение загружено!</div>
     </div>
     <div class="col-auto text-success">
-      <button class="btn btn-primary" type="button" data-bs-dismiss="modal" @click="cancel">Закрыть</button>
+      <app-button
+        classListBtn="btn-primary"
+        :attrs="{'data-bs-dismiss': 'modal'}"
+        @click="cancel"
+      >Закрыть</app-button>
     </div>
   </div>
   <template v-else>
-    <button class="btn btn-primary" type="button" @click="$emit('save')">Сохранить</button>
-    <button
-      class="btn btn-secondary"
-      type="button"
-      data-bs-dismiss="modal"
-      @click="cancel"
-    >Отмена</button>
+    <app-button classListBtn="btn-primary" @click="$emit('save')">Сохранить</app-button>
+    <app-button classListBtn="btn-secondary" :attrs="{'data-bs-dismiss': 'modal'}" @click="cancel">Отмена</app-button>
   </template>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue'
-
 defineEmits(['save'])
 
 defineProps({

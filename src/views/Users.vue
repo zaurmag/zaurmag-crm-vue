@@ -3,24 +3,24 @@
 
   <app-page title="Пользователи">
     <template #header>
-      <button
-        class="main__add-btn btn btn-primary shadow-sm-soft"
-        type="button"
-        data-bs-toggle="modal"
-        data-bs-target="#addUser"
+      <app-button
+        classListBtn="main__add-btn btn btn-primary shadow-sm-soft"
+        :attrs="{ 'data-bs-toggle': 'modal', 'data-bs-target': '#addUser' }"
+        :icon="{ name: 'person-plus', placement: 'prepend', classList: 'fz-18 me-sm-2' }"
       >
-        <app-icon name="person-plus" classList="fz-18 me-sm-2" />
-        <span class="d-sm-inline d-none">Добавить</span>
-      </button>
+        <span class="d-sm-inline d-none">Добавить пользователя</span>
+      </app-button>
     </template>
 
     <app-card>
       <template #header>
         <div class="row align-items-center">
           <div class="col-xxl mb-0 mb-xl-2 mb-xxl-0 d-flex align-items-center justify-content-between">
-            <button class="btn btn-light fz-18 p-2 d-xl-none ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#filter" aria-expanded="false">
-              <app-icon name="sliders" />
-            </button>
+            <app-button
+              classListBtn="btn-light fz-18 p-2 d-xl-none ms-auto"
+              :attrs="{ 'data-bs-toggle': 'collapse', 'data-bs-target': '#filter', 'aria-expanded': 'false' }"
+              :icon="{ name: 'filter', placement: 'prepend' }"
+            />
           </div>
           <div class="col-xxl-auto collapse d-xl-block" id="filter">
             <user-filter />
@@ -70,11 +70,9 @@ import { useStore } from 'vuex'
 import { closeModal } from '@/use/bs-modal'
 
 const users = computed(() => store.getters['users/users'])
-
 const store = useStore()
 const checkboxes = ref([])
 const PAGE_SIZE = ref({ name: 10, value: 10 })
-
 const selectChbx = checkboxIds => {
   checkboxes.value = checkboxIds
 }

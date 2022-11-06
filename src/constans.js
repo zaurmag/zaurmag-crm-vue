@@ -27,8 +27,7 @@ export const PERIOD_OPTIONS = [
 
 export const TYPE_OPTIONS = [
   {
-    name: 'Все',
-    value: 'all'
+    name: 'Все'
   },
   {
     name: 'Приход',

@@ -3,10 +3,13 @@
     <div class="col-xl-auto">
       <div class="d-lg-flex align-items-center">
         <div class="dropdown ms-lg-2 mt-2 mt-lg-0">
-          <button class="btn btn-light" type="button" data-bs-toggle="dropdown">
-            <app-icon name="calendar3" />
+          <app-button
+            classListBtn="btn-light"
+            :attrsWrapper="{ 'data-bs-toggle': 'dropdown' }"
+            :icon="{ name: 'calendar3', placement: 'prepend' }"
+          >
             <span class="ms-2">Дата регистрации</span>
-          </button>
+          </app-button>
           <div class="dropdown-menu p-3">
             <div class="d-flex align-items-center">
               <label class="text-secondary me-2">от:</label>
@@ -35,9 +38,13 @@
           <app-icon name="search" />
           <input class="form__control" type="search" placeholder="Поиск по имени">
         </div>
-        <button class="btn btn-outline-secondary btn-round fz-16 ms-3 p-0" type="button" data-bs-toggle="tooltip" title="Сбросить фильтр">
-          <app-icon name="x" />
-        </button>
+
+        <app-button
+          classListWrapper="ms-3"
+          classListBtn="btn-outline-secondary btn-round fz-16 p-0"
+          v-tooltip="{ title: 'Сбросить фильтр' }"
+          :icon="{ name: 'x', placement: 'prepend' }"
+        />
       </div>
     </div>
   </div>

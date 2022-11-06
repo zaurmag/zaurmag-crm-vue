@@ -71,21 +71,16 @@
             <td><app-type :type="project.type" /></td>
             <td>{{ $currency(project.amount) }}</td>
             <td style="min-width: 140px">
-              <button
-                class="btn btn-outline-primary btn-sm py-1 fz-12"
-                type="button"
+              <app-button
+                classListBtn="btn-outline-primary btn-sm py-1 fz-12"
                 @click="$router.push(`/project/${project.id}`)"
-              >Открыть</button>
-              <button
-                class="btn text-danger ms-1 fz-16 p-1"
-                type="button"
-                v-tooltip="{ title: 'Удалить' }"
+              >Открыть</app-button>
+              <app-button
+                classListBtn="text-danger ms-1 fz-16 p-1"
                 @click="remove(project.id)"
-              >
-                <svg class="icon icon-trash">
-                  <use xlink:href="#trash"></use>
-                </svg>
-              </button>
+                v-tooltip="{ title: 'Удалить' }"
+                :icon="{ name: 'trash', placement: 'prepend' }"
+              />
             </td>
           </tr>
         </template>

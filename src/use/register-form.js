@@ -7,7 +7,6 @@ import { useStore } from 'vuex'
 export function useRegisterForm (emit) {
   const router = useRouter()
   const store = useStore()
-  const loading = ref(false)
   const { handleSubmit, isSubmitting, submitCount } = useForm()
 
   const { value: name, errorMessage: nError, handleBlur: nBlur } = useField(
@@ -67,13 +66,13 @@ export function useRegisterForm (emit) {
 
         return
       }
-      loading.value = true
+
       await store.dispatch('users/signUp', {
         name: values.name,
         email: values.email,
         password: values.password
       })
-      loading.value = false
+
       emit('complete')
       await router.push('/')
     } catch (e) {}

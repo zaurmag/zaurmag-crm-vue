@@ -16,13 +16,12 @@
       <div class="invalid-feedback d-block fz-12" v-if="pError">{{ pError }}</div>
     </div>
 
-    <div class="progress h-auto">
-      <button
-        class="btn btn-primary btn-lg w-100"
-        :class="{ 'progress-bar progress-bar-striped progress-bar-animated': loading }"
-        type="submit"
-      >Войти</button>
-    </div>
+    <app-button
+      classListBtn="btn-primary btn-lg w-100"
+      classListWrapper="w-100"
+      type="submit"
+      :animate="{ loading: isSubmitting }"
+    >Войти</app-button>
   </form>
 </template>
 
@@ -49,7 +48,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

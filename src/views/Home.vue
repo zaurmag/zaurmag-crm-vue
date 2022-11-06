@@ -1,15 +1,13 @@
 <template>
   <app-page title="Проекты">
     <template #header>
-      <button
-        class="main__add-btn btn btn-primary shadow-sm-soft"
-        type="button"
-        data-bs-toggle="modal"
-        data-bs-target="#addRecord"
+      <app-button
+        classListBtn="main__add-btn btn btn-primary shadow-sm-soft"
+        :attrs="{ 'data-bs-toggle': 'modal', 'data-bs-target': '#addRecord' }"
+        :icon="{ name: 'pencil-square', placement: 'prepend' }"
       >
-        <app-icon name="pencil-square" classList="me-sm-2" />
-        <span class="d-sm-inline d-none">Добавить запись</span>
-      </button>
+        <span class="d-sm-inline d-none ms-sm-2">Добавить запись</span>
+      </app-button>
     </template>
 
     <app-card :classList="['mb-30']">

@@ -6,23 +6,23 @@
       <div class="col-xxl-10">
         <the-profile :headerImg="user.headerUrl || '/images/profile/header.jpg'">
           <template #headerEdit>
-            <button class="btn btn-light py-2" type="button" data-bs-toggle="modal" data-bs-target="#uploadHeader">
-              <app-icon name="image" classList="me-lg-2" />
+            <app-button
+              classListBtn="btn-light py-2"
+              :attrs="{ 'data-bs-toggle': 'modal', 'data-bs-target': '#uploadHeader' }"
+              :icon="{ name: 'image', placement: 'prepend', classList: 'me-lg-2' }"
+            >
               <span class="d-none d-lg-inline">Загрузить картинку</span>
-            </button>
+            </app-button>
           </template>
 
           <template #headerShortInfo>
             <div class="profile__avatar">
               <img class="profile__avatar-img" :src="user.imgUrl || '/images/user.png'" :alt="user.name" />
-              <button
-                class="btn btn-light rounded-circle profile__avatar-edit"
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#uploadAvatar"
-              >
-                <app-icon name="pencil" />
-              </button>
+              <app-button
+                classListBtn="btn-light rounded-circle profile__avatar-edit"
+                :attrs="{ 'data-bs-toggle': 'modal', 'data-bs-target': '#uploadAvatar' }"
+                :icon="{ name: 'pencil', placement: 'prepend' }"
+              />
             </div>
             <h2 class="h5 profile__name">{{ user.name }}</h2>
           </template>
@@ -121,17 +121,13 @@
                         />
                       </div>
                     </div>
+                    <app-button
+                      classListBtn="btn-primary py-2 px-3"
+                      type="submit"
+                      :animate="{ loading: isSubmitting }"
+                      :attrs="{ disabled: isToManyAttempts }"
+                    >Сохранить</app-button>
 
-                    <div class="progress h-auto d-inline-block">
-                      <button
-                        class="btn btn-primary py-2 px-3"
-                        :class="{ 'progress-bar progress-bar-striped progress-bar-animated': isSubmitting }"
-                        type="submit"
-                        :disabled="isToManyAttempts"
-                      >
-                        Сохранить
-                      </button>
-                    </div>
                     <div class="invalid-feedback d-block fz-12" v-if="isToManyAttempts">Вы делаете слишком много попыток!</div>
                   </app-card>
                   </form>
@@ -165,16 +161,12 @@
                           >
                           <div class="invalid-feedback d-block fz-12" v-if="chPassError2">{{ chPassError2 }}</div>
                         </div>
-                        <div class="progress h-auto d-inline-block">
-                          <button
-                            class="btn btn-primary py-2 px-3"
-                            :class="{ 'progress-bar progress-bar-striped progress-bar-animated': isSubmittingPass }"
-                            type="submit"
-                            :disabled="isToManyAttemptsPass"
-                          >
-                            Сохранить
-                          </button>
-                        </div>
+                        <app-button
+                          classListBtn="btn-primary py-2 px-3"
+                          :animate="{ loading: isSubmittingPass }"
+                          :attrs="{ disabled: isToManyAttemptsPass }"
+                          type="submit"
+                        >Сохранить</app-button>
                         <div
                           class="invalid-feedback d-block fz-12"
                           v-if="isToManyAttemptsPass"
@@ -200,7 +192,7 @@
                         <div class="invalid-feedback d-block fz-12" v-if="delAccError">{{ delAccError }}</div>
                       </div>
                       <div class="text-end">
-                        <button class="btn btn-danger px-3" type="submit">Удалить</button>
+                        <app-button classListBtn="btn-danger px-3" type="submit">Удалить</app-button>
                       </div>
                     </form>
                   </app-card>

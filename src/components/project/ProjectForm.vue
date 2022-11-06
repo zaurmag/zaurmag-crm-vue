@@ -29,7 +29,15 @@
       <textarea class="form-control form-control-lg" :class="{'is-invalid': descError}" id="addRecordDescr" @blur="descBlur" v-model="desc"></textarea>
       <div class="invalid-feedback d-block fz-12" v-if="descError">{{ descError }}</div>
     </div>
-    <button class="btn btn-primary btn-lg px-3 w-100" type="submit">{{ initial ? 'Сохранить' : 'Отправить'}}</button>
+
+    <app-button
+      classListWrapper="w-100"
+      classListBtn="btn-primary btn-lg px-3 w-100"
+      type="submit"
+      :animate="{ loading: isSubmitting }"
+    >
+      {{ initial ? 'Сохранить' : 'Отправить'}}
+    </app-button>
   </form>
 </template>
 
@@ -39,7 +47,15 @@ import { useProjectForm } from '@/use/project-form'
 export default {
   name: 'ProjectForm',
   emits: ['close', 'submit'],
-  props: ['initial'],
+  props: {
+    initial: {
+      type: Object,
+      required: false,
+      default () {
+        return {}
+      }
+    }
+  },
   setup (props, { emit }) {
     return {
       ...useProjectForm(emit, props.initial)
@@ -47,7 +63,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>
