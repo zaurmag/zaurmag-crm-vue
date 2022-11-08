@@ -21,6 +21,7 @@
           <li>
             <router-link
               class="dropdown-item"
+              v-if="typeof user.id !== 'undefined'"
               :to="{
                 name: 'Profile',
                 params: { id: user.id }
