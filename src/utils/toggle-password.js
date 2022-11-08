@@ -9,10 +9,10 @@ export default function togglePassword (el) {
 
     if (isToggle) {
       input.type = 'text'
-      icon.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '#eye-slash')
+      icon.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '/images/sprite.svg#eye-slash')
     } else {
       input.type = 'password'
-      icon.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '#eye')
+      icon.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '/images/sprite.svg#eye')
     }
   })
 }

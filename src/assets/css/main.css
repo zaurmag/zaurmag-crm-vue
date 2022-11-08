@@ -10493,6 +10493,9 @@ textarea.form-control-lg {
     color: #fff !important; }
   .btn-outline-primary:hover, .btn-outline-danger:hover, .btn-outline-success:hover {
     color: #fff; }
+  .btn-empty:focus, .btn-empty:active {
+    outline: none;
+    border: none; }
 
 .table {
   font-size: 0.875rem;
@@ -10567,6 +10570,24 @@ textarea.form-control-lg {
 .form-check {
   font-size: 1.0625rem;
   margin: 0; }
+
+.form-control-dark {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #fff; }
+
+.form-control-password {
+  position: relative; }
+  .form-control-password input {
+    padding-right: 2.1875rem; }
+
+.form-control-toggle {
+  color: #343a40;
+  font-size: 1rem;
+  position: absolute;
+  top: 50%;
+  right: 1.25rem;
+  transform: translateY(-50%); }
 
 /**
  * Mixins
