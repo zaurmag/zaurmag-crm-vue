@@ -3,7 +3,7 @@ import * as yup from 'yup'
 import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
 
-export function useChangePasswordForm (email) {
+export function useChangePasswordForm () {
   const store = useStore()
   const { handleSubmit, isSubmitting: isSubmittingPass, submitCount } = useForm()
 
