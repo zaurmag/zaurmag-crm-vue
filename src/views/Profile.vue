@@ -1,10 +1,13 @@
 <template>
   <app-breadcrumb />
 
-  <app-page v-if="user">
+  <app-page>
     <div class="row justify-content-center">
       <div class="col-xxl-10">
-        <the-profile :headerImg="user.headerUrl || '/images/profile/header.jpg'">
+        <div class="position-relative d-flex align-items-center" v-if="!user" style="height: 400px">
+          <app-loader />
+        </div>
+        <the-profile v-else :headerImg="user.headerUrl || '/images/profile/header.jpg'">
           <template #headerEdit>
             <router-link v-if="user.id" class="btn btn-light py-2" :to="{ name: 'EditProfile', params: { id: user.id } }">
               <app-icon name="pencil-square" classList="me-lg-2" />
