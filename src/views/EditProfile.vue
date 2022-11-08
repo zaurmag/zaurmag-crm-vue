@@ -208,6 +208,7 @@
   <teleport to="body">
     <!-- Upload avatar -->
     <app-bs-modal
+      v-if="user"
       id="uploadAvatar"
       title="Загрузить файл"
       :progress="prUplAvatar"
@@ -234,6 +235,7 @@
 
     <!-- Upload header -->
     <app-bs-modal
+      v-if="user"
       id="uploadHeader"
       title="Загрузить файл"
       :progress="prUplHeader"
@@ -269,7 +271,6 @@ import { useChangePasswordForm } from '@/use/change-password-form'
 import { useDeleteAccountForm } from '@/use/delete-account-form'
 import { useUploadImage } from '@/use/upload-image'
 import { getUser } from '@/use/user'
-import breadcrumbs from '@/use/breadcrumb'
 import { ref } from 'vue'
 
 export default {
@@ -293,8 +294,6 @@ export default {
         icon: 'trash'
       }
     ])
-
-    breadcrumbs.setCurrentBreadcrumbName(`редактирование: ${user.value.name}`)
 
     // Upload avatar refs
     const {
@@ -332,7 +331,7 @@ export default {
       saveUplHeader,
       completeHeaderUpload,
       ...useEditProfileForm(user),
-      ...useChangePasswordForm(user.value.email),
+      ...useChangePasswordForm(),
       ...useDeleteAccountForm(user)
     }
   },

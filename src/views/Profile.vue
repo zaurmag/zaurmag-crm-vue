@@ -6,7 +6,7 @@
       <div class="col-xxl-10">
         <the-profile :headerImg="user.headerUrl || '/images/profile/header.jpg'">
           <template #headerEdit>
-            <router-link class="btn btn-light py-2" :to="{name: 'EditProfile', params: {id: user.id}}">
+            <router-link v-if="user.id" class="btn btn-light py-2" :to="{ name: 'EditProfile', params: { id: user.id } }">
               <app-icon name="pencil-square" classList="me-lg-2" />
               <span class="d-none d-lg-inline">Редактировать</span>
             </router-link>
@@ -54,8 +54,9 @@
 <script setup>
 import TheProfile from '@/components/profile/TheProfile'
 import { getUser } from '@/use/user'
-import breadcrumbs from '@/use/breadcrumb'
+import { useRoute } from 'vue-router'
+const route = useRoute()
+console.log(route.params.id)
 
 const user = getUser()
-breadcrumbs.setCurrentBreadcrumbName(user.value.name)
 </script>
