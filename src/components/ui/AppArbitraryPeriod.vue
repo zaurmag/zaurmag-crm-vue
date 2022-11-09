@@ -10,27 +10,27 @@
     </button>
 
     <div class="dropdown-menu p-3">
-      <div class="col-sm col-md-auto d-flex align-items-center">
-        <label class="text-secondary me-2">от:</label>
-        <input
-          class="form__control"
-          id="filterDateFrom"
-          type="date"
-          v-model="from"
-          @input="changeDateHandler"
-        >
-      </div>
+      <form-control
+        id="filterDateFrom"
+        label="от:"
+        type="date"
+        v-model="from"
+        classListWrapper="d-flex align-items-center"
+        classListLabel="text-secondary me-2 mb-0"
+        classListInput="form-control-sm form-control-bb"
+        @input="changeDateHandler"
+      />
 
-      <div class="col-sm col-md-auto d-flex align-items-center">
-        <label class="form__label me-2" for="filterDateTo">до:</label>
-        <input
-          class="form__control"
-          id="filterDateTo"
-          type="date"
-          v-model="to"
-          @input="changeDateHandler"
-        >
-      </div>
+      <form-control
+        id="filterDateTo"
+        label="до:"
+        type="date"
+        v-model="to"
+        classListWrapper="d-flex align-items-center"
+        classListLabel="text-secondary me-2 mb-0"
+        classListInput="form-control-sm form-control-bb"
+        @input="changeDateHandler"
+      />
     </div>
   </div>
 </template>
@@ -41,8 +41,6 @@ import { textRangePeriod } from '@/utils/filter-period'
 
 export default {
   name: 'AppArbitraryPeriod',
-  components: {},
-
   props: ['dateFrom', 'dateTo'],
   emits: ['update:dateFrom', 'update:dateTo', 'datesOut'],
   setup (props, { emit }) {

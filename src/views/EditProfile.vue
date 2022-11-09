@@ -61,58 +61,41 @@
                 <div class="tab-pane fade show active" role="tabpanel" id="mainInfo">
                   <form action="#" @submit.prevent="onSubmit">
                   <app-card title="Основная информация" classList="h-100">
-                    <div class="mb-3">
-                      <label class="form-label" for="name">Имя</label>
-                      <input
-                        :class="['form-control', 'py-2', {'is-invalid': nError}]"
-                        id="name"
-                        type="text"
-                        v-model="name"
-                        @blur="nBlur"
-                      >
-                      <div class="invalid-feedback d-block fz-12" v-if="nError">{{ nError }}</div>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label" for="email">E-mail</label>
-                      <input
-                        :class="['form-control', 'py-2', {'is-invalid': eError}]"
-                        id="email"
-                        type="email"
-                        v-model="email"
-                        @blur="eBlur"
-                      >
-                      <div class="invalid-feedback d-block fz-12" v-if="eError">{{ eError }}</div>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label" for="phone">Телефон</label>
-                      <input
-                        :class="['form-control', 'py-2', {'is-invalid': pnError}]"
-                        id="phone"
-                        type="text"
-                        v-model="phone"
-                        @blur="pnBlur"
-                      >
-                      <div class="invalid-feedback d-block fz-12" v-if="pnError">{{ pnError }}</div>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label" for="city">Адрес</label>
-                      <input
-                        :class="['form-control', 'py-2', {'is-invalid': aError}]"
-                        id="city"
-                        type="text"
-                        v-model="address"
-                        @blur="aBlur"
-                      >
-                      <div class="invalid-feedback d-block fz-12" v-if="aError">{{ aError }}</div>
-                    </div>
-
+                    <form-control
+                      id="name"
+                      label="Имя"
+                      v-model="name"
+                      @blur="nBlur"
+                      :error="nError"
+                    />
+                    <form-control
+                      id="email"
+                      label="E-mail"
+                      type="email"
+                      v-model="email"
+                      @blur="eBlur"
+                      :error="eError"
+                    />
+                    <form-control
+                      id="phone"
+                      label="Телефон"
+                      v-model="phone"
+                      @blur="pnBlur"
+                      :error="pnError"
+                    />
+                    <form-control
+                      id="city"
+                      label="Адрес"
+                      v-model="address"
+                      @blur="aBlur"
+                      :error="aError"
+                    />
                     <p class="form-label">О себе</p>
-                    <textarea
-                      class="form-control py-2 d-none"
+                    <form-control
+                      id="about"
                       v-model="description"
-                      cols="10"
-                      rows="5"
-                    ></textarea>
+                      classListInput="d-none"
+                    />
                     <div class="w-editor mb-4">
                       <div class="w-editor__container">
                         <quill-editor
@@ -140,30 +123,22 @@
                   <app-card title="Сменить пароль" classList="h-100">
                     <form action="#" @submit.prevent="onSubmitPass">
                       <div class="mw-lg-50">
-                        <div class="mb-3">
-                          <label class="form-label" for="password">Пароль</label>
-                          <input
-                            class="form-control py-2"
-                            :class="{'is-invalid': chPassError}"
-                            id="password"
-                            type="password"
-                            v-model="chPass"
-                            @blur="chBlurPass"
-                          >
-                          <div class="invalid-feedback d-block fz-12" v-if="chPassError">{{ chPassError }}</div>
-                        </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="password2">Повторить пароль</label>
-                          <input
-                            class="form-control py-2"
-                            :class="{'is-invalid': chPassError2}"
-                            id="password2"
-                            type="password"
-                            v-model="chPass2"
-                            @blur="chBlurPass2"
-                          >
-                          <div class="invalid-feedback d-block fz-12" v-if="chPassError2">{{ chPassError2 }}</div>
-                        </div>
+                        <form-control
+                          id="password"
+                          label="Пароль"
+                          type="password"
+                          v-model="chPass"
+                          @blur="chBlurPass"
+                          :error="chPassError"
+                        />
+                        <form-control
+                          id="password2"
+                          label="Повторить пароль"
+                          type="password"
+                          v-model="chPass2"
+                          @blur="chBlurPass2"
+                          :error="chPassError2"
+                        />
                         <app-button
                           classListBtn="btn-primary py-2 px-3"
                           :animate="{ loading: isSubmittingPass }"
@@ -183,17 +158,14 @@
                   <app-card title="Удалить аккаунт">
                     <p>Вы действительно хотите удалить свою учетную запись? Операцию нельзя будет отменить!</p>
                     <form action="#" @submit.prevent="onSubmitDelAcc">
-                      <div class="mb-4 mw-lg-50">
-                        <label class="form-label">Введите слово "DELETE" для подтверждения</label>
-                        <input
-                          class="form-control"
-                          :class="{'is-invalid': delAccError}"
-                          v-model="delAcc"
-                          @blur="delAccBlur"
-                          type="text"
-                        />
-                        <div class="invalid-feedback d-block fz-12" v-if="delAccError">{{ delAccError }}</div>
-                      </div>
+                      <form-control
+                        id="delAccount"
+                        label='Введите слово "DELETE" для подтверждения'
+                        v-model="delAcc"
+                        @blur="delAccBlur"
+                        :error="delAccError"
+                        classListWrapper="mb-4 mw-lg-50"
+                      />
                       <div class="text-end">
                         <app-button classListBtn="btn-danger px-3" type="submit">Удалить</app-button>
                       </div>

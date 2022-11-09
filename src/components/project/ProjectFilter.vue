@@ -28,10 +28,18 @@
     </div>
     <div class="col-xl-auto">
       <div class="d-flex align-items-center">
-        <div class="form__group form__group--icon w-100">
-          <app-icon name="search" />
-          <input class="form__control" type="search" placeholder="Поиск по наименованию" v-model="search">
-        </div>
+        <form-control
+          id="filterSearch"
+          type="search"
+          placeholder="Поиск по имени"
+          v-model="search"
+          classListWrapper="form__group form__group--icon w-100"
+          classListInput="form-control-bb ps-20"
+        >
+          <template #prepend>
+            <app-icon name="search" />
+          </template>
+        </form-control>
 
         <app-button
           classListWrapper="ms-3"

@@ -10571,23 +10571,32 @@ textarea.form-control-lg {
   font-size: 1.0625rem;
   margin: 0; }
 
-.form-control-dark {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.1);
-  color: #fff; }
-
-.form-control-password {
-  position: relative; }
-  .form-control-password input {
-    padding-right: 2.1875rem; }
-
-.form-control-toggle {
-  color: #343a40;
-  font-size: 1rem;
-  position: absolute;
-  top: 50%;
-  right: 1.25rem;
-  transform: translateY(-50%); }
+.form-control {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem; }
+  .form-control-dark {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #fff; }
+  .form-control-password {
+    position: relative; }
+    .form-control-password input {
+      padding-right: 2.1875rem; }
+  .form-control-toggle {
+    color: #343a40;
+    font-size: 1rem;
+    position: absolute;
+    top: 50%;
+    right: 1.25rem;
+    transform: translateY(-50%); }
+  .form-control-bb {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0; }
+    .form-control-bb:focus {
+      outline: none;
+      box-shadow: none; }
 
 /**
  * Mixins
@@ -11271,7 +11280,8 @@ a.is-transition {
     border-radius: 0.375rem;
     height: auto; }
     .select--bordered .select__text {
-      padding: 0.875rem 1.25rem; }
+      padding: 0.8125rem 1.25rem;
+      background-color: transparent !important; }
     .select--bordered .select__dropdown {
       top: 3.125rem; }
   .select--styled {

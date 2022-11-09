@@ -10,6 +10,7 @@ import AppConfirm from '@/components/ui/AppConfirm'
 import AppPagination from '@/components/ui/AppPagination'
 import AppLoader from '@/components/ui/AppLoader'
 import FormControl from '@/components/form/FormControl'
+import AppSelect from '@/components/ui/AppSelect'
 import { QuillEditor } from '@vueup/vue-quill'
 
 export default [
@@ -25,5 +26,6 @@ export default [
   AppIndicator,
   AppLoader,
   AppButton,
-  FormControl
+  FormControl,
+  AppSelect
 ]
