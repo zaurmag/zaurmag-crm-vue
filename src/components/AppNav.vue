@@ -13,12 +13,6 @@
           <span class="nav-text">Пользователи</span>
         </router-link>
       </li>
-      <li class="nav-item" v-if="isAdmin">
-        <router-link class="nav-link" to="/dbreplacer">
-          <app-icon name="people" />
-          <span class="nav-text">Рефактор БД</span>
-        </router-link>
-      </li>
     </ul>
   </nav>
 </template>

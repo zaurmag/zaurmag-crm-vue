@@ -11,50 +11,50 @@
 import axios from '@/axios/dbase'
 import AppPage from '@/components/ui/AppPage'
 import { ref } from 'vue'
-import { users } from '@/assets/zaurmagcrm-default-rtdb-export.json'
+// import { users } from '@/assets/zaurmagcrm-default-rtdb-export.json'
 const interval = ref(null)
-// const users = {
-//   lJko4saf0actOVdADbKG9BUfLYf2: {
-//     info: {},
-//     projects: {
-//       'key-1': {
-//         amount: '2500',
-//         date: '2021-01-07',
-//         desc: 'Вторая часть 50% за верстку страницы услуг по вывозу мусора',
-//         title: 'Проект 1',
-//         type: 'income'
-//       },
-//       'key-2': {
-//         amount: '2500',
-//         date: '2021-01-07',
-//         desc: 'Вторая часть 50% за верстку страницы услуг по вывозу мусора',
-//         title: 'Проект 2',
-//         type: 'income'
-//       },
-//       'key-3': {
-//         amount: '2500',
-//         date: '2021-01-07',
-//         desc: 'Вторая часть 50% за верстку страницы услуг по вывозу мусора',
-//         title: 'Проект 3',
-//         type: 'income'
-//       },
-//       'key-4': {
-//         amount: '2500',
-//         date: '2021-01-07',
-//         desc: 'Вторая часть 50% за верстку страницы услуг по вывозу мусора',
-//         title: 'Проект 4',
-//         type: 'income'
-//       },
-//       'key-5': {
-//         amount: '2500',
-//         date: '2021-01-07',
-//         desc: 'Вторая часть 50% за верстку страницы услуг по вывозу мусора',
-//         title: 'Проект 5',
-//         type: 'income'
-//       }
-//     }
-//   }
-// }
+const users = {
+  lJko4saf0actOVdADbKG9BUfLYf2: {
+    info: {},
+    projects: {
+      'key-1': {
+        amount: '2500',
+        date: '2021-01-07',
+        desc: 'Вторая часть 50% за верстку страницы услуг по вывозу мусора',
+        title: 'Проект 1',
+        type: 'income'
+      },
+      'key-2': {
+        amount: '2500',
+        date: '2021-01-07',
+        desc: 'Вторая часть 50% за верстку страницы услуг по вывозу мусора',
+        title: 'Проект 2',
+        type: 'income'
+      },
+      'key-3': {
+        amount: '2500',
+        date: '2021-01-07',
+        desc: 'Вторая часть 50% за верстку страницы услуг по вывозу мусора',
+        title: 'Проект 3',
+        type: 'income'
+      },
+      'key-4': {
+        amount: '2500',
+        date: '2021-01-07',
+        desc: 'Вторая часть 50% за верстку страницы услуг по вывозу мусора',
+        title: 'Проект 4',
+        type: 'income'
+      },
+      'key-5': {
+        amount: '2500',
+        date: '2021-01-07',
+        desc: 'Вторая часть 50% за верстку страницы услуг по вывозу мусора',
+        title: 'Проект 5',
+        type: 'income'
+      }
+    }
+  }
+}
 
 const projects = users.lJko4saf0actOVdADbKG9BUfLYf2.projects
 const userId = 'lJko4saf0actOVdADbKG9BUfLYf2'
