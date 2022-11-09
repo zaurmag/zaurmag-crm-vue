@@ -11256,6 +11256,8 @@ a.is-transition {
   .select.is-open .select__text::after {
     transition: transform .2s ease;
     transform: rotate(-45deg); }
+  .select.is-invalid {
+    border-color: #ed4c78; }
   .select__list {
     background-color: #fff;
     border: 0.0625rem solid #dee2e6;
@@ -11294,7 +11296,7 @@ a.is-transition {
       transition: background-color .2s ease; }
 
 /*!
- * Quill Editor v1.3.7
+ * Quill Editor v1.3.6
  * https://quilljs.com/
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com
@@ -11697,7 +11699,7 @@ a.is-transition {
   right: 0.9375rem; }
 
 /*!
- * Quill Editor v1.3.7
+ * Quill Editor v1.3.6
  * https://quilljs.com/
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com

@@ -19,23 +19,14 @@
       classListInput="form-control-lg"
     />
 
-<!--    <div class="mb-3">-->
-<!--      <label class="form-label">Тип операции</label>-->
-<!--      <app-select-->
-<!--        v-model="type"-->
-<!--        :options="typeOptions"-->
-<!--        classList="select&#45;&#45;lg select&#45;&#45;bordered"-->
-<!--      />-->
-<!--    </div>-->
-
     <div class="mb-3">
       <label class="form-label">Тип операции</label>
-      <select class="form-select form-select-lg" :class="{'is-invalid': typeError}" id="addRecordType" v-model="type">
-        <option value="income" selected>Приход</option>
-        <option value="outcome">Расход</option>
-        <option value="pending">В ожидании</option>
-      </select>
-      <div class="invalid-feedback d-block fz-12" v-if="typeError">{{ typeError }}</div>
+      <form-select
+        v-model="type"
+        :options="typeOptions"
+        :error="typeError"
+        classList="select--lg select--bordered"
+      />
     </div>
 
     <form-control
@@ -87,7 +78,7 @@ export default {
     }
   },
   setup (props, { emit }) {
-    const typeOptions = ref(TYPE_OPTIONS)
+    const typeOptions = ref(TYPE_OPTIONS.slice(1))
 
     return {
       typeOptions,
