@@ -5,7 +5,7 @@ import { dateF } from '@/utils/date'
 
 export function useProjectForm (emit, initialValues) {
   const store = useStore()
-  const { handleSubmit, handleReset, resetForm, setFieldValue } = useForm({
+  const { handleSubmit, handleReset, resetForm, isSubmitting, setFieldValue } = useForm({
     initialValues
   })
 
@@ -89,6 +89,7 @@ export function useProjectForm (emit, initialValues) {
     descError,
     descBlur,
     onSubmit,
-    handleReset
+    handleReset,
+    isSubmitting
   }
 }

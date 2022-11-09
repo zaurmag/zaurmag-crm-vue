@@ -5,10 +5,9 @@
     </div>
     <div class="header__right" v-if="user">
       <div class="header__user-dropdown dropdown">
-        <button
-          class="dropdown-toggle btn"
-          type="button"
-          data-bs-toggle="dropdown"
+        <app-button
+          classListBtn="dropdown-toggle btn-light"
+          :attrsWrapper="{ 'data-bs-toggle': 'dropdown' }"
         >
           <img
             class="rounded-circle img-fluid me-2"
@@ -17,11 +16,12 @@
             :alt="user.name"
           />
           <span>{{ user.name }}</span>
-        </button>
-        <ul class="dropdown-menu shadow-sm-soft">
+        </app-button>
+        <ul class="dropdown-menu shadow-sm-soft w-100">
           <li>
             <router-link
               class="dropdown-item"
+              v-if="typeof user.id !== 'undefined'"
               :to="{
                 name: 'Profile',
                 params: { id: user.id }

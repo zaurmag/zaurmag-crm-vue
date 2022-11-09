@@ -1,4 +1,5 @@
-import AppPage from '../components/ui/AppPage.vue'
+import AppPage from '../components/ui/AppPage'
+import AppButton from '../components/ui/AppButton'
 import AppIcon from '@/components/ui/AppIcon'
 import AppCard from '@/components/ui/AppCard'
 import AppBreadcrumb from '@/components/AppBreadcrumb'
@@ -8,6 +9,8 @@ import AppBsModal from '@/components/ui/AppBsModal'
 import AppConfirm from '@/components/ui/AppConfirm'
 import AppPagination from '@/components/ui/AppPagination'
 import AppLoader from '@/components/ui/AppLoader'
+import FormControl from '@/components/form/FormControl'
+import AppSelect from '@/components/ui/AppSelect'
 import { QuillEditor } from '@vueup/vue-quill'
 
 export default [
@@ -21,5 +24,8 @@ export default [
   AppConfirm,
   AppPagination,
   AppIndicator,
-  AppLoader
+  AppLoader,
+  AppButton,
+  FormControl,
+  AppSelect
 ]

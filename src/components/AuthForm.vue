@@ -1,55 +1,45 @@
 <template>
   <form action="#" @submit.prevent="onSubmit">
-    <div class="mb-3">
-      <label class="form-label" for="email">E-mail</label>
-      <input class="form-control form-control-lg" :class="{'is-invalid': eError}" id="email" type="email" placeholder="email@address.com" v-model="email" @blur="eBlur">
-      <div class="invalid-feedback d-block fz-12" v-if="eError">{{ eError }}</div>
-    </div>
-    <div class="mb-3">
-      <label class="form-label" for="password">Пароль</label>
-      <div class="form__password">
-        <input class="form-control form-control-lg" :class="{'is-invalid': pError}" id="password" type="password" placeholder="Не менее 6-ти знаков" v-model="password" @blur="pBlur">
-        <a class="form__password-toggle" href="#" ref="togglePass">
-          <app-icon name="eye" />
-        </a>
-      </div>
-      <div class="invalid-feedback d-block fz-12" v-if="pError">{{ pError }}</div>
-    </div>
+    <form-control
+      id="email"
+      label="E-mail"
+      type="email"
+      :error="eError"
+      :blur="eBlur"
+      v-model="email"
+      classListInput="form-control-lg"
+      placeholder="email@address.com"
+    />
 
-    <div class="progress h-auto">
-      <button
-        class="btn btn-primary btn-lg w-100"
-        :class="{ 'progress-bar progress-bar-striped progress-bar-animated': loading }"
-        type="submit"
-      >Войти</button>
-    </div>
+    <form-control
+      id="password"
+      label="Пароль"
+      type="password"
+      :error="pError"
+      :blur="pBlur"
+      v-model="password"
+      classListInput="form-control-lg"
+      placeholder="Не менее 6-ти знаков"
+    />
+
+    <app-button
+      classListBtn="btn-primary btn-lg w-100"
+      classListWrapper="w-100"
+      type="submit"
+      :animate="{ loading: isSubmitting }"
+    >Войти</app-button>
   </form>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
 import { useLoginForm } from '@/use/login-form'
-import togglePassword from '@/utils/toggle-password'
 
 export default {
   name: 'AuthForm',
-  components: {},
-
   setup () {
-    const togglePass = ref(null)
-
-    onMounted(() => {
-      togglePassword(togglePass.value)
-    })
-
     return {
-      ...useLoginForm(),
-      togglePass
+      ...useLoginForm()
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>

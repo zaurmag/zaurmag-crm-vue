@@ -1,28 +1,31 @@
 <template>
   <app-breadcrumb />
 
-  <app-page v-if="user">
+  <app-page>
     <div class="row justify-content-center">
       <div class="col-xxl-10">
-        <the-profile :headerImg="user.headerUrl || '/images/profile/header.jpg'">
+        <div class="position-relative d-flex align-items-center" v-if="!user" style="height: 400px">
+          <app-loader />
+        </div>
+        <the-profile v-else :headerImg="user.headerUrl || '/images/profile/header.jpg'">
           <template #headerEdit>
-            <button class="btn btn-light py-2" type="button" data-bs-toggle="modal" data-bs-target="#uploadHeader">
-              <app-icon name="image" classList="me-lg-2" />
+            <app-button
+              classListBtn="btn-light py-2"
+              :attrs="{ 'data-bs-toggle': 'modal', 'data-bs-target': '#uploadHeader' }"
+              :icon="{ name: 'image', placement: 'prepend', classList: 'me-lg-2' }"
+            >
               <span class="d-none d-lg-inline">Загрузить картинку</span>
-            </button>
+            </app-button>
           </template>
 
           <template #headerShortInfo>
             <div class="profile__avatar">
               <img class="profile__avatar-img" :src="user.imgUrl || '/images/user.png'" :alt="user.name" />
-              <button
-                class="btn btn-light rounded-circle profile__avatar-edit"
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#uploadAvatar"
-              >
-                <app-icon name="pencil" />
-              </button>
+              <app-button
+                classListBtn="btn-light rounded-circle profile__avatar-edit"
+                :attrs="{ 'data-bs-toggle': 'modal', 'data-bs-target': '#uploadAvatar' }"
+                :icon="{ name: 'pencil', placement: 'prepend' }"
+              />
             </div>
             <h2 class="h5 profile__name">{{ user.name }}</h2>
           </template>
@@ -58,58 +61,41 @@
                 <div class="tab-pane fade show active" role="tabpanel" id="mainInfo">
                   <form action="#" @submit.prevent="onSubmit">
                   <app-card title="Основная информация" classList="h-100">
-                    <div class="mb-3">
-                      <label class="form-label" for="name">Имя</label>
-                      <input
-                        :class="['form-control', 'py-2', {'is-invalid': nError}]"
-                        id="name"
-                        type="text"
-                        v-model="name"
-                        @blur="nBlur"
-                      >
-                      <div class="invalid-feedback d-block fz-12" v-if="nError">{{ nError }}</div>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label" for="email">E-mail</label>
-                      <input
-                        :class="['form-control', 'py-2', {'is-invalid': eError}]"
-                        id="email"
-                        type="email"
-                        v-model="email"
-                        @blur="eBlur"
-                      >
-                      <div class="invalid-feedback d-block fz-12" v-if="eError">{{ eError }}</div>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label" for="phone">Телефон</label>
-                      <input
-                        :class="['form-control', 'py-2', {'is-invalid': pnError}]"
-                        id="phone"
-                        type="text"
-                        v-model="phone"
-                        @blur="pnBlur"
-                      >
-                      <div class="invalid-feedback d-block fz-12" v-if="pnError">{{ pnError }}</div>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label" for="city">Адрес</label>
-                      <input
-                        :class="['form-control', 'py-2', {'is-invalid': aError}]"
-                        id="city"
-                        type="text"
-                        v-model="address"
-                        @blur="aBlur"
-                      >
-                      <div class="invalid-feedback d-block fz-12" v-if="aError">{{ aError }}</div>
-                    </div>
-
+                    <form-control
+                      id="name"
+                      label="Имя"
+                      v-model="name"
+                      @blur="nBlur"
+                      :error="nError"
+                    />
+                    <form-control
+                      id="email"
+                      label="E-mail"
+                      type="email"
+                      v-model="email"
+                      @blur="eBlur"
+                      :error="eError"
+                    />
+                    <form-control
+                      id="phone"
+                      label="Телефон"
+                      v-model="phone"
+                      @blur="pnBlur"
+                      :error="pnError"
+                    />
+                    <form-control
+                      id="city"
+                      label="Адрес"
+                      v-model="address"
+                      @blur="aBlur"
+                      :error="aError"
+                    />
                     <p class="form-label">О себе</p>
-                    <textarea
-                      class="form-control py-2 d-none"
+                    <form-control
+                      id="about"
                       v-model="description"
-                      cols="10"
-                      rows="5"
-                    ></textarea>
+                      classListInput="d-none"
+                    />
                     <div class="w-editor mb-4">
                       <div class="w-editor__container">
                         <quill-editor
@@ -121,17 +107,13 @@
                         />
                       </div>
                     </div>
+                    <app-button
+                      classListBtn="btn-primary py-2 px-3"
+                      type="submit"
+                      :animate="{ loading: isSubmitting }"
+                      :attrs="{ disabled: isToManyAttempts }"
+                    >Сохранить</app-button>
 
-                    <div class="progress h-auto d-inline-block">
-                      <button
-                        class="btn btn-primary py-2 px-3"
-                        :class="{ 'progress-bar progress-bar-striped progress-bar-animated': isSubmitting }"
-                        type="submit"
-                        :disabled="isToManyAttempts"
-                      >
-                        Сохранить
-                      </button>
-                    </div>
                     <div class="invalid-feedback d-block fz-12" v-if="isToManyAttempts">Вы делаете слишком много попыток!</div>
                   </app-card>
                   </form>
@@ -141,40 +123,28 @@
                   <app-card title="Сменить пароль" classList="h-100">
                     <form action="#" @submit.prevent="onSubmitPass">
                       <div class="mw-lg-50">
-                        <div class="mb-3">
-                          <label class="form-label" for="password">Пароль</label>
-                          <input
-                            class="form-control py-2"
-                            :class="{'is-invalid': chPassError}"
-                            id="password"
-                            type="password"
-                            v-model="chPass"
-                            @blur="chBlurPass"
-                          >
-                          <div class="invalid-feedback d-block fz-12" v-if="chPassError">{{ chPassError }}</div>
-                        </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="password2">Повторить пароль</label>
-                          <input
-                            class="form-control py-2"
-                            :class="{'is-invalid': chPassError2}"
-                            id="password2"
-                            type="password"
-                            v-model="chPass2"
-                            @blur="chBlurPass2"
-                          >
-                          <div class="invalid-feedback d-block fz-12" v-if="chPassError2">{{ chPassError2 }}</div>
-                        </div>
-                        <div class="progress h-auto d-inline-block">
-                          <button
-                            class="btn btn-primary py-2 px-3"
-                            :class="{ 'progress-bar progress-bar-striped progress-bar-animated': isSubmittingPass }"
-                            type="submit"
-                            :disabled="isToManyAttemptsPass"
-                          >
-                            Сохранить
-                          </button>
-                        </div>
+                        <form-control
+                          id="password"
+                          label="Пароль"
+                          type="password"
+                          v-model="chPass"
+                          @blur="chBlurPass"
+                          :error="chPassError"
+                        />
+                        <form-control
+                          id="password2"
+                          label="Повторить пароль"
+                          type="password"
+                          v-model="chPass2"
+                          @blur="chBlurPass2"
+                          :error="chPassError2"
+                        />
+                        <app-button
+                          classListBtn="btn-primary py-2 px-3"
+                          :animate="{ loading: isSubmittingPass }"
+                          :attrs="{ disabled: isToManyAttemptsPass }"
+                          type="submit"
+                        >Сохранить</app-button>
                         <div
                           class="invalid-feedback d-block fz-12"
                           v-if="isToManyAttemptsPass"
@@ -188,19 +158,16 @@
                   <app-card title="Удалить аккаунт">
                     <p>Вы действительно хотите удалить свою учетную запись? Операцию нельзя будет отменить!</p>
                     <form action="#" @submit.prevent="onSubmitDelAcc">
-                      <div class="mb-4 mw-lg-50">
-                        <label class="form-label">Введите слово "DELETE" для подтверждения</label>
-                        <input
-                          class="form-control"
-                          :class="{'is-invalid': delAccError}"
-                          v-model="delAcc"
-                          @blur="delAccBlur"
-                          type="text"
-                        />
-                        <div class="invalid-feedback d-block fz-12" v-if="delAccError">{{ delAccError }}</div>
-                      </div>
+                      <form-control
+                        id="delAccount"
+                        label='Введите слово "DELETE" для подтверждения'
+                        v-model="delAcc"
+                        @blur="delAccBlur"
+                        :error="delAccError"
+                        classListWrapper="mb-4 mw-lg-50"
+                      />
                       <div class="text-end">
-                        <button class="btn btn-danger px-3" type="submit">Удалить</button>
+                        <app-button classListBtn="btn-danger px-3" type="submit">Удалить</app-button>
                       </div>
                     </form>
                   </app-card>
@@ -216,6 +183,7 @@
   <teleport to="body">
     <!-- Upload avatar -->
     <app-bs-modal
+      v-if="user"
       id="uploadAvatar"
       title="Загрузить файл"
       :progress="prUplAvatar"
@@ -242,6 +210,7 @@
 
     <!-- Upload header -->
     <app-bs-modal
+      v-if="user"
       id="uploadHeader"
       title="Загрузить файл"
       :progress="prUplHeader"
@@ -277,7 +246,6 @@ import { useChangePasswordForm } from '@/use/change-password-form'
 import { useDeleteAccountForm } from '@/use/delete-account-form'
 import { useUploadImage } from '@/use/upload-image'
 import { getUser } from '@/use/user'
-import breadcrumbs from '@/use/breadcrumb'
 import { ref } from 'vue'
 
 export default {
@@ -301,8 +269,6 @@ export default {
         icon: 'trash'
       }
     ])
-
-    breadcrumbs.setCurrentBreadcrumbName(`редактирование: ${user.value.name}`)
 
     // Upload avatar refs
     const {
@@ -340,7 +306,7 @@ export default {
       saveUplHeader,
       completeHeaderUpload,
       ...useEditProfileForm(user),
-      ...useChangePasswordForm(user.value.email),
+      ...useChangePasswordForm(),
       ...useDeleteAccountForm(user)
     }
   },
