@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade shadow" :id="id" tabindex="-1">
+  <div class="modal fade shadow" :id="id" tabindex="-1" ref="modalEl">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <header class="modal-header px-20">
@@ -28,8 +28,12 @@
 </template>
 
 <script>
+import { ref, onMounted, computed, watch } from 'vue'
+import { Modal } from 'bootstrap'
+
 export default {
   name: 'AppBsModal',
+  emits: ['show', 'hide'],
   props: {
     title: {
       type: String,
@@ -42,6 +46,40 @@ export default {
     progress: {
       type: Number,
       required: false
+    },
+    close: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
+  setup (props, { emit }) {
+    const modalEl = ref()
+
+    onMounted(() => {
+      // Create instance modal
+      const modal = new Modal(`#${modalEl.value.id}`)
+      const close = computed(() => props.close)
+
+      // Show event
+      modalEl.value.addEventListener('show.bs.modal', () => {
+        emit('show', modalEl)
+      })
+
+      // Hide event
+      modalEl.value.addEventListener('hide.bs.modal', () => {
+        emit('hide', modalEl)
+      })
+
+      watch(close, val => {
+        if (val) {
+          modal.hide()
+        }
+      })
+    })
+
+    return {
+      modalEl
     }
   }
 }

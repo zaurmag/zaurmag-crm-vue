@@ -43,7 +43,12 @@
   </template>
 
   <teleport to="body" v-if="project">
-    <app-bs-modal id="editProject" title="Редактировать запись">
+    <app-bs-modal
+      id="editProject"
+      title="Редактировать запись"
+      :close="closeModal"
+      @hide="closeModal = false"
+    >
       <project-form
         :initial="initial"
         @close="closeModalProject"
@@ -63,7 +68,6 @@
 import AppType from '@/components/ui/AppType'
 import ProjectForm from '@/components/project/ProjectForm'
 import breadcrumbs from '@/use/breadcrumb'
-import { closeModal } from '@/use/bs-modal'
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
@@ -76,7 +80,7 @@ export default {
     const router = useRouter()
     const store = useStore()
     const project = ref()
-    const modal = ref(false)
+    const closeModal = ref(false)
     const confirm = ref(false)
     const initial = ref()
     const id = route.params.id
@@ -100,24 +104,19 @@ export default {
       } catch (e) {}
     }
 
-    const editBtn = async () => {
-      modal.value.modal = true
-    }
-
     const closeModalProject = async () => {
       project.value = await store.dispatch('project/loadOne', id)
-      closeModal('#editProject')
+      closeModal.value = true
     }
 
     return {
       project,
       initial,
       loader,
-      modal,
+      closeModal,
       confirm,
       removeBtn,
       removeConfirm,
-      editBtn,
       closeModalProject
     }
   },
