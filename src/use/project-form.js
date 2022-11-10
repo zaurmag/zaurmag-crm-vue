@@ -2,6 +2,7 @@ import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useStore } from 'vuex'
 import { dateF } from '@/utils/date'
+import { TYPE_MAP } from '../constans'
 
 export function useProjectForm (emit, initialValues) {
   const store = useStore()
@@ -12,9 +13,12 @@ export function useProjectForm (emit, initialValues) {
   // Date
   const { value: date, errorMessage: dError, handleBlur: dBlur } = useField(
     'date',
-    yup.string().required('Введите дату проекта')
+    yup
+      .string()
+      .required('Введите дату проекта')
   )
 
+  // Set date initial
   if (!initialValues) {
     setFieldValue('date', dateF(new Date(), { locale: 'sv-SE' }))
   }
@@ -33,12 +37,23 @@ export function useProjectForm (emit, initialValues) {
     value: type,
     errorMessage: typeError,
     handleBlur: typeBlur
-  } = useField('type', yup.string().required('Выберите тип операции'))
+  } = useField(
+    'type',
+    yup
+      .string()
+      .required('Выберите тип операции'))
+
+  // Set type initial
+  if (initialValues) {
+    setFieldValue('type', TYPE_MAP[initialValues.type])
+  }
 
   // Amount
   const { value: amount, errorMessage: aError, handleBlur: aBlur } = useField(
     'amount',
-    yup.number().required('Введите сумму операции')
+    yup
+      .number()
+      .required('Введите сумму операции')
   )
 
   // Description
@@ -46,7 +61,11 @@ export function useProjectForm (emit, initialValues) {
     value: desc,
     errorMessage: descError,
     handleBlur: descBlur
-  } = useField('desc', yup.string().required('Введите описание проекта'))
+  } = useField(
+    'desc',
+    yup
+      .string()
+      .required('Введите описание проекта'))
 
   const onSubmit = handleSubmit(async values => {
     try {

@@ -32,7 +32,7 @@ export default {
   emits: ['update:modelValue'],
   props: {
     modelValue: {
-      type: Object
+      type: [Object, String]
     },
     error: {
       type: String,
@@ -49,7 +49,7 @@ export default {
   },
   setup (props, { emit }) {
     const selectText = ref()
-    const text = ref(props.modelValue?.name || 'Выберите...')
+    const text = ref(props.modelValue || 'Выберите...')
     const isOpen = ref(false)
     const toggle = () => {
       isOpen.value = !isOpen.value

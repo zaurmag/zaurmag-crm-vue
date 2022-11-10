@@ -71,10 +71,7 @@ export default {
   props: {
     initial: {
       type: Object,
-      required: false,
-      default () {
-        return {}
-      }
+      required: false
     }
   },
   setup (props, { emit }) {

@@ -24,7 +24,7 @@
               <div class="d-flex">
                 <app-button
                   classListBtn="btn-primary py-2"
-                  @click="editBtn"
+                  :attrs="{ 'data-bs-toggle': 'modal', 'data-bs-target': '#editProject' }"
                   :icon="{ name: 'pencil', placement: 'prepend', classList: 'me-2' }"
                 >Редактировать</app-button>
 
@@ -43,13 +43,12 @@
   </template>
 
   <teleport to="body" v-if="project">
-    <app-modal ref="modal" title="Редактировать запись">
+    <app-bs-modal id="editProject" title="Редактировать запись">
       <project-form
         :initial="initial"
-        @submit="updateProject"
-        @close="modal.modal = false"
+        @close="closeModalProject"
       />
-    </app-modal>
+    </app-bs-modal>
 
     <app-confirm
       ref="confirm"
@@ -63,10 +62,11 @@
 <script>
 import AppType from '@/components/ui/AppType'
 import ProjectForm from '@/components/project/ProjectForm'
+import breadcrumbs from '@/use/breadcrumb'
+import { closeModal } from '@/use/bs-modal'
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
-import breadcrumbs from '@/use/breadcrumb'
 
 export default {
   name: 'Project',
@@ -79,9 +79,10 @@ export default {
     const modal = ref(false)
     const confirm = ref(false)
     const initial = ref()
+    const id = route.params.id
 
     onMounted(async () => {
-      project.value = await store.dispatch('project/loadOne', route.params.id)
+      project.value = await store.dispatch('project/loadOne', id)
       initial.value = { ...project.value }
       loader.value = false
       breadcrumbs.setCurrentBreadcrumbName(project.value.title)
@@ -93,9 +94,9 @@ export default {
 
     const removeConfirm = async () => {
       try {
-        await store.dispatch('project/delete', route.params.id)
+        await store.dispatch('project/delete', id)
         confirm.value.confirm = false
-        router.push('/')
+        await router.push({ name: 'Home' })
       } catch (e) {}
     }
 
@@ -103,8 +104,9 @@ export default {
       modal.value.modal = true
     }
 
-    const updateProject = val => {
-      project.value = val
+    const closeModalProject = async () => {
+      project.value = await store.dispatch('project/loadOne', id)
+      closeModal('#editProject')
     }
 
     return {
@@ -116,7 +118,7 @@ export default {
       removeBtn,
       removeConfirm,
       editBtn,
-      updateProject
+      closeModalProject
     }
   },
   components: {
