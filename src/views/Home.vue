@@ -51,8 +51,13 @@
   </app-page>
 
   <teleport to="body">
-    <app-bs-modal id="addRecord" title="Добавить запись">
-      <project-form @close="closeModal('#addRecord')" />
+    <app-bs-modal
+      id="addRecord"
+      title="Добавить запись"
+      :close="closeModal"
+      @hide="closeModal = false"
+    >
+      <project-form @close="closeModal = true" />
     </app-bs-modal>
 
     <app-confirm
@@ -73,11 +78,11 @@ import ProjectForm from '@/components/project/ProjectForm'
 import { useProductPaginate } from '@/use/product-paginate'
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
-import { closeModal } from '@/use/bs-modal'
 
 export default {
   name: 'Home',
   setup () {
+    const closeModal = ref(false)
     const loader = ref(true)
     const confirm = ref(false)
     const checkboxes = ref([])
