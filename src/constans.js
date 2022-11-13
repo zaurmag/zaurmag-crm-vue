@@ -43,12 +43,6 @@ export const TYPE_OPTIONS = [
   }
 ]
 
-export const TYPE_MAP = {
-  income: 'Приход',
-  outcome: 'Расход',
-  pending: 'В ожидании'
-}
-
 export const MONTHS = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Ноя', 'Дек']
 
 // Users

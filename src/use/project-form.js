@@ -2,7 +2,6 @@ import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useStore } from 'vuex'
 import { dateF } from '@/utils/date'
-import { TYPE_MAP } from '../constans'
 
 export function useProjectForm (emit, initialValues) {
   const store = useStore()
@@ -45,7 +44,7 @@ export function useProjectForm (emit, initialValues) {
 
   // Set type initial
   if (initialValues) {
-    setFieldValue('type', TYPE_MAP[initialValues.type])
+    setFieldValue('type', initialValues.type)
   }
 
   // Amount
@@ -84,8 +83,12 @@ export function useProjectForm (emit, initialValues) {
         id: Date.now().toString()
       })
       resetForm()
+      setFieldValue('type', '')
       emit('close')
       await store.dispatch('project/load')
+
+      // Set date initial
+      setFieldValue('date', dateF(new Date(), { locale: 'sv-SE' }))
     } catch (e) {
       console.error(e)
     }

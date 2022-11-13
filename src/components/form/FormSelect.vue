@@ -25,14 +25,14 @@
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 
 export default {
   name: 'FormSelect',
   emits: ['update:modelValue'],
   props: {
     modelValue: {
-      type: [Object, String]
+      type: String
     },
     error: {
       type: String,
@@ -48,9 +48,17 @@ export default {
     }
   },
   setup (props, { emit }) {
+    const DEFAULT_TEXT = 'Выберите...'
     const selectText = ref()
-    const text = ref(props.modelValue || 'Выберите...')
+    const getName = value => props.options.find(option => option.value === value)?.name
+    const modelVal = computed(() => props.modelValue)
+    const text = ref(getName(props.modelValue) || DEFAULT_TEXT)
     const isOpen = ref(false)
+
+    watch(modelVal, value => {
+      text.value = getName(value) || DEFAULT_TEXT
+    })
+
     const toggle = () => {
       isOpen.value = !isOpen.value
     }
