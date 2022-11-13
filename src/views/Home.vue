@@ -56,6 +56,7 @@
       title="Добавить запись"
       :close="closeModal"
       @hide="closeModal = false"
+      @show="showModalHandler"
     >
       <project-form @close="closeModal = true" />
     </app-bs-modal>
@@ -78,10 +79,12 @@ import ProjectForm from '@/components/project/ProjectForm'
 import { useProductPaginate } from '@/use/product-paginate'
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
+import { dateF } from '@/utils/date'
 
 export default {
   name: 'Home',
   setup () {
+    const initialDateProject = ref(null)
     const closeModal = ref(false)
     const loader = ref(true)
     const confirm = ref(false)
@@ -130,6 +133,12 @@ export default {
       } catch (e) {}
     }
 
+    const showModalHandler = () => {
+      initialDateProject.value = {
+        date: dateF(new Date(), { locale: 'sv-SE' })
+      }
+    }
+
     onMounted(async () => {
       await store.dispatch('project/load')
       loader.value = false
@@ -139,6 +148,8 @@ export default {
       loader,
       selectChbx,
       closeModal,
+      initialDateProject,
+      showModalHandler,
       checkboxes,
       removeAll,
       removeAllConfirm,
