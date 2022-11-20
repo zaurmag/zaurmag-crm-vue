@@ -11101,19 +11101,24 @@ a.is-transition {
   background-color: #5f97ff;
   background-size: cover; }
 
-.profile__edit {
+.profile__edit, .profile__back-profile {
   position: absolute;
-  right: 1.25rem;
   bottom: 1.25rem; }
-  .profile__edit .btn {
+  .profile__edit .btn, .profile__back-profile .btn {
     font-size: 0.8125rem; }
     @media (max-width: 991.98px) {
-      .profile__edit .btn {
+      .profile__edit .btn, .profile__back-profile .btn {
         padding: 0;
         height: 2.5rem;
         width: 2.5rem; }
-        .profile__edit .btn .icon {
+        .profile__edit .btn .icon, .profile__back-profile .btn .icon {
           font-size: 1.125rem; } }
+
+.profile__back-profile {
+  left: 1.25rem; }
+
+.profile__edit {
+  right: 1.25rem; }
 
 .profile__short-info {
   transform: translateY(40%);
@@ -11256,8 +11261,6 @@ a.is-transition {
   .select.is-open .select__text::after {
     transition: transform .2s ease;
     transform: rotate(-45deg); }
-  .select.is-invalid {
-    border-color: #ed4c78; }
   .select__list {
     background-color: #fff;
     border: 0.0625rem solid #dee2e6;
@@ -11296,7 +11299,7 @@ a.is-transition {
       transition: background-color .2s ease; }
 
 /*!
- * Quill Editor v1.3.6
+ * Quill Editor v1.3.7
  * https://quilljs.com/
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com
@@ -11699,7 +11702,7 @@ a.is-transition {
   right: 0.9375rem; }
 
 /*!
- * Quill Editor v1.3.6
+ * Quill Editor v1.3.7
  * https://quilljs.com/
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com
