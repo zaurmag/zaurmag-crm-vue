@@ -8,13 +8,23 @@
           <app-loader />
         </div>
         <the-profile v-else :headerImg="user.headerUrl || '/images/profile/header.jpg'">
+          <template #headerBackProfile>
+            <router-link
+              class="btn btn-light py-2"
+              :to="{ name: 'Profile', params: { id: user.id } }"
+            >
+              <app-icon name="box-arrow-in-left" />
+              <span class="d-none d-lg-inline ms-lg-2">Вернуться в профиль</span>
+            </router-link>
+          </template>
+
           <template #headerEdit>
             <app-button
               classListBtn="btn-light py-2"
               :attrs="{ 'data-bs-toggle': 'modal', 'data-bs-target': '#uploadHeader' }"
-              :icon="{ name: 'image', placement: 'prepend', classList: 'me-lg-2' }"
+              :icon="{ name: 'image', placement: 'prepend' }"
             >
-              <span class="d-none d-lg-inline">Загрузить картинку</span>
+              <span class="d-none d-lg-inline ms-lg-2">Загрузить картинку</span>
             </app-button>
           </template>
 

@@ -1,6 +1,9 @@
 <template>
   <div class="profile">
     <header class="profile__header" :style="`background-image: url(${headerImg})`">
+      <div class="profile__back-profile">
+        <slot name="headerBackProfile" />
+      </div>
       <div class="profile__edit">
         <slot name="headerEdit" />
       </div>

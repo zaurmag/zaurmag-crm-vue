@@ -57,9 +57,6 @@
 <script setup>
 import TheProfile from '@/components/profile/TheProfile'
 import { getUser } from '@/use/user'
-import { useRoute } from 'vue-router'
-const route = useRoute()
-console.log(route.params.id)
 
 const user = getUser()
 </script>
