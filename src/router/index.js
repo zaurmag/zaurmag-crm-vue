@@ -71,6 +71,16 @@ const routes = [
     ]
   },
   {
+    path: '/communal',
+    name: 'Communal',
+    component: () => import('../views/Communal.vue'),
+    meta: {
+      layout: 'main',
+      auth: true,
+      breadcrumb: 'Оплата коммунальных'
+    }
+  },
+  {
     path: '/dbreplacer',
     name: 'dbreplacer',
     component: () => import('../views/DbReplacer'),
