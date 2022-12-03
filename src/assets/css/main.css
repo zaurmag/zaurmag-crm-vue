@@ -11278,8 +11278,7 @@ a.is-transition {
  */
 .select {
   position: relative;
-  font-size: 0.875rem;
-  height: 2.25rem; }
+  font-size: 0.875rem; }
   .select__text {
     align-items: center;
     display: flex;
@@ -11300,7 +11299,7 @@ a.is-transition {
   .select__dropdown {
     display: none;
     position: absolute;
-    top: 2.5rem;
+    top: calc(100% + 0.4375rem);
     left: 0;
     right: 0;
     z-index: 10;
@@ -11323,7 +11322,7 @@ a.is-transition {
     overflow: hidden;
     white-space: nowrap; }
     .select__list li {
-      padding: 0.3125rem 0.9375rem;
+      padding: 0.5rem 0.9375rem;
       cursor: pointer;
       overflow: hidden;
       text-overflow: ellipsis; }

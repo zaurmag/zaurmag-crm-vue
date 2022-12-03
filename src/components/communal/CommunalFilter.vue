@@ -1,51 +1,69 @@
 <template>
-  <div class="form form--filter row gy-3 align-items-center gy-xl-2 gx-4 mt-xl-0 mt-3">
+  <div class="form form--filter row g-3 align-items-center mt-xl-0 mt-3">
     <div class="col-xl-auto">
       <div class="d-lg-flex align-items-center">
-        <select id="filterSelectPeriod">
-          <option value="month">Месяц</option>
-          <option value="quarter">Квартал</option>
-          <option value="year">Год</option>
-        </select>
-        <div class="dropdown ms-lg-2 mt-2 mt-lg-0">
-          <button class="btn btn-light" type="button" data-bs-toggle="dropdown">
-            <svg class="icon icon-calendar3">
-              <use xlink:href="#calendar3"></use>
-            </svg><span class="ms-2">Диапазон дат</span>
-          </button>
-          <div class="dropdown-menu p-3">
-            <div class="d-flex align-items-center">
-              <label class="text-secondary me-2">от:</label>
-              <input class="form__control" id="filterDateFrom" type="date">
-            </div>
-            <div class="d-flex align-items-center">
-              <label class="form__label me-2" for="filterDateTo">до:</label>
-              <input class="form__control" id="filterDateTo" type="date">
-            </div>
-          </div>
+        <app-select
+          :options="periodOptions"
+          v-model="periodSelect"
+        />
+      </div>
+    </div>
+
+    <div class="col-xl-auto">
+      <div class="dropdown">
+        <app-button
+          classListBtn="btn-light"
+          :attrsWrapper="{ 'data-bs-toggle': 'dropdown' }"
+          :icon="{ name: 'calendar3', placement: 'prepend' }"
+        >
+          <span class="ms-2">Диапазон дат</span>
+        </app-button>
+
+        <div class="dropdown-menu p-3">
+          <form-control
+            classListWrapper="d-flex align-items-center mb-2"
+            classListLabel="text-secondary me-2 mb-0"
+            classListInput="form-control-sm"
+            label="от:"
+            type="date"
+            id="filterDateFrom"
+          />
+
+          <form-control
+            classListWrapper="d-flex align-items-center"
+            classListLabel="text-secondary me-2 mb-0"
+            classListInput="form-control-sm"
+            label="до:"
+            type="date"
+            id="filterDateTo"
+          />
         </div>
       </div>
     </div>
+
     <div class="col-xl-auto">
-      <div class="d-flex align-items-center">
-        <label class="form__label me-3">Статус:</label>
-        <select id="filterSelectType">
-          <option value="all">Все</option>
-          <option value="income">Оплачено</option>
-          <option value="outcome">Не оплачено</option>
-        </select>
-      </div>
+      <app-select
+        :options="statusOptions"
+        v-model="statusSelect"
+      />
     </div>
+
     <div class="col-xl-auto">
-      <button class="btn btn-outline-secondary btn-round fz-16 p-0" type="button" data-bs-toggle="tooltip" title="Сбросить фильтр">
-        <svg class="icon icon-x">
-          <use xlink:href="#x"></use>
-        </svg>
-      </button>
+      <app-button
+        classListBtn="btn-outline-secondary btn-round fz-16 p-0"
+        :attrs="{ 'data-bs-toggle': 'tooltip', title: 'Сбросить фильтр' }"
+        :icon="{ name: 'x', placement: 'prepend' }"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import { PERIOD_OPTIONS, STATUS_OPTIONS } from '@/constans'
 
+const periodOptions = ref(PERIOD_OPTIONS.slice(3))
+const periodSelect = ref({ name: 'Выбрать период' })
+const statusOptions = ref(STATUS_OPTIONS)
+const statusSelect = ref({ name: 'Выбрать статус' })
 </script>
