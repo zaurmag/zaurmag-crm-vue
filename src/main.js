@@ -21,5 +21,6 @@ app
   .mount('#app')
 
 globalComponents.forEach(component => {
-  app.component(component.name, component)
+  const name = component.name || component.__name
+  app.component(name, component)
 })
