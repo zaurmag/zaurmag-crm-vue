@@ -21,9 +21,3 @@ defineProps({
   }
 })
 </script>
-
-<script>
-export default {
-  name: 'AppIndicator'
-}
-</script>

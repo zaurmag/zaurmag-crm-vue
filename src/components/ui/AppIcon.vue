@@ -17,8 +17,3 @@ defineProps({
   }
 })
 </script>
-<script>
-export default {
-  name: 'AppIcon'
-}
-</script>
