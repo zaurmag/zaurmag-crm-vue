@@ -38,6 +38,7 @@
       :id="id"
       :type="type"
       :placeholder="placeholder"
+      :disabled="disabled"
       v-model="model"
       @blur="$emit('blur')"
       @input="$emit('input', $event)"
@@ -91,6 +92,10 @@ export default {
     },
     classListLabel: {
       type: String,
+      required: false
+    },
+    disabled: {
+      type: Boolean,
       required: false
     }
   },
