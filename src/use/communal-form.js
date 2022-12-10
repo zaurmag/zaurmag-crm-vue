@@ -1,9 +1,9 @@
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useStore } from 'vuex'
-import { dateF } from '@/utils/date'
+import { toISOString } from '@/utils/date'
 
-export function useCommunalForm (emit, initialValues) {
+export function useCommunalForm (initialValues, emit) {
   const store = useStore()
   const { handleSubmit, handleReset, resetForm, isSubmitting, setFieldValue } = useForm({
     initialValues
@@ -64,20 +64,17 @@ export function useCommunalForm (emit, initialValues) {
       //   return
       // }
 
-      // await store.dispatch('project/add', {
-      //   ...values,
-      //   id: Date.now().toString()
-      // })
-      // resetForm()
-      // setFieldValue('type', '')
-      // emit('close')
-      // await store.dispatch('project/load')
+      await store.dispatch('communal/add', {
+        id: Date.now().toString(),
+        ...values
+      })
+      resetForm()
+      emit('close')
+      await store.dispatch('communal/load')
 
-      // Set date initial
-      setFieldValue('date', dateF(new Date(), { locale: 'sv-SE' }))
-    } catch (e) {
-      console.error(e)
-    }
+      // Set date initial, when form reset
+      setFieldValue(toISOString(new Date()))
+    } catch (e) {}
   })
 
   return {

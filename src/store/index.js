@@ -3,6 +3,7 @@ import project from './modules/project.module'
 import auth from './modules/auth.module'
 import users from './modules/users.module'
 import upload from './modules/upload.module'
+import communal from './modules/communal.module'
 
 const plugins = []
 
@@ -33,6 +34,7 @@ export default createStore({
     auth,
     project,
     users,
-    upload
+    upload,
+    communal
   }
 })

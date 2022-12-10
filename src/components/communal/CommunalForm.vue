@@ -1,10 +1,10 @@
 <template>
   <form action="#" @submit.prevent="onSubmit">
-    <div class="row mb-3 justify-content-between align-items-center">
+    <div class="row mb-30 justify-content-between align-items-center">
       <div class="col-lg-4 col-sm-6 order-2 order-sm-1">
         <form-control
           id="date"
-          type="date"
+          type="datetime-local"
           classListWrapper="m-0"
           classListInput="form-control-lg"
           v-model="date"
@@ -16,12 +16,13 @@
         <form-checkbox
           id="status"
           :label="status ? 'Оплачено' : 'Не оплачено'"
+          :classListLabel="status ? 'text-primary' : 'text-secondary'"
           v-model="status"
         />
       </div>
     </div>
 
-    <p class="h4 col m-3">Предыдущие:</p>
+    <p class="h4 col mb-3">Предыдущие:</p>
     <div class="row g-15 mb-30">
       <form-control
         id="addRecordElPrev"
@@ -93,15 +94,15 @@
     <p class="h4 mb-3">Разница:</p>
     <div class="row mb-30">
       <div class="col-sm">
-        <span class="fz-18">{{ prevElctr - elctr }}</span>
+        <span class="fz-18">{{ elctr === 0 ? elctr : elctr - prevElctr }}</span>
         <hr class="my-2">
       </div>
       <div class="col-sm">
-        <span class="fz-18">{{ prevGas - gas }}</span>
+        <span class="fz-18">{{ gas === 0 ? gas : gas - prevGas }}</span>
         <hr class="my-2">
       </div>
       <div class="col-sm">
-        <span class="fz-18">{{ prevWater - water }}</span>
+        <span class="fz-18">{{ water === 0 ? water : water - prevWater }}</span>
         <hr class="my-2">
       </div>
     </div>
@@ -144,44 +145,34 @@
   </form>
 </template>
 
-<script setup>
+<script>
 import { useCommunalForm } from '@/use/communal-form'
-import { ref } from 'vue'
+import { computed } from 'vue'
 
-// eslint-disable-next-line no-undef
-const emit = defineEmits(['close', 'submit'])
-// eslint-disable-next-line no-undef
-const props = defineProps({
-  initial: {
-    type: Object,
-    required: false
+export default {
+  name: 'CommunalForm',
+  emits: ['close', 'submit'],
+  props: {
+    currentInitial: {
+      type: Object,
+      required: false
+    },
+    prevInitial: {
+      type: Object,
+      required: false
+    }
+  },
+  setup (props, { emit }) {
+    const prevElctr = computed(() => props.prevInitial.elctr || 0)
+    const prevGas = computed(() => props.prevInitial.gas || 0)
+    const prevWater = computed(() => props.prevInitial.water || 0)
+
+    return {
+      prevElctr,
+      prevGas,
+      prevWater,
+      ...useCommunalForm(props.currentInitial, emit)
+    }
   }
-})
-
-const {
-  status,
-  date,
-  dError,
-  dBlur,
-  elctr,
-  elctrError,
-  elctrBlur,
-  gas,
-  gasError,
-  gasBlur,
-  water,
-  waterError,
-  waterBlur,
-  desc,
-  descError,
-  descBlur,
-  isSubmitting,
-  onSubmit
-} = useCommunalForm(emit, props.initial)
-const prevElctr = ref(100)
-const prevGas = ref(50)
-const prevWater = ref(40)
-elctr.value = 0
-gas.value = 0
-water.value = 0
+}
 </script>
