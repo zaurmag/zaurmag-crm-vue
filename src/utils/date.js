@@ -182,6 +182,7 @@ export function toISOString (date) {
   const getYear = () => new Date(date).getFullYear()
   const getHours = () => ('0' + new Date(date).getHours()).slice(-2)
   const getMinutes = () => ('0' + new Date(date).getMinutes()).slice(-2)
+  const getSeconds = () => ('0' + new Date(date).getSeconds()).slice(-2)
 
-  return getYear() + '-' + getMonth() + '-' + getDay() + 'T' + getHours() + ':' + getMinutes()
+  return getYear() + '-' + getMonth() + '-' + getDay() + 'T' + getHours() + ':' + getMinutes() + ':' + getSeconds()
 }

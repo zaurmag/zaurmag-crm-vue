@@ -4,7 +4,7 @@
       <div class="col-lg-4 col-sm-6 order-2 order-sm-1">
         <form-control
           id="date"
-          type="datetime-local"
+          type="date"
           classListWrapper="m-0"
           classListInput="form-control-lg"
           v-model="date"
@@ -166,6 +166,7 @@ export default {
     const prevElctr = computed(() => props.prevInitial.elctr || 0)
     const prevGas = computed(() => props.prevInitial.gas || 0)
     const prevWater = computed(() => props.prevInitial.water || 0)
+    // console.log(props.currentInitial)
 
     return {
       prevElctr,

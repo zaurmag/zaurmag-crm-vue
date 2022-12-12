@@ -53,7 +53,8 @@ export function useCommunalForm (initialValues, emit) {
 
   const onSubmit = handleSubmit(async values => {
     try {
-      console.log(values)
+      const dateNow = new Date()
+      const date = values.date + ' ' + dateNow.getHours() + ':' + dateNow.getMinutes() + ':' + dateNow.getSeconds()
       // if (initialValues) {
       //   const data = await store.dispatch('project/update', {
       //     ...values,
@@ -66,7 +67,8 @@ export function useCommunalForm (initialValues, emit) {
 
       await store.dispatch('communal/add', {
         id: Date.now().toString(),
-        ...values
+        ...values,
+        date
       })
       resetForm()
       emit('close')
