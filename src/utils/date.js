@@ -170,3 +170,19 @@ export function relativeDate (dateFrom, dateTo) {
 export function getMonth (dateString) {
   return +dateString.split('-').slice(1, 2).join('')
 }
+
+/**
+ * Преобразование даты в ISO формат
+ * @param date Объект даты - new Date()
+ * @return String Строка даты в формате 2022-12-03T23:45
+ */
+export function toISOString (date) {
+  const getDay = () => ('0' + new Date(date).getDate()).slice(-2)
+  const getMonth = () => new Date(date).getMonth() + 1
+  const getYear = () => new Date(date).getFullYear()
+  const getHours = () => ('0' + new Date(date).getHours()).slice(-2)
+  const getMinutes = () => ('0' + new Date(date).getMinutes()).slice(-2)
+  const getSeconds = () => ('0' + new Date(date).getSeconds()).slice(-2)
+
+  return getYear() + '-' + getMonth() + '-' + getDay() + 'T' + getHours() + ':' + getMinutes() + ':' + getSeconds()
+}

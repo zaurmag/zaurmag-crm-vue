@@ -9,9 +9,10 @@ import AppBsModal from '@/components/ui/AppBsModal'
 import AppConfirm from '@/components/ui/AppConfirm'
 import AppPagination from '@/components/ui/AppPagination'
 import AppLoader from '@/components/ui/AppLoader'
-import FormControl from '@/components/form/FormControl'
 import AppSelect from '@/components/ui/AppSelect'
+import FormControl from '@/components/form/FormControl'
 import FormSelect from '@/components/form/FormSelect'
+import FormCheckbox from '@/components/form/FormCheckbox'
 import { QuillEditor } from '@vueup/vue-quill'
 
 export default [
@@ -29,5 +30,6 @@ export default [
   AppButton,
   FormControl,
   AppSelect,
-  FormSelect
+  FormSelect,
+  FormCheckbox
 ]

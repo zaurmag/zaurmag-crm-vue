@@ -7,6 +7,12 @@
           <span class="nav-text">Главная</span>
         </router-link>
       </li>
+      <li class="nav-item">
+        <router-link :to="{name: 'Communal'}" :class="['nav-link', {'is-active': route.name === 'Communal'}]">
+          <app-icon name="house" />
+          <span class="nav-text">Платежи ЖКХ</span>
+        </router-link>
+      </li>
       <li class="nav-item" v-if="isAdmin">
         <router-link :to="{name: 'Users'}" :class="['nav-link', {'is-active': route.name === 'Profile'}]">
           <app-icon name="people" />

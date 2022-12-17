@@ -43,6 +43,21 @@ export const TYPE_OPTIONS = [
   }
 ]
 
+export const STATUS_OPTIONS = [
+  {
+    name: 'Все',
+    value: 'all'
+  },
+  {
+    name: 'Оплачено',
+    value: 'paid'
+  },
+  {
+    name: 'Не оплачено',
+    value: 'not-paid'
+  }
+]
+
 export const MONTHS = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Ноя', 'Дек']
 
 // Users

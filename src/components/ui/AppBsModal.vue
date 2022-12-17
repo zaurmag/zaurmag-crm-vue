@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade shadow" :id="id" tabindex="-1" ref="modalEl">
+  <div :class="['modal', 'fade', 'shadow', classListWrapper]" :id="id" tabindex="-1" ref="modalEl">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <header class="modal-header px-20">
@@ -51,6 +51,10 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    classListWrapper: {
+      type: String,
+      required: false
     }
   },
   setup (props, { emit }) {
