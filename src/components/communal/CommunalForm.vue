@@ -1,5 +1,5 @@
 <template>
-  <form action="#" @submit.prevent="onSubmit">
+  <form action="#" @submit.prevent="fields.onSubmit">
     <div class="row mb-30 justify-content-between align-items-center">
       <div class="col-lg-4 col-sm-6 order-2 order-sm-1">
         <form-control
@@ -7,17 +7,17 @@
           type="date"
           classListWrapper="m-0"
           classListInput="form-control-lg"
-          v-model="date"
-          :error="dError"
-          @blur="dBlur"
+          v-model="fields.date"
+          :error="fields.dError"
+          @blur="fields.dBlur"
         />
       </div>
       <div class="col-sm-auto order-1 order-sm-2 mb-3 mb-sm-0">
         <form-checkbox
           id="status"
-          :label="status ? 'Оплачено' : 'Не оплачено'"
-          :classListLabel="status ? 'text-primary' : 'text-secondary'"
-          v-model="status"
+          :label="fields.status ? 'Оплачено' : 'Не оплачено'"
+          :classListLabel="fields.status ? 'text-primary' : 'text-secondary'"
+          v-model="fields.status"
         />
       </div>
     </div>
@@ -30,7 +30,7 @@
         type="number"
         classListWrapper="col-sm"
         classListInput="form-control-lg"
-        v-model="prevElctr"
+        v-model="fields.prevElctr"
         disabled
       />
 
@@ -40,7 +40,7 @@
         type="number"
         classListWrapper="col-sm"
         classListInput="form-control-lg"
-        v-model.number="prevGas"
+        v-model.number="fields.prevGas"
         disabled
       />
 
@@ -50,12 +50,12 @@
         type="number"
         classListWrapper="col-sm"
         classListInput="form-control-lg"
-        v-model.number="prevWater"
+        v-model.number="fields.prevWater"
         disabled
       />
     </div>
 
-    <p class="h4 mb-3">Новые:</p>
+    <p class="h4 mb-3">Текущие:</p>
     <div class="row g-15 mb-30">
       <form-control
         id="addRecordEl"
@@ -63,9 +63,9 @@
         type="number"
         classListWrapper="col-sm"
         classListInput="form-control-lg"
-        v-model.number="elctr"
-        :error="elctrError"
-        @blur="elctrBlur"
+        v-model.number="fields.elctr"
+        :error="fields.elctrError"
+        @blur="fields.elctrBlur"
       />
 
       <form-control
@@ -74,9 +74,9 @@
         type="number"
         classListWrapper="col-sm"
         classListInput="form-control-lg"
-        v-model.number="gas"
-        :error="gasError"
-        @blur="gasBlur"
+        v-model.number="fields.gas"
+        :error="fields.gasError"
+        @blur="fields.gasBlur"
       />
 
       <form-control
@@ -85,26 +85,56 @@
         type="number"
         classListWrapper="col-sm"
         classListInput="form-control-lg"
-        v-model.number="water"
-        :error="waterError"
-        @blur="waterBlur"
+        v-model.number="fields.water"
+        :error="fields.waterError"
+        @blur="fields.waterBlur"
       />
     </div>
 
-    <p class="h4 mb-3">Разница:</p>
+    <p class="h4 mb-3">Итог:</p>
     <div class="row mb-30">
       <div class="col-sm">
-        <span class="fz-18">{{ elctr === 0 ? elctr : elctr - prevElctr }}</span>
-        <hr class="my-2">
+        <div class="row">
+          <div class="col">
+            <span class="fz-16">{{ fields.diffElectr }} кв/ч</span>
+            <hr class="my-2">
+          </div>
+          <div class="col">
+            <span class="fz-16">{{ $currency(fields.electrCalc) }}</span>
+            <hr class="my-2">
+          </div>
+        </div>
+
       </div>
       <div class="col-sm">
-        <span class="fz-18">{{ gas === 0 ? gas : gas - prevGas }}</span>
-        <hr class="my-2">
+        <div class="row">
+          <div class="col">
+            <span class="fz-16">{{ fields.diffGas }} м<sup>3</sup></span>
+            <hr class="my-2">
+          </div>
+          <div class="col">
+            <span class="fz-16">{{ $currency(fields.gasCalc) }} </span>
+            <hr class="my-2">
+          </div>
+        </div>
       </div>
       <div class="col-sm">
-        <span class="fz-18">{{ water === 0 ? water : water - prevWater }}</span>
-        <hr class="my-2">
+        <div class="row">
+          <div class="col">
+            <span class="fz-16">{{ fields.diffWater }} м<sup>3</sup></span>
+            <hr class="my-2">
+          </div>
+          <div class="col">
+            <span class="fz-16">{{ $currency(fields.waterCalc) }}</span>
+            <hr class="my-2">
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div class="mb-30">
+      <p class="h4 mb-3">К оплате:</p>
+      <p class="h3 text-success">{{ $currency(fields.amount) }} </p>
     </div>
 
     <div class="row g-15 mb-3">
@@ -124,9 +154,9 @@
         id="addRecordDesc"
         label="Описание"
         type="textarea"
-        :error="descError"
-        @blur="descBlur"
-        v-model="desc"
+        :error="fields.descError"
+        @blur="fields.descBlur"
+        v-model="fields.desc"
         classListWrapper="col-sm d-flex flex-column"
         classListInput="form-control-lg h-100"
       />
@@ -134,10 +164,9 @@
 
     <div class="text-center">
       <app-button
-        classListWrapper="text-center"
         classListBtn="btn-primary w-100 px-4"
         type="submit"
-        :animate="{ loading: isSubmitting }"
+        :animate="{ loading: fields.isSubmitting }"
       >
         Отправить
       </app-button>
@@ -145,35 +174,19 @@
   </form>
 </template>
 
-<script>
+<script setup>
 import { useCommunalForm } from '@/use/communal-form'
-import { computed } from 'vue'
+import { ref } from 'vue'
 
-export default {
-  name: 'CommunalForm',
-  emits: ['close', 'submit'],
-  props: {
-    currentInitial: {
-      type: Object,
-      required: false
-    },
-    prevInitial: {
-      type: Object,
-      required: false
-    }
-  },
-  setup (props, { emit }) {
-    const prevElctr = computed(() => props.prevInitial.elctr || 0)
-    const prevGas = computed(() => props.prevInitial.gas || 0)
-    const prevWater = computed(() => props.prevInitial.water || 0)
-    // console.log(props.currentInitial)
+const emit = defineEmits(['close', 'submit'])
 
-    return {
-      prevElctr,
-      prevGas,
-      prevWater,
-      ...useCommunalForm(props.currentInitial, emit)
-    }
+const props = defineProps({
+  currentInitial: {
+    type: Object,
+    required: false
   }
-}
+})
+
+let { ...fields } = useCommunalForm(props.currentInitial, emit)
+fields = ref(fields)
 </script>

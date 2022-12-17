@@ -60,11 +60,21 @@
       classListWrapper="modal-lg"
     >
       <communal-form
-        :current-initial="currentInitial"
-        :prev-initial="prevInitial"
         @close="closeModal = true"
       />
-<!--      <app-loader-row-placeholder v-else rows="15" cols="5" />-->
+    </app-bs-modal>
+
+    <app-bs-modal
+      id="communalSettingForm"
+      title="Тарифы"
+      :close="closeModal"
+      @hide="closeModal = false"
+    >
+      <communal-settings-form
+        v-if="isRates"
+        :initials="rates"
+        @close="closeModal = true"
+      />
     </app-bs-modal>
 
     <!-- <app-confirm-->
@@ -81,27 +91,21 @@ import CommunalListHeader from '@/components/communal/CommunalListHeader'
 import CommunalFilter from '@/components/communal/CommunalFilter'
 import CommunalList from '@/components/communal/CommunalList'
 import CommunalForm from '@/components/communal/CommunalForm'
-// import AppLoaderRowPlaceholder from '@/components/ui/AppLoaderRowPlaceholder'
-import { dateF } from '@/utils/date'
+import CommunalSettingsForm from '@/components/communal/CommunalSettingsForm'
 import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 
 const store = useStore()
 const closeModal = ref(false)
 const loader = ref(true)
-const currentInitial = ref({
-  date: dateF(new Date(), { locale: 'fr-CA' }),
-  elctr: 0,
-  gas: 0,
-  water: 0,
-  trash: 100,
-  summ: 1000
-})
-const prevInitial = computed(() => store.getters['communal/prevData'] || {})
 const items = computed(() => store.getters['communal/communal'] || [])
+const rates = computed(() => store.getters['communal/rates'] || {})
+const isRates = ref(null)
 
 onMounted(async () => {
   await store.dispatch('communal/load')
+  await store.dispatch('communal/loadRates')
+  isRates.value = Object.keys(rates.value).length
   loader.value = false
 })
 </script>

@@ -147,6 +147,10 @@ export default {
     communal: state => state.communal.sort((a, b) => new Date(b.date) - new Date(a.date)),
     prevData: (_, getters) => getters.communal[0],
     rates: state => state.rates,
-    trashCalc: (_, getters) => getters.rates.trash * getters.rates.people
+    trashCalc: (_, getters) => getters.rates.trash * getters.rates.people,
+    electrCalc: (_, getters) => value => value * getters.rates.electr,
+    gasCalc: (_, getters) => value => value * getters.rates.gas,
+    maintanceGe: (_, getters) => getters.rates.maintanceGe,
+    waterCalc: (_, getters) => value => value * getters.rates.water
   }
 }
