@@ -40,7 +40,7 @@
             <td>{{ item.gas }}</td>
             <td>{{ item.water }}</td>
             <td>{{ item.trash }}</td>
-            <td>{{ $currency(item.summ) }}</td>
+            <td>{{ $currency(item.amount) }}</td>
             <td>
               <app-indicator :classList="['me-2', `${item.status ? 'bg-success' : 'bg-warning'}`]" />
               {{ item.status ? 'Оплачено' : 'Не оплачено' }}
