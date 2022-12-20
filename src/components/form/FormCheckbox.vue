@@ -8,7 +8,9 @@
 <script setup>
 import { computed } from 'vue'
 
+// eslint-disable-next-line no-undef
 const emit = defineEmits(['update:modelValue'])
+// eslint-disable-next-line no-undef
 const props = defineProps({
   label: {
     type: String,

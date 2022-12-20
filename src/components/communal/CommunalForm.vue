@@ -178,8 +178,10 @@
 import { useCommunalForm } from '@/use/communal-form'
 import { ref } from 'vue'
 
+// eslint-disable-next-line no-undef
 const emit = defineEmits(['close', 'submit'])
 
+// eslint-disable-next-line no-undef
 const props = defineProps({
   currentInitial: {
     type: Object,

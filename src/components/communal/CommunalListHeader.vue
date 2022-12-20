@@ -23,8 +23,10 @@
 </template>
 
 <script setup>
+// eslint-disable-next-line no-undef
 defineEmits(['remove'])
 
+// eslint-disable-next-line no-undef
 defineProps({
   checkboxes: {
     type: Array,

@@ -18,8 +18,10 @@
 </template>
 
 <script setup>
+// eslint-disable-next-line no-undef
 defineEmits(['save'])
 
+// eslint-disable-next-line no-undef
 defineProps({
   save: {
     type: Boolean,

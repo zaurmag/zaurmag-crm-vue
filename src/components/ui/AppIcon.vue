@@ -5,8 +5,7 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
-
+// eslint-disable-next-line no-undef
 defineProps({
   name: {
     type: String,
