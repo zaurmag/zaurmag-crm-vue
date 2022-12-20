@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import AppCard from '@/components/ui/AppCard'
+import AppCard from '@/components/ui/AppCard.vue'
 import { computed, ref, watch } from 'vue'
 import { getAmountSumm, progress, getSumm } from '@/utils/report'
 
@@ -115,7 +115,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

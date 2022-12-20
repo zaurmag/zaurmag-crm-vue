@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import AppSelect from '@/components/ui/AppSelect'
+import AppSelect from '@/components/ui/AppSelect.vue'
 import { USER_STATUS } from '@/constans'
 import { ref } from 'vue'
 

@@ -71,18 +71,18 @@
 </template>
 
 <script>
-import ProjectList from '@/components/project/ProjectList'
-import ProjectListHeader from '@/components/project/ProjectListHeader'
-import ProjectFilter from '@/components/project/ProjectFilter'
-import ProjectReport from '@/components/project/ProjectReport'
-import ProjectForm from '@/components/project/ProjectForm'
+import ProjectList from '@/components/project/ProjectList.vue'
+import ProjectListHeader from '@/components/project/ProjectListHeader.vue'
+import ProjectFilter from '@/components/project/ProjectFilter.vue'
+import ProjectReport from '@/components/project/ProjectReport.vue'
+import ProjectForm from '@/components/project/ProjectForm.vue'
 import { useProductPaginate } from '@/use/product-paginate'
+import { dateF } from '@/utils/date'
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
-import { dateF } from '@/utils/date'
 
 export default {
-  name: 'Home',
+  name: 'HomeView',
   setup () {
     const initialDateProject = ref(null)
     const closeModal = ref(false)
@@ -130,7 +130,7 @@ export default {
         await store.dispatch('project/load')
         confirm.value.confirm = false
         checkboxes.value = []
-      } catch (e) {}
+      } catch (e) { /* empty */ }
     }
 
     const showModalHandler = () => {

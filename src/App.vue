@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import EmptyLayout from '@/layout/EmptyLayout'
-import MainLayout from '@/layout/MainLayout'
+import EmptyLayout from '@/layout/EmptyLayout.vue'
+import MainLayout from '@/layout/MainLayout.vue'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 

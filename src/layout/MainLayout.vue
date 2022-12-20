@@ -19,42 +19,22 @@
   </teleport>
 </template>
 
-<script>
-import TheSidebar from '@/components/TheSidebar'
-import TheHeader from '@/components/TheHeader'
-import TheFooter from '@/components/TheFooter'
-import AppMessage from '@/components/ui/AppMessage'
-import { ref } from 'vue'
+<script setup>
+import TheSidebar from '@/components/TheSidebar.vue'
+import TheHeader from '@/components/TheHeader.vue'
+import TheFooter from '@/components/TheFooter.vue'
+import AppMessage from '@/components/ui/AppMessage.vue'
 import enquire from 'enquire.js'
+import { ref } from 'vue'
 
-export default {
-  name: 'MainLayout',
-  setup () {
-    const isCompactSb = ref(false)
-    const isOverlay = ref(false)
-    enquire.register('screen and (max-width: 992px)', {
-      match () {
-        isOverlay.value = true
-      },
-      unmatch () {
-        isOverlay.value = false
-      }
-    })
-
-    return {
-      isCompactSb,
-      isOverlay
-    }
+const isCompactSb = ref(false)
+const isOverlay = ref(false)
+enquire.register('screen and (max-width: 992px)', {
+  match () {
+    isOverlay.value = true
   },
-  components: {
-    TheSidebar,
-    TheHeader,
-    TheFooter,
-    AppMessage
+  unmatch () {
+    isOverlay.value = false
   }
-}
+})
 </script>
-
-<style scoped lang="sass">
-
-</style>

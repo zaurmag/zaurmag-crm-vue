@@ -67,8 +67,9 @@
 </template>
 
 <script setup>
-import AppLoaderRowPlaceholder from '@/components/ui/AppLoaderRowPlaceholder'
+import AppLoaderRowPlaceholder from '@/components/ui/AppLoaderRowPlaceholder.vue'
 
+// eslint-disable-next-line no-undef
 defineProps({
   items: {
     type: Array,

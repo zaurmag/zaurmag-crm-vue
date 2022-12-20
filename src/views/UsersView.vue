@@ -61,13 +61,13 @@
 </template>
 
 <script setup>
-import UserFilter from '@/components/user/UserFilter'
-import UserList from '@/components/user/UserList'
-import RegisterForm from '@/components/RegisterForm'
+import UserFilter from '@/components/user/UserFilter.vue'
+import UserList from '@/components/user/UserList.vue'
+import RegisterForm from '@/components/RegisterForm.vue'
 import { useProductPaginate } from '@/use/product-paginate'
+import { closeModal } from '@/use/bs-modal'
 import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import { closeModal } from '@/use/bs-modal'
 
 const users = computed(() => store.getters['users/users'])
 const store = useStore()
@@ -87,8 +87,9 @@ const removeAllConfirm = async () => {
     // await store.dispatch('project/load')
     confirm.value.confirm = false
     checkboxes.value = []
-  } catch (e) {}
+  } catch (e) { /* empty */ }
 }
+
 const { page, paginateItems, changePageSize } = useProductPaginate(users, PAGE_SIZE)
 
 onMounted(async () => {

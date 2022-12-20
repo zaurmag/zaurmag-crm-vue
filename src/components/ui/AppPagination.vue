@@ -36,8 +36,8 @@
 </template>
 
 <script>
+import AppSelect from '@/components/ui/AppSelect.vue'
 import { computed, ref, watch } from 'vue'
-import AppSelect from '@/components/ui/AppSelect'
 
 export default {
   name: 'AppPagination',

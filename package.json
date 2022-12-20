@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --open",
-    "build": "vue-cli-service build",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
     "server": "node src/server/app.js --watch",
-    "lint": "vue-cli-service lint",
-    "lint:scripts --fix": "./node_modules/.bin/eslint src/**/*.js --fix"
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
   },
   "dependencies": {
     "@popperjs/core": "latest",
@@ -16,8 +16,6 @@
     "bootstrap": "latest",
     "chart.js": "^3.8.0",
     "consola": "^2.15.3",
-    "core-js": "^3.6.5",
-    "cors": "^2.8.5",
     "enquire.js": "latest",
     "express": "^4.18.2",
     "filepond": "^4.30.4",
@@ -39,45 +37,13 @@
     "yup": "latest"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
-    "@vue/cli-plugin-router": "~5.0.8",
-    "@vue/cli-plugin-vuex": "~5.0.8",
-    "@vue/cli-service": "~4.5.0",
+    "@vitejs/plugin-vue": "^3.1.2",
     "@vue/compiler-sfc": "^3.2.43",
     "@vue/eslint-config-standard": "^5.1.2",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^7.0.0",
+    "eslint": "^8.30.0",
+    "eslint-plugin-vue": "^8.7.1",
     "sass": "latest",
-    "sass-loader": "^8.0.2"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "@vue/standard"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {
-      "no-unused-vars": "warn",
-      "no-undef": "warn",
-      "no-new": "warn"
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "sass-loader": "^8.0.2",
+    "vite": "^3.1.8"
+  }
 }

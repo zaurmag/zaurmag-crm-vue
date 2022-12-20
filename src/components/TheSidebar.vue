@@ -21,10 +21,11 @@
 </template>
 
 <script setup>
-import AppLogo from '@/components/AppLogo'
-import AppNav from '@/components/AppNav'
+import AppLogo from '@/components/AppLogo.vue'
+import AppNav from '@/components/AppNav.vue'
 import { ref } from 'vue'
 
+// eslint-disable-next-line no-undef
 defineProps({
   toggleClass: {
     type: Boolean,

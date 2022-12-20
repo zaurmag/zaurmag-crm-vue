@@ -9,20 +9,7 @@
   </div>
 </template>
 
-<script>
-import RegisterForm from '@/components/RegisterForm'
-
-export default {
-  name: 'Reg',
-  setup () {
-    document.title = 'Регистрация пользователя | Система подсчета доходв/расходов'
-  },
-  components: {
-    RegisterForm
-  }
-}
+<script setup>
+import RegisterForm from '@/components/RegisterForm.vue'
+document.title = 'Регистрация пользователя | Система подсчета доходов/расходов'
 </script>
-
-<style scoped>
-
-</style>

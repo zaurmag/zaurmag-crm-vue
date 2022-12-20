@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import AppModal from '@/components/ui/AppModal'
+import AppModal from '@/components/ui/AppModal.vue'
 import { ref, watch } from 'vue'
 
 export default {

@@ -9,7 +9,7 @@
 
 <script setup>
 import axios from '@/axios/dbase'
-import AppPage from '@/components/ui/AppPage'
+import AppPage from '@/components/ui/AppPage.vue'
 import { ref } from 'vue'
 // import { users } from '@/assets/zaurmagcrm-default-rtdb-export.json'
 const interval = ref(null)
