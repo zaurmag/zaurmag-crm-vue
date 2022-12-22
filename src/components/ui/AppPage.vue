@@ -1,6 +1,6 @@
 <template>
-  <header class="main__header" v-if="$slots.header || title">
-    <h1 class="h4 main__header-tlt">{{ title }}</h1>
+  <header :class="['main__header', classListHeader]" v-if="$slots.header || title">
+    <h1 class="h4 main__header-tlt" v-if="title">{{ title }}</h1>
     <slot name="header" />
   </header>
   <slot name="default" />
@@ -21,6 +21,10 @@ export default {
     center: {
       type: Boolean,
       default: false
+    },
+    classListHeader: {
+      type: String,
+      required: false
     }
   },
   setup (props) {

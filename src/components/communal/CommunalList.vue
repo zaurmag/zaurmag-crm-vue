@@ -5,7 +5,7 @@
         <tr>
           <th class="table-cell-check">
             <div class="form-check">
-              <input class="form-check-input float-none" type="checkbox" v-model="allCheckbox">
+              <input class="form-check-input float-none" type="checkbox" v-model="allCheckbox" />
             </div>
           </th>
           <th>#</th>
@@ -35,7 +35,9 @@
               </div>
             </td>
             <td>{{ index + 1 }}</td>
-            <td><a class="table-cell-title-link is-transition" href="#">{{ $dateF(item.date) + ' г.' }}</a></td>
+            <td><router-link class="table-cell-title-link is-transition" :to="{ name: 'CommunalPage', params: { id: item.id } }">
+              {{ $dateF(item.date) + ' г.' }}</router-link>
+            </td>
             <td>{{ item.elctr }}</td>
             <td>{{ item.gas }}</td>
             <td>{{ item.water }}</td>
@@ -46,7 +48,7 @@
               {{ item.status ? 'Оплачено' : 'Не оплачено' }}
             </td>
             <td>
-              <a class="btn btn-outline-primary btn-sm py-1 fz-12" href="#">Подробнее</a>
+              <router-link class="btn btn-outline-primary btn-sm py-1 fz-12" :to="{ name: 'CommunalPage', params: { id: item.id } }">Подробнее</router-link>
               <button class="btn text-danger ms-1 fz-16 p-1" type="button" data-bs-toggle="tooltip" data-bs-title="Удалить">
                 <svg class="icon icon-trash">
                   <use xlink:href="#trash"></use>
