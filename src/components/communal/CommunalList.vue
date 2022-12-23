@@ -38,10 +38,10 @@
             <td><router-link class="table-cell-title-link is-transition" :to="{ name: 'CommunalPage', params: { id: item.id } }">
               {{ $dateF(item.date) + ' г.' }}</router-link>
             </td>
-            <td>{{ item.elctr }}</td>
-            <td>{{ item.gas }}</td>
-            <td>{{ item.water }}</td>
-            <td>{{ item.trash }}</td>
+            <td>{{ item.electr.current }}</td>
+            <td>{{ item.gas.current }}</td>
+            <td>{{ item.water.current }}</td>
+            <td>{{ item.trash.amount }}</td>
             <td>{{ $currency(item.amount) }}</td>
             <td>
               <app-indicator :classList="['me-2', `${item.status ? 'bg-success' : 'bg-warning'}`]" />

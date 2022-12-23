@@ -58,6 +58,7 @@
       :close="closeModal"
       @hide="closeModal = false"
       classListWrapper="modal-lg"
+						v-if="isRates"
     >
       <communal-form
         @close="closeModal = true"

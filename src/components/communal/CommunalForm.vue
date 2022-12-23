@@ -30,7 +30,7 @@
         type="number"
         classListWrapper="col-sm"
         classListInput="form-control-lg"
-        v-model="fields.prevElctr"
+        v-model="fields.prevElectr"
         disabled
       />
 
@@ -63,9 +63,9 @@
         type="number"
         classListWrapper="col-sm"
         classListInput="form-control-lg"
-        v-model.number="fields.elctr"
-        :error="fields.elctrError"
-        @blur="fields.elctrBlur"
+        v-model.number="fields.electr"
+        :error="fields.electrError"
+        @blur="fields.electrBlur"
       />
 
       <form-control
@@ -100,7 +100,7 @@
             <hr class="my-2">
           </div>
           <div class="col">
-            <span class="fz-16">{{ $currency(fields.electrCalc) }}</span>
+            <span class="fz-16">{{ $currency(fields.electrAmount) }}</span>
             <hr class="my-2">
           </div>
         </div>
@@ -113,7 +113,7 @@
             <hr class="my-2">
           </div>
           <div class="col">
-            <span class="fz-16">{{ $currency(fields.gasCalc) }} </span>
+            <span class="fz-16">{{ $currency(fields.gasAmount) }} </span>
             <hr class="my-2">
           </div>
         </div>
@@ -125,7 +125,7 @@
             <hr class="my-2">
           </div>
           <div class="col">
-            <span class="fz-16">{{ $currency(fields.waterCalc) }}</span>
+            <span class="fz-16">{{ $currency(fields.waterAmount) }}</span>
             <hr class="my-2">
           </div>
         </div>

@@ -49,8 +49,8 @@
         <div class="col-xxl col-lg-6 col-md-4 col-sm-6">
           <app-card classList="card--green h-100" classListBody="p-25">
             <h3 class="card-subtitle">Электричество, квт/ч</h3>
-            <p>Предыдущие: <span class="fz-16">{{ $currency(prevData.elctr, { style: 'decimal' }) }}</span></p>
-            <p>Текущие: <span class="fz-16">{{ $currency(communal.elctr, { style: 'decimal' }) }}</span></p>
+            <p>Предыдущие: <span class="fz-16">{{ $currency(prevData.electr.current, { style: 'decimal' }) }}</span></p>
+            <p>Текущие: <span class="fz-16">{{ $currency(communal.electr.current, { style: 'decimal' }) }}</span></p>
             <p>Разница: <span class="fz-16">{{ $currency(diffElectr, { style: 'decimal' }) }}</span></p>
             <p class="m-0">Сумма: <span class="fw-medium fz-16">{{ $currency(amountElectr) }}</span></p>
           </app-card>
@@ -109,6 +109,7 @@
       :close="closeModal"
       @hide="closeModal = false"
       classListWrapper="modal-lg"
+						v-if="isRates"
     >
       <communal-form
         @close="closeModal = true"
