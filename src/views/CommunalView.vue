@@ -62,7 +62,6 @@
 			id="addCommunalRecord"
 			title="Добавить показания счетчиков"
 			:close="closeModal"
-			class-list-wrapper="modal-lg"
 			@hide="closeModal = false"
 		>
 			<communal-form @close="closeModal = true" />

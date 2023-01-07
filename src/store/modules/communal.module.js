@@ -7,7 +7,7 @@ export default {
 	state() {
 		return {
 			communal: [],
-			rates: {}
+			rates: {},
 		}
 	},
 	mutations: {
@@ -16,7 +16,7 @@ export default {
 		},
 		setRates(state, data) {
 			state.rates = data
-		}
+		},
 	},
 	actions: {
 		async load({ commit, dispatch }) {
@@ -29,7 +29,7 @@ export default {
 					'setMessage',
 					{
 						type: 'danger',
-						value: e.message
+						value: e.message,
 					},
 					{ root: true }
 				)
@@ -42,14 +42,14 @@ export default {
 				const uID = store.getters['users/userID']
 				await axios.post(`/communal/${uID}.json`, {
 					userId: uID,
-					...payload
+					...payload,
 				})
 
 				dispatch(
 					'setMessage',
 					{
 						type: 'success',
-						value: 'Запись успешно добавлена'
+						value: 'Запись успешно добавлена',
 					},
 					{ root: true }
 				)
@@ -58,7 +58,7 @@ export default {
 					'setMessage',
 					{
 						value: e.message,
-						type: 'danger'
+						type: 'danger',
 					},
 					{ root: true }
 				)
@@ -77,7 +77,7 @@ export default {
 					'setMessage',
 					{
 						type: 'danger',
-						value: e.message
+						value: e.message,
 					},
 					{ root: true }
 				)
@@ -90,14 +90,14 @@ export default {
 				const uID = store.getters['users/userID']
 				await axios.post(`/communal/rates/${uID}.json`, {
 					userId: uID,
-					...payload
+					...payload,
 				})
 
 				dispatch(
 					'setMessage',
 					{
 						type: 'success',
-						value: 'Тарифы успешно сохранены!'
+						value: 'Тарифы успешно сохранены!',
 					},
 					{ root: true }
 				)
@@ -106,7 +106,7 @@ export default {
 					'setMessage',
 					{
 						value: e.message,
-						type: 'danger'
+						type: 'danger',
 					},
 					{ root: true }
 				)
@@ -125,7 +125,7 @@ export default {
 					'setMessage',
 					{
 						type: 'success',
-						value: 'Тарифы успешно обновлены!'
+						value: 'Тарифы успешно обновлены!',
 					},
 					{ root: true }
 				)
@@ -136,22 +136,19 @@ export default {
 					'setMessage',
 					{
 						value: e.message,
-						type: 'danger'
+						type: 'danger',
 					},
 					{ root: true }
 				)
 			}
-		}
+		},
 	},
 	getters: {
-		communal: state => state.communal.sort((a, b) => new Date(b.date) - new Date(a.date)),
+		communal: (state) =>
+			state.communal.sort((a, b) => new Date(b.date) - new Date(a.date)),
 		prevData: (_, getters) => getters.communal[0],
-		rates: state => state.rates,
-		trashCalc: (_, getters) => getters.rates.trash * getters.rates.people,
-		electrCalc: (_, getters) => value => value * getters.rates.electr,
-		gasCalc: (_, getters) => value => value * getters.rates.gas,
-		maintanceGe: (_, getters) => getters.rates.maintanceGe,
-		waterCalc: (_, getters) => value => value * getters.rates.water,
-		communalById: (state, getters) => id => getters.communal.find(c => c.id === id)
-	}
+		rates: (state) => state.rates,
+		communalById: (state, getters) => (id) =>
+			getters.communal.find((c) => c.id === id),
+	},
 }
