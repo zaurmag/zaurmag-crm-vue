@@ -110,12 +110,14 @@
 						<p>
 							Разница:
 							<span class="fz-16">{{
-								$currency(diffElectr, { style: 'decimal' })
+								$currency(communal.electr.diff, { style: 'decimal' })
 							}}</span>
 						</p>
 						<p class="m-0">
 							Сумма:
-							<span class="fw-medium fz-16">{{ $currency(amountElectr) }}</span>
+							<span class="fw-medium fz-16">{{
+								$currency(communal.electr.amount)
+							}}</span>
 						</p>
 					</app-card>
 				</div>
@@ -125,24 +127,26 @@
 						<p>
 							Предыдущие:
 							<span class="fz-16">{{
-								$currency(prevData.gas, { style: 'decimal' })
+								$currency(prevData.gas.current, { style: 'decimal' })
 							}}</span>
 						</p>
 						<p>
 							Текущие:
 							<span class="fz-16">{{
-								$currency(communal.gas, { style: 'decimal' })
+								$currency(communal.gas.current, { style: 'decimal' })
 							}}</span>
 						</p>
 						<p>
 							Разница:
 							<span class="fz-16">{{
-								$currency(diffGas, { style: 'decimal' })
+								$currency(communal.gas.diff, { style: 'decimal' })
 							}}</span>
 						</p>
 						<p class="m-0">
 							Сумма:
-							<span class="fw-medium fz-16">{{ $currency(amountGas) }}</span>
+							<span class="fw-medium fz-16">{{
+								$currency(communal.gas.amount)
+							}}</span>
 						</p>
 					</app-card>
 				</div>
@@ -152,24 +156,26 @@
 						<p>
 							Предыдущие:
 							<span class="fz-16">{{
-								$currency(prevData.water, { style: 'decimal' })
+								$currency(prevData.water.current, { style: 'decimal' })
 							}}</span>
 						</p>
 						<p>
 							Текущие:
 							<span class="fz-16">{{
-								$currency(communal.water, { style: 'decimal' })
+								$currency(communal.water.current, { style: 'decimal' })
 							}}</span>
 						</p>
 						<p>
 							Разница:
 							<span class="fz-16">{{
-								$currency(diffWater, { style: 'decimal' })
+								$currency(communal.water.diff, { style: 'decimal' })
 							}}</span>
 						</p>
 						<p class="m-0">
 							Сумма:
-							<span class="fw-medium fz-16">{{ $currency(amountWater) }}</span>
+							<span class="fw-medium fz-16">{{
+								$currency(communal.water.amount)
+							}}</span>
 						</p>
 					</app-card>
 				</div>
@@ -177,10 +183,14 @@
 					<app-card class-list="card--gray h-100" class-list-body="p-25">
 						<h3 class="card-subtitle">Мусор</h3>
 						<p>
-							Количество человек: <span class="fz-16">{{ rates.people }}</span>
+							Количество человек:
+							<span class="fz-16">{{ communal.trash.people }}</span>
 						</p>
 						<p class="m-0">
-							Сумма: <span class="fw-medium fz-16">{{ $currency(trash) }}</span>
+							Сумма:
+							<span class="fw-medium fz-16">{{
+								$currency(communal.trash.amount)
+							}}</span>
 						</p>
 					</app-card>
 				</div>
@@ -189,7 +199,9 @@
 						<h3 class="card-subtitle">Обсл. газ. оборуд.</h3>
 						<p class="m-0">
 							Сумма:
-							<span class="fw-medium fz-16">{{ $currency(maintanceGe) }}</span>
+							<span class="fw-medium fz-16">{{
+								$currency(communal.maintanceGe)
+							}}</span>
 						</p>
 					</app-card>
 				</div>
@@ -256,33 +268,9 @@ const route = useRoute()
 const store = useStore()
 const communal = ref(null)
 const closeModal = ref(false)
+const isRates = ref(null)
 const rates = computed(() => store.getters['communal/rates'] || {})
 const prevData = computed(() => store.getters['communal/prevData'] || {})
-const isRates = ref(null)
-
-// Electr
-const diffElectr = computed(() => communal.value.elctr - prevData.value.elctr)
-const amountElectr = computed(() =>
-	store.getters['communal/electrCalc'](diffElectr.value)
-)
-
-// Gas
-const diffGas = computed(() => communal.value.gas - prevData.value.gas)
-const amountGas = computed(() =>
-	store.getters['communal/gasCalc'](diffGas.value)
-)
-
-// Water
-const diffWater = computed(() => communal.value.water - prevData.value.water)
-const amountWater = computed(() =>
-	store.getters['communal/waterCalc'](diffWater.value)
-)
-
-// Trash
-const trash = computed(() => store.getters['communal/trashCalc'])
-
-// maintance GE
-const maintanceGe = computed(() => store.getters['communal/maintanceGe'])
 
 onMounted(async () => {
 	await store.dispatch('communal/load')

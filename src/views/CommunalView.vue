@@ -34,7 +34,10 @@
 					<div
 						class="col-xxl mb-0 mb-xl-2 mb-xxl-0 d-flex align-items-center justify-content-between"
 					>
-						<communal-list-header />
+						<communal-list-header
+							:checkboxes="checkboxes"
+							@remove="removeAll"
+						/>
 					</div>
 
 					<div id="filter" class="col-xxl-auto collapse d-xl-block">
@@ -43,7 +46,7 @@
 				</div>
 			</template>
 
-			<communal-list :items="items" :loader="loader" />
+			<communal-list :items="items" :loader="loader" @selected="selectChbx" />
 
 			<!-- <template #footer>-->
 			<!-- <app-pagination-->
@@ -80,12 +83,12 @@
 			/>
 		</app-bs-modal>
 
-		<!-- <app-confirm-->
-		<!-- ref="confirm"-->
-		<!-- :title="'Вы удаляете ' + checkboxes.length + ' элемента'"-->
-		<!-- text="Вы уверены? Операцию нельзя будет отменить."-->
-		<!-- @resolve="removeAllConfirm"-->
-		<!-- />-->
+		<app-confirm
+			ref="confirm"
+			:title="'Вы удаляете ' + checkboxes.length + ' элемента'"
+			text="Вы уверены? Операцию нельзя будет отменить."
+			@resolve="removeAllConfirm"
+		/>
 	</teleport>
 </template>
 
@@ -104,6 +107,30 @@ const loader = ref(true)
 const items = computed(() => store.getters['communal/communal'] || [])
 const rates = computed(() => store.getters['communal/rates'] || {})
 const isRates = ref(null)
+
+// Checkboxes
+let checkboxes = ref([])
+const confirm = ref(false)
+
+const selectChbx = (checkboxIds) => {
+	checkboxes.value = checkboxIds
+}
+
+const removeAll = () => {
+	confirm.value.confirm = true
+}
+
+const removeAllConfirm = async () => {
+	try {
+		await store.dispatch('communal/delete', checkboxes.value)
+		await store.dispatch('communal/load')
+		confirm.value.confirm = false
+		checkboxes.value.length = 0
+	} catch (e) {
+		/* empty */
+	}
+}
+// End checkboxes
 
 onMounted(async () => {
 	await store.dispatch('communal/load')

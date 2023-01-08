@@ -66,6 +66,35 @@ export default {
 				throw e
 			}
 		},
+		async delete({ dispatch }, id) {
+			try {
+				const uID = store.getters['users/userID']
+				if (Array.isArray(id)) {
+					for (const itemID of id) {
+						await axios.delete(`/communal/${uID}/${itemID}.json`)
+					}
+				} else {
+					await axios.delete(`/communal/${uID}/${id}.json`)
+				}
+				dispatch(
+					'setMessage',
+					{
+						value: 'Запись успешна удалена',
+						type: 'info',
+					},
+					{ root: true }
+				)
+			} catch (e) {
+				dispatch(
+					'setMessage',
+					{
+						value: e.message,
+						type: 'danger',
+					},
+					{ root: true }
+				)
+			}
+		},
 		async loadRates({ commit, dispatch }) {
 			try {
 				const uID = store.getters['users/userID']
