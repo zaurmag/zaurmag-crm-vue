@@ -91,6 +91,7 @@ import { useCommunalForm } from '@/use/communal-form'
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useCalcCommunalData } from '@/use/calc-communal-data'
+import { dateF } from '@/utils/date'
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['close', 'submit'])
@@ -136,6 +137,11 @@ const onSubmit = fields.handleSubmit(
 			})
 
 			emit('close')
+			fields.resetForm()
+			fields.setFieldValue('electr', 0)
+			fields.setFieldValue('gas', 0)
+			fields.setFieldValue('water', 0)
+			fields.setFieldValue('date', dateF(new Date(), { locale: 'fr-CA' }))
 			await store.dispatch('communal/load')
 		} catch (e) {
 			/* empty */

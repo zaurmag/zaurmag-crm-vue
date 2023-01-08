@@ -1,7 +1,6 @@
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { dateF } from '@/utils/date'
-import { watch } from 'vue'
 
 export function useCommunalForm() {
 	const { handleSubmit, resetForm, isSubmitting, setFieldValue } = useForm()
@@ -51,16 +50,6 @@ export function useCommunalForm() {
 		handleBlur: descBlur,
 	} = useField('desc')
 
-	watch(isSubmitting, (val) => {
-		if (val) {
-			resetForm()
-			setFieldValue('electr', 0)
-			setFieldValue('gas', 0)
-			setFieldValue('water', 0)
-			setFieldValue('date', dateF(new Date(), { locale: 'fr-CA' }))
-		}
-	})
-
 	return {
 		status,
 		date,
@@ -79,5 +68,8 @@ export function useCommunalForm() {
 		descError,
 		descBlur,
 		handleSubmit,
+		resetForm,
+		setFieldValue,
+		isSubmitting,
 	}
 }
