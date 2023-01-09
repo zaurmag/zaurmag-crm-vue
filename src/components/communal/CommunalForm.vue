@@ -108,7 +108,7 @@ const props = defineProps({
 })
 
 const store = useStore()
-let { ...fields } = useCommunalForm(props.currentInitial, emit)
+let { ...fields } = useCommunalForm(props.currentInitial)
 fields = reactive(fields)
 
 const prevData = computed(() => store.getters['communal/prevData'] ?? {})

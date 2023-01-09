@@ -68,21 +68,8 @@
 								placement: 'prepend',
 								classList: 'me-1 d-none d-lg-inline',
 							}"
+							@click="remove"
 							>Удалить</app-button
-						>
-
-						<app-button
-							class-list-btn="btn-outline-secondary ms-10 px-3"
-							:attrs="{
-								'data-bs-toggle': 'modal',
-								'data-bs-target': '#communalSettingForm',
-							}"
-							:icon="{
-								name: 'gear',
-								placement: 'prepend',
-								classList: 'me-1 d-none d-lg-inline',
-							}"
-							>Тарифы</app-button
 						>
 					</div>
 				</div>
@@ -98,7 +85,7 @@
 						<p>
 							Предыдущие:
 							<span class="fz-16">{{
-								$currency(prevData.electr.current, { style: 'decimal' })
+								$currency(communal.electr.prev, { style: 'decimal' })
 							}}</span>
 						</p>
 						<p>
@@ -112,6 +99,10 @@
 							<span class="fz-16">{{
 								$currency(communal.electr.diff, { style: 'decimal' })
 							}}</span>
+						</p>
+						<p>
+							Тариф:
+							<span class="fz-16">{{ $currency(communal.electr.rate) }}</span>
 						</p>
 						<p class="m-0">
 							Сумма:
@@ -127,7 +118,7 @@
 						<p>
 							Предыдущие:
 							<span class="fz-16">{{
-								$currency(prevData.gas.current, { style: 'decimal' })
+								$currency(communal.gas.current, { style: 'decimal' })
 							}}</span>
 						</p>
 						<p>
@@ -141,6 +132,10 @@
 							<span class="fz-16">{{
 								$currency(communal.gas.diff, { style: 'decimal' })
 							}}</span>
+						</p>
+						<p>
+							Тариф:
+							<span class="fz-16">{{ $currency(communal.gas.rate) }}</span>
 						</p>
 						<p class="m-0">
 							Сумма:
@@ -156,7 +151,7 @@
 						<p>
 							Предыдущие:
 							<span class="fz-16">{{
-								$currency(prevData.water.current, { style: 'decimal' })
+								$currency(communal.water.current, { style: 'decimal' })
 							}}</span>
 						</p>
 						<p>
@@ -170,6 +165,10 @@
 							<span class="fz-16">{{
 								$currency(communal.water.diff, { style: 'decimal' })
 							}}</span>
+						</p>
+						<p>
+							Тариф:
+							<span class="fz-16">{{ $currency(communal.water.rate) }}</span>
 						</p>
 						<p class="m-0">
 							Сумма:
@@ -185,6 +184,10 @@
 						<p>
 							Количество человек:
 							<span class="fz-16">{{ communal.trash.people }}</span>
+						</p>
+						<p>
+							Тариф:
+							<span class="fz-16">{{ communal.trash.rate }}</span>
 						</p>
 						<p class="m-0">
 							Сумма:
@@ -223,59 +226,54 @@
 
 	<teleport to="body">
 		<app-bs-modal
-			v-if="isRates"
 			id="editRecordForm"
 			title="Редактировать показания счетчиков"
 			:close="closeModal"
-			class-list-wrapper="modal-lg"
 			@hide="closeModal = false"
 		>
-			<communal-form @close="closeModal = true" />
-		</app-bs-modal>
-
-		<app-bs-modal
-			id="communalSettingForm"
-			title="Тарифы"
-			:close="closeModal"
-			@hide="closeModal = false"
-		>
-			<communal-settings-form
-				v-if="isRates"
-				:initials="rates"
+			<communal-form
+				v-if="communal"
+				:current-initial="communal"
 				@close="closeModal = true"
 			/>
 		</app-bs-modal>
 
-		<!-- <app-confirm-->
-		<!-- ref="confirm"-->
-		<!-- :title="'Вы удаляете ' + checkboxes.length + ' элемента'"-->
-		<!-- text="Вы уверены? Операцию нельзя будет отменить."-->
-		<!-- @resolve="removeAllConfirm"-->
-		<!-- />-->
+		<app-confirm
+			v-if="communal"
+			ref="confirm"
+			:title="'Вы удаляете запись' + communal.date"
+			text="Вы уверены? Операцию нельзя будет отменить."
+			@resolve="removeConfirm(communal.id)"
+		/>
 	</teleport>
 </template>
 
 <script setup>
 import CommunalForm from '@/components/communal/CommunalForm.vue'
-import CommunalSettingsForm from '@/components/communal/CommunalSettingsForm.vue'
 import breadcrumbs from '@/use/breadcrumb'
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { dateF } from '@/utils/date'
 
 const route = useRoute()
+const router = useRouter()
 const store = useStore()
 const communal = ref(null)
 const closeModal = ref(false)
-const isRates = ref(null)
-const rates = computed(() => store.getters['communal/rates'] || {})
-const prevData = computed(() => store.getters['communal/prevData'] || {})
+const confirm = ref(false)
+
+const remove = () => {
+	confirm.value = true
+}
+
+const removeConfirm = async (id) => {
+	await store.dispatch('communal/delete', id)
+	await router.push({ name: 'Communal' })
+}
 
 onMounted(async () => {
 	await store.dispatch('communal/load')
-	await store.dispatch('communal/loadRates')
-	isRates.value = Object.keys(rates.value).length
 	communal.value =
 		(await store.getters['communal/communalById'](route.params.id)) || {}
 	const title = dateF(communal.value.date) + ' г.'
