@@ -104,10 +104,10 @@
 </template>
 
 <script>
+import AppType from '@/components/ui/AppType.vue'
+import AppConfirm from '@/components/ui/AppConfirm.vue'
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
-import AppType from '@/components/ui/AppType'
-import AppConfirm from '@/components/ui/AppConfirm'
 
 export default {
   name: 'ProjectList',
@@ -146,7 +146,7 @@ export default {
         await store.dispatch('project/delete', projectID.value)
         await store.dispatch('project/load')
         confirm.value.confirm = false
-      } catch (e) {}
+      } catch (e) { /* empty */ }
     }
 
     const allCheckbox = computed({

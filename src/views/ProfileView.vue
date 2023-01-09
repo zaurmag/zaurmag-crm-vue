@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import TheProfile from '@/components/profile/TheProfile'
+import TheProfile from '@/components/profile/TheProfile.vue'
 import { getUser } from '@/use/user'
 
 const user = getUser()

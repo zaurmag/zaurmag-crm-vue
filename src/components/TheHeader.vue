@@ -36,41 +36,41 @@
   </header>
 </template>
 
-<script>
+<script setup>
 import { onMounted, onBeforeMount, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
-export default {
-  name: 'TheHeader',
-  props: ['tooltipTlt'],
-  emits: ['toggle'],
-  setup () {
-    const date = ref(Date())
-    const interval = ref(null)
-    const store = useStore()
-    const router = useRouter()
+// eslint-disable-next-line no-undef
+defineEmits(['toggle'])
 
-    onMounted(() => {
-      interval.value = setInterval(() => {
-        date.value = Date()
-      }, 1000)
-    })
-
-    onBeforeMount(() => {
-      clearInterval(interval.value)
-    })
-
-    const logout = () => {
-      store.dispatch('auth/logout')
-      router.push('/sign-in?message=auth')
-    }
-
-    return {
-      date,
-      logout,
-      user: computed(() => store.getters['users/user'])
-    }
+// eslint-disable-next-line no-undef
+defineProps({
+  tooltipTlt: {
+    type: String,
+    required: false
   }
+})
+
+const date = ref(Date())
+const interval = ref(null)
+const store = useStore()
+const router = useRouter()
+
+onMounted(() => {
+  interval.value = setInterval(() => {
+    date.value = Date()
+  }, 1000)
+})
+
+onBeforeMount(() => {
+  clearInterval(interval.value)
+})
+
+const logout = () => {
+  store.dispatch('auth/logout')
+  router.push('/sign-in?message=auth')
 }
+
+const user = computed(() => store.getters['users/user'])
 </script>

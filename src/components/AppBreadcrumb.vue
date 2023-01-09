@@ -17,15 +17,6 @@
   </nav>
 </template>
 
-<script>
+<script setup>
 import breadcrumbs from '@/use/breadcrumb'
-
-export default {
-  name: 'AppBreadcrumb',
-  setup () {
-    return {
-      breadcrumbs
-    }
-  }
-}
 </script>

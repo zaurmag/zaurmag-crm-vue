@@ -7,7 +7,7 @@
       <slot name="header" />
     </header>
 
-    <div class="card-body" v-if="$slots.default">
+    <div class="card-body" :class="classListBody" v-if="$slots.default">
       <slot name="default" />
     </div>
 
@@ -28,6 +28,10 @@ export default {
       required: false
     },
     classList: {
+      type: String,
+      required: false
+    },
+    classListBody: {
       type: String,
       required: false
     }

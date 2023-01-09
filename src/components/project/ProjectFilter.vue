@@ -55,11 +55,11 @@
 </template>
 
 <script>
+import AppSelect from '@/components/ui/AppSelect.vue'
+import AppArbitraryPeriod from '@/components/ui/AppArbitraryPeriod.vue'
 import { PERIOD_OPTIONS, TYPE_OPTIONS } from '@/constans'
 import { ref, watch, computed } from 'vue'
 import { dateF, relativeDate, getDateFromPeriod } from '@/utils/date'
-import AppSelect from '@/components/ui/AppSelect'
-import AppArbitraryPeriod from '@/components/ui/AppArbitraryPeriod'
 
 export default {
   name: 'ProjectFilter',
@@ -142,7 +142,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

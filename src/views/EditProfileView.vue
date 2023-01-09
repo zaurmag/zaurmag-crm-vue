@@ -248,9 +248,9 @@
 </template>
 
 <script>
-import TheProfile from '@/components/profile/TheProfile'
-import FileUpload from '@/components/ui/FileUpload'
-import EditProfileModalFooter from '@/components/profile/EditProfileModalFooter'
+import TheProfile from '@/components/profile/TheProfile.vue'
+import FileUpload from '@/components/ui/FileUpload.vue'
+import EditProfileModalFooter from '@/components/profile/EditProfileModalFooter.vue'
 import { useEditProfileForm } from '@/use/edit-profile-form'
 import { useChangePasswordForm } from '@/use/change-password-form'
 import { useDeleteAccountForm } from '@/use/delete-account-form'

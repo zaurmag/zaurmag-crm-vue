@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import AppCard from '@/components/ui/AppCard'
-import ChartLine from '@/components/ui/ChartLine'
+import AppCard from '@/components/ui/AppCard.vue'
+import ChartLine from '@/components/ui/ChartLine.vue'
 import { computed, watch, ref } from 'vue'
 import { MONTHS } from '@/constans'
 import { getAmountByMonths, getMonthName } from '@/utils/report'

@@ -39,7 +39,7 @@ export default {
   actions: {
     async login ({ commit, dispatch }, payload) {
       try {
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${import.meta.env.VITE_APP_FB_KEY}`
         const { data } = await axios.post(url, {
           ...payload,
           returnSecureToken: true
@@ -59,7 +59,7 @@ export default {
     async refresh ({ state, commit }) {
       try {
         const { data } = await axios.post(
-          `https://securetoken.googleapis.com/v1/token?key=${process.env.VUE_APP_FB_KEY}`,
+          `https://securetoken.googleapis.com/v1/token?key=${import.meta.env.VITE_APP_FB_KEY}`,
           {
             grand_type: 'refresh_token',
             refresh_token: state.refreshToken

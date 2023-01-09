@@ -17,15 +17,7 @@
   </teleport>
 </template>
 
-<script>
-import AppMessage from '@/components/ui/AppMessage'
-import AppLogo from '@/components/AppLogo'
-
-export default {
-  name: 'EmptyLayout',
-  components: {
-    AppMessage,
-    AppLogo
-  }
-}
+<script setup>
+import AppMessage from '@/components/ui/AppMessage.vue'
+import AppLogo from '@/components/AppLogo.vue'
 </script>

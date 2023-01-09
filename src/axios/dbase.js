@@ -3,7 +3,7 @@ import store from '../store'
 import router from '../router'
 
 const dbtAxios = axios.create({
-  baseURL: process.env.VUE_APP_DB_URL
+  baseURL: import.meta.env.VITE_APP_DB_URL
 })
 
 dbtAxios.defaults.params = {}

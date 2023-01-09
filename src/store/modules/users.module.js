@@ -50,7 +50,7 @@ export default {
     },
     async signUp ({ commit, dispatch }, payload) {
       try {
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.VUE_APP_FB_KEY}`
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${import.meta.env.VUE_APP_FB_KEY}`
         const { data } = await axios.post(url, {
           ...payload,
           returnSecureToken: true
@@ -97,7 +97,7 @@ export default {
         { root: true }
       )
     },
-    async getUser ({ commit, dispatch }, id) {
+    async getUser ({ commit }, id) {
       try {
         const { data } = await axios.get(`/users/${id}.json`)
         commit('setUser', { ...data, id })
@@ -106,10 +106,10 @@ export default {
         console.error(e.message)
       }
     },
-    async changePassword ({ commit, dispatch }, { password }) {
+    async changePassword ({ dispatch }, { password }) {
       try {
         const idToken = store.getters['auth/token']
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.VUE_APP_FB_KEY}`
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${import.meta.env.VUE_APP_FB_KEY}`
         await axios.post(url, {
           idToken,
           password,
@@ -136,7 +136,7 @@ export default {
     async deleteAccount ({ dispatch }) {
       try {
         const idToken = store.getters['auth/token']
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${process.env.VUE_APP_FB_KEY}`
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${import.meta.env.VUE_APP_FB_KEY}`
         await axios.post(url, { idToken })
         dispatch('deleteUser')
       } catch (e) {

@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, defineProps, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import vueFilePond from 'vue-filepond'
 import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
@@ -29,6 +29,7 @@ import { initializeApp } from 'firebase/app'
 import { getStorage, ref as fbRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 
 // Emits
+// eslint-disable-next-line no-undef
 const emits = defineEmits([
   'progress',
   'uploadCancel',
@@ -36,6 +37,7 @@ const emits = defineEmits([
 ])
 
 // Props
+// eslint-disable-next-line no-undef
 const props = defineProps({
   id: {
     type: String,

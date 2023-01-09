@@ -12,6 +12,7 @@
 </template>
 
 <script setup>
+// eslint-disable-next-line no-undef
 defineProps({
   rows: {
     type: [Number, String],

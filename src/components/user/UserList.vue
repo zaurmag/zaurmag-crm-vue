@@ -67,9 +67,11 @@
 </template>
 
 <script setup>
-import { defineProps, computed, defineEmits, ref } from 'vue'
+import { computed, ref } from 'vue'
 
+// eslint-disable-next-line no-undef
 const emit = defineEmits(['selected'])
+// eslint-disable-next-line no-undef
 const props = defineProps({
   users: {
     type: Array,

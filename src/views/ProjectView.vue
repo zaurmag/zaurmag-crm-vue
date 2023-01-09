@@ -64,65 +64,45 @@
   </teleport>
 </template>
 
-<script>
-import AppType from '@/components/ui/AppType'
-import ProjectForm from '@/components/project/ProjectForm'
+<script setup>
+import AppType from '@/components/ui/AppType.vue'
+import ProjectForm from '@/components/project/ProjectForm.vue'
 import breadcrumbs from '@/use/breadcrumb'
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 
-export default {
-  name: 'Project',
-  setup () {
-    const loader = ref(true)
-    const route = useRoute()
-    const router = useRouter()
-    const store = useStore()
-    const project = ref()
-    const closeModal = ref(false)
-    const confirm = ref(false)
-    const initial = ref()
-    const id = route.params.id
+const loader = ref(true)
+const route = useRoute()
+const router = useRouter()
+const store = useStore()
+const project = ref()
+const closeModal = ref(false)
+const confirm = ref(false)
+const initial = ref()
+const id = route.params.id
 
-    onMounted(async () => {
-      project.value = await store.dispatch('project/loadOne', id)
-      initial.value = { ...project.value }
-      loader.value = false
-      breadcrumbs.setCurrentBreadcrumbName(project.value.title)
-    })
+onMounted(async () => {
+  project.value = await store.dispatch('project/loadOne', id)
+  initial.value = { ...project.value }
+  loader.value = false
+  breadcrumbs.setCurrentBreadcrumbName(project.value.title)
+})
 
-    const removeBtn = () => {
-      confirm.value.confirm = true
-    }
+const removeBtn = () => {
+  confirm.value.confirm = true
+}
 
-    const removeConfirm = async () => {
-      try {
-        await store.dispatch('project/delete', id)
-        confirm.value.confirm = false
-        await router.push({ name: 'Home' })
-      } catch (e) {}
-    }
+const removeConfirm = async () => {
+  try {
+    await store.dispatch('project/delete', id)
+    confirm.value.confirm = false
+    await router.push({ name: 'Home' })
+  } catch (e) { /* empty */ }
+}
 
-    const closeModalProject = async () => {
-      project.value = await store.dispatch('project/loadOne', id)
-      closeModal.value = true
-    }
-
-    return {
-      project,
-      initial,
-      loader,
-      closeModal,
-      confirm,
-      removeBtn,
-      removeConfirm,
-      closeModalProject
-    }
-  },
-  components: {
-    AppType,
-    ProjectForm
-  }
+const closeModalProject = async () => {
+  project.value = await store.dispatch('project/loadOne', id)
+  closeModal.value = true
 }
 </script>
