@@ -100,6 +100,7 @@ import CommunalForm from '@/components/communal/CommunalForm.vue'
 import CommunalSettingsForm from '@/components/communal/CommunalSettingsForm.vue'
 import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import { isHasKeysObject } from '@/utils/helpers'
 
 const store = useStore()
 const closeModal = ref(false)
@@ -135,7 +136,7 @@ const removeAllConfirm = async () => {
 onMounted(async () => {
 	await store.dispatch('communal/load')
 	await store.dispatch('communal/loadRates')
-	isRates.value = Object.keys(rates.value).length
+	isRates.value = isHasKeysObject(rates.value)
 	loader.value = false
 })
 </script>

@@ -7,7 +7,6 @@
 					v-model="fields.date"
 					type="date"
 					class-list-wrapper="m-0"
-					class-list-input="form-control-lg"
 					:error="fields.dError"
 					@blur="fields.dBlur"
 				/>
@@ -62,17 +61,17 @@
 			@blur="fields.descBlur"
 		/>
 
-		<div class="mb-3">
-			<p class="form-label">Прикрепить фото квитанции</p>
-			<div class="f-upload">
-				<div class="f-upload__area">
-					<app-icon name="image" class-list="f-upload__image" />
-					<h5 class="h6 f-upload__title">Перетащите файл сюда</h5>
-					<p class="f-upload__desc">или</p>
-					<span class="btn btn-primary btn-sm px-3">Загрузите</span>
-				</div>
-			</div>
-		</div>
+		<!--		<div class="mb-3">-->
+		<!--			<p class="form-label">Прикрепить фото квитанции</p>-->
+		<!--			<div class="f-upload">-->
+		<!--				<div class="f-upload__area">-->
+		<!--					<app-icon name="image" class-list="f-upload__image" />-->
+		<!--					<h5 class="h6 f-upload__title">Перетащите файл сюда</h5>-->
+		<!--					<p class="f-upload__desc">или</p>-->
+		<!--					<span class="btn btn-primary btn-sm px-3">Загрузите</span>-->
+		<!--				</div>-->
+		<!--			</div>-->
+		<!--		</div>-->
 
 		<div class="text-center mt-30">
 			<app-button
@@ -91,7 +90,7 @@ import { useCommunalForm } from '@/use/communal-form'
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useCalcCommunalData } from '@/use/calc-communal-data'
-// import { dateF } from '@/utils/date'
+import { isHasKeysObject } from '@/utils/helpers'
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['close', 'submit'])
@@ -112,69 +111,49 @@ let { ...fields } = useCommunalForm(props.initial)
 fields = reactive(fields)
 
 const prevData = computed(() => store.getters['communal/prevData'] ?? {})
-const rates = computed(() => store.getters['communal/rates'] ?? {})
+const rates = computed(() => store.getters['communal/rates'] || {})
 
-const onSubmit = fields.handleSubmit(
-	async ({ status, date, desc }) => {
-		try {
-			const dateNow = new Date()
-			const fullDate = `${date} ${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`
-			const isInitial = Object.keys(props.initial).length
-			const electr = computed(() => isInitial ? props.initial.electr.current : fields.electr)
-			const gas = isInitial ? props.initial.gas.current : fields.gas
-			const water = isInitial ? props.initial.water.current : fields.water
+const onSubmit = fields.handleSubmit(async ({ status, date, desc }) => {
+	try {
+		const dateNow = new Date()
+		const fullDate = `${date} ${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`
+		const isInitial = isHasKeysObject(props.initial)
 
-			const { ...calcData } = useCalcCommunalData(
-				electr.value,
-				gas,
-				water,
-				prevData,
-				rates
-			)
+		const { ...calcData } = useCalcCommunalData(
+			fields.electr,
+			fields.gas,
+			fields.water,
+			prevData,
+			rates
+		)
 
-			const payload = {
-				date: fullDate,
-				status,
-				desc,
-				...calcData
-			}
-
-			if (isInitial) {
-				// const payload = {
-				// 	id: props.initial.id,
-				// 	date: fullDate,
-				// 	electr: props.initial.electr,
-				// 	gas: props.initial.gas,
-				// 	water: props.initial.water,
-				// 	status,
-				// 	desc,
-				// 	...calcData
-				// }
-
-				// payload.electr.current = electr
-				// payload.gas.current = gas
-				// payload.water.current = water
-
-				await store.dispatch('communal/update', {
-					id: props.initial.id,
-					...payload
-				})
-				emit('close')
-
-				return
-			}
-
-			await store.dispatch('communal/add', {
-				id: Date.now().toString(),
-				...payload
-			})
-
-			emit('close')
-			fields.resetForm()
-			await store.dispatch('communal/load')
-		} catch (e) {
-			/* empty */
+		const payload = {
+			date: fullDate,
+			status,
+			desc,
+			...calcData,
 		}
+
+		if (isInitial) {
+			await store.dispatch('communal/update', {
+				id: props.initial.id,
+				...payload,
+			})
+			emit('close')
+
+			return
+		}
+
+		await store.dispatch('communal/add', {
+			id: Date.now().toString(),
+			...payload,
+		})
+
+		emit('close')
+		fields.resetForm()
+		await store.dispatch('communal/load')
+	} catch (e) {
+		/* empty */
 	}
-)
+})
 </script>

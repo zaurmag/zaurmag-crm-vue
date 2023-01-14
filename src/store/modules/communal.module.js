@@ -37,7 +37,7 @@ export default {
 				throw e
 			}
 		},
-		async loadOne ({ dispatch }, id) {
+		async loadOne({ dispatch }, id) {
 			try {
 				const uID = store.getters['users/userID']
 				const { data } = await axios.get(`/communal/${uID}/${id}.json`)

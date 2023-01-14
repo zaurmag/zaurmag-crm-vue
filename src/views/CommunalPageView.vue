@@ -146,11 +146,7 @@
 			:close="modal"
 			@hide="modal = false"
 		>
-			<communal-form
-				v-if="communal"
-				:initial="communal"
-				@close="closeModal"
-			/>
+			<communal-form v-if="communal" :initial="communal" @close="closeModal" />
 		</app-bs-modal>
 
 		<app-confirm
@@ -196,6 +192,7 @@ const closeModal = async () => {
 }
 
 onMounted(async () => {
+	await store.dispatch('communal/loadRates')
 	communal.value = await store.dispatch('communal/loadOne', id)
 	const title = dateF(communal.value.date) + ' г.'
 	breadcrumbs.setCurrentBreadcrumbName(title)

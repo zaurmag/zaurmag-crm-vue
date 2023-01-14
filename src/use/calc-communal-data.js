@@ -1,80 +1,70 @@
 import { computed } from 'vue'
 
-export function useCalcCommunalData(electr, gas, water, prevData, rates) {
-	const prevElectr = computed(() => prevData.value?.electr?.current ?? 0)
-	const prevGas = computed(() => prevData.value?.gas?.current ?? 0)
-	const prevWater = computed(() => prevData.value?.water?.current ?? 0)
-
+export function useCalcCommunalData(e, g, w, prevData, rates) {
 	// Different
 	const diffElectr = computed(() => {
-		if (electr === 0) {
-			return 0
-		}
+		const prev = prevData.value?.electr?.current || 0
 
-		return electr - prevElectr.value
+		return e === 0 ? 0 : e - prev
 	})
 
 	const diffGas = computed(() => {
-		if (gas === 0) {
-			return 0
-		}
+		const prev = prevData.value?.gas?.current || 0
 
-		return gas - prevGas.value
+		return g === 0 ? 0 : g - prev
 	})
 
 	const diffWater = computed(() => {
-		if (water === 0) {
-			return 0
-		}
+		const prev = prevData.value?.water?.current || 0
 
-		return water - prevWater.value
+		return w === 0 ? 0 : w - prev
 	})
 
-	console.log(diffElectr.value, electr)
-
 	// Calculate
-	const electrAmount = computed(() => diffElectr.value * rates.value.electr)
-	const gasAmount = computed(() => diffGas.value * rates.value.gas)
-	const waterAmount = computed(() => diffWater.value * rates.value.water)
-	const trash = computed(() => rates.value.people * rates.value.trash)
 	const amount = computed(() => {
-		return (
-			electrAmount.value +
-			gasAmount.value +
-			waterAmount.value +
-			trash.value +
-			rates.value.maintanceGe
-		)
+		const electr = diffElectr.value * rates.value.electr
+		const gas = diffGas.value * rates.value.gas
+		const water = diffWater.value * rates.value.water
+		const trash = rates.value.people * rates.value.trash
+		const total = electr + gas + water + trash + rates.value.maintanceGe
+
+		return {
+			electr,
+			gas,
+			water,
+			trash,
+			total,
+		}
 	})
 
 	return {
 		electr: {
-			prev: prevElectr.value,
-			current: electr,
+			prev: prevData.value?.electr.prev,
+			current: e,
 			diff: diffElectr.value,
 			rate: rates.value.electr,
-			amount: electrAmount.value,
+			amount: amount.value.electr,
 		},
 		gas: {
-			prev: prevGas.value,
-			current: gas,
+			prev: prevData.value?.gas.prev,
+			current: g,
 			diff: diffGas.value,
 			rate: rates.value.gas,
-			amount: gasAmount.value,
+			amount: amount.value.gas,
 		},
 		water: {
-			prev: prevWater.value,
-			current: water,
+			prev: prevData.value?.water.prev,
+			current: w,
 			diff: diffWater.value,
 			rate: rates.value.water,
-			amount: waterAmount.value,
+			amount: amount.value.water,
 		},
 		trash: {
 			people: rates.value.people,
 			rate: rates.value.trash,
-			amount: trash.value,
+			amount: amount.value.trash,
 		},
 		maintanceGe: rates.value.maintanceGe,
-		amount: amount.value,
+		amount: amount.value.total,
 	}
 }
