@@ -61,7 +61,7 @@
 							class-list-btn="btn-outline-danger px-3 ms-10"
 							:attrs="{
 								'data-bs-toggle': 'modal',
-								'data-bs-target': '#confirm',
+								'data-bs-target': '#removeConfirm',
 							}"
 							:icon="{
 								name: 'trash',
@@ -78,136 +78,51 @@
 
 		<app-card class-list-body="pt-sm-25">
 			<h2 class="h4 mb-xxl-30">Сумма: {{ $currency(communal.amount) }}</h2>
+
 			<div class="row g-15 mb-30 justify-content-center">
-				<div class="col-xxl col-lg-6 col-md-4 col-sm-6">
-					<app-card class-list="card--green h-100" class-list-body="p-25">
-						<h3 class="card-subtitle">Электричество, квт/ч</h3>
-						<p>
-							Предыдущие:
-							<span class="fz-16">{{
-								$currency(communal.electr.prev, { style: 'decimal' })
-							}}</span>
-						</p>
-						<p>
-							Текущие:
-							<span class="fz-16">{{
-								$currency(communal.electr.current, { style: 'decimal' })
-							}}</span>
-						</p>
-						<p>
-							Разница:
-							<span class="fz-16">{{
-								$currency(communal.electr.diff, { style: 'decimal' })
-							}}</span>
-						</p>
-						<p>
-							Тариф:
-							<span class="fz-16">{{ $currency(communal.electr.rate) }}</span>
-						</p>
-						<p class="m-0">
-							Сумма:
-							<span class="fw-medium fz-16">{{
-								$currency(communal.electr.amount)
-							}}</span>
-						</p>
-					</app-card>
-				</div>
-				<div class="col-xxl col-lg-6 col-md-4 col-sm-6">
-					<app-card class-list="card--yellow h-100" class-list-body="p-25">
-						<h3 class="card-subtitle">Газ, м<sup>3</sup></h3>
-						<p>
-							Предыдущие:
-							<span class="fz-16">{{
-								$currency(communal.gas.current, { style: 'decimal' })
-							}}</span>
-						</p>
-						<p>
-							Текущие:
-							<span class="fz-16">{{
-								$currency(communal.gas.current, { style: 'decimal' })
-							}}</span>
-						</p>
-						<p>
-							Разница:
-							<span class="fz-16">{{
-								$currency(communal.gas.diff, { style: 'decimal' })
-							}}</span>
-						</p>
-						<p>
-							Тариф:
-							<span class="fz-16">{{ $currency(communal.gas.rate) }}</span>
-						</p>
-						<p class="m-0">
-							Сумма:
-							<span class="fw-medium fz-16">{{
-								$currency(communal.gas.amount)
-							}}</span>
-						</p>
-					</app-card>
-				</div>
-				<div class="col-xxl col-lg-6 col-md-4 col-sm-6">
-					<app-card class-list="card--blue h-100" class-list-body="p-25">
-						<h3 class="card-subtitle">Вода, м<sup>3</sup></h3>
-						<p>
-							Предыдущие:
-							<span class="fz-16">{{
-								$currency(communal.water.current, { style: 'decimal' })
-							}}</span>
-						</p>
-						<p>
-							Текущие:
-							<span class="fz-16">{{
-								$currency(communal.water.current, { style: 'decimal' })
-							}}</span>
-						</p>
-						<p>
-							Разница:
-							<span class="fz-16">{{
-								$currency(communal.water.diff, { style: 'decimal' })
-							}}</span>
-						</p>
-						<p>
-							Тариф:
-							<span class="fz-16">{{ $currency(communal.water.rate) }}</span>
-						</p>
-						<p class="m-0">
-							Сумма:
-							<span class="fw-medium fz-16">{{
-								$currency(communal.water.amount)
-							}}</span>
-						</p>
-					</app-card>
-				</div>
-				<div class="col-xxl col-lg-6 col-md-4 col-sm-6">
-					<app-card class-list="card--gray h-100" class-list-body="p-25">
-						<h3 class="card-subtitle">Мусор</h3>
-						<p>
-							Количество человек:
-							<span class="fz-16">{{ communal.trash.people }}</span>
-						</p>
-						<p>
-							Тариф:
-							<span class="fz-16">{{ communal.trash.rate }}</span>
-						</p>
-						<p class="m-0">
-							Сумма:
-							<span class="fw-medium fz-16">{{
-								$currency(communal.trash.amount)
-							}}</span>
-						</p>
-					</app-card>
-				</div>
-				<div class="col-xxl col-lg-6 col-md-4 col-sm-6">
-					<app-card class-list="card--gray h-100" class-list-body="p-25">
-						<h3 class="card-subtitle">Обсл. газ. оборуд.</h3>
-						<p class="m-0">
-							Сумма:
-							<span class="fw-medium fz-16">{{
-								$currency(communal.maintanceGe)
-							}}</span>
-						</p>
-					</app-card>
-				</div>
+				<communal-full-page-card
+					title="Электричество, квт/ч"
+					:amount="communal.electr.amount"
+					:rate="communal.electr.rate"
+					:diff="communal.electr.diff"
+					:current="communal.electr.current"
+					:prev="communal.electr.prev"
+					color="green"
+				/>
+
+				<communal-full-page-card
+					title="Газ, м<sup>3</sup>"
+					:amount="communal.gas.amount"
+					:rate="communal.gas.rate"
+					:diff="communal.gas.diff"
+					:current="communal.gas.current"
+					:prev="communal.gas.prev"
+					color="yellow"
+				/>
+
+				<communal-full-page-card
+					title="Вода, м<sup>3</sup>"
+					:amount="communal.water.amount"
+					:rate="communal.water.rate"
+					:diff="communal.water.diff"
+					:current="communal.water.current"
+					:prev="communal.water.prev"
+					color="blue"
+				/>
+
+				<communal-full-page-card
+					title="Мусор"
+					:amount="communal.trash.amount"
+					:rate="communal.trash.rate"
+					:people="communal.trash.people"
+					color="gray"
+				/>
+
+				<communal-full-page-card
+					title="Обсл. газ. оборуд."
+					:amount="communal.maintanceGe"
+					color="green"
+				/>
 			</div>
 			<div class="row">
 				<div v-if="communal.desc" class="col-sm">
@@ -228,28 +143,29 @@
 		<app-bs-modal
 			id="editRecordForm"
 			title="Редактировать показания счетчиков"
-			:close="closeModal"
-			@hide="closeModal = false"
+			:close="modal"
+			@hide="modal = false"
 		>
 			<communal-form
 				v-if="communal"
-				:current-initial="communal"
-				@close="closeModal = true"
+				:initial="communal"
+				@close="closeModal"
 			/>
 		</app-bs-modal>
 
 		<app-confirm
 			v-if="communal"
-			ref="confirm"
-			:title="'Вы удаляете запись' + communal.date"
-			text="Вы уверены? Операцию нельзя будет отменить."
-			@resolve="removeConfirm(communal.id)"
+			id="removeConfirm"
+			:title="'Дата от ' + $dateF(communal.date, { month: 'long' }) + ' г.'"
+			text="Вы удаляете запись. Уверены? Операцию нельзя будет отменить."
+			@resolve="removeConfirm"
 		/>
 	</teleport>
 </template>
 
 <script setup>
 import CommunalForm from '@/components/communal/CommunalForm.vue'
+import CommunalFullPageCard from '@/components/communal/CommunalFullPageCard.vue'
 import breadcrumbs from '@/use/breadcrumb'
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
@@ -260,22 +176,27 @@ const route = useRoute()
 const router = useRouter()
 const store = useStore()
 const communal = ref(null)
-const closeModal = ref(false)
+const modal = ref(false)
 const confirm = ref(false)
+const id = route.params.id
 
 const remove = () => {
 	confirm.value = true
 }
 
-const removeConfirm = async (id) => {
+const removeConfirm = async () => {
 	await store.dispatch('communal/delete', id)
 	await router.push({ name: 'Communal' })
+	modal.value = true
+}
+
+const closeModal = async () => {
+	communal.value = await store.dispatch('communal/loadOne', id)
+	modal.value = true
 }
 
 onMounted(async () => {
-	await store.dispatch('communal/load')
-	communal.value =
-		(await store.getters['communal/communalById'](route.params.id)) || {}
+	communal.value = await store.dispatch('communal/loadOne', id)
 	const title = dateF(communal.value.date) + ' г.'
 	breadcrumbs.setCurrentBreadcrumbName(title)
 })

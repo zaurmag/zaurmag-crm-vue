@@ -7,8 +7,9 @@ export function useCommunalForm(initial) {
 	const { handleSubmit, resetForm, isSubmitting, setFieldValue } = useForm({
 		initialValues: {
 			date:
-				dateF(initial.date, { locale: 'fr-CA' }) ??
-				dateF(new Date(), { locale: 'fr-CA' }),
+				initial.date
+					? dateF(initial.date, { locale: 'fr-CA' })
+					:	dateF(new Date(), { locale: 'fr-CA' }),
 			status: initial?.status ?? false,
 			electr: initial?.electr?.current ?? 0,
 			gas: initial?.gas?.current ?? 0,

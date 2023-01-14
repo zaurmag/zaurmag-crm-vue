@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 
-export function useCalcCommunalData(electr, gas, water, prevData = {}, rates) {
+export function useCalcCommunalData(electr, gas, water, prevData, rates) {
 	const prevElectr = computed(() => prevData.value?.electr?.current ?? 0)
 	const prevGas = computed(() => prevData.value?.gas?.current ?? 0)
 	const prevWater = computed(() => prevData.value?.water?.current ?? 0)
@@ -29,6 +29,8 @@ export function useCalcCommunalData(electr, gas, water, prevData = {}, rates) {
 
 		return water - prevWater.value
 	})
+
+	console.log(diffElectr.value, electr)
 
 	// Calculate
 	const electrAmount = computed(() => diffElectr.value * rates.value.electr)

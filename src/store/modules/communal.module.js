@@ -37,6 +37,24 @@ export default {
 				throw e
 			}
 		},
+		async loadOne ({ dispatch }, id) {
+			try {
+				const uID = store.getters['users/userID']
+				const { data } = await axios.get(`/communal/${uID}/${id}.json`)
+				return { ...data, id }
+			} catch (e) {
+				dispatch(
+					'setMessage',
+					{
+						value: e.message,
+						type: 'danger',
+					},
+					{ root: true }
+				)
+
+				throw e
+			}
+		},
 		async add({ dispatch }, payload) {
 			try {
 				const uID = store.getters['users/userID']
@@ -84,6 +102,34 @@ export default {
 					},
 					{ root: true }
 				)
+			} catch (e) {
+				dispatch(
+					'setMessage',
+					{
+						value: e.message,
+						type: 'danger',
+					},
+					{ root: true }
+				)
+			}
+		},
+		async update({ dispatch }, item) {
+			try {
+				const uID = store.getters['users/userID']
+				const { data } = await axios.patch(
+					`/communal/${uID}/${item.id}.json`,
+					item
+				)
+				dispatch(
+					'setMessage',
+					{
+						type: 'info',
+						value: 'Запись успешно обновлена!',
+					},
+					{ root: true }
+				)
+
+				return data
 			} catch (e) {
 				dispatch(
 					'setMessage',

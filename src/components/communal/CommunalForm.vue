@@ -91,14 +91,14 @@ import { useCommunalForm } from '@/use/communal-form'
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useCalcCommunalData } from '@/use/calc-communal-data'
-import { dateF } from '@/utils/date'
+// import { dateF } from '@/utils/date'
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['close', 'submit'])
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
-	currentInitial: {
+	initial: {
 		type: Object,
 		required: false,
 		default() {
@@ -108,40 +108,69 @@ const props = defineProps({
 })
 
 const store = useStore()
-let { ...fields } = useCommunalForm(props.currentInitial)
+let { ...fields } = useCommunalForm(props.initial)
 fields = reactive(fields)
 
 const prevData = computed(() => store.getters['communal/prevData'] ?? {})
 const rates = computed(() => store.getters['communal/rates'] ?? {})
 
 const onSubmit = fields.handleSubmit(
-	async ({ date, status = false, desc = '' }) => {
+	async ({ status, date, desc }) => {
 		try {
 			const dateNow = new Date()
 			const fullDate = `${date} ${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`
+			const isInitial = Object.keys(props.initial).length
+			const electr = computed(() => isInitial ? props.initial.electr.current : fields.electr)
+			const gas = isInitial ? props.initial.gas.current : fields.gas
+			const water = isInitial ? props.initial.water.current : fields.water
 
 			const { ...calcData } = useCalcCommunalData(
-				fields.electr,
-				fields.gas,
-				fields.water,
+				electr.value,
+				gas,
+				water,
 				prevData,
 				rates
 			)
 
-			await store.dispatch('communal/add', {
-				id: Date.now().toString(),
+			const payload = {
 				date: fullDate,
 				status,
 				desc,
-				...calcData,
+				...calcData
+			}
+
+			if (isInitial) {
+				// const payload = {
+				// 	id: props.initial.id,
+				// 	date: fullDate,
+				// 	electr: props.initial.electr,
+				// 	gas: props.initial.gas,
+				// 	water: props.initial.water,
+				// 	status,
+				// 	desc,
+				// 	...calcData
+				// }
+
+				// payload.electr.current = electr
+				// payload.gas.current = gas
+				// payload.water.current = water
+
+				await store.dispatch('communal/update', {
+					id: props.initial.id,
+					...payload
+				})
+				emit('close')
+
+				return
+			}
+
+			await store.dispatch('communal/add', {
+				id: Date.now().toString(),
+				...payload
 			})
 
 			emit('close')
 			fields.resetForm()
-			fields.setFieldValue('electr', 0)
-			fields.setFieldValue('gas', 0)
-			fields.setFieldValue('water', 0)
-			fields.setFieldValue('date', dateF(new Date(), { locale: 'fr-CA' }))
 			await store.dispatch('communal/load')
 		} catch (e) {
 			/* empty */
