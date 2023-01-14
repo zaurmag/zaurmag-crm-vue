@@ -1,6 +1,6 @@
 <template>
   <div :class="['form-check', 'form-switch', classListWrapper]">
-    <input :class="['form-check-input', classListInput]" :id=id type="checkbox" role="switch" v-model="model">
+    <input :id=id v-model="model" :class="['form-check-input', classListInput]" type="checkbox" role="switch">
     <label :class="['form-check-label', classListLabel]" :for=id>{{ label }}</label>
   </div>
 </template>
@@ -12,25 +12,35 @@ import { computed } from 'vue'
 const emit = defineEmits(['update:modelValue'])
 // eslint-disable-next-line no-undef
 const props = defineProps({
+	modelValue: {
+		type: Object,
+		default() {
+			return {}
+		}
+	},
   label: {
     type: String,
     required: true
   },
   id: {
     type: String,
-    required: false
+    required: false,
+				default: ''
   },
   classListWrapper: {
     type: String,
-    required: false
+    required: false,
+			default: ''
   },
   classListInput: {
     type: String,
-    required: false
+    required: false,
+			default: ''
   },
   classListLabel: {
     type: String,
-    required: false
+    required: false,
+				default: ''
   }
 })
 
@@ -43,7 +53,3 @@ const model = computed({
   }
 })
 </script>
-
-<style scoped>
-
-</style>
