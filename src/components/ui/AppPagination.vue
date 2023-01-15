@@ -4,7 +4,7 @@
 			<div class="col-sm-3">
 				<div class="pagination__pagesize align-items-center">
 					<div class="text-secondary me-2">Показать:</div>
-					<AppSelect v-model="selectSize" :options="optionsSize" />
+					<form-select v-model="selectSize" :options="optionsSize" />
 					<div class="text-secondary ms-3">из</div>
 					<div class="text-secondary ms-2">{{ count }}</div>
 				</div>
@@ -61,49 +61,52 @@
 	</nav>
 </template>
 
-<script>
-import AppSelect from '@/components/ui/AppSelect.vue'
+<script setup>
 import { computed, ref, watch } from 'vue'
 
-export default {
-	name: 'AppPagination',
-	components: {
-		AppSelect,
-	},
-	props: ['count', 'pages', 'modelValue'],
-	emits: ['changeSize', 'update:modelValue'],
-	setup(props, { emit }) {
-		const optionsSize = ref([
-			{
-				name: '10',
-				value: '10',
-			},
-			{
-				name: '20',
-				value: '20',
-			},
-			{
-				name: '50',
-				value: '50',
-			},
-			{
-				name: '100',
-				value: '100',
-			},
-		])
-		const selectSize = ref(props.pages)
+// eslint-disable-next-line no-undef
+const emit = defineEmits(['changeSize', 'update:modelValue'])
 
-		watch(selectSize, (size) => {
-			emit('changeSize', size.value)
-		})
-
-		return {
-			items: computed(() => Math.ceil(props.count / selectSize.value.value)),
-			selectSize,
-			optionsSize,
-		}
+// eslint-disable-next-line no-undef
+const props = defineProps({
+	count: {
+		type: Number,
+		required: true,
 	},
-}
+	pages: {
+		type: Number,
+		required: true,
+	},
+	modelValue: {
+		type: Number,
+		required: true,
+	},
+})
+
+const optionsSize = ref([
+	{
+		name: '10',
+		value: '10',
+	},
+	{
+		name: '20',
+		value: '20',
+	},
+	{
+		name: '50',
+		value: '50',
+	},
+	{
+		name: '100',
+		value: '100',
+	},
+])
+const selectSize = ref(props.pages)
+const items = computed(() => Math.ceil(props.count / selectSize.value.value))
+
+watch(selectSize, (size) => {
+	emit('changeSize', size.value)
+})
 </script>
 
 <style scoped lang="sass">

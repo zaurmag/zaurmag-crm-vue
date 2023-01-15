@@ -1,144 +1,132 @@
 <template>
-  <div class="form form--filter row gy-3 gy-xl-2 gx-4 mt-xl-0 mt-3">
-    <div class="col-xl-auto">
-      <div class="row align-items-center g-4">
-        <div class="col-sm col-md-auto">
-          <AppSelect
-            :options="periodOptions"
-            v-model="periodSelect"
-          />
-        </div>
-        <div class="col-sm">
-          <AppArbitraryPeriod
-            v-model:date-from="arbitraryPeriodFrom"
-            v-model:date-to="arbitraryPeriodTo"
-            @datesOut="arbitraryPeriodDates"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-auto">
-      <div class="d-flex align-items-center">
-        <label class="form__label me-3">Тип операции:</label>
-        <AppSelect
-          :options="typeOptions"
-          v-model="typeSelect"
-        />
-      </div>
-    </div>
-    <div class="col-xl-auto">
-      <div class="d-flex align-items-center">
-        <form-control
-          id="filterSearch"
-          type="search"
-          placeholder="Поиск по имени"
-          v-model="search"
-          classListWrapper="form__group form__group--icon w-100"
-          classListInput="form-control-bb ps-20"
-        >
-          <template #prepend>
-            <app-icon name="search" />
-          </template>
-        </form-control>
+	<div class="form form--filter row gy-3 gy-xl-2 gx-4 mt-xl-0 mt-3">
+		<div class="col-xl-auto">
+			<div class="row align-items-center g-4">
+				<div class="col-sm col-md-auto">
+					<form-select v-model="periodSelect" :options="periodOptions" />
+				</div>
+				<div class="col-sm">
+					<AppArbitraryPeriod
+						v-model:date-from="arbitraryPeriodFrom"
+						v-model:date-to="arbitraryPeriodTo"
+						@datesOut="arbitraryPeriodDates"
+					/>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-auto">
+			<div class="d-flex align-items-center">
+				<label class="form__label me-3">Тип операции:</label>
+				<form-select v-model="typeSelect" :options="typeOptions" />
+			</div>
+		</div>
+		<div class="col-xl-auto">
+			<div class="d-flex align-items-center">
+				<form-control
+					id="filterSearch"
+					v-model="search"
+					type="search"
+					placeholder="Поиск по имени"
+					class-list-wrapper="form__group form__group--icon w-100"
+					class-list-input="form-control-bb ps-20"
+				>
+					<template #prepend>
+						<app-icon name="search" />
+					</template>
+				</form-control>
 
-        <app-button
-          classListWrapper="ms-3"
-          classListBtn="btn-outline-secondary btn-round fz-16 p-0"
-          v-if="isActive"
-          v-tooltip="{ title: 'Сбросить фильтр' }"
-          @click="reset"
-          :icon="{ name: 'x', placement: 'prepend' }"
-        />
-      </div>
-    </div>
-  </div>
+				<app-button
+					v-if="isActive"
+					v-tooltip="{ title: 'Сбросить фильтр' }"
+					class-list-wrapper="ms-3"
+					class-list-btn="btn-outline-secondary btn-round fz-16 p-0"
+					:icon="{ name: 'x', placement: 'prepend' }"
+					@click="reset"
+				/>
+			</div>
+		</div>
+	</div>
 </template>
 
-<script>
-import AppSelect from '@/components/ui/AppSelect.vue'
+<script setup>
 import AppArbitraryPeriod from '@/components/ui/AppArbitraryPeriod.vue'
 import { PERIOD_OPTIONS, TYPE_OPTIONS } from '@/constans'
 import { ref, watch, computed } from 'vue'
 import { dateF, relativeDate, getDateFromPeriod } from '@/utils/date'
 
-export default {
-  name: 'ProjectFilter',
-  emits: ['update:modelValue'],
-  props: ['modelValue'],
-  setup (_, { emit }) {
-    const arbitraryPeriodFrom = ref()
-    const arbitraryPeriodTo = ref()
+// eslint-disable-next-line no-undef
+const emit = defineEmits(['update:modelValue'])
 
-    const periodSelectInitial = { name: 'Выбрать период' }
-    const periodOptions = ref(PERIOD_OPTIONS)
-    const periodSelect = ref(periodSelectInitial)
+// eslint-disable-next-line no-undef
+defineProps({
+	modelValue: {
+		type: Object,
+		default() {
+			return {}
+		},
+	},
+})
 
-    const typeOptions = ref(TYPE_OPTIONS)
-    const typeSelect = ref(typeOptions.value[0])
+const arbitraryPeriodFrom = ref()
+const arbitraryPeriodTo = ref()
 
-    const search = ref()
+const periodSelectInitial = { name: 'Выбрать период' }
+const periodOptions = ref(PERIOD_OPTIONS)
+const periodSelect = ref(periodSelectInitial)
 
-    watch([
-      search,
-      typeSelect,
-      arbitraryPeriodFrom,
-      arbitraryPeriodTo,
-      periodSelect
-    ], ([search, type, apFrom, apTo, periodSelect]) => {
-      if (periodSelect.value) {
-        arbitraryPeriodFrom.value = getDateFromPeriod(periodSelect.value, true)
-        arbitraryPeriodTo.value = dateF(Date.now(), { locale: 'fr-CA' })
-      }
+const typeOptions = ref(TYPE_OPTIONS)
+const typeSelect = ref(typeOptions.value[0])
 
-      emit('update:modelValue', {
-        search,
-        type,
-        periodFrom: apFrom || arbitraryPeriodFrom.value,
-        periodTo: apTo || arbitraryPeriodTo.value
-      })
-    })
+const search = ref()
 
-    const arbitraryPeriodDates = dates => {
-      const rDate = relativeDate(dates.from, dates.to)
-      const option = periodOptions.value.find(item => item.value === rDate)
+watch(
+	[search, typeSelect, arbitraryPeriodFrom, arbitraryPeriodTo, periodSelect],
+	([search, type, apFrom, apTo, periodSelect]) => {
+		if (periodSelect.value) {
+			arbitraryPeriodFrom.value = getDateFromPeriod(periodSelect.value, true)
+			arbitraryPeriodTo.value = dateF(Date.now(), { locale: 'fr-CA' })
+		}
 
-      arbitraryPeriodFrom.value = dates.from
-      arbitraryPeriodTo.value = dates.to
+		emit('update:modelValue', {
+			search,
+			type,
+			periodFrom: apFrom || arbitraryPeriodFrom.value,
+			periodTo: apTo || arbitraryPeriodTo.value,
+		})
+	}
+)
 
-      periodSelect.value = !rDate ? periodSelectInitial : {}
+const arbitraryPeriodDates = (dates) => {
+	const rDate = relativeDate(dates.from, dates.to)
+	const option = periodOptions.value.find((item) => item.value === rDate)
 
-      if (option) {
-        periodSelect.value = {
-          name: option.name,
-          value: option.value
-        }
-      }
-    }
+	arbitraryPeriodFrom.value = dates.from
+	arbitraryPeriodTo.value = dates.to
 
-    const isActive = computed(() => search.value || typeSelect.value.value || periodSelect.value.value || arbitraryPeriodFrom.value || arbitraryPeriodTo.value)
+	periodSelect.value = !rDate ? periodSelectInitial : {}
 
-    return {
-      arbitraryPeriodFrom,
-      arbitraryPeriodTo,
-      arbitraryPeriodDates,
-      periodSelect,
-      periodOptions,
-      typeOptions,
-      typeSelect,
-      search,
-      isActive,
-      reset: () => {
-        search.value = ''
-        typeSelect.value = typeOptions.value[0]
-        arbitraryPeriodFrom.value = ''
-        arbitraryPeriodTo.value = ''
-        periodSelect.value = periodSelectInitial
-      }
-    }
-  },
-  components: {
-    AppSelect,
-    AppArbitraryPeriod
-  }
+	if (option) {
+		periodSelect.value = {
+			name: option.name,
+			value: option.value,
+		}
+	}
+}
+
+const isActive = computed(
+	() =>
+		search.value ||
+		typeSelect.value.value ||
+		periodSelect.value.value ||
+		arbitraryPeriodFrom.value ||
+		arbitraryPeriodTo.value
+)
+
+const reset = () => {
+	search.value = ''
+	typeSelect.value = typeOptions.value[0]
+	arbitraryPeriodFrom.value = ''
+	arbitraryPeriodTo.value = ''
+	periodSelect.value = periodSelectInitial
 }
 </script>
