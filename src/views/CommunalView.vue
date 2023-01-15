@@ -79,7 +79,7 @@
 			<communal-settings-form
 				v-if="isRates"
 				:initials="rates"
-				@close="closeModal = true"
+				@submit="closeSettingsForm"
 			/>
 		</app-bs-modal>
 
@@ -132,6 +132,11 @@ const removeAllConfirm = async () => {
 	}
 }
 // End checkboxes
+
+const closeSettingsForm = async () => {
+	await store.dispatch('communal/loadRates')
+	closeModal.value = true
+}
 
 onMounted(async () => {
 	await store.dispatch('communal/load')
