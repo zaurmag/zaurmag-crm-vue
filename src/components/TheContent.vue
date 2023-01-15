@@ -1,13 +1,22 @@
 <template>
-$END$
+	<div class="content">
+		<slot />
+	</div>
 </template>
 
-<script>
-export default {
-name: "TheContent"
-}
-</script>
+<style scoped lang="sass">
+.content
+	display: flex
+	flex-direction: column
+	height: 100%
 
-<style scoped>
+	&--right
+		@include media-breakpoint-up(lg)
+			transition: padding-left .2s ease
+			padding-left: 260px
 
+			.is-sb-collapsed &,
+			&.is-full
+				padding-left: 80px
+				transition: padding-left .2s ease
 </style>

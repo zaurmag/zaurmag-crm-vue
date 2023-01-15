@@ -8,7 +8,7 @@
 		<app-loader />
 	</div>
 
-	<app-page v-else class-list-header="d-block">
+	<app-page-header v-else class="d-block">
 		<template #header>
 			<div class="row align-items-center g-20">
 				<div class="col-sm d-flex align-items-center">
@@ -137,7 +137,7 @@
 				<!--            </div>-->
 			</div>
 		</app-card>
-	</app-page>
+	</app-page-header>
 
 	<teleport to="body">
 		<app-bs-modal

@@ -1,7 +1,7 @@
 <template>
 	<app-breadcrumb />
 
-	<app-page title="Оплата коммунальных">
+	<app-page-header title="Оплата коммунальных">
 		<template #header>
 			<div class="d-flex align-items-center">
 				<app-button
@@ -57,7 +57,7 @@
 			<!-- />-->
 			<!-- </template>-->
 		</app-card>
-	</app-page>
+	</app-page-header>
 
 	<teleport to="body">
 		<app-bs-modal

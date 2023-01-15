@@ -1,13 +1,13 @@
 <template>
-$END$
+	<main class="main">
+		<slot />
+	</main>
 </template>
 
-<script>
-export default {
-name: "TheMain"
-}
-</script>
+<style scoped lang="sass">
+.main
+	padding: 15px
 
-<style scoped>
-
+	@include media-breakpoint-up(lg)
+		padding: 30px
 </style>

@@ -1,23 +1,28 @@
 <template>
-  <div class="page page--empty">
-    <div class="container py-5">
-      <div class="row justify-content-center">
-        <div class="col-md-4">
-          <app-logo theme="dark" classList="logo--lg mb-20 justify-content-center" />
-          <div class="card shadow-sm-soft">
-            <router-view />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<the-page class="page--empty">
+		<div class="container py-5">
+			<div class="row justify-content-center">
+				<div class="col-md-4">
+					<app-logo
+						theme="dark"
+						class-list="logo--lg mb-20 justify-content-center"
+					/>
+					<app-card>
+						<router-view />
+					</app-card>
+				</div>
+			</div>
+		</div>
+	</the-page>
 
-  <teleport to="body">
-    <app-message />
-  </teleport>
+	<teleport to="body">
+		<app-message />
+	</teleport>
 </template>
 
 <script setup>
+import ThePage from '@/components/ThePage.vue'
 import AppMessage from '@/components/ui/AppMessage.vue'
 import AppLogo from '@/components/AppLogo.vue'
+import AppCard from '@/components/ui/AppCard.vue'
 </script>

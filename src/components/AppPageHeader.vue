@@ -7,28 +7,24 @@
 	<slot name="default" />
 </template>
 
-<script>
-export default {
-	name: 'AppPage',
-	props: {
-		title: {
-			type: String,
-			default: '',
-		},
-		back: {
-			type: Boolean,
-			default: false,
-		},
-		center: {
-			type: Boolean,
-			default: false,
-		},
+<script setup>
+// eslint-disable-next-line no-undef
+const props = defineProps({
+	title: {
+		type: String,
+		default: '',
 	},
-	setup(props) {
-		const title = props.title ? props.title + ' |' : ''
-		document.title = `${title} Система подсчета доходов/расходов`
+	back: {
+		type: Boolean,
+		default: false,
 	},
-}
+	center: {
+		type: Boolean,
+		default: false,
+	},
+})
+const title = props.title ? props.title + ' |' : ''
+document.title = `${title} Система подсчета доходов/расходов`
 </script>
 
 <style scoped lang="sass">

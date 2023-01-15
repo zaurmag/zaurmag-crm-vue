@@ -1,5 +1,5 @@
 <template>
-	<app-page title="Проекты">
+	<app-page-header title="Проекты">
 		<template #header>
 			<app-button
 				class-list-btn="main__add-btn btn btn-primary shadow-sm-soft"
@@ -47,7 +47,7 @@
 		<div class="row gy-30">
 			<project-report :projects="projects" />
 		</div>
-	</app-page>
+	</app-page-header>
 
 	<teleport to="body">
 		<app-bs-modal

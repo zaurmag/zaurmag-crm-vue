@@ -61,17 +61,10 @@
 			@blur="fields.descBlur"
 		/>
 
-		<!--		<div class="mb-3">-->
-		<!--			<p class="form-label">Прикрепить фото квитанции</p>-->
-		<!--			<div class="f-upload">-->
-		<!--				<div class="f-upload__area">-->
-		<!--					<app-icon name="image" class-list="f-upload__image" />-->
-		<!--					<h5 class="h6 f-upload__title">Перетащите файл сюда</h5>-->
-		<!--					<p class="f-upload__desc">или</p>-->
-		<!--					<span class="btn btn-primary btn-sm px-3">Загрузите</span>-->
-		<!--				</div>-->
-		<!--			</div>-->
-		<!--		</div>-->
+		<div class="mb-3">
+			<p class="form-label">Прикрепить фото квитанции</p>
+			<f-upload />
+		</div>
 
 		<div class="text-center mt-30">
 			<app-button
@@ -86,6 +79,7 @@
 </template>
 
 <script setup>
+import FUpload from '@/components/ui/FUpload.vue'
 import { useCommunalForm } from '@/use/communal-form'
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'

@@ -1,63 +1,70 @@
 <template>
-  <app-breadcrumb current="Пользователи" />
+	<app-breadcrumb current="Пользователи" />
 
-  <app-page title="Пользователи">
-    <template #header>
-      <app-button
-        classListBtn="main__add-btn btn btn-primary shadow-sm-soft"
-        :attrs="{ 'data-bs-toggle': 'modal', 'data-bs-target': '#addUser' }"
-        :icon="{ name: 'person-plus', placement: 'prepend', classList: 'fz-18 me-sm-2' }"
-      >
-        <span class="d-sm-inline d-none">Добавить пользователя</span>
-      </app-button>
-    </template>
+	<app-page-header title="Пользователи">
+		<template #header>
+			<app-button
+				class-list-btn="main__add-btn btn btn-primary shadow-sm-soft"
+				:attrs="{ 'data-bs-toggle': 'modal', 'data-bs-target': '#addUser' }"
+				:icon="{
+					name: 'person-plus',
+					placement: 'prepend',
+					classList: 'fz-18 me-sm-2',
+				}"
+			>
+				<span class="d-sm-inline d-none">Добавить пользователя</span>
+			</app-button>
+		</template>
 
-    <app-card>
-      <template #header>
-        <div class="row align-items-center">
-          <div class="col-xxl mb-0 mb-xl-2 mb-xxl-0 d-flex align-items-center justify-content-between">
-            <app-button
-              classListBtn="btn-light fz-18 p-2 d-xl-none ms-auto"
-              :attrs="{ 'data-bs-toggle': 'collapse', 'data-bs-target': '#filter', 'aria-expanded': 'false' }"
-              :icon="{ name: 'filter', placement: 'prepend' }"
-            />
-          </div>
-          <div class="col-xxl-auto collapse d-xl-block" id="filter">
-            <user-filter />
-          </div>
-        </div>
-      </template>
+		<app-card>
+			<template #header>
+				<div class="row align-items-center">
+					<div
+						class="col-xxl mb-0 mb-xl-2 mb-xxl-0 d-flex align-items-center justify-content-between"
+					>
+						<app-button
+							class-list-btn="btn-light fz-18 p-2 d-xl-none ms-auto"
+							:attrs="{
+								'data-bs-toggle': 'collapse',
+								'data-bs-target': '#filter',
+								'aria-expanded': 'false',
+							}"
+							:icon="{ name: 'filter', placement: 'prepend' }"
+						/>
+					</div>
+					<div id="filter" class="col-xxl-auto collapse d-xl-block">
+						<user-filter />
+					</div>
+				</div>
+			</template>
 
-      <template #append>
-        <user-list
-          :users="paginateItems"
-          @selected="selectChbx"
-        />
-      </template>
+			<template #append>
+				<user-list :users="paginateItems" @selected="selectChbx" />
+			</template>
 
-      <template #footer>
-        <app-pagination
-          :count="users.length"
-          :pages="PAGE_SIZE"
-          v-model="page"
-          @changeSize="changePageSize"
-        />
-      </template>
-    </app-card>
-  </app-page>
+			<template #footer>
+				<app-pagination
+					v-model="page"
+					:count="users.length"
+					:pages="PAGE_SIZE"
+					@changeSize="changePageSize"
+				/>
+			</template>
+		</app-card>
+	</app-page-header>
 
-  <teleport to="body">
-    <app-bs-modal id="addUser" title="Добавить пользователя">
-      <register-form @complete="closeModal('#addUser')" />
-    </app-bs-modal>
+	<teleport to="body">
+		<app-bs-modal id="addUser" title="Добавить пользователя">
+			<register-form @complete="closeModal('#addUser')" />
+		</app-bs-modal>
 
-    <app-confirm
-      ref="confirm"
-      :title="'Вы удаляете ' + checkboxes.length + ' элемента'"
-      text="Вы уверены? Операцию нельзя будет отменить."
-      @resolve="removeAllConfirm"
-    />
-  </teleport>
+		<app-confirm
+			ref="confirm"
+			:title="'Вы удаляете ' + checkboxes.length + ' элемента'"
+			text="Вы уверены? Операцию нельзя будет отменить."
+			@resolve="removeAllConfirm"
+		/>
+	</teleport>
 </template>
 
 <script setup>
@@ -73,8 +80,8 @@ const users = computed(() => store.getters['users/users'])
 const store = useStore()
 const checkboxes = ref([])
 const PAGE_SIZE = ref({ name: 10, value: 10 })
-const selectChbx = checkboxIds => {
-  checkboxes.value = checkboxIds
+const selectChbx = (checkboxIds) => {
+	checkboxes.value = checkboxIds
 }
 
 // const removeAll = () => {
@@ -82,17 +89,22 @@ const selectChbx = checkboxIds => {
 // }
 
 const removeAllConfirm = async () => {
-  try {
-    // await store.dispatch('project/delete', checkboxes.value)
-    // await store.dispatch('project/load')
-    confirm.value.confirm = false
-    checkboxes.value = []
-  } catch (e) { /* empty */ }
+	try {
+		// await store.dispatch('project/delete', checkboxes.value)
+		// await store.dispatch('project/load')
+		confirm.value.confirm = false
+		checkboxes.value = []
+	} catch (e) {
+		/* empty */
+	}
 }
 
-const { page, paginateItems, changePageSize } = useProductPaginate(users, PAGE_SIZE)
+const { page, paginateItems, changePageSize } = useProductPaginate(
+	users,
+	PAGE_SIZE
+)
 
 onMounted(async () => {
-  await store.dispatch('users/load')
+	await store.dispatch('users/load')
 })
 </script>

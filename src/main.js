@@ -7,20 +7,21 @@ import currency from '@/plugins/currency-format'
 import tooltipDirective from '@/directives/tooltip.directive'
 import globalComponents from '@/components/globals'
 import 'bootstrap'
+import '@/assets/styles/bootstrap/bootstrap.scss'
+// import '@/assets/styles/bootstrap/main.sass'
 import './registerServiceWorker'
-import '@/assets/css/main.css'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 const app = createApp(App)
 app
-  .use(store)
-  .use(router)
-  .use(date)
-  .use(currency)
-  .directive('tooltip', tooltipDirective)
-  .mount('#app')
+	.use(store)
+	.use(router)
+	.use(date)
+	.use(currency)
+	.directive('tooltip', tooltipDirective)
+	.mount('#app')
 
-globalComponents.forEach(component => {
-  const name = component.name || component.__name
-  app.component(name, component)
+globalComponents.forEach((component) => {
+	const name = component.name || component.__name
+	app.component(name, component)
 })
