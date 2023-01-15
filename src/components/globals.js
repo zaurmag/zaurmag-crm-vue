@@ -1,3 +1,4 @@
+// App UI
 import AppPageHeader from './AppPageHeader.vue'
 import AppButton from '../components/ui/AppButton.vue'
 import AppIcon from '@/components/ui/AppIcon.vue'
@@ -9,10 +10,11 @@ import AppBsModal from '@/components/ui/AppBsModal.vue'
 import AppConfirm from '@/components/ui/AppConfirm.vue'
 import AppPagination from '@/components/ui/AppPagination.vue'
 import AppLoader from '@/components/ui/AppLoader.vue'
-import AppSelect from '@/components/ui/AppSelect.vue'
+
+// Form elements
 import FormControl from '@/components/form/FormControl.vue'
 import FormSelect from '@/components/form/FormSelect.vue'
-import FormCheckbox from '@/components/form/FormCheckbox.vue'
+import FormSwitch from '@/components/form/FormSwitch.vue'
 
 export default [
 	AppPageHeader,
@@ -27,7 +29,6 @@ export default [
 	AppLoader,
 	AppButton,
 	FormControl,
-	AppSelect,
 	FormSelect,
-	FormCheckbox,
+	FormSwitch,
 ]

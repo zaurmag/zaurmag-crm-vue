@@ -12,7 +12,7 @@
 				/>
 			</div>
 			<div class="col-sm d-flex justify-content-sm-end">
-				<form-checkbox
+				<form-switch
 					id="status"
 					v-model="fields.status"
 					:label="fields.status ? 'Оплачено' : 'Не оплачено'"
