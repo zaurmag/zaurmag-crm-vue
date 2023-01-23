@@ -3,33 +3,35 @@ import * as yup from 'yup'
 import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
 
-export function useChangePasswordForm () {
+export function useChangePasswordForm() {
   const store = useStore()
   const { handleSubmit, isSubmitting: isSubmittingPass, submitCount } = useForm()
 
   const PASS_MINLENGTH = 3
-  const { value: chPass, errorMessage: chPassError, handleBlur: chBlurPass } = useField(
+  const {
+    value: chPass,
+    errorMessage: chPassError,
+    handleBlur: chBlurPass
+  } = useField(
     'chPass',
     yup
       .string()
       .required('Введите пароль')
       .trim()
-      .min(
-        PASS_MINLENGTH,
-        `Пароль должен содержать не менее ${PASS_MINLENGTH} символов`
-      )
+      .min(PASS_MINLENGTH, `Пароль должен содержать не менее ${PASS_MINLENGTH} символов`)
   )
 
-  const { value: chPass2, errorMessage: chPassError2, handleBlur: chBlurPass2 } = useField(
+  const {
+    value: chPass2,
+    errorMessage: chPassError2,
+    handleBlur: chBlurPass2
+  } = useField(
     'chPass2',
     yup
       .string()
       .required('Повторите пароль')
       .trim()
-      .min(
-        PASS_MINLENGTH,
-        `Пароль должен содержать не менее ${PASS_MINLENGTH} символов`
-      )
+      .min(PASS_MINLENGTH, `Пароль должен содержать не менее ${PASS_MINLENGTH} символов`)
   )
 
   const isToManyAttemptsPass = computed(() => submitCount.value >= 3)

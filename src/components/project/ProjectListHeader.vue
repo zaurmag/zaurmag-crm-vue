@@ -4,7 +4,11 @@
 
     <template v-if="checkboxes.length">
       <p class="text-secondary ms-3 m-0">Отмечено: {{ checkboxes.length }}</p>
-      <button class="btn btn-outline-danger btn-sm ms-2" type="button" @click="$emit('remove')">
+      <button
+        class="btn btn-outline-danger btn-sm ms-2"
+        type="button"
+        @click="$emit('remove')"
+      >
         <app-icon name="trash" />
         Удалить
       </button>
@@ -28,7 +32,7 @@ export default {
     checkboxes: {
       type: Array,
       required: true,
-      default () {
+      default() {
         return []
       }
     }

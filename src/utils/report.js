@@ -16,7 +16,7 @@ export const getSumm = items => {
  * Get summ amount in filter items
  */
 export const getAmountSumm = (type, projects) => {
-  const itemsType = projects.filter((item) => item.type === type)
+  const itemsType = projects.filter(item => item.type === type)
 
   return getSumm(itemsType)
 }
@@ -40,7 +40,7 @@ export const progress = (value, total) => {
 export const getAmountByMonths = (arrayProjects, months) => {
   const map = {}
 
-  arrayProjects.forEach((el) => {
+  arrayProjects.forEach(el => {
     const dateMonth = getMonth(el.date)
 
     if (map[dateMonth]) {
@@ -50,9 +50,7 @@ export const getAmountByMonths = (arrayProjects, months) => {
     }
   })
 
-  return months
-    .map((month, idx) => map[idx + 1])
-    .filter(item => item)
+  return months.map((month, idx) => map[idx + 1]).filter(item => item)
 }
 
 /**
@@ -73,9 +71,9 @@ export const getMonthName = (items, months) => {
   }, [])
 
   const result = items
-    .map((item) => monthsMap[getMonth(item.date) - 1])
+    .map(item => monthsMap[getMonth(item.date) - 1])
     .sort((a, b) => a.index - b.index)
-    .map((item) => item.name)
+    .map(item => item.name)
 
   return [...new Set(result)]
 }

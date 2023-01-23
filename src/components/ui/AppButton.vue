@@ -1,15 +1,32 @@
 <template>
-  <span :class="['btn-wrapper', {'progress h-100': Object.keys(animate).length}, classListWrapper]" v-bind="attrsWrapper">
+  <span
+    :class="['btn-wrapper', { 'progress h-100': Object.keys(animate).length }, classListWrapper]"
+    v-bind="attrsWrapper"
+  >
     <button
-      :class="['btn', {'progress-bar progress-bar-striped progress-bar-animated': animate.loading}, classListBtn]"
       :id="id"
+      :class="[
+        'btn',
+        {
+          'progress-bar progress-bar-striped progress-bar-animated': animate.loading
+        },
+        classListBtn
+      ]"
       :type="type"
-      @click="$emit('click')"
       v-bind="attrs"
+      @click="$emit('click')"
     >
-      <app-icon v-if="icon?.placement === 'prepend'" :name="icon?.name" :classList="icon.classList" />
+      <app-icon
+        v-if="icon?.placement === 'prepend'"
+        :name="icon?.name"
+        :class-list="icon.classList"
+      />
       <slot name="default" />
-      <app-icon v-if="icon?.placement === 'append'" :name="icon?.name" :classList="icon.classList" />
+      <app-icon
+        v-if="icon?.placement === 'append'"
+        :name="icon?.name"
+        :class-list="icon.classList"
+      />
     </button>
   </span>
 </template>
@@ -17,7 +34,6 @@
 <script>
 export default {
   name: 'AppButton',
-  emits: ['click'],
   props: {
     id: {
       type: String,
@@ -34,14 +50,14 @@ export default {
     animate: {
       type: Object,
       required: false,
-      default () {
+      default() {
         return {}
       }
     },
     icon: {
       type: Object,
       required: false,
-      default () {
+      default() {
         return {}
       }
     },
@@ -53,22 +69,23 @@ export default {
     attrs: {
       type: Object,
       required: false,
-      default () {
+      default() {
         return {}
       }
     },
     attrsWrapper: {
       type: Object,
       required: false,
-      default () {
+      default() {
         return {}
       }
     }
-  }
+  },
+  emits: ['click']
 }
 </script>
 
 <style scoped lang="sass">
-  .btn-wrapper
-    display: inline-block
+.btn-wrapper
+	display: inline-block
 </style>

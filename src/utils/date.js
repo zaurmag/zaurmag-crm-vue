@@ -5,7 +5,7 @@
  * @return String Форматированная дата, например - 2 мая 2022. Буква "г." вырезается, или 02.05.2022
  */
 
-export function dateF (date, args = {}) {
+export function dateF(date, args = {}) {
   const baseOptions = {
     locale: 'ru-RU',
     format: 'date',
@@ -41,7 +41,7 @@ export function dateF (date, args = {}) {
  * @return String Дата полном формате, например, Date Mon May 30 2022 18:17:32 GMT+0300 (Москва, стандартное время)
  */
 
-export function getDateFromPeriod (period, format) {
+export function getDateFromPeriod(period, format) {
   const date = new Date()
 
   switch (period) {
@@ -80,7 +80,7 @@ export function getDateFromPeriod (period, format) {
  * @return String Дата: вывод числа, мес. и года зависит от передаваемой даты. Если текущий мес. и год, то выведет только день, например - 2. Если текущий год, то выведет число и мес., например - 2 мая. Если не текущий год, то выведет полную дату, например, 2 мая 2021
  */
 
-export function getRangeDate (dateString) {
+export function getRangeDate(dateString) {
   if (!dateString) {
     throw new Error('Date is available!')
   }
@@ -93,7 +93,7 @@ export function getRangeDate (dateString) {
   let mm = ''
   let yy = ''
 
-  function getMM () {
+  function getMM() {
     return dateF(date.setMonth(month), { month: 'short' }).split(' ').slice(1, 2).join('')
   }
 
@@ -116,13 +116,13 @@ export function getRangeDate (dateString) {
  * @return String Относительная дата, например, today, yesterday, week, month, year
  */
 
-export function relativeDate (dateFrom, dateTo) {
+export function relativeDate(dateFrom, dateTo) {
   const dateNow = Date.now()
   const getDay = date => new Date(date).getDate()
   const getMonth = date => new Date(date).getMonth() + 1
   const getYear = date => new Date(date).getFullYear()
 
-  function checkPeriod (days) {
+  function checkPeriod(days) {
     if (days === 0) {
       return dateFrom === dateF(dateNow, { locale: 'fr-CA' })
     }
@@ -131,7 +131,11 @@ export function relativeDate (dateFrom, dateTo) {
       return getDay(dateFrom) === getDay(dateNow) - days
     }
 
-    return getDay(dateFrom) === getDay(dateNow) - days && getMonth(dateFrom) === getMonth(dateNow) && getYear(dateFrom) === getYear(dateNow)
+    return (
+      getDay(dateFrom) === getDay(dateNow) - days &&
+      getMonth(dateFrom) === getMonth(dateNow) &&
+      getYear(dateFrom) === getYear(dateNow)
+    )
   }
 
   // Today
@@ -167,7 +171,7 @@ export function relativeDate (dateFrom, dateTo) {
  * @param dateString Дата в формате, например, 2022-06-07
  * @return Number Число месяца, например, 6
  */
-export function getMonth (dateString) {
+export function getMonth(dateString) {
   return +dateString.split('-').slice(1, 2).join('')
 }
 
@@ -176,7 +180,7 @@ export function getMonth (dateString) {
  * @param date Объект даты - new Date()
  * @return String Строка даты в формате 2022-12-03T23:45
  */
-export function toISOString (date) {
+export function toISOString(date) {
   const getDay = () => ('0' + new Date(date).getDate()).slice(-2)
   const getMonth = () => new Date(date).getMonth() + 1
   const getYear = () => new Date(date).getFullYear()
@@ -184,5 +188,17 @@ export function toISOString (date) {
   const getMinutes = () => ('0' + new Date(date).getMinutes()).slice(-2)
   const getSeconds = () => ('0' + new Date(date).getSeconds()).slice(-2)
 
-  return getYear() + '-' + getMonth() + '-' + getDay() + 'T' + getHours() + ':' + getMinutes() + ':' + getSeconds()
+  return (
+    getYear() +
+    '-' +
+    getMonth() +
+    '-' +
+    getDay() +
+    'T' +
+    getHours() +
+    ':' +
+    getMinutes() +
+    ':' +
+    getSeconds()
+  )
 }

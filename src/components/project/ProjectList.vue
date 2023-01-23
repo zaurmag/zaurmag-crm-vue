@@ -6,10 +6,10 @@
           <th class="table-cell-check">
             <div class="form-check">
               <input
+                v-model="allCheckbox"
                 class="form-check-input float-none"
                 type="checkbox"
-                v-model="allCheckbox"
-              >
+              />
             </div>
           </th>
           <th>#</th>
@@ -26,17 +26,17 @@
         <tr>
           <td colspan="8">
             <div class="placeholder-glow px-3">
-              <div v-for="i in pageSize" :key="i" class="row gx-2 mb-2">
+              <div
+                v-for="i in pageSize"
+                :key="i"
+                class="row gx-2 mb-2"
+              >
                 <div
                   v-for="n in 8"
                   :key="n"
-                  :class="
-                  n === 3 || n === 4
-                  ? 'col-2'
-                  : n === 5 ? 'col-3'
-                  : 'col-1'
-                ">
-                  <div class="placeholder placeholder w-100 d-block"></div>
+                  :class="n === 3 || n === 4 ? 'col-2' : n === 5 ? 'col-3' : 'col-1'"
+                >
+                  <div class="placeholder placeholder w-100 d-block" />
                 </div>
               </div>
             </div>
@@ -46,22 +46,25 @@
 
       <tbody v-else>
         <template v-if="projects && projects.length">
-          <tr v-for="(project, index) in projects" :key="project.id">
+          <tr
+            v-for="(project, index) in projects"
+            :key="project.id"
+          >
             <td>
               <div class="form-check">
                 <input
+                  v-model="checkbox"
                   class="form-check-input float-none"
                   type="checkbox"
-                  v-model="checkbox"
                   :value="project.id"
-                >
+                />
               </div>
             </td>
             <td>{{ index + 1 }}</td>
             <td style="min-width: 215px">
               <router-link
                 class="table-cell-title-link is-transition"
-                :to="{name: 'Project', params: { id: project.id }}"
+                :to="{ name: 'Project', params: { id: project.id } }"
               >
                 {{ project.title }}
               </router-link>
@@ -72,14 +75,16 @@
             <td>{{ $currency(project.amount) }}</td>
             <td style="min-width: 140px">
               <app-button
-                classListBtn="btn-outline-primary btn-sm py-1 fz-12"
+                class-list-btn="btn-outline-primary btn-sm py-1 fz-12"
                 @click="$router.push(`/project/${project.id}`)"
-              >Открыть</app-button>
+              >
+                Открыть
+              </app-button>
               <app-button
-                classListBtn="text-danger ms-1 fz-16 p-1"
-                @click="remove(project.id)"
                 v-tooltip="{ title: 'Удалить' }"
+                class-list-btn="text-danger ms-1 fz-16 p-1"
                 :icon="{ name: 'trash', placement: 'prepend' }"
+                @click="remove(project.id)"
               />
             </td>
           </tr>
@@ -111,11 +116,15 @@ import { useStore } from 'vuex'
 
 export default {
   name: 'ProjectList',
+  components: {
+    AppType,
+    AppConfirm
+  },
   props: {
     projects: {
       type: Array,
       required: true,
-      default () {
+      default() {
         return []
       }
     },
@@ -130,7 +139,7 @@ export default {
     }
   },
   emits: ['selected'],
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const store = useStore()
     const confirm = ref(false)
     const projectID = ref()
@@ -146,15 +155,17 @@ export default {
         await store.dispatch('project/delete', projectID.value)
         await store.dispatch('project/load')
         confirm.value.confirm = false
-      } catch (e) { /* empty */ }
+      } catch (e) {
+        /* empty */
+      }
     }
 
     const allCheckbox = computed({
-      get () {
+      get() {
         emit('selected', checkbox.value)
         return checkbox.value.length === props.projects.length && props.projects.length !== 0
       },
-      set (val) {
+      set(val) {
         checkbox.value = val ? props.projects.map(n => n.id) : []
       }
     })
@@ -166,10 +177,6 @@ export default {
       checkbox,
       allCheckbox
     }
-  },
-  components: {
-    AppType,
-    AppConfirm
   }
 }
 </script>

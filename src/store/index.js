@@ -17,15 +17,15 @@ export default createStore({
     message: null
   },
   mutations: {
-    setMessage (state, message) {
+    setMessage(state, message) {
       state.message = message
     },
-    clearMessage (state) {
+    clearMessage(state) {
       state.message = null
     }
   },
   actions: {
-    setMessage ({ commit }, message) {
+    setMessage({ commit }, message) {
       commit('setMessage', message)
       setTimeout(() => commit('clearMessage'), 5000)
     }

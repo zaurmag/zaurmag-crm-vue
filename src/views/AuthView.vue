@@ -3,8 +3,13 @@
     <h1 class="h4 text-center mb-25">Авторизация</h1>
     <auth-form />
     <div class="text-secondary fz-14 mt-4 text-center">
-      <router-link class="text-decoration-none" to="/sign-up">Зарегистрируйтесь</router-link>,
-      если нет учетной записи.
+      <router-link
+        class="text-decoration-none"
+        to="/sign-up"
+      >
+        Зарегистрируйтесь
+</router-link
+      >, если нет учетной записи.
     </div>
   </div>
 </template>

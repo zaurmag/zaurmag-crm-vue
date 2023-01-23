@@ -3,18 +3,16 @@ import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useRouter } from 'vue-router'
 
-export function useDeleteAccountForm (user) {
+export function useDeleteAccountForm(user) {
   const router = useRouter()
   const store = useStore()
   const { handleSubmit, isSubmitting: isSubmittingDelAcc } = useForm()
 
-  const { value: delAcc, errorMessage: delAccError, handleBlur: delAccBlur } = useField(
-    'delAcc',
-    yup
-      .string()
-      .required('Введите подтверждающее слово!')
-      .trim()
-  )
+  const {
+    value: delAcc,
+    errorMessage: delAccError,
+    handleBlur: delAccBlur
+  } = useField('delAcc', yup.string().required('Введите подтверждающее слово!').trim())
 
   const onSubmitDelAcc = handleSubmit(async ({ delAcc }) => {
     try {

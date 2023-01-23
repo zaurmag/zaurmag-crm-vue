@@ -2,9 +2,9 @@
   <div class="form form--filter row g-3 align-items-center mt-xl-0 mt-3">
     <div class="col-xl-auto">
       <div class="d-lg-flex align-items-center">
-        <app-select
-          :options="periodOptions"
+        <form-select
           v-model="periodSelect"
+          :options="periodOptions"
         />
       </div>
     </div>
@@ -12,8 +12,8 @@
     <div class="col-xl-auto">
       <div class="dropdown">
         <app-button
-          classListBtn="btn-light"
-          :attrsWrapper="{ 'data-bs-toggle': 'dropdown' }"
+          class-list-btn="btn-light"
+          :attrs-wrapper="{ 'data-bs-toggle': 'dropdown' }"
           :icon="{ name: 'calendar3', placement: 'prepend' }"
         >
           <span class="ms-2">Диапазон дат</span>
@@ -21,21 +21,21 @@
 
         <div class="dropdown-menu p-3">
           <form-control
-            classListWrapper="d-flex align-items-center mb-2"
-            classListLabel="text-secondary me-2 mb-0"
-            classListInput="form-control-sm"
+            id="filterDateFrom"
+            class-list-wrapper="d-flex align-items-center mb-2"
+            class-list-label="text-secondary me-2 mb-0"
+            class-list-input="form-control-sm"
             label="от:"
             type="date"
-            id="filterDateFrom"
           />
 
           <form-control
-            classListWrapper="d-flex align-items-center"
-            classListLabel="text-secondary me-2 mb-0"
-            classListInput="form-control-sm"
+            id="filterDateTo"
+            class-list-wrapper="d-flex align-items-center"
+            class-list-label="text-secondary me-2 mb-0"
+            class-list-input="form-control-sm"
             label="до:"
             type="date"
-            id="filterDateTo"
           />
         </div>
       </div>
@@ -43,14 +43,14 @@
 
     <div class="col-xl-auto">
       <app-select
-        :options="statusOptions"
         v-model="statusSelect"
+        :options="statusOptions"
       />
     </div>
 
     <div class="col-xl-auto">
       <app-button
-        classListBtn="btn-outline-secondary btn-round fz-16 p-0"
+        class-list-btn="btn-outline-secondary btn-round fz-16 p-0"
         :attrs="{ 'data-bs-toggle': 'tooltip', title: 'Сбросить фильтр' }"
         :icon="{ name: 'x', placement: 'prepend' }"
       />

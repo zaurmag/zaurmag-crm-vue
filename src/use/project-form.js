@@ -3,19 +3,18 @@ import * as yup from 'yup'
 import { useStore } from 'vuex'
 import { dateF } from '@/utils/date'
 
-export function useProjectForm (emit, initialValues) {
+export function useProjectForm(emit, initialValues) {
   const store = useStore()
   const { handleSubmit, handleReset, resetForm, isSubmitting, setFieldValue } = useForm({
     initialValues
   })
 
   // Date
-  const { value: date, errorMessage: dError, handleBlur: dBlur } = useField(
-    'date',
-    yup
-      .string()
-      .required('Введите дату проекта')
-  )
+  const {
+    value: date,
+    errorMessage: dError,
+    handleBlur: dBlur
+  } = useField('date', yup.string().required('Введите дату проекта'))
 
   // Set date initial
   if (!initialValues) {
@@ -23,24 +22,18 @@ export function useProjectForm (emit, initialValues) {
   }
 
   // Title
-  const { value: title, errorMessage: tError, handleBlur: tBlur } = useField(
-    'title',
-    yup
-      .string()
-      .required('Введите наименование проекта')
-      .trim()
-  )
+  const {
+    value: title,
+    errorMessage: tError,
+    handleBlur: tBlur
+  } = useField('title', yup.string().required('Введите наименование проекта').trim())
 
   // Type
   const {
     value: type,
     errorMessage: typeError,
     handleBlur: typeBlur
-  } = useField(
-    'type',
-    yup
-      .string()
-      .required('Выберите тип операции'))
+  } = useField('type', yup.string().required('Выберите тип операции'))
 
   // Set type initial
   if (initialValues) {
@@ -48,23 +41,18 @@ export function useProjectForm (emit, initialValues) {
   }
 
   // Amount
-  const { value: amount, errorMessage: aError, handleBlur: aBlur } = useField(
-    'amount',
-    yup
-      .number()
-      .required('Введите сумму операции')
-  )
+  const {
+    value: amount,
+    errorMessage: aError,
+    handleBlur: aBlur
+  } = useField('amount', yup.number().required('Введите сумму операции'))
 
   // Description
   const {
     value: desc,
     errorMessage: descError,
     handleBlur: descBlur
-  } = useField(
-    'desc',
-    yup
-      .string()
-      .required('Введите описание проекта'))
+  } = useField('desc', yup.string().required('Введите описание проекта'))
 
   const onSubmit = handleSubmit(async values => {
     try {

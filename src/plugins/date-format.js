@@ -1,7 +1,7 @@
 import { dateF } from '@/utils/date'
 
 export default {
-  install (App) {
+  install(App) {
     App.config.globalProperties.$dateF = dateF
   }
 }

@@ -2,7 +2,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import chunk from 'lodash.chunk'
 
-export function useProductPaginate (products, size) {
+export function useProductPaginate(products, size) {
   const router = useRouter()
   const route = useRoute()
   const page = ref(route.query.p ? +route.query.p : 1)

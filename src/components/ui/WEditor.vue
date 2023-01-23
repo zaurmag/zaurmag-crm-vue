@@ -1,15 +1,15 @@
 <template>
-	<div class="w-editor">
-		<div class="w-editor__container">
-			<quill-editor
-				v-model:content="desc"
-				theme="snow"
-				toolbar="minimal"
-				content-type="html"
-				:placeholder="placeholder"
-			/>
-		</div>
-	</div>
+  <div class="w-editor">
+    <div class="w-editor__container">
+      <quill-editor
+        v-model:content="desc"
+        theme="snow"
+        toolbar="minimal"
+        content-type="html"
+        :placeholder="placeholder"
+      />
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -21,20 +21,20 @@ const emit = defineEmits(['update:modelValue'])
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
-	modelValue: {
-		type: String,
-		required: true,
-	},
-	placeholder: {
-		type: String,
-		default: 'Описание...',
-	},
+  modelValue: {
+    type: String,
+    required: true
+  },
+  placeholder: {
+    type: String,
+    default: 'Описание...'
+  }
 })
 
 const desc = ref(props.modelValue)
 
-watch(desc, (val) => {
-	emit('update:modelValue', val)
+watch(desc, val => {
+  emit('update:modelValue', val)
 })
 </script>
 

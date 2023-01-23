@@ -1,6 +1,6 @@
 // App UI
-import AppPageHeader from './AppPageHeader.vue'
-import AppButton from '../components/ui/AppButton.vue'
+import AppPageHeader from '@/components/AppPageHeader.vue'
+import AppButton from '@/components/ui/AppButton.vue'
 import AppIcon from '@/components/ui/AppIcon.vue'
 import AppCard from '@/components/ui/AppCard.vue'
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue'
@@ -17,18 +17,18 @@ import FormSelect from '@/components/form/FormSelect.vue'
 import FormSwitch from '@/components/form/FormSwitch.vue'
 
 export default [
-	AppPageHeader,
-	AppIcon,
-	AppCard,
-	AppBreadcrumb,
-	AppModal,
-	AppBsModal,
-	AppConfirm,
-	AppPagination,
-	AppIndicator,
-	AppLoader,
-	AppButton,
-	FormControl,
-	FormSelect,
-	FormSwitch,
+  AppPageHeader,
+  AppIcon,
+  AppCard,
+  AppBreadcrumb,
+  AppModal,
+  AppBsModal,
+  AppConfirm,
+  AppPagination,
+  AppIndicator,
+  AppLoader,
+  AppButton,
+  FormControl,
+  FormSelect,
+  FormSwitch
 ]

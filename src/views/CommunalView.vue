@@ -1,95 +1,102 @@
 <template>
-	<app-breadcrumb />
+  <app-breadcrumb />
 
-	<app-page-header title="Оплата коммунальных">
-		<template #header>
-			<div class="d-flex align-items-center">
-				<app-button
-					class-list-btn="main__add-btn btn-primary shadow-sm-soft"
-					:attrs="{
-						'data-bs-toggle': 'modal',
-						'data-bs-target': '#addCommunalRecord',
-					}"
-					:icon="{ name: 'pencil-square', placement: 'prepend' }"
-				>
-					<span class="ms-2 d-sm-inline d-none">Добавить показания</span>
-				</app-button>
+  <app-page-header title="Оплата коммунальных">
+    <template #header>
+      <div class="d-flex align-items-center">
+        <app-button
+          class-list-btn="main__add-btn btn-primary shadow-sm-soft"
+          :attrs="{
+            'data-bs-toggle': 'modal',
+            'data-bs-target': '#addCommunalRecord'
+          }"
+          :icon="{ name: 'pencil-square', placement: 'prepend' }"
+        >
+          <span class="ms-2 d-sm-inline d-none">Добавить показания</span>
+        </app-button>
 
-				<app-button
-					class-list-btn="btn-outline-secondary ms-10 px-3"
-					:attrs="{
-						'data-bs-toggle': 'modal',
-						'data-bs-target': '#communalSettingForm',
-					}"
-					:icon="{ name: 'gear', placement: 'prepend' }"
-				>
-					<span class="ms-1 d-none d-lg-inline">Тарифы</span>
-				</app-button>
-			</div>
-		</template>
+        <app-button
+          class-list-btn="btn-outline-secondary ms-10 px-3"
+          :attrs="{
+            'data-bs-toggle': 'modal',
+            'data-bs-target': '#communalSettingForm'
+          }"
+          :icon="{ name: 'gear', placement: 'prepend' }"
+        >
+          <span class="ms-1 d-none d-lg-inline">Тарифы</span>
+        </app-button>
+      </div>
+    </template>
 
-		<app-card :class-list="['mb-30']">
-			<template #header>
-				<div class="row align-items-center">
-					<div
-						class="col-xxl mb-0 mb-xl-2 mb-xxl-0 d-flex align-items-center justify-content-between"
-					>
-						<communal-list-header
-							:checkboxes="checkboxes"
-							@remove="removeAll"
-						/>
-					</div>
+    <app-card :class-list="['mb-30']">
+      <template #header>
+        <div class="row align-items-center">
+          <div
+            class="col-xxl mb-0 mb-xl-2 mb-xxl-0 d-flex align-items-center justify-content-between"
+          >
+            <communal-list-header
+              :checkboxes="checkboxes"
+              @remove="removeAll"
+            />
+          </div>
 
-					<div id="filter" class="col-xxl-auto collapse d-xl-block">
-						<communal-filter />
-					</div>
-				</div>
-			</template>
+          <div
+            id="filter"
+            class="col-xxl-auto collapse d-xl-block"
+          >
+            <communal-filter />
+          </div>
+        </div>
+      </template>
 
-			<communal-list :items="items" :loader="loader" @selected="selectChbx" />
+      <communal-list
+        :items="items"
+        :loader="loader"
+        @selected="selectChbx"
+      />
 
-			<!-- <template #footer>-->
-			<!-- <app-pagination-->
-			<!-- :count="projects.length"-->
-			<!-- :pages="PAGE_SIZE"-->
-			<!-- v-model="page"-->
-			<!-- @changeSize="changePageSize"-->
-			<!-- />-->
-			<!-- </template>-->
-		</app-card>
-	</app-page-header>
+      <!-- <template #footer>-->
+      <!-- <app-pagination-->
+      <!-- :count="projects.length"-->
+      <!-- :pages="PAGE_SIZE"-->
+      <!-- v-model="page"-->
+      <!-- @changeSize="changePageSize"-->
+      <!-- />-->
+      <!-- </template>-->
+    </app-card>
+  </app-page-header>
 
-	<teleport to="body">
-		<app-bs-modal
-			v-if="isRates"
-			id="addCommunalRecord"
-			title="Добавить показания счетчиков"
-			:close="closeModal"
-			@hide="closeModal = false"
-		>
-			<communal-form @close="closeModal = true" />
-		</app-bs-modal>
+  <teleport to="body">
+    <app-bs-modal
+      v-if="isRates"
+      id="addCommunalRecord"
+      title="Добавить показания счетчиков"
+      :close="closeModal"
+      @hide="closeModal = false"
+    >
+      <communal-form @close="closeModal = true" />
+    </app-bs-modal>
 
-		<app-bs-modal
-			id="communalSettingForm"
-			title="Тарифы"
-			:close="closeModal"
-			@hide="closeModal = false"
-		>
-			<communal-settings-form
-				v-if="isRates"
-				:initials="rates"
-				@submit="closeSettingsForm"
-			/>
-		</app-bs-modal>
+    <app-bs-modal
+      id="communalSettingForm"
+      title="Тарифы"
+      :close="closeModal"
+      @hide="closeModal = false"
+    >
+      <communal-settings-form
+        v-if="isRates"
+        :initials="rates"
+        @submit="closeSettingsForm"
+      />
+    </app-bs-modal>
 
-		<app-confirm
-			ref="confirm"
-			:title="'Вы удаляете ' + checkboxes.length + ' элемента'"
-			text="Вы уверены? Операцию нельзя будет отменить."
-			@resolve="removeAllConfirm"
-		/>
-	</teleport>
+    <app-confirm
+      ref="confirm"
+      :title="'Вы удаляете ' + checkboxes.length + ' элемента'"
+      text="Вы уверены? Операцию нельзя будет отменить."
+      @resolve="removeAllConfirm"
+    />
+  </teleport>
 </template>
 
 <script setup>
@@ -113,35 +120,35 @@ const isRates = ref(null)
 let checkboxes = ref([])
 const confirm = ref(false)
 
-const selectChbx = (checkboxIds) => {
-	checkboxes.value = checkboxIds
+const selectChbx = checkboxIds => {
+  checkboxes.value = checkboxIds
 }
 
 const removeAll = () => {
-	confirm.value.confirm = true
+  confirm.value.confirm = true
 }
 
 const removeAllConfirm = async () => {
-	try {
-		await store.dispatch('communal/delete', checkboxes.value)
-		await store.dispatch('communal/load')
-		confirm.value.confirm = false
-		checkboxes.value.length = 0
-	} catch (e) {
-		/* empty */
-	}
+  try {
+    await store.dispatch('communal/delete', checkboxes.value)
+    await store.dispatch('communal/load')
+    confirm.value.confirm = false
+    checkboxes.value.length = 0
+  } catch (e) {
+    /* empty */
+  }
 }
 // End checkboxes
 
 const closeSettingsForm = async () => {
-	await store.dispatch('communal/loadRates')
-	closeModal.value = true
+  await store.dispatch('communal/loadRates')
+  closeModal.value = true
 }
 
 onMounted(async () => {
-	await store.dispatch('communal/load')
-	await store.dispatch('communal/loadRates')
-	isRates.value = isHasKeysObject(rates.value)
-	loader.value = false
+  await store.dispatch('communal/load')
+  await store.dispatch('communal/loadRates')
+  isRates.value = isHasKeysObject(rates.value)
+  loader.value = false
 })
 </script>

@@ -1,30 +1,38 @@
 <template>
-	<header v-if="$slots.header || title" class="page-header">
-		<h1 v-if="title" class="h4 page-header__title">{{ title }}</h1>
-		<slot name="header" />
-	</header>
+  <header
+    v-if="$slots.header || title"
+    class="page-header"
+  >
+    <h1
+      v-if="title"
+      class="h4 page-header__title"
+    >
+      {{ title }}
+    </h1>
+    <slot name="header" />
+  </header>
 
-	<slot name="default" />
+  <slot name="default" />
 </template>
 
 <script setup>
 // eslint-disable-next-line no-undef
 const props = defineProps({
-	title: {
-		type: String,
-		default: '',
-	},
-	back: {
-		type: Boolean,
-		default: false,
-	},
-	center: {
-		type: Boolean,
-		default: false,
-	},
+  title: {
+    type: String,
+    default: ''
+  },
+  back: {
+    type: Boolean,
+    default: false
+  },
+  center: {
+    type: Boolean,
+    default: false
+  }
 })
-const title = props.title ? props.title + ' |' : ''
-document.title = `${title} Система подсчета доходов/расходов`
+const pageTitle = props.title ? props.title + ' |' : ''
+document.title = `${pageTitle} Система подсчета доходов/расходов`
 </script>
 
 <style scoped lang="sass">

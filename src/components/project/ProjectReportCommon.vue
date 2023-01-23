@@ -1,5 +1,9 @@
 <template>
-  <AppCard v-if="total" title="Общий отчет" class-list="h-100">
+  <AppCard
+    v-if="total"
+    title="Общий отчет"
+    class-list="h-100"
+  >
     <h2 class="h3">{{ $currency(total) }}</h2>
     <div
       class="progress rounded-pill mb-2 opacity-75 fz-10"
@@ -28,34 +32,36 @@
     <div class="table-responsive mt-30">
       <table class="table table-nowrap card-table">
         <tbody>
-        <tr v-if="income">
-          <th scope="row">
-            <span class="indikator bg-success me-2"></span>
-            Приход
-          </th>
-          <td>{{ $currency(income) }}</td>
-        </tr>
-        <tr v-if="outcome">
-          <th scope="row">
-            <span class="indikator bg-danger me-2"></span>
-            Расход
-          </th>
-          <td>{{ $currency(outcome) }}</td>
-        </tr>
-        <tr v-if="pending">
-          <th scope="row">
-            <span class="indikator bg-warning me-2"></span>
-            В ожидании
-          </th>
-          <td>{{ $currency(pending) }}</td>
-        </tr>
-        <tr v-if="income && outcome">
-          <th scope="row">
-            <span class="indikator bg-primary me-2"></span>
-            Доход
-          </th>
-          <td><strong>{{ $currency(profit) }}</strong></td>
-        </tr>
+          <tr v-if="income">
+            <th scope="row">
+              <span class="indikator bg-success me-2" />
+              Приход
+            </th>
+            <td>{{ $currency(income) }}</td>
+          </tr>
+          <tr v-if="outcome">
+            <th scope="row">
+              <span class="indikator bg-danger me-2" />
+              Расход
+            </th>
+            <td>{{ $currency(outcome) }}</td>
+          </tr>
+          <tr v-if="pending">
+            <th scope="row">
+              <span class="indikator bg-warning me-2" />
+              В ожидании
+            </th>
+            <td>{{ $currency(pending) }}</td>
+          </tr>
+          <tr v-if="income && outcome">
+            <th scope="row">
+              <span class="indikator bg-primary me-2" />
+              Доход
+            </th>
+            <td>
+              <strong>{{ $currency(profit) }}</strong>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -69,13 +75,16 @@ import { getAmountSumm, progress, getSumm } from '@/utils/report'
 
 export default {
   name: 'ProjectReportCommon',
+  components: {
+    AppCard
+  },
   props: {
     items: {
       type: Array,
       required: true
     }
   },
-  setup (props) {
+  setup(props) {
     const total = ref(0)
     const income = ref(0)
     const outcome = ref(0)
@@ -109,9 +118,6 @@ export default {
       outcomeProgress,
       pendingProgress
     }
-  },
-  components: {
-    AppCard
   }
 }
 </script>

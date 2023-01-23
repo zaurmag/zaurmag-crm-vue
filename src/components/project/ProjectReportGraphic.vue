@@ -19,13 +19,17 @@ import { currency } from '@/utils/currency'
 
 export default {
   name: 'ProjectReportGraphic',
+  components: {
+    AppCard,
+    ChartLine
+  },
   props: {
     items: {
       type: Array,
       required: true
     }
   },
-  setup (props) {
+  setup(props) {
     const projects = computed(() => props.items)
     const incomeAmount = ref()
     const outcomeAmount = ref()
@@ -54,22 +58,24 @@ export default {
     const chartData = computed(() => {
       return {
         labels: monthsRef.value,
-        datasets: [{
-          label: 'Приход',
-          data: incomeAmount.value,
-          hoverBorderColor: '#377dff',
-          pointBackgroundColor: '#377dff',
-          borderColor: '#377dff',
-          ...chartTotalOptions
-        },
-        {
-          label: 'Расход',
-          data: outcomeAmount.value,
-          borderColor: '#00c9db',
-          hoverBorderColor: '#00c9db',
-          pointBackgroundColor: '#00c9db',
-          ...chartTotalOptions
-        }]
+        datasets: [
+          {
+            label: 'Приход',
+            data: incomeAmount.value,
+            hoverBorderColor: '#377dff',
+            pointBackgroundColor: '#377dff',
+            borderColor: '#377dff',
+            ...chartTotalOptions
+          },
+          {
+            label: 'Расход',
+            data: outcomeAmount.value,
+            borderColor: '#00c9db',
+            hoverBorderColor: '#00c9db',
+            pointBackgroundColor: '#00c9db',
+            ...chartTotalOptions
+          }
+        ]
       }
     })
 
@@ -98,7 +104,7 @@ export default {
         plugins: {
           tooltip: {
             callbacks: {
-              label (context) {
+              label(context) {
                 let label = context.dataset.label || ''
 
                 if (label) {
@@ -121,14 +127,8 @@ export default {
       chartData,
       chartOptions
     }
-  },
-  components: {
-    AppCard,
-    ChartLine
   }
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,19 +1,19 @@
 <template>
-	<file-pond
-		ref="pond"
-		:name="id"
-		credits=""
-		:allow-multiple="false"
-		image-resize-target-width="400"
-		image-resize-target-height="400"
-		allow-image-resize="true"
-		allow-image-crop="true"
-		image-crop-aspect-ratio="16:9"
-		label-idle="Перенесите файлы сюда, или <br /><span class='btn btn-link py-0'>Загрузите</span>"
-		accepted-file-types="image/jpeg, image/png"
-		@addfile="addFile"
-	/>
-	<!-- server="http://localhost:2222/api/upload" -->
+  <file-pond
+    ref="pond"
+    :name="id"
+    credits=""
+    :allow-multiple="false"
+    image-resize-target-width="400"
+    image-resize-target-height="400"
+    allow-image-resize="true"
+    allow-image-crop="true"
+    image-crop-aspect-ratio="16:9"
+    label-idle="Перенесите файлы сюда, или <br /><span class='btn btn-link py-0'>Загрузите</span>"
+    accepted-file-types="image/jpeg, image/png"
+    @addfile="addFile"
+  />
+  <!-- server="http://localhost:2222/api/upload" -->
 </template>
 
 <script setup>
@@ -26,12 +26,7 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import FilePondPluginImageResize from 'filepond-plugin-image-resize'
 import FilePondPluginImageCrop from 'filepond-plugin-image-crop'
 import { initializeApp } from 'firebase/app'
-import {
-	getStorage,
-	ref as fbRef,
-	uploadBytesResumable,
-	getDownloadURL,
-} from 'firebase/storage'
+import { getStorage, ref as fbRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 
 // Emits
 // eslint-disable-next-line no-undef
@@ -40,43 +35,43 @@ const emits = defineEmits(['progress', 'uploadCancel', 'uploadSuccess'])
 // Props
 // eslint-disable-next-line no-undef
 const props = defineProps({
-	id: {
-		type: String,
-		required: true,
-	},
-	cancel: {
-		type: Boolean,
-		required: false,
-		default: false,
-	},
-	save: {
-		type: Boolean,
-		required: false,
-		default: false,
-	},
-	userId: {
-		type: String,
-		required: true,
-	},
+  id: {
+    type: String,
+    required: true
+  },
+  cancel: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  save: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  userId: {
+    type: String,
+    required: true
+  }
 })
 
 // Create component FilePond
 const FilePond = vueFilePond(
-	FilePondPluginFileValidateType,
-	FilePondPluginImagePreview,
-	FilePondPluginImageResize,
-	FilePondPluginImageCrop
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview,
+  FilePondPluginImageResize,
+  FilePondPluginImageCrop
 )
 
 // Firebase configuration
 const firebaseConfig = {
-	apiKey: '',
-	authDomain: '',
-	databaseURL: '',
-	projectId: 'zaurmagcrm',
-	storageBucket: 'zaurmagcrm.appspot.com',
-	messagingSenderId: '',
-	appId: '',
+  apiKey: '',
+  authDomain: '',
+  databaseURL: '',
+  projectId: 'zaurmagcrm',
+  storageBucket: 'zaurmagcrm.appspot.com',
+  messagingSenderId: '',
+  appId: ''
 }
 
 // Initialize Firebase
@@ -90,65 +85,60 @@ const spaceRef = ref(null)
 const cancel = computed(() => props.cancel)
 const save = computed(() => props.save)
 
-watch(cancel, (val) => {
-	if (val) {
-		pond.value.removeFiles({ revert: true })
+watch(cancel, val => {
+  if (val) {
+    pond.value.removeFiles({ revert: true })
 
-		if (uploadTask.value) {
-			uploadTask.value.cancel()
-		}
-	}
+    if (uploadTask.value) {
+      uploadTask.value.cancel()
+    }
+  }
 })
 
-watch(save, (val) => {
-	if (val) {
-		uploadTask.value.resume()
+watch(save, val => {
+  if (val) {
+    uploadTask.value.resume()
 
-		if (uploadTask.value) {
-			uploadTask.value.on(
-				'state_changed',
-				(snapshot) => {
-					progress.value =
-						(snapshot.bytesTransferred / snapshot.totalBytes) * 100
-					emits('progress', progress.value)
-				},
-				(error) => {
-					console.error(error)
-				},
-				async () => {
-					try {
-						const downloadURL = await getDownloadURL(
-							uploadTask.value.snapshot.ref
-						)
-						emits('uploadSuccess', downloadURL)
-					} catch (e) {
-						switch (e.code) {
-							case 'storage/object-not-found':
-								console.error("File doesn't exist")
-								break
+    if (uploadTask.value) {
+      uploadTask.value.on(
+        'state_changed',
+        snapshot => {
+          progress.value = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          emits('progress', progress.value)
+        },
+        error => {
+          console.error(error)
+        },
+        async () => {
+          try {
+            const downloadURL = await getDownloadURL(uploadTask.value.snapshot.ref)
+            emits('uploadSuccess', downloadURL)
+          } catch (e) {
+            switch (e.code) {
+              case 'storage/object-not-found':
+                console.error("File doesn't exist")
+                break
 
-							case 'storage/unauthorized':
-								console.error(
-									"User doesn't have permission to access the object"
-								)
-								break
+              case 'storage/unauthorized':
+                console.error("User doesn't have permission to access the object")
+                break
 
-							case 'storage/canceled':
-								console.error('User canceled the upload')
-								break
-						}
-					}
-				}
-			)
-		}
-	}
+              case 'storage/canceled':
+                console.error('User canceled the upload')
+                break
+            }
+          }
+        }
+      )
+    }
+  }
 })
 
 const addFile = () => {
-	const { file } = pond.value.getFile()
-	spaceRef.value = fbRef(storage, `/users/${props.userId}/images/${file.name}`)
+  const { file } = pond.value.getFile()
+  spaceRef.value = fbRef(storage, `/users/${props.userId}/images/${file.name}`)
 
-	uploadTask.value = uploadBytesResumable(spaceRef.value, file)
-	uploadTask.value.pause()
+  uploadTask.value = uploadBytesResumable(spaceRef.value, file)
+  uploadTask.value.pause()
 }
 </script>

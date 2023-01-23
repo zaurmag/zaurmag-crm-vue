@@ -14,15 +14,15 @@ import ProjectReportGraphic from '@/components/project/ProjectReportGraphic.vue'
 
 export default {
   name: 'ProjectReport',
+  components: {
+    ProjectReportGraphic,
+    ProjectReportCommon
+  },
   props: {
     projects: {
       type: Array,
       required: true
     }
-  },
-  components: {
-    ProjectReportGraphic,
-    ProjectReportCommon
   }
 }
 </script>

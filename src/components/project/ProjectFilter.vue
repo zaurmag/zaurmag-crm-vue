@@ -1,51 +1,58 @@
 <template>
-	<div class="form form--filter row gy-3 gy-xl-2 gx-4 mt-xl-0 mt-3">
-		<div class="col-xl-auto">
-			<div class="row align-items-center g-4">
-				<div class="col-sm col-md-auto">
-					<form-select v-model="periodSelect" :options="periodOptions" />
-				</div>
-				<div class="col-sm">
-					<AppArbitraryPeriod
-						v-model:date-from="arbitraryPeriodFrom"
-						v-model:date-to="arbitraryPeriodTo"
-						@datesOut="arbitraryPeriodDates"
-					/>
-				</div>
-			</div>
-		</div>
-		<div class="col-xl-auto">
-			<div class="d-flex align-items-center">
-				<label class="form__label me-3">Тип операции:</label>
-				<form-select v-model="typeSelect" :options="typeOptions" />
-			</div>
-		</div>
-		<div class="col-xl-auto">
-			<div class="d-flex align-items-center">
-				<form-control
-					id="filterSearch"
-					v-model="search"
-					type="search"
-					placeholder="Поиск по имени"
-					class-list-wrapper="form__group form__group--icon w-100"
-					class-list-input="form-control-bb ps-20"
-				>
-					<template #prepend>
-						<app-icon name="search" />
-					</template>
-				</form-control>
+  <div class="form form--filter row gy-3 gy-xl-2 gx-4 mt-xl-0 mt-3">
+    <div class="col-xl-auto">
+      <div class="row align-items-center g-4">
+        <div class="col-sm col-md-auto">
+          <form-select
+            v-model="periodSelect"
+            :placeholder="periodSelectPlaceholder"
+            :options="periodOptions"
+          />
+        </div>
+        <div class="col-sm">
+          <AppArbitraryPeriod
+            v-model:date-from="arbitraryPeriodFrom"
+            v-model:date-to="arbitraryPeriodTo"
+            @datesOut="arbitraryPeriodDates"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-auto">
+      <div class="d-flex align-items-center">
+        <label class="form__label me-3">Тип операции:</label>
+        <form-select
+          v-model="typeSelect"
+          :options="typeOptions"
+        />
+      </div>
+    </div>
+    <div class="col-xl-auto">
+      <div class="d-flex align-items-center">
+        <form-control
+          id="filterSearch"
+          v-model="search"
+          type="search"
+          placeholder="Поиск по имени"
+          class="d-flex align-items-center"
+          class-list-input="form-control-bb ps-20"
+        >
+          <template #prepend>
+            <app-icon name="search" />
+          </template>
+        </form-control>
 
-				<app-button
-					v-if="isActive"
-					v-tooltip="{ title: 'Сбросить фильтр' }"
-					class-list-wrapper="ms-3"
-					class-list-btn="btn-outline-secondary btn-round fz-16 p-0"
-					:icon="{ name: 'x', placement: 'prepend' }"
-					@click="reset"
-				/>
-			</div>
-		</div>
-	</div>
+        <app-button
+          v-if="isActive"
+          v-tooltip="{ title: 'Сбросить фильтр' }"
+          class-list-wrapper="ms-3"
+          class-list-btn="btn-outline-secondary btn-round fz-16 p-0"
+          :icon="{ name: 'x', placement: 'prepend' }"
+          @click="reset"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -59,20 +66,20 @@ const emit = defineEmits(['update:modelValue'])
 
 // eslint-disable-next-line no-undef
 defineProps({
-	modelValue: {
-		type: Object,
-		default() {
-			return {}
-		},
-	},
+  modelValue: {
+    type: Object,
+    default() {
+      return {}
+    }
+  }
 })
 
 const arbitraryPeriodFrom = ref()
 const arbitraryPeriodTo = ref()
 
-const periodSelectInitial = { name: 'Выбрать период' }
+const periodSelectPlaceholder = 'Выбрать период'
 const periodOptions = ref(PERIOD_OPTIONS)
-const periodSelect = ref(periodSelectInitial)
+const periodSelect = ref()
 
 const typeOptions = ref(TYPE_OPTIONS)
 const typeSelect = ref(typeOptions.value[0])
@@ -80,53 +87,53 @@ const typeSelect = ref(typeOptions.value[0])
 const search = ref()
 
 watch(
-	[search, typeSelect, arbitraryPeriodFrom, arbitraryPeriodTo, periodSelect],
-	([search, type, apFrom, apTo, periodSelect]) => {
-		if (periodSelect.value) {
-			arbitraryPeriodFrom.value = getDateFromPeriod(periodSelect.value, true)
-			arbitraryPeriodTo.value = dateF(Date.now(), { locale: 'fr-CA' })
-		}
+  [search, typeSelect, arbitraryPeriodFrom, arbitraryPeriodTo, periodSelect],
+  ([search, type, apFrom, apTo, periodSelect]) => {
+    if (periodSelect) {
+      arbitraryPeriodFrom.value = getDateFromPeriod(periodSelect.value, true)
+      arbitraryPeriodTo.value = dateF(Date.now(), { locale: 'fr-CA' })
+    }
 
-		emit('update:modelValue', {
-			search,
-			type,
-			periodFrom: apFrom || arbitraryPeriodFrom.value,
-			periodTo: apTo || arbitraryPeriodTo.value,
-		})
-	}
+    emit('update:modelValue', {
+      search,
+      type,
+      periodFrom: apFrom,
+      periodTo: apTo
+    })
+  }
 )
 
-const arbitraryPeriodDates = (dates) => {
-	const rDate = relativeDate(dates.from, dates.to)
-	const option = periodOptions.value.find((item) => item.value === rDate)
+const arbitraryPeriodDates = dates => {
+  const rDate = relativeDate(dates.from, dates.to)
+  const option = periodOptions.value.find(item => item.value === rDate)
 
-	arbitraryPeriodFrom.value = dates.from
-	arbitraryPeriodTo.value = dates.to
+  arbitraryPeriodFrom.value = dates.from
+  arbitraryPeriodTo.value = dates.to
 
-	periodSelect.value = !rDate ? periodSelectInitial : {}
+  periodSelect.value = !rDate ? periodSelectPlaceholder : {}
 
-	if (option) {
-		periodSelect.value = {
-			name: option.name,
-			value: option.value,
-		}
-	}
+  if (option) {
+    periodSelect.value = {
+      name: option.name,
+      value: option.value
+    }
+  }
 }
 
 const isActive = computed(
-	() =>
-		search.value ||
-		typeSelect.value.value ||
-		periodSelect.value.value ||
-		arbitraryPeriodFrom.value ||
-		arbitraryPeriodTo.value
+  () =>
+    search.value ||
+    typeSelect.value.value ||
+    periodSelect.value?.value ||
+    arbitraryPeriodFrom.value ||
+    arbitraryPeriodTo.value
 )
 
 const reset = () => {
-	search.value = ''
-	typeSelect.value = typeOptions.value[0]
-	arbitraryPeriodFrom.value = ''
-	arbitraryPeriodTo.value = ''
-	periodSelect.value = periodSelectInitial
+  search.value = ''
+  typeSelect.value = typeOptions.value[0]
+  arbitraryPeriodFrom.value = ''
+  arbitraryPeriodTo.value = ''
+  periodSelect.value = periodSelectPlaceholder
 }
 </script>
