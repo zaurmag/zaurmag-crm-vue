@@ -1,7 +1,7 @@
 <template>
-  <div class="form form--filter row gy-3 gy-xl-2 gx-4 mt-xl-0 mt-3">
+  <div class="form form--filter row gy-3 gy-xl-2 gx-10 mt-xl-0 mt-3">
     <div class="col-xl-auto">
-      <div class="row align-items-center g-4">
+      <div class="row align-items-center g-10">
         <div class="col-sm col-md-auto">
           <form-select
             v-model="periodSelect"
@@ -19,13 +19,11 @@
       </div>
     </div>
     <div class="col-xl-auto">
-      <div class="d-flex align-items-center">
-        <label class="form__label me-3">Тип операции:</label>
-        <form-select
-          v-model="typeSelect"
-          :options="typeOptions"
-        />
-      </div>
+      <form-select
+        v-model="typeSelect"
+        :options="typeOptions"
+        placeholder="Тип операции:"
+      />
     </div>
     <div class="col-xl-auto">
       <div class="d-flex align-items-center">
@@ -82,7 +80,7 @@ const periodOptions = ref(PERIOD_OPTIONS)
 const periodSelect = ref()
 
 const typeOptions = ref(TYPE_OPTIONS)
-const typeSelect = ref(typeOptions.value[0])
+const typeSelect = ref()
 
 const search = ref()
 
@@ -90,8 +88,9 @@ watch(
   [search, typeSelect, arbitraryPeriodFrom, arbitraryPeriodTo, periodSelect],
   ([search, type, apFrom, apTo, periodSelect]) => {
     if (periodSelect) {
-      arbitraryPeriodFrom.value = getDateFromPeriod(periodSelect.value, true)
+      arbitraryPeriodFrom.value = getDateFromPeriod(periodSelect, true)
       arbitraryPeriodTo.value = dateF(Date.now(), { locale: 'fr-CA' })
+      console.log(periodSelect)
     }
 
     emit('update:modelValue', {
@@ -123,17 +122,17 @@ const arbitraryPeriodDates = dates => {
 const isActive = computed(
   () =>
     search.value ||
-    typeSelect.value.value ||
-    periodSelect.value?.value ||
+    typeSelect.value ||
+    periodSelect.value ||
     arbitraryPeriodFrom.value ||
     arbitraryPeriodTo.value
 )
 
 const reset = () => {
   search.value = ''
-  typeSelect.value = typeOptions.value[0]
+  typeSelect.value = ''
   arbitraryPeriodFrom.value = ''
   arbitraryPeriodTo.value = ''
-  periodSelect.value = periodSelectPlaceholder
+  periodSelect.value = ''
 }
 </script>
