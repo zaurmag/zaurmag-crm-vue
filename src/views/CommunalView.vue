@@ -30,21 +30,14 @@
 
     <app-card :class-list="['mb-30']">
       <template #header>
-        <div class="row align-items-center">
-          <div
-            class="col-xxl mb-0 mb-xl-2 mb-xxl-0 d-flex align-items-center justify-content-between"
-          >
-            <communal-list-header
-              :checkboxes="checkboxes"
-              @remove="removeAll"
-            />
-          </div>
+        <div class="row align-items-start align-items-md-center">
+          <communal-list-header
+            :checkboxes="checkboxes"
+            @remove="removeAll"
+          />
 
-          <div
-            id="filter"
-            class="col-xxl-auto collapse d-xl-block"
-          >
-            <communal-filter />
+          <div class="col">
+            <communal-filter v-model="filter" />
           </div>
         </div>
       </template>
@@ -112,9 +105,31 @@ import { isHasKeysObject } from '@/utils/helpers'
 const store = useStore()
 const closeModal = ref(false)
 const loader = ref(true)
-const items = computed(() => store.getters['communal/communal'] || [])
 const rates = computed(() => store.getters['communal/rates'] || {})
 const isRates = ref(null)
+const filter = ref({})
+
+const items = computed(() =>
+  store.getters['communal/communal']
+    .filter(req => {
+      if (filter.value.dateFrom && filter.value.dateTo) {
+        return (
+          new Date(filter.value.dateFrom) <= new Date(req.date) &&
+          new Date(req.date) <= new Date(filter.value.dateTo)
+        )
+      }
+
+      return req
+    })
+    .filter(req => {
+      if (filter.value.status) {
+        const status = filter.value.status === 'paid'
+        return status === req.status || filter.value.status === 'all'
+      }
+
+      return req
+    })
+)
 
 // Checkboxes
 let checkboxes = ref([])
