@@ -35,6 +35,8 @@ defineProps({
 
 <style lang="sass" scoped>
 .profile
+	$self: &
+
 	&__header
 		position: relative
 		display: flex
@@ -67,64 +69,64 @@ defineProps({
 	&__content
 		margin-top: 100px
 
-::v-deep
-	.profile
-		&__avatar
-			flex-shrink: 0
-			position: relative
-			margin: 0 auto 10px
-			width: 118px
-			height: 118px
+	:deep()
+		#{$self}
+			&__avatar
+				flex-shrink: 0
+				position: relative
+				margin: 0 auto 10px
+				width: 118px
+				height: 118px
 
-			&-img
-				border-radius: 50%
-				border: 5px solid $white
-				width: 100%
-				height: 100%
+				&-img
+					border-radius: 50%
+					border: 5px solid $white
+					width: 100%
+					height: 100%
 
-			&-edit
-				position: absolute
-				right: 0
-				bottom: 0
-				padding: 0
-				width: 38px
-				height: 38px
+				&-edit
+					position: absolute
+					right: 0
+					bottom: 0
+					padding: 0
+					width: 38px
+					height: 38px
 
-			&-indicator
-				position: absolute
-				right: 0
-				bottom: 0
-				z-index: 10
-				border: 3px solid $white
-				transform: translate(-50%, -50%)
+				&-indicator
+					position: absolute
+					right: 0
+					bottom: 0
+					z-index: 10
+					border: 3px solid $white
+					transform: translate(-50%, -50%)
 
-		&__contact
-			line-height: 1.65
+			&__contact
+				line-height: 1.65
 
-			&-item
-				display: flex
-				align-items: center
-				padding-top: 7px
-				padding-bottom: 7px
+				&-item
+					display: flex
+					align-items: center
+					padding-top: 7px
+					padding-bottom: 7px
 
-				a
-					color: $dark
-					text-decoration: none
+					a
+						color: $dark
+						text-decoration: none
 
-					@include media-breakpoint-up(lg)
-						&:hover
-							color: $primary
+						@include media-breakpoint-up(lg)
+							&:hover
+								color: $primary
 
-				.icon
-					margin-right: 10px
-					color: $gray-500
-					font-size: 16px
-					width: 20px
+					.icon
+						margin-right: 10px
+						color: $gray-500
+						font-size: 16px
+						width: 20px
 
-		&__edit,
-		&__back-profile
-			.btn
-				font-size: 13px
+			&__edit,
+			&__back-profile
+				.btn
+					font-size: 13px
 
 				@include media-breakpoint-down(lg)
 					padding: 0
@@ -134,13 +136,13 @@ defineProps({
 					.icon
 						font-size: 18px
 
-		// Nav
-		&__nav
-			.nav-link
-				text-align: left
-				line-height: normal
+			// Nav
+			&__nav
+				.nav-link
+					text-align: left
+					line-height: normal
 
-				&.active
-					background-color: transparent
-					color: $primary
+					&.active
+						background-color: transparent
+						color: $primary
 </style>
