@@ -13,5 +13,5 @@
 	height: 100vh
 
 	&--empty
-		background: $white url("./images/empty-layout-cover.jpg") 0 0 /cover no-repeat
+		background: $white url("/images/empty-layout-cover.jpg") 0 0 /cover no-repeat
 </style>

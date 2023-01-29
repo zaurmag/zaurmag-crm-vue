@@ -59,6 +59,8 @@ const toggleSbHandler = () => {
 
 <style scoped lang="sass">
 .sidebar
+	$self: &
+
 	background-color: #192b58
 	color: $white
 	position: fixed
@@ -142,28 +144,27 @@ const toggleSbHandler = () => {
 						display: none
 
 	// Logo
-	&__logo
-		::v-deep
-			padding: 15px 0
+	:deep(#{$self}__logo)
+		padding: 15px 0
 
-			.logo__text
-				color: $white
+		.logo__text
+			color: $white
 
-			@include media-breakpoint-up(lg)
-				height: 65px
+		@include media-breakpoint-up(lg)
+			height: 65px
 
-				.is-sb-collapsed &,
-				.is-compact &
-					text-align: center
-					padding-left: 0
-					padding-right: 0
+			.is-sb-collapsed &,
+			.is-compact &
+				text-align: center
+				padding-left: 0
+				padding-right: 0
 
-					.icon
-						font-size: 28px
-						margin-right: 0 !important
+				.icon
+					font-size: 28px
+					margin-right: 0 !important
 
-					.logo__text
-						display: none
+				.logo__text
+					display: none
 
 	// Nav
 	&__nav
