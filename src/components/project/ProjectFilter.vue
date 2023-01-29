@@ -13,7 +13,7 @@
           <AppArbitraryPeriod
             v-model:date-from="arbitraryPeriodFrom"
             v-model:date-to="arbitraryPeriodTo"
-            @datesOut="arbitraryPeriodDates"
+            @dates-out="arbitraryPeriodDates"
           />
         </div>
       </div>
@@ -90,7 +90,6 @@ watch(
     if (periodSelect) {
       arbitraryPeriodFrom.value = getDateFromPeriod(periodSelect, true)
       arbitraryPeriodTo.value = dateF(Date.now(), { locale: 'fr-CA' })
-      console.log(periodSelect)
     }
 
     emit('update:modelValue', {
