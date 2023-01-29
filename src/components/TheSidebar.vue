@@ -15,8 +15,8 @@
       data-bs-title="Свернуть"
       @click="toggleSbHandler"
     >
-      <app-icon name="arrow-bar-left" />
-      <app-icon name="arrow-bar-right" />
+      <svg-icon name="arrow-bar-left" />
+      <svg-icon name="arrow-bar-right" />
     </button>
 
     <app-logo

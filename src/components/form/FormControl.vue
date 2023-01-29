@@ -27,7 +27,7 @@
         class="btn form-control-toggle p-0"
         @click="togglePasswordHandler"
       >
-        <app-icon :name="password.icon" />
+        <svg-icon :name="password.icon" />
       </button>
     </div>
 

@@ -20,7 +20,7 @@
               class="btn btn-light py-2"
               :to="{ name: 'Profile', params: { id: user.id } }"
             >
-              <app-icon name="box-arrow-in-left" />
+              <svg-icon name="box-arrow-in-left" />
               <span class="d-none d-lg-inline ms-lg-2">Вернуться в профиль</span>
             </router-link>
           </template>
@@ -79,7 +79,7 @@
                           :data-bs-target="item.target"
                           role="tab"
                         >
-                          <app-icon :name="item.icon" />
+                          <svg-icon :name="item.icon" />
                           <span class="nav-text">{{ item.text }}</span>
                         </button>
                       </li>

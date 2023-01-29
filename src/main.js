@@ -9,6 +9,7 @@ import globalComponents from '@/components/globals'
 import 'bootstrap'
 import '@/assets/styles/main.scss'
 import './registerServiceWorker'
+import 'virtual:svg-icons-register'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 const app = createApp(App)

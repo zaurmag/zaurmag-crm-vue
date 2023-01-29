@@ -1,7 +1,7 @@
 // App UI
 import AppPageHeader from '@/components/AppPageHeader.vue'
 import AppButton from '@/components/ui/AppButton.vue'
-import AppIcon from '@/components/ui/AppIcon.vue'
+import SvgIcon from '@/components/ui/SvgIcon.vue'
 import AppCard from '@/components/ui/AppCard.vue'
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue'
 import AppIndicator from '@/components/ui/AppIndicator.vue'
@@ -18,7 +18,7 @@ import FormSwitch from '@/components/form/FormSwitch.vue'
 
 export default [
   AppPageHeader,
-  AppIcon,
+  SvgIcon,
   AppCard,
   AppBreadcrumb,
   AppModal,

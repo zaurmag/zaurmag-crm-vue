@@ -72,9 +72,9 @@
               class="btn btn-outline-secondary btn-sm fz-12 px-2 py-1"
               :to="{ name: 'EditProfile', params: { id: user.id } }"
             >
-              <app-icon
+              <svg-icon
                 name="pencil"
-                class-list="me-2"
+                class="me-2"
               />
               <span class="d-none d-sm-inline">Редактировать</span>
             </router-link>

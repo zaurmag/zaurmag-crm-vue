@@ -34,7 +34,8 @@
     "vue-filepond": "^7.0.3",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
-    "yup": "latest"
+    "yup": "latest",
+    "fast-glob": "^3.2.12"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.1.2",
@@ -47,6 +48,7 @@
     "prettier": "2.8.1",
     "sass": "latest",
     "sass-loader": "^8.0.2",
-    "vite": "^3.1.8"
+    "vite": "^3.1.8",
+    "vite-plugin-svg-icons": "^2.0.1"
   }
 }

@@ -47,7 +47,7 @@
     <div class="col-xl-auto">
       <div class="d-flex align-items-center">
         <div class="form__group form__group--icon w-100">
-          <app-icon name="search" />
+          <svg-icon name="search" />
           <input
             class="form__control"
             type="search"

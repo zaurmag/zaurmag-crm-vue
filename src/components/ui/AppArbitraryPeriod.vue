@@ -5,7 +5,7 @@
       type="button"
       data-bs-toggle="dropdown"
     >
-      <app-icon name="calendar3" />
+      <svg-icon name="calendar3" />
       <span class="ms-2">{{ text }}</span>
     </button>
 

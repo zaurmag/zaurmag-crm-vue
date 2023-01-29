@@ -36,7 +36,7 @@
           class-list-input="form-control-bb ps-20"
         >
           <template #prepend>
-            <app-icon name="search" />
+            <svg-icon name="search" />
           </template>
         </form-control>
 

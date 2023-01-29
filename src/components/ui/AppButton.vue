@@ -16,73 +16,68 @@
       v-bind="attrs"
       @click="$emit('click')"
     >
-      <app-icon
+      <svg-icon
         v-if="icon?.placement === 'prepend'"
         :name="icon?.name"
-        :class-list="icon.classList"
+        :class="icon.classList"
       />
       <slot name="default" />
-      <app-icon
+      <svg-icon
         v-if="icon?.placement === 'append'"
         :name="icon?.name"
-        :class-list="icon.classList"
+        :class="icon.classList"
       />
     </button>
   </span>
 </template>
 
-<script>
-export default {
-  name: 'AppButton',
-  props: {
-    id: {
-      type: String,
-      required: false
-    },
-    classListBtn: {
-      type: String,
-      required: false
-    },
-    classListWrapper: {
-      type: String,
-      required: false
-    },
-    animate: {
-      type: Object,
-      required: false,
-      default() {
-        return {}
-      }
-    },
-    icon: {
-      type: Object,
-      required: false,
-      default() {
-        return {}
-      }
-    },
-    type: {
-      type: String,
-      required: false,
-      default: 'button'
-    },
-    attrs: {
-      type: Object,
-      required: false,
-      default() {
-        return {}
-      }
-    },
-    attrsWrapper: {
-      type: Object,
-      required: false,
-      default() {
-        return {}
-      }
+<script setup>
+// eslint-disable-next-line no-undef
+defineEmits(['click'])
+
+// eslint-disable-next-line no-undef
+defineProps({
+  id: {
+    type: String,
+    default: ''
+  },
+  classListBtn: {
+    type: String,
+    default: ''
+  },
+  classListWrapper: {
+    type: String,
+    default: ''
+  },
+  animate: {
+    type: Object,
+    default() {
+      return {}
     }
   },
-  emits: ['click']
-}
+  icon: {
+    type: Object,
+    default() {
+      return {}
+    }
+  },
+  type: {
+    type: String,
+    default: 'button'
+  },
+  attrs: {
+    type: Object,
+    default() {
+      return {}
+    }
+  },
+  attrsWrapper: {
+    type: Object,
+    default() {
+      return {}
+    }
+  }
+})
 </script>
 
 <style scoped lang="sass">

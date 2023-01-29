@@ -9,7 +9,7 @@
         type="button"
         @click="$emit('remove')"
       >
-        <app-icon name="trash" />
+        <svg-icon name="trash" />
         Удалить
       </button>
     </template>
@@ -21,7 +21,7 @@
     data-bs-target="#filter"
     aria-expanded="false"
   >
-    <app-icon name="sliders" />
+    <svg-icon name="sliders" />
   </button>
 </template>
 

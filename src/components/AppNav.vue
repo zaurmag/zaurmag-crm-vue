@@ -6,7 +6,7 @@
           class="nav-link"
           :to="{ name: 'Home' }"
         >
-          <app-icon name="speedometer2" />
+          <svg-icon name="speedometer2" />
           <span class="nav-text">Главная</span>
         </router-link>
       </li>
@@ -15,7 +15,7 @@
           :to="{ name: 'Communal' }"
           :class="['nav-link', { 'is-active': route.name === 'Communal' }]"
         >
-          <app-icon name="house" />
+          <svg-icon name="house" />
           <span class="nav-text">Платежи ЖКХ</span>
         </router-link>
       </li>
@@ -27,7 +27,7 @@
           :to="{ name: 'Users' }"
           :class="['nav-link', { 'is-active': route.name === 'Profile' }]"
         >
-          <app-icon name="people" />
+          <svg-icon name="people" />
           <span class="nav-text">Пользователи</span>
         </router-link>
       </li>

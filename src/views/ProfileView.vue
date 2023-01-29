@@ -21,9 +21,9 @@
               class="btn btn-light py-2"
               :to="{ name: 'EditProfile', params: { id: user.id } }"
             >
-              <app-icon
+              <svg-icon
                 name="pencil-square"
-                class-list="me-lg-2"
+                class="me-lg-2"
               />
               <span class="d-none d-lg-inline">Редактировать</span>
             </router-link>
@@ -55,14 +55,14 @@
                     v-if="user.address"
                     class="profile__contact-item"
                   >
-                    <app-icon name="building" />
+                    <svg-icon name="building" />
                     {{ user.address }}
                   </li>
                   <li
                     v-if="user.phone"
                     class="profile__contact-item"
                   >
-                    <app-icon name="phone" />
+                    <svg-icon name="phone" />
                     <a
                       class="is-transition"
                       :href="`tel:${user.phone}`"
@@ -73,7 +73,7 @@
                     v-if="user.email"
                     class="profile__contact-item"
                   >
-                    <app-icon name="envelope" />
+                    <svg-icon name="envelope" />
                     <a
                       class="is-transition"
                       :href="'mailto:' + user.email"
