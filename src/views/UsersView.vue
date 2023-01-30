@@ -35,9 +35,7 @@
           <div
             id="filter"
             class="col-xxl-auto collapse d-xl-block"
-          >
-            <user-filter />
-          </div>
+          />
         </div>
       </template>
 
@@ -77,7 +75,6 @@
 </template>
 
 <script setup>
-import UserFilter from '@/components/user/UserFilter.vue'
 import UserList from '@/components/user/UserList.vue'
 import RegisterForm from '@/components/RegisterForm.vue'
 import { useProductPaginate } from '@/use/product-paginate'
