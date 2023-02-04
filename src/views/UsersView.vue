@@ -51,7 +51,7 @@
           v-model="page"
           :count="users.length"
           :pages="PAGE_SIZE"
-          @changeSize="changePageSize"
+          @change-size="changePageSize"
         />
       </template>
     </app-card>
@@ -62,7 +62,7 @@
       id="addUser"
       title="Добавить пользователя"
     >
-      <register-form @complete="closeModal('#addUser')" />
+      <register-form @complete="closeBsModal('#addUser')" />
     </app-bs-modal>
 
     <app-confirm
@@ -78,7 +78,7 @@
 import UserList from '@/components/user/UserList.vue'
 import RegisterForm from '@/components/RegisterForm.vue'
 import { useProductPaginate } from '@/use/product-paginate'
-import { closeModal } from '@/use/bs-modal'
+import { closeBsModal } from '@/use/bs-modal'
 import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 
