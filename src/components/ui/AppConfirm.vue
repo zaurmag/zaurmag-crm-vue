@@ -2,7 +2,6 @@
   <app-bs-modal
     :id="id"
     :title="title"
-    :close="confirm"
   >
     <p class="mb-0">{{ text }}</p>
 
@@ -10,14 +9,14 @@
       <button
         class="btn btn-success"
         type="button"
-        @click="resolve"
+        @click="emit('resolve')"
       >
         Да
       </button>
       <button
         class="btn btn-secondary"
         type="button"
-        @click="confirm = true"
+        data-bs-dismiss="modal"
       >
         Отмена
       </button>
@@ -26,8 +25,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['resolve'])
 
@@ -47,11 +44,4 @@ defineProps({
     required: true
   }
 })
-
-const confirm = ref(false)
-
-const resolve = () => {
-  emit('resolve')
-  confirm.value = true
-}
 </script>

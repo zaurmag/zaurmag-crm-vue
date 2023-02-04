@@ -11,10 +11,6 @@
     <app-button
       class="ms-3"
       class-list-btn="btn-outline-danger btn-md p-2 px-md-2 fz-18 fz-md-14"
-      :attrs="{
-        'data-bs-toggle': 'modal',
-        'data-bs-target': '#addCommunalForm'
-      }"
       :icon="{ name: 'trash', placement: 'prepend' }"
       @click="$emit('remove')"
     >

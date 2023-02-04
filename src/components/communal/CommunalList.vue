@@ -94,7 +94,7 @@
 
   <teleport to="body">
     <app-confirm
-      ref="confirm"
+      id="confirm"
       title="Вы уверены?"
       text="Операцию нельзя будет отменить."
       @resolve="removeConfirm"
@@ -104,6 +104,7 @@
 
 <script setup>
 import AppLoaderRowPlaceholder from '@/components/ui/AppLoaderRowPlaceholder.vue'
+import { showBsModal, closeBsModal } from '@/use/bs-modal'
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 
@@ -129,18 +130,17 @@ const props = defineProps({
 const store = useStore()
 const checkbox = ref([])
 const itemID = ref()
-const confirm = ref(false)
 
 const remove = id => {
   itemID.value = id
-  confirm.value.confirm = true
+  showBsModal('#confirm')
 }
 
 const removeConfirm = async () => {
   try {
     await store.dispatch('communal/delete', itemID.value)
+    closeBsModal('#confirm')
     await store.dispatch('communal/load')
-    confirm.value.confirm = false
   } catch (e) {
     /* empty */
   }

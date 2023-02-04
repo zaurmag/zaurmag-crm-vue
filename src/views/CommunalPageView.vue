@@ -57,10 +57,6 @@
 
             <app-button
               class-list-btn="btn-outline-danger px-3 ms-10"
-              :attrs="{
-                'data-bs-toggle': 'modal',
-                'data-bs-target': '#removeConfirm'
-              }"
               :icon="{
                 name: 'trash',
                 placement: 'prepend',
@@ -131,12 +127,21 @@
           <p><strong>Описание</strong></p>
           <p class="mw-md-50">{{ communal.desc }}</p>
         </div>
-        <!--            <div class="col-sm">-->
-        <!--              <p><strong>Фото квитанции</strong></p>-->
-        <!--              <button class="btn btn-empty p-0" type="button" data-bs-toggle="modal" data-bs-target="#openModalImage">-->
-        <!--                <img class="img-fluid" src="./images/foto-zhkh.jpg" alt="Фото квитанции ЖКХ">-->
-        <!--              </button>-->
-        <!--            </div>-->
+        <!--        <div class="col-sm">-->
+        <!--          <p><strong>Фото квитанции</strong></p>-->
+        <!--          <button-->
+        <!--            class="btn btn-empty p-0"-->
+        <!--            type="button"-->
+        <!--            data-bs-toggle="modal"-->
+        <!--            data-bs-target="#openModalImage"-->
+        <!--          >-->
+        <!--            <img-->
+        <!--              class="img-fluid"-->
+        <!--              src="./images/foto-zhkh.jpg"-->
+        <!--              alt="Фото квитанции ЖКХ"-->
+        <!--            />-->
+        <!--          </button>-->
+        <!--        </div>-->
       </div>
     </app-card>
   </app-page-header>
@@ -159,7 +164,7 @@
       v-if="communal"
       id="removeConfirm"
       :title="'Дата от ' + $dateF(communal.date, { month: 'long' }) + ' г.'"
-      text="Вы удаляете запись. Уверены? Операцию нельзя будет отменить."
+      text="Уверены? Операцию нельзя будет отменить."
       @resolve="removeConfirm"
     />
   </teleport>
@@ -173,6 +178,7 @@ import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { dateF } from '@/utils/date'
+import { showBsModal, closeBsModal } from '@/use/bs-modal'
 
 const route = useRoute()
 const router = useRouter()
@@ -184,12 +190,13 @@ const id = route.params.id
 
 const remove = () => {
   confirm.value = true
+  showBsModal('#removeConfirm')
 }
 
 const removeConfirm = async () => {
+  closeBsModal('#removeConfirm')
   await store.dispatch('communal/delete', id)
   await router.push({ name: 'Communal' })
-  modal.value = true
 }
 
 const closeModal = async () => {

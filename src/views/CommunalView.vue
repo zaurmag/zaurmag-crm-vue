@@ -33,7 +33,7 @@
         <div class="row align-items-start align-items-md-center">
           <communal-list-header
             :checkboxes="checkboxes"
-            @remove="removeAll"
+            @remove="showBsModal('#confirmAllSelected')"
           />
 
           <div class="col">
@@ -64,17 +64,17 @@
       v-if="isRates"
       id="addCommunalRecord"
       title="Добавить показания счетчиков"
-      :close="closeModal"
-      @hide="closeModal = false"
+      :close="closeFormModal"
+      @hide="closeFormModal = false"
     >
-      <communal-form @close="closeModal = true" />
+      <communal-form @close="closeFormModal = true" />
     </app-bs-modal>
 
     <app-bs-modal
       id="communalSettingForm"
       title="Тарифы"
-      :close="closeModal"
-      @hide="closeModal = false"
+      :close="closeFormModal"
+      @hide="closeFormModal = false"
     >
       <communal-settings-form
         v-if="isRates"
@@ -84,7 +84,7 @@
     </app-bs-modal>
 
     <app-confirm
-      ref="confirm"
+      id="confirmAllSelected"
       :title="'Вы удаляете ' + checkboxes.length + ' элемента'"
       text="Вы уверены? Операцию нельзя будет отменить."
       @resolve="removeAllConfirm"
@@ -101,9 +101,10 @@ import CommunalSettingsForm from '@/components/communal/CommunalSettingsForm.vue
 import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { isHasKeysObject } from '@/utils/helpers'
+import { showBsModal, closeBsModal } from '@/use/bs-modal'
 
 const store = useStore()
-const closeModal = ref(false)
+const closeFormModal = ref(false)
 const loader = ref(true)
 const rates = computed(() => store.getters['communal/rates'] || {})
 const isRates = ref(null)
@@ -133,22 +134,17 @@ const items = computed(() =>
 
 // Checkboxes
 let checkboxes = ref([])
-const confirm = ref(false)
 
 const selectChbx = checkboxIds => {
   checkboxes.value = checkboxIds
-}
-
-const removeAll = () => {
-  confirm.value.confirm = true
 }
 
 const removeAllConfirm = async () => {
   try {
     await store.dispatch('communal/delete', checkboxes.value)
     await store.dispatch('communal/load')
-    confirm.value.confirm = false
     checkboxes.value.length = 0
+    closeBsModal('#confirmAllSelected')
   } catch (e) {
     /* empty */
   }
@@ -157,7 +153,7 @@ const removeAllConfirm = async () => {
 
 const closeSettingsForm = async () => {
   await store.dispatch('communal/loadRates')
-  closeModal.value = true
+  closeFormModal.value = true
 }
 
 onMounted(async () => {
