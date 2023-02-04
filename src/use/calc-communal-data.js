@@ -39,21 +39,21 @@ export function useCalcCommunalData(e, g, w, prevData, rates) {
 
   return {
     electr: {
-      prev: prevData.value?.electr.prev,
+      prev: prevData.value?.electr?.current,
       current: e,
       diff: diffElectr.value,
       rate: rates.value.electr,
       amount: amount.value.electr
     },
     gas: {
-      prev: prevData.value?.gas.prev,
+      prev: prevData.value?.gas?.current,
       current: g,
       diff: diffGas.value,
       rate: rates.value.gas,
       amount: amount.value.gas
     },
     water: {
-      prev: prevData.value?.water.prev,
+      prev: prevData.value?.water?.current,
       current: w,
       diff: diffWater.value,
       rate: rates.value.water,
