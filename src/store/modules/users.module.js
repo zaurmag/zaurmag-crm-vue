@@ -154,11 +154,11 @@ export default {
         throw new Error()
       }
     },
-    async deleteUser({ commit, dispatch, getters }) {
+    async deleteUser({ commit, dispatch }) {
       try {
-        const uID = getters.userID
-        await axios.delete(`/users/${uID}.json`)
-        await axios.delete(`/projects/${uID}.json`)
+        // const uID = getters.userID
+        // await axios.delete(`/users/${uID}.json`)
+        // await axios.delete(`/projects/${uID}.json`)
 
         dispatch('setMessage', { value: 'Аккаунт успешно удален!', type: 'info' }, { root: true })
 
