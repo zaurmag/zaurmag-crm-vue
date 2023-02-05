@@ -22,30 +22,14 @@
         </tr>
       </thead>
 
-      <tbody v-if="loader">
-        <tr>
+      <tbody>
+        <tr v-if="loader">
           <td colspan="8">
-            <div class="placeholder-glow px-3">
-              <div
-                v-for="i in pageSize"
-                :key="i"
-                class="row gx-2 mb-2"
-              >
-                <div
-                  v-for="n in 8"
-                  :key="n"
-                  :class="n === 3 || n === 4 ? 'col-2' : n === 5 ? 'col-3' : 'col-1'"
-                >
-                  <div class="placeholder placeholder w-100 d-block" />
-                </div>
-              </div>
-            </div>
+            <app-loader-row-placeholder cols="10" />
           </td>
         </tr>
-      </tbody>
 
-      <tbody v-else>
-        <template v-if="projects && projects.length">
+        <template v-else-if="projects.length > 0">
           <tr
             v-for="(project, index) in projects"
             :key="project.id"
@@ -100,7 +84,7 @@
 
   <teleport to="body">
     <app-confirm
-      ref="confirm"
+      id="removeConfirm"
       title="Вы уверены?"
       text="Операцию нельзя будет отменить."
       @resolve="removeConfirm"
@@ -108,75 +92,58 @@
   </teleport>
 </template>
 
-<script>
+<script setup>
+import AppLoaderRowPlaceholder from '@/components/ui/AppLoaderRowPlaceholder.vue'
 import AppType from '@/components/ui/AppType.vue'
 import AppConfirm from '@/components/ui/AppConfirm.vue'
+import { showBsModal, closeBsModal } from '@/use/bs-modal'
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 
-export default {
-  name: 'ProjectList',
-  components: {
-    AppType,
-    AppConfirm
-  },
-  props: {
-    projects: {
-      type: Array,
-      required: true,
-      default() {
-        return []
-      }
-    },
-    loader: {
-      type: Boolean,
-      required: true
-    },
-    pageSize: {
-      type: Number,
-      required: false,
-      default: 10
+// eslint-disable-next-line no-undef
+const emit = defineEmits(['selected'])
+
+// eslint-disable-next-line no-undef
+const props = defineProps({
+  projects: {
+    type: Array,
+    required: true,
+    default() {
+      return []
     }
   },
-  emits: ['selected'],
-  setup(props, { emit }) {
-    const store = useStore()
-    const confirm = ref(false)
-    const projectID = ref()
-    const checkbox = ref([])
+  loader: {
+    type: Boolean,
+    required: true
+  }
+})
 
-    const remove = id => {
-      projectID.value = id
-      confirm.value.confirm = true
-    }
+const store = useStore()
+const projectID = ref()
+const checkbox = ref([])
 
-    const removeConfirm = async () => {
-      try {
-        await store.dispatch('project/delete', projectID.value)
-        await store.dispatch('project/load')
-        confirm.value.confirm = false
-      } catch (e) {
-        /* empty */
-      }
-    }
+const remove = id => {
+  projectID.value = id
+  showBsModal('#removeConfirm')
+}
 
-    const allCheckbox = computed({
-      get() {
-        emit('selected', checkbox.value)
-        return checkbox.value.length === props.projects.length && props.projects.length !== 0
-      },
-      set(val) {
-        checkbox.value = val ? props.projects.map(n => n.id) : []
-      }
-    })
-
-    return {
-      confirm,
-      remove,
-      removeConfirm,
-      checkbox,
-      allCheckbox
-    }
+const removeConfirm = async () => {
+  try {
+    await store.dispatch('project/delete', projectID.value)
+    closeBsModal('#removeConfirm')
+    await store.dispatch('project/load')
+  } catch (e) {
+    /* empty */
   }
 }
+
+const allCheckbox = computed({
+  get() {
+    emit('selected', checkbox.value)
+    return checkbox.value.length === props.projects.length && props.projects.length !== 0
+  },
+  set(val) {
+    checkbox.value = val ? props.projects.map(n => n.id) : []
+  }
+})
 </script>

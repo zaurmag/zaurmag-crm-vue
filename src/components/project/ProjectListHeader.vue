@@ -4,14 +4,14 @@
 
     <template v-if="checkboxes.length">
       <p class="text-secondary ms-3 m-0">Отмечено: {{ checkboxes.length }}</p>
-      <button
-        class="btn btn-outline-danger btn-sm ms-2"
-        type="button"
+      <app-button
+        class="ms-3"
+        class-list-btn="btn-outline-danger btn-sm p-2"
+        :icon="{ name: 'trash', placement: 'prepend' }"
         @click="$emit('remove')"
       >
-        <svg-icon name="trash" />
-        Удалить
-      </button>
+        <span class="ms-1 d-none d-lg-inline">Удалить</span>
+      </app-button>
     </template>
   </div>
   <button

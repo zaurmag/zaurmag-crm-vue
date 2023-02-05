@@ -18,7 +18,7 @@
           >
             <project-list-header
               :checkboxes="checkboxes"
-              @remove="removeAll"
+              @remove="showBsModal('#confirmAllSelected')"
             />
           </div>
 
@@ -67,7 +67,7 @@
     </app-bs-modal>
 
     <app-confirm
-      ref="confirm"
+      id="confirmAllSelected"
       :title="'Вы удаляете ' + checkboxes.length + ' элемента'"
       text="Вы уверены? Операцию нельзя будет отменить."
       @resolve="removeAllConfirm"
@@ -82,6 +82,7 @@ import ProjectFilter from '@/components/project/ProjectFilter.vue'
 import ProjectReport from '@/components/project/ProjectReport.vue'
 import ProjectForm from '@/components/project/ProjectForm.vue'
 import { useProductPaginate } from '@/use/product-paginate'
+import { showBsModal, closeBsModal } from '@/use/bs-modal'
 import { dateF } from '@/utils/date'
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
@@ -99,7 +100,6 @@ export default {
     const initialDateProject = ref(null)
     const closeModal = ref(false)
     const loader = ref(true)
-    const confirm = ref(false)
     const checkboxes = ref([])
     const store = useStore()
     const filter = ref({})
@@ -136,16 +136,12 @@ export default {
       checkboxes.value = checkboxIds
     }
 
-    const removeAll = () => {
-      confirm.value.confirm = true
-    }
-
     const removeAllConfirm = async () => {
       try {
         await store.dispatch('project/delete', checkboxes.value)
         await store.dispatch('project/load')
-        confirm.value.confirm = false
-        checkboxes.value = []
+        checkboxes.value.length = 0
+        closeBsModal('#confirmAllSelected')
       } catch (e) {
         /* empty */
       }
@@ -169,12 +165,11 @@ export default {
       initialDateProject,
       showModalHandler,
       checkboxes,
-      removeAll,
       removeAllConfirm,
-      confirm,
       PAGE_SIZE,
       projects,
       filter,
+      showBsModal,
       ...useProductPaginate(projects, PAGE_SIZE)
     }
   }
