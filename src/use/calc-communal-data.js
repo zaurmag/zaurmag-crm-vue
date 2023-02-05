@@ -1,24 +1,14 @@
 import { computed } from 'vue'
 
-export function useCalcCommunalData(e, g, w, prevData, rates) {
+export function useCalcCommunalData(curr, prev, rates) {
+  const prevElectr = prev.electr?.current ?? prev.electr
+  const prevGas = prev.gas?.current ?? prev.gas
+  const prevWater = prev.water?.current ?? prev.water
+
   // Different
-  const diffElectr = computed(() => {
-    const prev = prevData.value?.electr?.current || 0
-
-    return e === 0 ? 0 : e - prev
-  })
-
-  const diffGas = computed(() => {
-    const prev = prevData.value?.gas?.current || 0
-
-    return g === 0 ? 0 : g - prev
-  })
-
-  const diffWater = computed(() => {
-    const prev = prevData.value?.water?.current || 0
-
-    return w === 0 ? 0 : w - prev
-  })
+  const diffElectr = computed(() => (curr.electr === 0 ? 0 : curr.electr - prevElectr))
+  const diffGas = computed(() => (curr.gas === 0 ? 0 : curr.gas - prevGas))
+  const diffWater = computed(() => (curr.water === 0 ? 0 : curr.water - prevWater))
 
   // Calculate
   const amount = computed(() => {
@@ -39,22 +29,22 @@ export function useCalcCommunalData(e, g, w, prevData, rates) {
 
   return {
     electr: {
-      prev: prevData.value?.electr?.current,
-      current: e,
+      prev: prevElectr,
+      current: curr.electr,
       diff: diffElectr.value,
       rate: rates.value.electr,
       amount: amount.value.electr
     },
     gas: {
-      prev: prevData.value?.gas?.current,
-      current: g,
+      prev: prevGas,
+      current: curr.gas,
       diff: diffGas.value,
       rate: rates.value.gas,
       amount: amount.value.gas
     },
     water: {
-      prev: prevData.value?.water?.current,
-      current: w,
+      prev: prevWater,
+      current: curr.water,
       diff: diffWater.value,
       rate: rates.value.water,
       amount: amount.value.water

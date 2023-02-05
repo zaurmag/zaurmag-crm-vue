@@ -155,7 +155,7 @@
     >
       <communal-form
         v-if="communal"
-        :initial="communal"
+        :curr-initial="communal"
         @close="closeModal"
       />
     </app-bs-modal>

@@ -67,7 +67,10 @@
       :close="closeFormModal"
       @hide="closeFormModal = false"
     >
-      <communal-form @close="closeFormModal = true" />
+      <communal-form
+        :prev-initial="prevInitialData"
+        @close="closeFormModal = true"
+      />
     </app-bs-modal>
 
     <app-bs-modal
@@ -109,6 +112,7 @@ const loader = ref(true)
 const rates = computed(() => store.getters['communal/rates'] || {})
 const isRates = ref(null)
 const filter = ref({})
+const prevInitialData = computed(() => store.getters['communal/prevData'] ?? {})
 
 const items = computed(() =>
   store.getters['communal/communal']

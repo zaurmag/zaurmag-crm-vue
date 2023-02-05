@@ -9,7 +9,7 @@
           id="date"
           v-model="fields.date"
           type="date"
-          class-list-wrapper="m-0"
+          class="m-0"
           :error="fields.dError"
           @blur="fields.dBlur"
         />
@@ -24,35 +24,89 @@
       </div>
     </div>
 
-    <form-control
-      id="addRecordEl"
-      v-model.number="fields.electr"
-      label="Электричество"
-      type="number"
-      class-list-input="form-control-lg"
-      :error="fields.electrError"
-      @blur="fields.electrBlur"
-    />
+    <p class="form-label fw-medium">
+      Предыдущие:
+      <app-button
+        id="editPrevData"
+        class-list-btn="btn-light ms-10 p-1"
+        :icon="{ name: 'pencil', placement: 'prepend' }"
+        @click="prevIsDisabled = !prevIsDisabled"
+      />
+    </p>
 
-    <form-control
-      id="addRecordGas"
-      v-model.number="fields.gas"
-      label="Газ"
-      type="number"
-      class-list-input="form-control-lg"
-      :error="fields.gasError"
-      @blur="fields.gasBlur"
-    />
+    <div class="row g-10 mb-15">
+      <form-control
+        id="prevEl"
+        v-model.number="fields.prevElectr"
+        label="Электричество"
+        type="number"
+        class="col-sm"
+        class-list-input="form-control-lg"
+        :disabled="prevIsDisabled"
+        :error="fields.prevElectrError"
+        @blur="fields.prevElectrBlur"
+      />
 
-    <form-control
-      id="addRecordWater"
-      v-model.number="fields.water"
-      label="Вода"
-      type="number"
-      class-list-input="form-control-lg"
-      :error="fields.waterError"
-      @blur="fields.waterBlur"
-    />
+      <form-control
+        id="prevGas"
+        v-model.number="fields.prevGas"
+        label="Газ"
+        type="number"
+        class="col-sm"
+        class-list-input="form-control-lg"
+        :disabled="prevIsDisabled"
+        :error="fields.prevGasError"
+        @blur="fields.prevGasBlur"
+      />
+
+      <form-control
+        id="prevWater"
+        v-model.number="fields.prevWater"
+        label="Вода"
+        type="number"
+        class="col-sm"
+        class-list-input="form-control-lg"
+        :disabled="prevIsDisabled"
+        :error="fields.prevWaterError"
+        @blur="fields.prevWaterBlur"
+      />
+    </div>
+
+    <p class="form-label fw-medium">Текущие:</p>
+    <div class="row g-10">
+      <form-control
+        id="addRecordEl"
+        v-model.number="fields.electr"
+        label="Электричество"
+        type="number"
+        class="col-sm"
+        class-list-input="form-control-lg"
+        :error="fields.electrError"
+        @blur="fields.electrBlur"
+      />
+
+      <form-control
+        id="addRecordGas"
+        v-model.number="fields.gas"
+        label="Газ"
+        type="number"
+        class="col-sm"
+        class-list-input="form-control-lg"
+        :error="fields.gasError"
+        @blur="fields.gasBlur"
+      />
+
+      <form-control
+        id="addRecordWater"
+        v-model.number="fields.water"
+        label="Вода"
+        type="number"
+        class="col-sm"
+        class-list-input="form-control-lg"
+        :error="fields.waterError"
+        @blur="fields.waterBlur"
+      />
+    </div>
 
     <form-control
       id="addRecordDesc"
@@ -64,10 +118,10 @@
       @blur="fields.descBlur"
     />
 
-    <div class="mb-3">
-      <p class="form-label">Прикрепить фото квитанции</p>
-      <f-upload />
-    </div>
+    <!-- <div class="mb-3">-->
+    <!--   <p class="form-label">Прикрепить фото квитанции</p>-->
+    <!--   <f-upload />-->
+    <!-- </div>-->
 
     <div class="text-center mt-30">
       <app-button
@@ -82,21 +136,27 @@
 </template>
 
 <script setup>
-import FUpload from '@/components/ui/FUpload.vue'
 import { useCommunalForm } from '@/use/communal-form'
-import { reactive, computed } from 'vue'
+import { ref, reactive, computed, nextTick } from 'vue'
 import { useStore } from 'vuex'
 import { useCalcCommunalData } from '@/use/calc-communal-data'
 import { isHasKeysObject } from '@/utils/helpers'
+
+// import FUpload from '@/components/ui/FUpload.vue'
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['close', 'submit'])
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
-  initial: {
+  currInitial: {
     type: Object,
-    required: false,
+    default() {
+      return {}
+    }
+  },
+  prevInitial: {
+    type: Object,
     default() {
       return {}
     }
@@ -104,25 +164,25 @@ const props = defineProps({
 })
 
 const store = useStore()
-let { ...fields } = useCommunalForm(props.initial)
+let { ...fields } = useCommunalForm(props.currInitial, props.prevInitial)
 fields = reactive(fields)
 
-const prevData = computed(() => store.getters['communal/prevData'] ?? {})
+const prevIsDisabled = ref(true)
 const rates = computed(() => store.getters['communal/rates'] || {})
 
 const onSubmit = fields.handleSubmit(async ({ status, date, desc }) => {
   try {
     const dateNow = new Date()
     const fullDate = `${date} ${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`
-    const isInitial = isHasKeysObject(props.initial)
+    const isInitial = isHasKeysObject(props.currInitial)
+    const currValues = { electr: fields.electr, gas: fields.gas, water: fields.water }
+    const prevValues = {
+      electr: fields.prevElectr,
+      gas: fields.prevGas,
+      water: fields.prevWater
+    }
 
-    const { ...calcData } = useCalcCommunalData(
-      fields.electr,
-      fields.gas,
-      fields.water,
-      prevData,
-      rates
-    )
+    const { ...calcData } = useCalcCommunalData(currValues, prevValues, rates)
 
     const payload = {
       date: fullDate,
@@ -133,7 +193,7 @@ const onSubmit = fields.handleSubmit(async ({ status, date, desc }) => {
 
     if (isInitial) {
       await store.dispatch('communal/update', {
-        id: props.initial.id,
+        id: props.currInitial?.id,
         ...payload
       })
       emit('close')
