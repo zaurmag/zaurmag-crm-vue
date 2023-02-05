@@ -105,6 +105,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { isHasKeysObject } from '@/utils/helpers'
 import { showBsModal, closeBsModal } from '@/use/bs-modal'
+import { dateF } from '@/utils/date'
 
 const store = useStore()
 const closeFormModal = ref(false)
@@ -118,9 +119,11 @@ const items = computed(() =>
   store.getters['communal/communal']
     .filter(req => {
       if (filter.value.dateFrom && filter.value.dateTo) {
+        const reqDate = dateF(req.date, { locale: 'fr-CA' })
+
         return (
-          new Date(filter.value.dateFrom) <= new Date(req.date) &&
-          new Date(req.date) <= new Date(filter.value.dateTo)
+          new Date(filter.value.dateFrom) <= new Date(reqDate) &&
+          new Date(reqDate) <= new Date(filter.value.dateTo)
         )
       }
 
