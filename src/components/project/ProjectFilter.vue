@@ -1,32 +1,41 @@
 <template>
-  <div class="form form--filter row gy-3 gy-xl-2 gx-10 mt-xl-0 mt-3">
-    <div class="col-xl-auto">
-      <div class="row align-items-center g-10">
-        <div class="col-sm col-md-auto">
-          <form-select
-            v-model="periodSelect"
-            :placeholder="periodSelectPlaceholder"
-            :options="periodOptions"
-          />
-        </div>
-        <div class="col-sm">
-          <AppArbitraryPeriod
-            v-model:date-from="arbitraryPeriodFrom"
-            v-model:date-to="arbitraryPeriodTo"
-            @dates-out="arbitraryPeriodDates"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-auto">
-      <form-select
-        v-model="typeSelect"
-        :options="typeOptions"
-        placeholder="Тип операции:"
+  <div class="filter">
+    <div class="d-md-none d-flex">
+      <app-button
+        class="ms-auto"
+        :class-list-btn="`fz-18' 'p-2' ${isActive ? 'btn-primary' : 'btn-secondary'}`"
+        :attrs="{
+          'data-bs-toggle': 'collapse',
+          'data-bs-target': '#projectsFilter',
+          'aria-expanded': false
+        }"
+        :icon="{ name: 'filter', placement: 'prepend' }"
       />
     </div>
-    <div class="col-xl-auto">
-      <div class="d-flex align-items-center">
+
+    <div
+      id="projectsFilter"
+      class="filter__content row gx-10 gy-md-0 gy-10 collapse d-md-flex"
+    >
+      <div class="col-md">
+        <app-period-date-range
+          v-model:dateFrom="dateFrom"
+          v-model:dateTo="dateTo"
+          v-model:select="periodSelect"
+          :period-options="periodOptions"
+          align-end
+        />
+      </div>
+
+      <div class="col-md-auto">
+        <form-select
+          v-model="type"
+          :options="typeOptions"
+          placeholder="Статус оплаты"
+        />
+      </div>
+
+      <div class="col-md-auto">
         <form-control
           id="filterSearch"
           v-model="search"
@@ -39,99 +48,80 @@
             <svg-icon name="search" />
           </template>
         </form-control>
+      </div>
 
+      <div
+        v-if="isActive"
+        class="col-md-auto align-self-center"
+      >
         <app-button
-          v-if="isActive"
-          v-tooltip="{ title: 'Сбросить фильтр' }"
-          class-list-wrapper="ms-3"
+          class="d-none d-md-inline-flex"
           class-list-btn="btn-outline-secondary btn-round fz-16 p-0"
+          :attrs="{ 'data-bs-toggle': 'tooltip', title: 'Сбросить фильтр' }"
           :icon="{ name: 'x', placement: 'prepend' }"
           @click="reset"
         />
+
+        <app-button
+          class="d-md-none d-block"
+          class-list-btn="btn-primary w-100"
+          @click="reset"
+        >
+          Сбросить фильтр
+        </app-button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import AppArbitraryPeriod from '@/components/ui/AppArbitraryPeriod.vue'
+import AppPeriodDateRange from '@/components/ui/AppPeriodDateRange.vue'
 import { PERIOD_OPTIONS, TYPE_OPTIONS } from '@/constans'
 import { ref, watch, computed } from 'vue'
-import { dateF, relativeDate, getDateFromPeriod } from '@/utils/date'
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['update:modelValue'])
-
 // eslint-disable-next-line no-undef
 defineProps({
-  modelValue: {
-    type: Object,
-    default() {
-      return {}
-    }
-  }
+  modelValue: { type: String, default: '' }
 })
 
-const arbitraryPeriodFrom = ref()
-const arbitraryPeriodTo = ref()
-
-const periodSelectPlaceholder = 'Выбрать период'
 const periodOptions = ref(PERIOD_OPTIONS)
 const periodSelect = ref()
-
 const typeOptions = ref(TYPE_OPTIONS)
-const typeSelect = ref()
-
+const type = ref()
+const dateFrom = ref()
+const dateTo = ref()
 const search = ref()
 
-watch(
-  [search, typeSelect, arbitraryPeriodFrom, arbitraryPeriodTo, periodSelect],
-  ([search, type, apFrom, apTo, periodSelect]) => {
-    if (periodSelect) {
-      arbitraryPeriodFrom.value = getDateFromPeriod(periodSelect, true)
-      arbitraryPeriodTo.value = dateF(Date.now(), { locale: 'fr-CA' })
-    }
-
-    emit('update:modelValue', {
-      search,
-      type,
-      periodFrom: apFrom,
-      periodTo: apTo
-    })
-  }
-)
-
-const arbitraryPeriodDates = dates => {
-  const rDate = relativeDate(dates.from, dates.to)
-  const option = periodOptions.value.find(item => item.value === rDate)
-
-  arbitraryPeriodFrom.value = dates.from
-  arbitraryPeriodTo.value = dates.to
-
-  periodSelect.value = !rDate ? periodSelectPlaceholder : {}
-
-  if (option) {
-    periodSelect.value = {
-      name: option.name,
-      value: option.value
-    }
-  }
-}
-
-const isActive = computed(
-  () =>
-    search.value ||
-    typeSelect.value ||
-    periodSelect.value ||
-    arbitraryPeriodFrom.value ||
-    arbitraryPeriodTo.value
-)
+const isActive = computed(() => {
+  return dateFrom.value || dateTo.value || (type.value && type.value !== 'all') || search.value
+})
 
 const reset = () => {
-  search.value = ''
-  typeSelect.value = ''
-  arbitraryPeriodFrom.value = ''
-  arbitraryPeriodTo.value = ''
+  dateFrom.value = ''
+  dateTo.value = ''
+  type.value = ''
   periodSelect.value = ''
+  search.value = ''
 }
+
+watch([dateFrom, dateTo, type, search], ([dateFrom, dateTo, type, search]) => {
+  emit('update:modelValue', {
+    dateFrom,
+    dateTo,
+    type,
+    search
+  })
+})
 </script>
+
+<style scoped lang="sass">
+.filter
+	&__content
+		margin-top: 0
+		align-items: center
+
+		@include media-breakpoint-up(md)
+			justify-content: flex-end
+</style>

@@ -12,20 +12,13 @@
 
     <app-card :class-list="['mb-30']">
       <template #header>
-        <div class="row align-items-center">
-          <div
-            class="col-xxl mb-0 mb-xl-2 mb-xxl-0 d-flex align-items-center justify-content-between"
-          >
-            <project-list-header
-              :checkboxes="checkboxes"
-              @remove="showBsModal('#confirmAllSelected')"
-            />
-          </div>
+        <div class="row align-items-start align-items-md-center">
+          <project-list-header
+            :checkboxes="checkboxes"
+            @remove="showBsModal('#confirmAllSelected')"
+          />
 
-          <div
-            id="filter"
-            class="col-xxl-auto d-xl-block collapse"
-          >
+          <div class="col-xl">
             <project-filter v-model="filter" />
           </div>
         </div>
@@ -111,10 +104,12 @@ const projects = computed(() =>
       return request
     })
     .filter(request => {
-      if (filter.value.periodFrom && filter.value.periodTo) {
+      if (filter.value.dateFrom && filter.value.dateTo) {
+        const reqDate = dateF(request.date, { locale: 'fr-CA' })
+
         return (
-          new Date(filter.value.periodFrom) <= new Date(request.date) &&
-          new Date(request.date) <= new Date(filter.value.periodTo)
+          new Date(filter.value.dateFrom) <= new Date(reqDate) &&
+          new Date(reqDate) <= new Date(filter.value.dateTo)
         )
       }
 
