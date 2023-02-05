@@ -45,7 +45,7 @@
           v-model="page"
           :count="projects.length"
           :pages="PAGE_SIZE"
-          @changeSize="changePageSize"
+          @change-size="changePageSize"
         />
       </template>
     </app-card>
@@ -103,7 +103,7 @@ export default {
     const checkboxes = ref([])
     const store = useStore()
     const filter = ref({})
-    const PAGE_SIZE = ref({ name: 10, value: 10 })
+    const PAGE_SIZE = 10
     const projects = computed(() =>
       store.getters['project/projects']
         .filter(request => {
