@@ -1,8 +1,14 @@
 <template>
-  <div :class="['select', { 'is-open': isOpen }, { 'is-invalid': error }, classList]">
+  <div :class="['select', { 'is-open': isOpen, 'is-invalid': error }, classList]">
     <div
       ref="selectText"
-      :class="['select__text', 'btn', 'btn-light', { 'text-secondary': text === 'Выберите...' }]"
+      :class="[
+        'select__text',
+        'btn',
+        'btn-light',
+        { 'text-secondary': text === 'Выберите...' },
+        classListBtn
+      ]"
       @click="toggle"
     >
       {{ text }}
@@ -54,6 +60,10 @@ export default {
       required: true
     },
     classList: {
+      type: String,
+      default: ''
+    },
+    classListBtn: {
       type: String,
       default: ''
     }

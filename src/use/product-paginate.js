@@ -6,16 +6,17 @@ export function useProductPaginate(products, size) {
   const router = useRouter()
   const route = useRoute()
   const page = ref(route.query.p ? +route.query.p : 1)
+  const pageSize = ref(size)
 
   const _setPage = () => router.replace({ query: { p: page.value } })
 
   onMounted(_setPage)
   watch(page, _setPage)
-  const paginateItems = computed(() => {
-    return chunk(products.value, size.value.value)[page.value - 1]
-  })
+
+  const paginateItems = computed(() => chunk(products.value, pageSize.value)[page.value - 1])
+
   const changePageSize = value => {
-    size.value.value = Number(value)
+    pageSize.value = Number(value)
   }
 
   return {

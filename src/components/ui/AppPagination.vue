@@ -9,6 +9,7 @@
           <div class="text-secondary me-2">Показать:</div>
           <form-select
             v-model="selectSize"
+            class-list-btn="p-1 px-2"
             :options="optionsSize"
           />
           <div class="text-secondary ms-3">из</div>
@@ -95,26 +96,27 @@ const props = defineProps({
 const optionsSize = ref([
   {
     name: '10',
-    value: '10'
+    value: 10
   },
   {
     name: '20',
-    value: '20'
+    value: 20
   },
   {
     name: '50',
-    value: '50'
+    value: 50
   },
   {
     name: '100',
-    value: '100'
+    value: 100
   }
 ])
 const selectSize = ref(props.pages)
-const items = computed(() => Math.ceil(props.count / selectSize.value.value))
+
+const items = computed(() => Math.ceil(props.count / selectSize.value))
 
 watch(selectSize, size => {
-  emit('changeSize', size.value)
+  emit('changeSize', size)
 })
 </script>
 
