@@ -36,7 +36,7 @@
           :projects="paginateItems"
           :loader="loader"
           :page-size="PAGE_SIZE.value"
-          @selected="selectChbx"
+          @selected="selectCheckboxes"
         />
       </template>
 
@@ -75,7 +75,7 @@
   </teleport>
 </template>
 
-<script>
+<script setup>
 import ProjectList from '@/components/project/ProjectList.vue'
 import ProjectListHeader from '@/components/project/ProjectListHeader.vue'
 import ProjectFilter from '@/components/project/ProjectFilter.vue'
@@ -84,94 +84,69 @@ import ProjectForm from '@/components/project/ProjectForm.vue'
 import { useProductPaginate } from '@/use/product-paginate'
 import { showBsModal, closeBsModal } from '@/use/bs-modal'
 import { dateF } from '@/utils/date'
+import { loader, toggleLoader } from '@/use/loader'
+import { checkboxes, selectCheckboxes, resetCheckboxes } from '@/use/checkboxes'
 import { computed, onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 
-export default {
-  name: 'HomeView',
-  components: {
-    ProjectList,
-    ProjectListHeader,
-    ProjectFilter,
-    ProjectReport,
-    ProjectForm
-  },
-  setup() {
-    const initialDateProject = ref(null)
-    const closeModal = ref(false)
-    const loader = ref(true)
-    const checkboxes = ref([])
-    const store = useStore()
-    const filter = ref({})
-    const PAGE_SIZE = 10
-    const projects = computed(() =>
-      store.getters['project/projects']
-        .filter(request => {
-          if (filter.value.search) {
-            return request.title.toLowerCase().includes(filter.value.search.toLowerCase())
-          }
-
-          return request
-        })
-        .filter(request => {
-          if (filter.value.type) {
-            return filter.value.type === request.type || filter.value.type === 'all'
-          }
-
-          return request
-        })
-        .filter(request => {
-          if (filter.value.periodFrom && filter.value.periodTo) {
-            return (
-              new Date(filter.value.periodFrom) <= new Date(request.date) &&
-              new Date(request.date) <= new Date(filter.value.periodTo)
-            )
-          }
-
-          return request
-        })
-    )
-
-    const selectChbx = checkboxIds => {
-      checkboxes.value = checkboxIds
-    }
-
-    const removeAllConfirm = async () => {
-      try {
-        await store.dispatch('project/delete', checkboxes.value)
-        await store.dispatch('project/load')
-        checkboxes.value.length = 0
-        closeBsModal('#confirmAllSelected')
-      } catch (e) {
-        /* empty */
+const initialDateProject = ref(null)
+const closeModal = ref(false)
+const store = useStore()
+const filter = ref({})
+const PAGE_SIZE = 10
+const projects = computed(() =>
+  store.getters['project/projects']
+    .filter(request => {
+      if (filter.value.search) {
+        return request.title.toLowerCase().includes(filter.value.search.toLowerCase())
       }
-    }
 
-    const showModalHandler = () => {
-      initialDateProject.value = {
-        date: dateF(new Date(), { locale: 'sv-SE' })
-      }
-    }
-
-    onMounted(async () => {
-      await store.dispatch('project/load')
-      loader.value = false
+      return request
     })
+    .filter(request => {
+      if (filter.value.type) {
+        return filter.value.type === request.type || filter.value.type === 'all'
+      }
 
-    return {
-      loader,
-      selectChbx,
-      closeModal,
-      initialDateProject,
-      showModalHandler,
-      checkboxes,
-      removeAllConfirm,
-      PAGE_SIZE,
-      projects,
-      filter,
-      showBsModal,
-      ...useProductPaginate(projects, PAGE_SIZE)
-    }
+      return request
+    })
+    .filter(request => {
+      if (filter.value.periodFrom && filter.value.periodTo) {
+        return (
+          new Date(filter.value.periodFrom) <= new Date(request.date) &&
+          new Date(request.date) <= new Date(filter.value.periodTo)
+        )
+      }
+
+      return request
+    })
+)
+const { page, paginateItems, changePageSize } = useProductPaginate(projects, PAGE_SIZE)
+const removeAllConfirm = async () => {
+  try {
+    await store.dispatch('project/delete', checkboxes.value)
+    await store.dispatch('project/load')
+    resetCheckboxes()
+  } catch (e) {
+    /* empty */
+  } finally {
+    closeBsModal('#confirmAllSelected')
   }
 }
+
+const showModalHandler = () => {
+  initialDateProject.value = {
+    date: dateF(new Date(), { locale: 'sv-SE' })
+  }
+}
+
+onMounted(async () => {
+  try {
+    await store.dispatch('project/load')
+  } catch (e) {
+    /* empty */
+  } finally {
+    toggleLoader(false)
+  }
+})
 </script>
