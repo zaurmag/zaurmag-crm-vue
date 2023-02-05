@@ -54,17 +54,14 @@ const emit = defineEmits(['update:dateFrom', 'update:dateTo', 'update:select'])
 const props = defineProps({
   dateFrom: {
     type: String,
-    required: true,
     default: ''
   },
   dateTo: {
     type: String,
-    required: true,
     default: ''
   },
   select: {
     type: String,
-    required: true,
     default: ''
   },
   periodOptions: {
