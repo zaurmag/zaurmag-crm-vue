@@ -61,9 +61,7 @@
             <td>{{ item.trash.amount }}</td>
             <td>{{ $currency(item.amount) }}</td>
             <td>
-              <app-indicator
-                :class-list="['me-2', `${item.status ? 'bg-success' : 'bg-warning'}`]"
-              />
+              <app-indicator :class-list="`me-2 ${item.status ? 'bg-success' : 'bg-warning'}`" />
               {{ item.status ? 'Оплачено' : 'Не оплачено' }}
             </td>
             <td>

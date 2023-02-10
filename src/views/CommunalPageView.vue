@@ -8,10 +8,7 @@
     <app-loader />
   </div>
 
-  <app-page-header
-    v-else
-    class="d-block"
-  >
+  <app-page-header v-else>
     <template #header>
       <div class="row align-items-center g-20 w-100">
         <div class="col-sm d-flex align-items-center">
@@ -20,10 +17,7 @@
           </h1>
           <div class="ms-3 d-none d-sm-block text-nowrap">
             <app-indicator
-              :class-list="[
-                'me-2 indicator--lg',
-                `${communal.status ? 'bg-success' : 'bg-warning'}`
-              ]"
+              :class-list="`me-2 indicator--lg ${communal.status ? 'bg-success' : 'bg-warning'}`"
             />
             <span class="fz-16">{{ communal.status ? 'Оплачено' : 'Не оплачено' }}</span>
           </div>
@@ -31,12 +25,7 @@
 
         <div class="col-sm-auto d-flex align-items-center justify-content-between">
           <div class="me-3 d-sm-none">
-            <app-indicator
-              :class-list="[
-                'me-10 indicator--lg',
-                `${communal.status ? 'bg-success' : 'bg-warning'}`
-              ]"
-            />
+            <app-indicator :class-list="`me-2 ${communal.status ? 'bg-success' : 'bg-warning'}`" />
             <span class="fz-16">{{ communal.status ? 'Оплачено' : 'Не оплачено' }}</span>
           </div>
           <div class="d-flex align-items-center">

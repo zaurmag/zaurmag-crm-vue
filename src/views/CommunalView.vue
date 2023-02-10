@@ -28,7 +28,7 @@
       </div>
     </template>
 
-    <app-card :class-list="['mb-30']">
+    <app-card class-list="mb-30">
       <template #header>
         <div class="row align-items-start align-items-md-center">
           <communal-list-header
@@ -36,7 +36,10 @@
             @remove="showBsModal('#confirmAllSelected')"
           />
 
-          <div class="col">
+          <div
+            v-if="items.length"
+            class="col"
+          >
             <communal-filter v-model="filter" />
           </div>
         </div>
@@ -45,7 +48,7 @@
       <communal-list
         :items="items"
         :loader="loader"
-        @selected="selectChbx"
+        @selected="selectCheckboxes"
       />
 
       <!-- <template #footer>-->
@@ -61,7 +64,6 @@
 
   <teleport to="body">
     <app-bs-modal
-      v-if="isRates"
       id="addCommunalRecord"
       title="Добавить показания счетчиков"
       :close="closeFormModal"
@@ -80,7 +82,7 @@
       @hide="closeFormModal = false"
     >
       <communal-settings-form
-        v-if="isRates"
+        :key="rates?.id"
         :initials="rates"
         @submit="closeSettingsForm"
       />
@@ -103,16 +105,15 @@ import CommunalForm from '@/components/communal/CommunalForm.vue'
 import CommunalSettingsForm from '@/components/communal/CommunalSettingsForm.vue'
 import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { isHasKeysObject } from '@/utils/helpers'
 import { showBsModal, closeBsModal } from '@/use/bs-modal'
+import { checkboxes, selectCheckboxes, resetCheckboxes } from '@/use/checkboxes'
 import { dateF } from '@/utils/date'
 
 const store = useStore()
 const closeFormModal = ref(false)
 const loader = ref(true)
-const rates = computed(() => store.getters['communal/rates'] || {})
-const isRates = ref(null)
 const filter = ref({})
+const rates = computed(() => store.getters['communal/rates'] || {})
 const prevInitialData = computed(() => store.getters['communal/prevData'] ?? {})
 
 const items = computed(() =>
@@ -139,18 +140,11 @@ const items = computed(() =>
     })
 )
 
-// Checkboxes
-let checkboxes = ref([])
-
-const selectChbx = checkboxIds => {
-  checkboxes.value = checkboxIds
-}
-
 const removeAllConfirm = async () => {
   try {
     await store.dispatch('communal/delete', checkboxes.value)
     await store.dispatch('communal/load')
-    checkboxes.value.length = 0
+    resetCheckboxes()
     closeBsModal('#confirmAllSelected')
   } catch (e) {
     /* empty */
@@ -166,7 +160,6 @@ const closeSettingsForm = async () => {
 onMounted(async () => {
   await store.dispatch('communal/load')
   await store.dispatch('communal/loadRates')
-  isRates.value = isHasKeysObject(rates.value)
   loader.value = false
 })
 </script>

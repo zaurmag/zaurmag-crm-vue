@@ -1,6 +1,7 @@
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useStore } from 'vuex'
+import { isHasKeysObject } from '@/utils/helpers'
 
 export function useCommunalSettingsForm(initialValues, emit) {
   const store = useStore()
@@ -56,7 +57,7 @@ export function useCommunalSettingsForm(initialValues, emit) {
 
   const onSubmit = handleSubmit(async values => {
     try {
-      if (initialValues) {
+      if (isHasKeysObject(initialValues)) {
         await store.dispatch('communal/updateRates', {
           ...values,
           id: initialValues.id
