@@ -31,15 +31,15 @@
       @blur="wBlur"
     />
 
-    <div class="mb-3 row">
-      <p class="form-label">Мусор</p>
+    <p class="form-label">Мусор</p>
+    <div class="mb-3 row g-20">
       <form-control
         id="zhkhTrashTarif"
         v-model.number="trash"
         type="text"
         label="1 чел., руб."
+        class="col"
         class-list-input="form-control-lg"
-        class-list-wrapper="col"
         :error="tError"
         @blur="tBlur"
       />
@@ -48,8 +48,8 @@
         v-model.number="people"
         type="text"
         label="Прописано, чел."
+        class="col"
         class-list-input="form-control-lg"
-        class-list-wrapper="col"
         :error="pError"
         @blur="pBlur"
       />
@@ -83,7 +83,9 @@ export default {
   props: {
     initials: {
       type: Object,
-      required: true
+      default() {
+        return {}
+      }
     }
   },
   emits: ['submit'],

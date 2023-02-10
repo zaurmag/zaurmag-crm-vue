@@ -68,7 +68,10 @@ import { PERIOD_OPTIONS, STATUS_OPTIONS } from '@/constans'
 const emit = defineEmits(['update:modelValue'])
 // eslint-disable-next-line no-undef
 defineProps({
-  modelValue: { type: String, default: '' }
+  modelValue: {
+    type: Object,
+    required: true
+  }
 })
 
 const periodOptions = ref(PERIOD_OPTIONS.slice(3))
