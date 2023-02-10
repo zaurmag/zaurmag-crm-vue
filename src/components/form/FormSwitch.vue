@@ -23,10 +23,8 @@ const emit = defineEmits(['update:modelValue'])
 // eslint-disable-next-line no-undef
 const props = defineProps({
   modelValue: {
-    type: Object,
-    default() {
-      return {}
-    }
+    type: Boolean,
+    default: false
   },
   label: {
     type: String,

@@ -66,7 +66,7 @@
 import { ref, computed } from 'vue'
 
 // eslint-disable-next-line no-undef
-const emits = defineEmits('blur', 'input')
+const emits = defineEmits(['blur', 'input', 'update:modelValue'])
 // eslint-disable-next-line no-undef
 const props = defineProps({
   label: {
@@ -82,7 +82,7 @@ const props = defineProps({
     default: 'text'
   },
   modelValue: {
-    type: String,
+    type: [String, Number],
     default: ''
   },
   error: {
