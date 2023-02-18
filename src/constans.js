@@ -27,7 +27,8 @@ export const PERIOD_OPTIONS = [
 
 export const TYPE_OPTIONS = [
   {
-    name: 'Все'
+    name: 'Все',
+    value: 'all'
   },
   {
     name: 'Приход',
@@ -58,7 +59,20 @@ export const STATUS_OPTIONS = [
   }
 ]
 
-export const MONTHS = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Ноя', 'Дек']
+export const MONTHS = [
+  'Янв',
+  'Фев',
+  'Март',
+  'Апр',
+  'Май',
+  'Июнь',
+  'Июль',
+  'Авг',
+  'Сент',
+  'Окт',
+  'Ноя',
+  'Дек'
+]
 
 // Users
 export const USER_STATUS = [

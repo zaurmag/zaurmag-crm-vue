@@ -1,170 +1,131 @@
 <template>
-  <form action="#" @submit.prevent="fields.onSubmit">
-    <div class="row mb-30 justify-content-between align-items-center">
-      <div class="col-lg-4 col-sm-6 order-2 order-sm-1">
+  <form
+    action="#"
+    @submit.prevent="onSubmit"
+  >
+    <div class="row mb-30 align-items-center">
+      <div class="col-sm mb-3 mb-sm-0">
         <form-control
           id="date"
-          type="date"
-          classListWrapper="m-0"
-          classListInput="form-control-lg"
           v-model="fields.date"
+          type="date"
+          class="m-0"
           :error="fields.dError"
           @blur="fields.dBlur"
         />
       </div>
-      <div class="col-sm-auto order-1 order-sm-2 mb-3 mb-sm-0">
-        <form-checkbox
+      <div class="col-sm d-flex justify-content-sm-end">
+        <form-switch
           id="status"
-          :label="fields.status ? 'Оплачено' : 'Не оплачено'"
-          :classListLabel="fields.status ? 'text-primary' : 'text-secondary'"
           v-model="fields.status"
+          :label="fields.status ? 'Оплачено' : 'Не оплачено'"
+          :class-list-label="fields.status ? 'text-primary' : 'text-secondary'"
         />
       </div>
     </div>
 
-    <p class="h4 col mb-3">Предыдущие:</p>
-    <div class="row g-15 mb-30">
+    <p class="form-label fw-medium">
+      Предыдущие:
+      <app-button
+        id="editPrevData"
+        class-list-btn="btn-light ms-10 p-1"
+        :icon="{ name: 'pencil', placement: 'prepend' }"
+        @click="prevIsDisabled = !prevIsDisabled"
+      />
+    </p>
+
+    <div class="row g-10 mb-15">
       <form-control
-        id="addRecordElPrev"
+        id="prevEl"
+        v-model.number="fields.prevElectr"
         label="Электричество"
         type="number"
-        classListWrapper="col-sm"
-        classListInput="form-control-lg"
-        v-model="fields.prevElctr"
-        disabled
+        class="col-sm"
+        class-list-input="form-control-lg"
+        :disabled="prevIsDisabled"
+        :error="fields.prevElectrError"
+        @blur="fields.prevElectrBlur"
       />
 
       <form-control
-        id="addRecordGasPrev"
+        id="prevGas"
+        v-model.number="fields.prevGas"
         label="Газ"
         type="number"
-        classListWrapper="col-sm"
-        classListInput="form-control-lg"
-        v-model.number="fields.prevGas"
-        disabled
+        class="col-sm"
+        class-list-input="form-control-lg"
+        :disabled="prevIsDisabled"
+        :error="fields.prevGasError"
+        @blur="fields.prevGasBlur"
       />
 
       <form-control
-        id="addRecordWaterPrev"
+        id="prevWater"
+        v-model.number="fields.prevWater"
         label="Вода"
         type="number"
-        classListWrapper="col-sm"
-        classListInput="form-control-lg"
-        v-model.number="fields.prevWater"
-        disabled
+        class="col-sm"
+        class-list-input="form-control-lg"
+        :disabled="prevIsDisabled"
+        :error="fields.prevWaterError"
+        @blur="fields.prevWaterBlur"
       />
     </div>
 
-    <p class="h4 mb-3">Текущие:</p>
-    <div class="row g-15 mb-30">
+    <p class="form-label fw-medium">Текущие:</p>
+    <div class="row g-10">
       <form-control
         id="addRecordEl"
+        v-model.number="fields.electr"
         label="Электричество"
         type="number"
-        classListWrapper="col-sm"
-        classListInput="form-control-lg"
-        v-model.number="fields.elctr"
-        :error="fields.elctrError"
-        @blur="fields.elctrBlur"
+        class="col-sm"
+        class-list-input="form-control-lg"
+        :error="fields.electrError"
+        @blur="fields.electrBlur"
       />
 
       <form-control
         id="addRecordGas"
+        v-model.number="fields.gas"
         label="Газ"
         type="number"
-        classListWrapper="col-sm"
-        classListInput="form-control-lg"
-        v-model.number="fields.gas"
+        class="col-sm"
+        class-list-input="form-control-lg"
         :error="fields.gasError"
         @blur="fields.gasBlur"
       />
 
       <form-control
         id="addRecordWater"
+        v-model.number="fields.water"
         label="Вода"
         type="number"
-        classListWrapper="col-sm"
-        classListInput="form-control-lg"
-        v-model.number="fields.water"
+        class="col-sm"
+        class-list-input="form-control-lg"
         :error="fields.waterError"
         @blur="fields.waterBlur"
       />
     </div>
 
-    <p class="h4 mb-3">Итог:</p>
-    <div class="row mb-30">
-      <div class="col-sm">
-        <div class="row">
-          <div class="col">
-            <span class="fz-16">{{ fields.diffElectr }} кв/ч</span>
-            <hr class="my-2">
-          </div>
-          <div class="col">
-            <span class="fz-16">{{ $currency(fields.electrCalc) }}</span>
-            <hr class="my-2">
-          </div>
-        </div>
+    <form-control
+      id="addRecordDesc"
+      v-model="fields.desc"
+      label="Описание"
+      type="textarea"
+      :error="fields.descError"
+      class-list-input="form-control-lg h-100"
+      @blur="fields.descBlur"
+    />
 
-      </div>
-      <div class="col-sm">
-        <div class="row">
-          <div class="col">
-            <span class="fz-16">{{ fields.diffGas }} м<sup>3</sup></span>
-            <hr class="my-2">
-          </div>
-          <div class="col">
-            <span class="fz-16">{{ $currency(fields.gasCalc) }} </span>
-            <hr class="my-2">
-          </div>
-        </div>
-      </div>
-      <div class="col-sm">
-        <div class="row">
-          <div class="col">
-            <span class="fz-16">{{ fields.diffWater }} м<sup>3</sup></span>
-            <hr class="my-2">
-          </div>
-          <div class="col">
-            <span class="fz-16">{{ $currency(fields.waterCalc) }}</span>
-            <hr class="my-2">
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- <div class="mb-3">-->
+    <!--   <p class="form-label">Прикрепить фото квитанции</p>-->
+    <!--   <f-upload />-->
+    <!-- </div>-->
 
-    <div class="mb-30">
-      <p class="h4 mb-3">К оплате:</p>
-      <p class="h3 text-success">{{ $currency(fields.amount) }} </p>
-    </div>
-
-    <div class="row g-15 mb-3">
-      <div class="col-sm">
-        <p class="form-label">Прикрепить фото квитанции</p>
-        <div class="f-upload">
-          <div class="f-upload__area">
-            <app-icon name="image" classList="f-upload__image" />
-            <h5 class="h6 f-upload__title">Перетащите файл сюда</h5>
-            <p class="f-upload__desc">или</p>
-            <span class="btn btn-primary btn-sm px-3">Загрузите</span>
-          </div>
-        </div>
-      </div>
-
-      <form-control
-        id="addRecordDesc"
-        label="Описание"
-        type="textarea"
-        :error="fields.descError"
-        @blur="fields.descBlur"
-        v-model="fields.desc"
-        classListWrapper="col-sm d-flex flex-column"
-        classListInput="form-control-lg h-100"
-      />
-    </div>
-
-    <div class="text-center">
+    <div class="text-center mt-30">
       <app-button
-        classListBtn="btn-primary w-100 px-4"
+        class-list-btn="btn-primary w-100 px-4"
         type="submit"
         :animate="{ loading: fields.isSubmitting }"
       >
@@ -176,17 +137,80 @@
 
 <script setup>
 import { useCommunalForm } from '@/use/communal-form'
-import { ref } from 'vue'
+import { ref, reactive, computed, nextTick } from 'vue'
+import { useStore } from 'vuex'
+import { useCalcCommunalData } from '@/use/calc-communal-data'
+import { isHasKeysObject } from '@/utils/helpers'
 
+// import FUpload from '@/components/ui/FUpload.vue'
+
+// eslint-disable-next-line no-undef
 const emit = defineEmits(['close', 'submit'])
 
+// eslint-disable-next-line no-undef
 const props = defineProps({
-  currentInitial: {
+  currInitial: {
     type: Object,
-    required: false
+    default() {
+      return {}
+    }
+  },
+  prevInitial: {
+    type: Object,
+    default() {
+      return {}
+    }
   }
 })
 
-let { ...fields } = useCommunalForm(props.currentInitial, emit)
-fields = ref(fields)
+const store = useStore()
+let { ...fields } = useCommunalForm(props.currInitial, props.prevInitial)
+fields = reactive(fields)
+
+const prevIsDisabled = ref(true)
+const rates = computed(() => store.getters['communal/rates'] || {})
+
+const onSubmit = fields.handleSubmit(async ({ status, date, desc }) => {
+  try {
+    const dateNow = new Date()
+    const fullDate = `${date} ${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`
+    const isInitial = isHasKeysObject(props.currInitial)
+    const currValues = { electr: fields.electr, gas: fields.gas, water: fields.water }
+    const prevValues = {
+      electr: fields.prevElectr,
+      gas: fields.prevGas,
+      water: fields.prevWater
+    }
+
+    const { ...calcData } = useCalcCommunalData(currValues, prevValues, rates)
+
+    const payload = {
+      date: fullDate,
+      status,
+      desc,
+      ...calcData
+    }
+
+    if (isInitial) {
+      await store.dispatch('communal/update', {
+        id: props.currInitial?.id,
+        ...payload
+      })
+      emit('close')
+
+      return
+    }
+
+    await store.dispatch('communal/add', {
+      id: Date.now().toString(),
+      ...payload
+    })
+
+    emit('close')
+    fields.resetForm()
+    await store.dispatch('communal/load')
+  } catch (e) {
+    /* empty */
+  }
+})
 </script>

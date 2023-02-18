@@ -1,26 +1,26 @@
-import AppPage from '../components/ui/AppPage'
-import AppButton from '../components/ui/AppButton'
-import AppIcon from '@/components/ui/AppIcon'
-import AppCard from '@/components/ui/AppCard'
-import AppBreadcrumb from '@/components/AppBreadcrumb'
-import AppIndicator from '@/components/ui/AppIndicator'
-import AppModal from '@/components/ui/AppModal'
-import AppBsModal from '@/components/ui/AppBsModal'
-import AppConfirm from '@/components/ui/AppConfirm'
-import AppPagination from '@/components/ui/AppPagination'
-import AppLoader from '@/components/ui/AppLoader'
-import AppSelect from '@/components/ui/AppSelect'
-import FormControl from '@/components/form/FormControl'
-import FormSelect from '@/components/form/FormSelect'
-import FormCheckbox from '@/components/form/FormCheckbox'
-import { QuillEditor } from '@vueup/vue-quill'
+// App UI
+import AppPageHeader from '@/components/AppPageHeader.vue'
+import AppButton from '@/components/ui/AppButton.vue'
+import SvgIcon from '@/components/ui/SvgIcon.vue'
+import AppCard from '@/components/ui/AppCard.vue'
+import AppBreadcrumb from '@/components/AppBreadcrumb.vue'
+import AppIndicator from '@/components/ui/AppIndicator.vue'
+import AppModal from '@/components/ui/AppModal.vue'
+import AppBsModal from '@/components/ui/AppBsModal.vue'
+import AppConfirm from '@/components/ui/AppConfirm.vue'
+import AppPagination from '@/components/ui/AppPagination.vue'
+import AppLoader from '@/components/ui/AppLoader.vue'
+
+// Form elements
+import FormControl from '@/components/form/FormControl.vue'
+import FormSelect from '@/components/form/FormSelect.vue'
+import FormSwitch from '@/components/form/FormSwitch.vue'
 
 export default [
-  AppPage,
-  AppIcon,
+  AppPageHeader,
+  SvgIcon,
   AppCard,
   AppBreadcrumb,
-  QuillEditor,
   AppModal,
   AppBsModal,
   AppConfirm,
@@ -29,7 +29,6 @@ export default [
   AppLoader,
   AppButton,
   FormControl,
-  AppSelect,
   FormSelect,
-  FormCheckbox
+  FormSwitch
 ]

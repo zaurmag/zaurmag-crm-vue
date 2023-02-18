@@ -1,69 +1,72 @@
 <template>
-  <form action="#" @submit.prevent="onSubmit">
+  <form
+    action="#"
+    @submit.prevent="onSubmit"
+  >
     <form-control
       id="zhkhEl"
+      v-model.number="electr"
       type="text"
       label="Электричество, 1 кв/ч, руб."
-      classListInput="form-control-lg"
-      v-model.number="electr"
+      class-list-input="form-control-lg"
       :error="eError"
       @blur="eBlur"
     />
     <form-control
       id="zhkhGas"
+      v-model.number="gas"
       type="text"
       label="Газ, 1 куб/м, руб."
-      classListInput="form-control-lg"
-      v-model.number="gas"
+      class-list-input="form-control-lg"
       :error="gError"
       @blur="gBlur"
     />
     <form-control
       id="zhkhWater"
+      v-model.number="water"
       type="text"
       label="Вода с канализацией, 1 куб/м, руб."
-      classListInput="form-control-lg"
-      v-model.number="water"
+      class-list-input="form-control-lg"
       :error="wError"
       @blur="wBlur"
     />
 
-    <div class="mb-3 row">
-      <p class="form-label">Мусор</p>
+    <p class="form-label">Мусор</p>
+    <div class="mb-3 row g-20">
       <form-control
         id="zhkhTrashTarif"
+        v-model.number="trash"
         type="text"
         label="1 чел., руб."
-        classListInput="form-control-lg"
-        classListWrapper="col"
-        v-model.number="trash"
+        class="col"
+        class-list-input="form-control-lg"
         :error="tError"
         @blur="tBlur"
       />
       <form-control
         id="zhkhTrashPropisano"
+        v-model.number="people"
         type="text"
         label="Прописано, чел."
-        classListInput="form-control-lg"
-        classListWrapper="col"
-        v-model.number="people"
+        class="col"
+        class-list-input="form-control-lg"
         :error="pError"
         @blur="pBlur"
       />
     </div>
     <form-control
       id="zhkhGasObsl"
+      v-model.number="maintanceGe"
       type="text"
       label="Обслуживание газ. оборудования, руб."
-      classListInput="form-control-lg"
-      v-model.number="maintanceGe"
+      class-list-input="form-control-lg"
       :error="mgeError"
       @blur="mgeBlur"
     />
 
     <app-button
-      classListWrapper="w-100"
-      classListBtn="btn-primary w-100 px-3"
+      class-list-wrapper="w-100"
+      class-list-btn="btn-primary w-100 px-3"
       type="submit"
       :animate="{ loading: isSubmitting }"
     >
@@ -77,14 +80,16 @@ import { useCommunalSettingsForm } from '@/use/communal-settings-form'
 
 export default {
   name: 'CommunalSettingsForm',
-  emits: ['close'],
   props: {
     initials: {
       type: Object,
-      required: false
+      default() {
+        return {}
+      }
     }
   },
-  setup (props, { emit }) {
+  emits: ['submit'],
+  setup(props, { emit }) {
     return {
       ...useCommunalSettingsForm(props.initials, emit)
     }

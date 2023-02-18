@@ -3,7 +3,7 @@ import { useStore } from 'vuex'
 import { hideBsModal } from '@/use/bs-modal'
 import { getUser } from '@/use/user'
 
-export function useUploadImage (modalId) {
+export function useUploadImage(modalId) {
   const store = useStore()
   const progressModal = ref(null)
   const cancel = ref(false)
@@ -20,7 +20,7 @@ export function useUploadImage (modalId) {
     })
   }
 
-  const progressUpload = (value) => {
+  const progressUpload = value => {
     progressModal.value = value
   }
 

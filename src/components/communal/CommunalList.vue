@@ -5,7 +5,11 @@
         <tr>
           <th class="table-cell-check">
             <div class="form-check">
-              <input class="form-check-input float-none" type="checkbox" v-model="allCheckbox">
+              <input
+                v-model="allCheckbox"
+                class="form-check-input float-none"
+                type="checkbox"
+              />
             </div>
           </th>
           <th>#</th>
@@ -28,30 +32,51 @@
         </tr>
 
         <template v-else-if="items.length">
-          <tr v-for="(item, index) in items" :key="item.id">
+          <tr
+            v-for="(item, index) in items"
+            :key="item.id"
+          >
             <td>
               <div class="form-check">
-                <input class="form-check-input float-none" type="checkbox">
+                <input
+                  v-model="checkbox"
+                  class="form-check-input float-none"
+                  type="checkbox"
+                  :value="item.id"
+                />
               </div>
             </td>
             <td>{{ index + 1 }}</td>
-            <td><a class="table-cell-title-link is-transition" href="#">{{ $dateF(item.date) + ' г.' }}</a></td>
-            <td>{{ item.elctr }}</td>
-            <td>{{ item.gas }}</td>
-            <td>{{ item.water }}</td>
-            <td>{{ item.trash }}</td>
+            <td>
+              <router-link
+                class="table-cell-title-link is-transition"
+                :to="{ name: 'CommunalPage', params: { id: item.id } }"
+              >
+                {{ $dateF(item.date) + ' г.' }}
+              </router-link>
+            </td>
+            <td>{{ item.electr.current }}</td>
+            <td>{{ item.gas.current }}</td>
+            <td>{{ item.water.current }}</td>
+            <td>{{ item.trash.amount }}</td>
             <td>{{ $currency(item.amount) }}</td>
             <td>
-              <app-indicator :classList="['me-2', `${item.status ? 'bg-success' : 'bg-warning'}`]" />
+              <app-indicator :class-list="`me-2 ${item.status ? 'bg-success' : 'bg-warning'}`" />
               {{ item.status ? 'Оплачено' : 'Не оплачено' }}
             </td>
             <td>
-              <a class="btn btn-outline-primary btn-sm py-1 fz-12" href="#">Подробнее</a>
-              <button class="btn text-danger ms-1 fz-16 p-1" type="button" data-bs-toggle="tooltip" data-bs-title="Удалить">
-                <svg class="icon icon-trash">
-                  <use xlink:href="#trash"></use>
-                </svg>
-              </button>
+              <router-link
+                class="btn btn-outline-primary btn-sm py-1 fz-12"
+                :to="{ name: 'CommunalPage', params: { id: item.id } }"
+              >
+                Подробнее
+              </router-link>
+              <app-button
+                v-tooltip="{ title: 'Удалить' }"
+                class-list-btn="text-danger ms-1 fz-16 p-1"
+                :icon="{ name: 'trash', placement: 'prepend' }"
+                @click="remove(item.id)"
+              />
             </td>
           </tr>
         </template>
@@ -64,16 +89,32 @@
       </tbody>
     </table>
   </div>
+
+  <teleport to="body">
+    <app-confirm
+      id="confirm"
+      title="Вы уверены?"
+      text="Операцию нельзя будет отменить."
+      @resolve="removeConfirm"
+    />
+  </teleport>
 </template>
 
 <script setup>
-import AppLoaderRowPlaceholder from '@/components/ui/AppLoaderRowPlaceholder'
+import AppLoaderRowPlaceholder from '@/components/ui/AppLoaderRowPlaceholder.vue'
+import { showBsModal, closeBsModal } from '@/use/bs-modal'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
 
-defineProps({
+// eslint-disable-next-line no-undef
+const emit = defineEmits(['selected'])
+
+// eslint-disable-next-line no-undef
+const props = defineProps({
   items: {
     type: Array,
     required: true,
-    default () {
+    default() {
       return []
     }
   },
@@ -81,6 +122,36 @@ defineProps({
     type: Boolean,
     required: true,
     default: false
+  }
+})
+
+const store = useStore()
+const checkbox = ref([])
+const itemID = ref()
+
+const remove = id => {
+  itemID.value = id
+  showBsModal('#confirm')
+}
+
+const removeConfirm = async () => {
+  try {
+    await store.dispatch('communal/delete', itemID.value)
+    closeBsModal('#confirm')
+    await store.dispatch('communal/load')
+  } catch (e) {
+    /* empty */
+  }
+}
+
+const allCheckbox = computed({
+  get() {
+    emit('selected', checkbox.value)
+
+    return checkbox.value.length === props.items.length && props.items.length !== 0
+  },
+  set(val) {
+    checkbox.value = val ? props.items.map(n => n.id) : []
   }
 })
 </script>

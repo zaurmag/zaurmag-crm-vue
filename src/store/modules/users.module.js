@@ -7,21 +7,21 @@ const USER_CURRENT_KEY = 'crm-current-user'
 
 export default {
   namespaced: true,
-  state () {
+  state() {
     return {
       currentUser: JSON.parse(localStorage.getItem(USER_CURRENT_KEY)) ?? {},
       users: []
     }
   },
   mutations: {
-    setUsers (state, users) {
+    setUsers(state, users) {
       state.users = users
     },
-    setUser (state, user) {
+    setUser(state, user) {
       state.currentUser = user
       localStorage.setItem(USER_CURRENT_KEY, JSON.stringify(user))
     },
-    updateCurrentUser (state, data) {
+    updateCurrentUser(state, data) {
       const user = JSON.parse(localStorage.getItem(USER_CURRENT_KEY))
 
       state.currentUser = {
@@ -29,7 +29,7 @@ export default {
         ...data
       }
     },
-    setUserById (state, data) {
+    setUserById(state, data) {
       const user = state.users.find(user => user.id === data.id)
       const idx = state.users.findIndex(u => u.id === data.id)
       state.users[idx] = {
@@ -37,20 +37,22 @@ export default {
         ...data
       }
     },
-    logout (state) {
+    logout(state) {
       state.currentUser = {}
       state.users = []
       localStorage.removeItem(USER_CURRENT_KEY)
     }
   },
   actions: {
-    async load ({ commit }) {
+    async load({ commit }) {
       const { data } = await axios.get('/users.json')
       commit('setUsers', transform(data))
     },
-    async signUp ({ commit, dispatch }, payload) {
+    async signUp({ commit, dispatch }, payload) {
       try {
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.VUE_APP_FB_KEY}`
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${
+          import.meta.env.VUE_APP_FB_KEY
+        }`
         const { data } = await axios.post(url, {
           ...payload,
           returnSecureToken: true
@@ -69,7 +71,7 @@ export default {
         throw new Error()
       }
     },
-    async createUser ({ commit, dispatch }, { name, email, localId }) {
+    async createUser({ commit, dispatch }, { name, email, localId }) {
       const { data } = await axios.put(`/users/${localId}.json`, {
         name,
         email,
@@ -83,7 +85,7 @@ export default {
         { root: true }
       )
     },
-    async update ({ commit, dispatch, getters }, payload) {
+    async update({ commit, dispatch, getters }, payload) {
       const { data } = await axios.patch(`/users/${payload.id}.json`, payload)
       if (payload.id === getters.user.id) {
         commit('updateCurrentUser', data)
@@ -97,7 +99,7 @@ export default {
         { root: true }
       )
     },
-    async getUser ({ commit, dispatch }, id) {
+    async getUser({ commit }, id) {
       try {
         const { data } = await axios.get(`/users/${id}.json`)
         commit('setUser', { ...data, id })
@@ -106,24 +108,26 @@ export default {
         console.error(e.message)
       }
     },
-    async changePassword ({ commit, dispatch }, { password }) {
+    async changePassword({ dispatch }, { password }) {
       try {
         const idToken = store.getters['auth/token']
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.VUE_APP_FB_KEY}`
-        await axios.post(url, {
-          idToken,
-          password,
-          returnSecureToken: false
-        }, {
-          headers: {
-            'X-Firebase-Locale': 'ru-RU'
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${
+          import.meta.env.VUE_APP_FB_KEY
+        }`
+        await axios.post(
+          url,
+          {
+            idToken,
+            password,
+            returnSecureToken: false
+          },
+          {
+            headers: {
+              'X-Firebase-Locale': 'ru-RU'
+            }
           }
-        })
-        dispatch(
-          'setMessage',
-          { value: 'Пароль успешно изменен!', type: 'info' },
-          { root: true }
         )
+        dispatch('setMessage', { value: 'Пароль успешно изменен!', type: 'info' }, { root: true })
       } catch (e) {
         dispatch(
           'setMessage',
@@ -133,10 +137,12 @@ export default {
         throw new Error()
       }
     },
-    async deleteAccount ({ dispatch }) {
+    async deleteAccount({ dispatch }) {
       try {
         const idToken = store.getters['auth/token']
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${process.env.VUE_APP_FB_KEY}`
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${
+          import.meta.env.VUE_APP_FB_KEY
+        }`
         await axios.post(url, { idToken })
         dispatch('deleteUser')
       } catch (e) {
@@ -148,17 +154,13 @@ export default {
         throw new Error()
       }
     },
-    async deleteUser ({ commit, dispatch, getters }) {
+    async deleteUser({ commit, dispatch }) {
       try {
-        const uID = getters.userID
-        await axios.delete(`/users/${uID}.json`)
-        await axios.delete(`/projects/${uID}.json`)
+        // const uID = getters.userID
+        // await axios.delete(`/users/${uID}.json`)
+        // await axios.delete(`/projects/${uID}.json`)
 
-        dispatch(
-          'setMessage',
-          { value: 'Аккаунт успешно удален!', type: 'info' },
-          { root: true }
-        )
+        dispatch('setMessage', { value: 'Аккаунт успешно удален!', type: 'info' }, { root: true })
 
         commit('logout')
         commit('auth/logout', null, { root: true })

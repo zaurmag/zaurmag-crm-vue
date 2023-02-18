@@ -4,18 +4,18 @@ import { transform } from '@/utils/transform'
 
 export default {
   namespaced: true,
-  state () {
+  state() {
     return {
       projects: []
     }
   },
   mutations: {
-    setItems (state, data) {
+    setItems(state, data) {
       state.projects = data
     }
   },
   actions: {
-    async load ({ commit }) {
+    async load({ commit }) {
       try {
         const uID = store.getters['users/userID']
         const { data } = await axios.get(`/projects/${uID}.json`)
@@ -24,7 +24,7 @@ export default {
         throw e
       }
     },
-    async loadOne (_, id) {
+    async loadOne(_, id) {
       try {
         const uID = store.getters['users/userID']
         const { data } = await axios.get(`/projects/${uID}/${id}.json`)
@@ -33,7 +33,7 @@ export default {
         throw e
       }
     },
-    async add ({ commit, dispatch }, item) {
+    async add({ commit, dispatch }, item) {
       try {
         const uID = store.getters['users/userID']
         await axios.post(`/projects/${uID}.json`, item)
@@ -56,13 +56,10 @@ export default {
         )
       }
     },
-    async update ({ dispatch }, item) {
+    async update({ dispatch }, item) {
       try {
         const uID = store.getters['users/userID']
-        const { data } = await axios.put(
-          `/projects/${uID}/${item.id}.json`,
-          item
-        )
+        const { data } = await axios.put(`/projects/${uID}/${item.id}.json`, item)
         dispatch(
           'setMessage',
           {
@@ -84,7 +81,7 @@ export default {
         )
       }
     },
-    async delete ({ dispatch }, id) {
+    async delete({ dispatch }, id) {
       try {
         const uID = store.getters['users/userID']
         if (Array.isArray(id)) {
@@ -115,6 +112,6 @@ export default {
     }
   },
   getters: {
-    projects: state => state.projects.sort((a, b) => new Date(b.date) - new Date(a.date)),
+    projects: state => state.projects.sort((a, b) => new Date(b.date) - new Date(a.date))
   }
 }

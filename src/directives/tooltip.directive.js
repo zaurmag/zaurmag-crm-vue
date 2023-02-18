@@ -1,13 +1,13 @@
 import { Tooltip } from 'bootstrap'
 
 export default {
-  mounted (el, { value }) {
+  mounted(el, { value }) {
     return new Tooltip(el, {
       ...value,
       trigger: 'hover'
     })
   },
-  unmounted (el) {
+  unmounted(el) {
     const tooltip = Tooltip.getInstance(el)
 
     if (tooltip && tooltip.dispose) {

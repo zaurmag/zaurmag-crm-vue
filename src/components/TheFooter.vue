@@ -1,18 +1,16 @@
 <template>
   <footer class="footer">
-    <p class="footer__copyright">
-      © 2021 г.
-      Zm-Crm — система доходов / расходов
-    </p>
+    <p class="footer__copyright">© 2021 г. Zm-Crm — система доходов / расходов</p>
   </footer>
 </template>
 
-<script>
-export default {
-  name: 'TheFooter'
-}
-</script>
+<style scoped lang="sass">
+.footer
+	padding: 30px
+	margin-top: auto
 
-<style scoped>
-
+	&__copyright
+		color: $gray-600
+		margin-bottom: 0
+		font-size: 13px
 </style>

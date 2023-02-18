@@ -4,22 +4,22 @@ import { transform, transform2 } from '@/utils/transform'
 
 export default {
   namespaced: true,
-  state () {
+  state() {
     return {
       communal: [],
       rates: {}
     }
   },
   mutations: {
-    setItems (state, data) {
+    setItems(state, data) {
       state.communal = data
     },
-    setRates (state, data) {
+    setRates(state, data) {
       state.rates = data
     }
   },
   actions: {
-    async load ({ commit, dispatch }) {
+    async load({ commit, dispatch }) {
       try {
         const uID = store.getters['users/userID']
         const { data } = await axios.get(`/communal/${uID}.json`)
@@ -37,7 +37,25 @@ export default {
         throw e
       }
     },
-    async add ({ commit, dispatch }, payload) {
+    async loadOne({ dispatch }, id) {
+      try {
+        const uID = store.getters['users/userID']
+        const { data } = await axios.get(`/communal/${uID}/${id}.json`)
+        return { ...data, id }
+      } catch (e) {
+        dispatch(
+          'setMessage',
+          {
+            value: e.message,
+            type: 'danger'
+          },
+          { root: true }
+        )
+
+        throw e
+      }
+    },
+    async add({ dispatch }, payload) {
       try {
         const uID = store.getters['users/userID']
         await axios.post(`/communal/${uID}.json`, {
@@ -66,7 +84,61 @@ export default {
         throw e
       }
     },
-    async loadRates ({ commit, dispatch }) {
+    async delete({ dispatch }, id) {
+      try {
+        const uID = store.getters['users/userID']
+        if (Array.isArray(id)) {
+          for (const itemID of id) {
+            await axios.delete(`/communal/${uID}/${itemID}.json`)
+          }
+        } else {
+          await axios.delete(`/communal/${uID}/${id}.json`)
+        }
+        dispatch(
+          'setMessage',
+          {
+            value: 'Запись успешна удалена',
+            type: 'info'
+          },
+          { root: true }
+        )
+      } catch (e) {
+        dispatch(
+          'setMessage',
+          {
+            value: e.message,
+            type: 'danger'
+          },
+          { root: true }
+        )
+      }
+    },
+    async update({ dispatch }, item) {
+      try {
+        const uID = store.getters['users/userID']
+        const { data } = await axios.patch(`/communal/${uID}/${item.id}.json`, item)
+        dispatch(
+          'setMessage',
+          {
+            type: 'info',
+            value: 'Запись успешно обновлена!'
+          },
+          { root: true }
+        )
+
+        return data
+      } catch (e) {
+        dispatch(
+          'setMessage',
+          {
+            value: e.message,
+            type: 'danger'
+          },
+          { root: true }
+        )
+      }
+    },
+    async loadRates({ commit, dispatch }) {
       try {
         const uID = store.getters['users/userID']
         const { data } = await axios.get(`/communal/rates/${uID}.json`)
@@ -85,7 +157,7 @@ export default {
         throw e
       }
     },
-    async addRates ({ commit, dispatch }, payload) {
+    async addRates({ dispatch }, payload) {
       try {
         const uID = store.getters['users/userID']
         await axios.post(`/communal/rates/${uID}.json`, {
@@ -114,13 +186,10 @@ export default {
         throw e
       }
     },
-    async updateRates ({ dispatch }, item) {
+    async updateRates({ dispatch }, item) {
       try {
         const uID = store.getters['users/userID']
-        const { data } = await axios.put(
-          `/communal/rates/${uID}/${item.id}.json`,
-          item
-        )
+        const { data } = await axios.put(`/communal/rates/${uID}/${item.id}.json`, item)
         dispatch(
           'setMessage',
           {
@@ -147,10 +216,6 @@ export default {
     communal: state => state.communal.sort((a, b) => new Date(b.date) - new Date(a.date)),
     prevData: (_, getters) => getters.communal[0],
     rates: state => state.rates,
-    trashCalc: (_, getters) => getters.rates.trash * getters.rates.people,
-    electrCalc: (_, getters) => value => value * getters.rates.electr,
-    gasCalc: (_, getters) => value => value * getters.rates.gas,
-    maintanceGe: (_, getters) => getters.rates.maintanceGe,
-    waterCalc: (_, getters) => value => value * getters.rates.water
+    communalById: (state, getters) => id => getters.communal.find(c => c.id === id)
   }
 }

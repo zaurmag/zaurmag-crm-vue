@@ -7,7 +7,7 @@ const USER_KEY = 'crm-user'
 
 export default {
   namespaced: true,
-  state () {
+  state() {
     return {
       token: localStorage.getItem(JWT_TOKEN),
       refreshToken: localStorage.getItem(JWT_REFRESH_TOKEN),
@@ -15,10 +15,8 @@ export default {
     }
   },
   mutations: {
-    setToken (state, { refreshToken, idToken, expiresIn = '3600' }) {
-      const expiresDate = new Date(
-        new Date().getTime() + Number(expiresIn) * 1000
-      )
+    setToken(state, { refreshToken, idToken, expiresIn = '3600' }) {
+      const expiresDate = new Date(new Date().getTime() + Number(expiresIn) * 1000)
       state.token = idToken
       state.refreshToken = refreshToken
       state.expiresDate = expiresDate
@@ -26,7 +24,7 @@ export default {
       localStorage.setItem(JWT_REFRESH_TOKEN, refreshToken)
       localStorage.setItem(EXPIRES_KEY, expiresDate.toString())
     },
-    logout (state) {
+    logout(state) {
       state.token = null
       state.refreshToken = null
       state.expiresDate = null
@@ -37,9 +35,11 @@ export default {
     }
   },
   actions: {
-    async login ({ commit, dispatch }, payload) {
+    async login({ commit, dispatch }, payload) {
       try {
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FB_KEY}`
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${
+          import.meta.env.VITE_APP_FB_KEY
+        }`
         const { data } = await axios.post(url, {
           ...payload,
           returnSecureToken: true
@@ -56,10 +56,10 @@ export default {
         throw new Error()
       }
     },
-    async refresh ({ state, commit }) {
+    async refresh({ state, commit }) {
       try {
         const { data } = await axios.post(
-          `https://securetoken.googleapis.com/v1/token?key=${process.env.VUE_APP_FB_KEY}`,
+          `https://securetoken.googleapis.com/v1/token?key=${import.meta.env.VITE_APP_FB_KEY}`,
           {
             grand_type: 'refresh_token',
             refresh_token: state.refreshToken
@@ -75,7 +75,7 @@ export default {
         console.error('Error:', e.message)
       }
     },
-    logout ({ commit }) {
+    logout({ commit }) {
       commit('logout')
       commit('users/logout', null, { root: true })
     }

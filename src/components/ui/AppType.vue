@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex align-items-center">
-    <app-indicator :classList="className" />
+    <app-indicator :class-list="className" />
     <span class="ms-2">{{ text }}</span>
   </div>
 </template>
@@ -13,12 +13,12 @@ export default {
     type: {
       type: String,
       required: true,
-      validator (value) {
+      validator(value) {
         return ['income', 'outcome', 'pending'].includes(value)
       }
     }
   },
-  setup (props) {
+  setup(props) {
     const classesMap = {
       income: 'bg-success',
       outcome: 'bg-danger',
@@ -47,6 +47,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

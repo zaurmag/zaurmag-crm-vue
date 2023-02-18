@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '../views/HomeView.vue'
 import store from '../store'
 
 const routes = [
@@ -16,7 +16,7 @@ const routes = [
   {
     path: '/sign-in',
     name: 'Auth',
-    component: () => import('../views/Auth.vue'),
+    component: () => import('../views/AuthView.vue'),
     meta: {
       layout: 'empty'
     }
@@ -24,7 +24,7 @@ const routes = [
   {
     path: '/sign-up',
     name: 'Register',
-    component: () => import('../views/Reg.vue'),
+    component: () => import('../views/RegView.vue'),
     meta: {
       layout: 'empty'
     }
@@ -32,7 +32,7 @@ const routes = [
   {
     path: '/project/:id',
     name: 'Project',
-    component: () => import('../views/Project.vue'),
+    component: () => import('../views/ProjectView.vue'),
     meta: {
       layout: 'main',
       auth: true,
@@ -43,7 +43,7 @@ const routes = [
     path: '/users',
     name: 'UsersRoot',
     redirect: { name: 'Users' },
-    component: () => import('../views/UsersRoot.vue'),
+    component: () => import('../views/UsersRootView.vue'),
     meta: {
       breadcrumb: 'Пользователи',
       layout: 'main',
@@ -53,7 +53,7 @@ const routes = [
       {
         path: 'list',
         name: 'Users',
-        component: () => import('../views/Users.vue'),
+        component: () => import('../views/UsersView.vue'),
         meta: {
           breadcrumb: false
         }
@@ -61,29 +61,45 @@ const routes = [
       {
         path: 'profile/:id',
         name: 'Profile',
-        component: () => import('../views/Profile.vue')
+        component: () => import('../views/ProfileView.vue')
       },
       {
         path: 'edit-profile/:id',
         name: 'EditProfile',
-        component: () => import('../views/EditProfile.vue')
+        component: () => import('../views/EditProfileView.vue')
       }
     ]
   },
   {
     path: '/communal',
-    name: 'Communal',
-    component: () => import('../views/Communal.vue'),
+    name: 'CommunalRoot',
+    redirect: { name: 'Communal' },
+    component: () => import('../views/CommunalRootView.vue'),
     meta: {
       layout: 'main',
       auth: true,
       breadcrumb: 'Оплата коммунальных'
-    }
+    },
+    children: [
+      {
+        path: 'list',
+        name: 'Communal',
+        component: () => import('../views/CommunalView.vue'),
+        meta: {
+          breadcrumb: false
+        }
+      },
+      {
+        path: 'page/:id',
+        name: 'CommunalPage',
+        component: () => import('../views/CommunalPageView.vue')
+      }
+    ]
   },
   {
     path: '/dbreplacer',
     name: 'dbreplacer',
-    component: () => import('../views/DbReplacer'),
+    component: () => import('../views/DbReplacerView.vue'),
     meta: {
       layout: 'main',
       auth: true
@@ -92,7 +108,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   linkActiveClass: 'is-active',
   linkExactActiveClass: 'is-active'
@@ -106,17 +122,16 @@ router.beforeEach((to, from, next) => {
   if (requireAdmin) {
     if (store.getters['auth/isAdmin']) {
       return next()
-    } else {
-      return next('/sign-in?message=admin')
     }
+
+    return next('/sign-in?message=admin')
   }
 
   if (requireAuth) {
     if (isAuthenticated) {
       return next()
-    } else {
-      next('/sign-in?message=auth')
     }
+    next('/sign-in?message=auth')
   }
 
   next()

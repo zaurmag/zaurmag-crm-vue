@@ -1,11 +1,11 @@
 <template>
   <svg :class="['icon', `icon-${name}`, classList]">
-    <use :xlink:href="`/images/sprite.svg#${name}`"></use>
+    <use :xlink:href="`/images/sprite.svg#${name}`" />
   </svg>
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+// eslint-disable-next-line no-undef
 defineProps({
   name: {
     type: String,
@@ -17,3 +17,11 @@ defineProps({
   }
 })
 </script>
+
+<style scoped lang="sass">
+.icon
+	display: inline-block
+	width: 1em
+	height: 1em
+	fill: currentColor
+</style>

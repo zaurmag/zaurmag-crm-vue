@@ -1,138 +1,111 @@
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
-import { computed } from 'vue'
-import { useStore } from 'vuex'
 import { dateF } from '@/utils/date'
 
-export function useCommunalForm (initialValues, emit) {
-  const store = useStore()
+export function useCommunalForm(currInitial, prevInitial) {
   const { handleSubmit, resetForm, isSubmitting, setFieldValue } = useForm({
-    initialValues
+    initialValues: {
+      date: currInitial.date
+        ? dateF(currInitial.date, { locale: 'fr-CA' })
+        : dateF(new Date(), { locale: 'fr-CA' }),
+      status: currInitial?.status ?? false,
+      prevElectr: prevInitial?.electr?.current ?? currInitial?.electr?.prev,
+      prevGas: prevInitial?.gas?.current ?? currInitial?.gas?.prev,
+      prevWater: prevInitial?.water?.current ?? currInitial?.water?.prev,
+      electr: currInitial?.electr?.current ?? 0,
+      gas: currInitial?.gas?.current ?? 0,
+      water: currInitial?.water?.current ?? 0,
+      desc: currInitial.desc
+    }
   })
 
   // Status
   const { value: status } = useField('status')
 
   // Date
-  const { value: date, errorMessage: dError, handleBlur: dBlur } = useField(
-    'date',
-    yup
-      .string()
-      .required('Введите дату платежа')
-  )
-  setFieldValue('date', dateF(new Date(), { locale: 'fr-CA' }))
+  const {
+    value: date,
+    errorMessage: dError,
+    handleBlur: dBlur
+  } = useField('date', yup.string().required('Введите дату платежа'))
 
+  // ---- ** ---- PREV DATA ---- ** ---- //
   // Electricity
-  const { value: elctr, errorMessage: elctrError, handleBlur: elctrBlur } = useField(
-    'elctr',
-    yup
-      .number()
-      .required('Введите данные электро счетчика')
-  )
-  setFieldValue('elctr', 0)
+  const {
+    value: prevElectr,
+    errorMessage: prevElectrError,
+    handleBlur: prevElectrBlur
+  } = useField('prevElectr', yup.number().required('Введите данные электро счетчика'))
 
   // Gas
-  const { value: gas, errorMessage: gasError, handleBlur: gasBlur } = useField(
-    'gas',
-    yup
-      .number()
-      .required('Введите данные счетчика газа')
-  )
-  setFieldValue('gas', 0)
+  const {
+    value: prevGas,
+    errorMessage: prevGasError,
+    handleBlur: prevGasBlur
+  } = useField('prevGas', yup.number().required('Введите предыдущие показания'))
 
   // Water
-  const { value: water, errorMessage: waterError, handleBlur: waterBlur } = useField(
-    'water',
-    yup
-      .number()
-      .required('Введите данные счетчика воды')
-  )
-  setFieldValue('water', 0)
-
-  // Description
   const {
-    value: desc,
-    errorMessage: descError,
-    handleBlur: descBlur
-  } = useField('desc')
+    value: prevWater,
+    errorMessage: prevWaterError,
+    handleBlur: prevWaterBlur
+  } = useField('prevWater', yup.number().required('Введите предыдущие показания'))
 
-  const prevInitial = computed(() => store.getters['communal/prevData'] || {})
-  const prevElctr = computed(() => prevInitial.value.elctr || 0)
-  const prevGas = computed(() => prevInitial.value.gas || 0)
-  const prevWater = computed(() => prevInitial.value.water || 0)
+  // ---- ** ---- CURRENT DATA ---- ** ---- //
+  // Electricity
+  const {
+    value: electr,
+    errorMessage: electrError,
+    handleBlur: electrBlur
+  } = useField('electr', yup.number().required('Введите данные электро счетчика'))
 
-  // Different
-  const diffElectr = computed(() => elctr.value === 0 ? elctr.value : elctr.value - prevElctr.value)
-  const diffGas = computed(() => gas.value === 0 ? gas.value : gas.value - prevGas.value)
-  const diffWater = computed(() => water.value === 0 ? water.value : water.value - prevWater.value)
+  // Gas
+  const {
+    value: gas,
+    errorMessage: gasError,
+    handleBlur: gasBlur
+  } = useField('gas', yup.number().required('Введите данные счетчика газа'))
 
-  // Calculate
-  const electrCalc = computed(() => store.getters['communal/electrCalc'](diffElectr.value))
-  const gasCalc = computed(() => store.getters['communal/gasCalc'](diffGas.value))
-  const waterCalc = computed(() => store.getters['communal/waterCalc'](diffWater.value))
-  const trash = computed(() => store.getters['communal/trashCalc'])
-  const maintanceGe = computed(() => store.getters['communal/maintanceGe'])
-  const amount = computed(() => electrCalc.value + gasCalc.value + waterCalc.value + trash.value + maintanceGe.value)
+  // Water
+  const {
+    value: water,
+    errorMessage: waterError,
+    handleBlur: waterBlur
+  } = useField('water', yup.number().required('Введите данные счетчика воды'))
 
-  const onSubmit = handleSubmit(async values => {
-    try {
-      const date = new Date()
-      const dateNow = values.date + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
-
-      // if (initialValues) {
-      //   const data = await store.dispatch('project/update', {
-      //     ...values,
-      //     id: initialValues.id
-      //   })
-      //   emit('submit', data)
-      //   emit('close')
-      //   return
-      // }
-
-      await store.dispatch('communal/add', {
-        id: Date.now().toString(),
-        ...values,
-        trash: trash.value,
-        amount: amount.value,
-        date: dateNow
-      })
-      resetForm()
-      emit('close')
-      await store.dispatch('communal/load')
-
-      // Set date initial, when form reset
-      setFieldValue('date', dateF(new Date(), { locale: 'fr-CA' }))
-    } catch (e) {}
-  })
+  // ---- ** ---- ** ---- ** ---- //
+  // Description
+  const { value: desc, errorMessage: descError, handleBlur: descBlur } = useField('desc')
 
   return {
     status,
     date,
     dError,
     dBlur,
-    prevElctr,
+    prevElectr,
+    prevElectrError,
+    prevElectrBlur,
     prevGas,
+    prevGasError,
+    prevGasBlur,
     prevWater,
-    elctr,
-    elctrError,
-    elctrBlur,
+    prevWaterError,
+    prevWaterBlur,
+    electr,
+    electrError,
+    electrBlur,
     gas,
     gasError,
     gasBlur,
     water,
     waterError,
     waterBlur,
-    electrCalc,
-    gasCalc,
-    waterCalc,
-    diffElectr,
-    diffGas,
-    diffWater,
-    amount,
     desc,
     descError,
     descBlur,
-    onSubmit,
+    handleSubmit,
+    resetForm,
+    setFieldValue,
     isSubmitting
   }
 }

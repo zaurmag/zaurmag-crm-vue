@@ -3,48 +3,47 @@ import * as yup from 'yup'
 import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
 
-export function useEditProfileForm (initialValues) {
+export function useEditProfileForm(initialValues) {
   const store = useStore()
   const { handleSubmit, isSubmitting, submitCount } = useForm({ initialValues })
 
   // Name
-  const { value: name, errorMessage: nError, handleBlur: nBlur } = useField(
-    'name',
-    yup
-      .string()
-      .required('Введите Ваше имя')
-  )
+  const {
+    value: name,
+    errorMessage: nError,
+    handleBlur: nBlur
+  } = useField('name', yup.string().required('Введите Ваше имя'))
 
   // Address
-  const { value: address, errorMessage: aError, handleBlur: aBlur } = useField(
-    'address',
-    yup
-      .string()
-  )
+  const {
+    value: address,
+    errorMessage: aError,
+    handleBlur: aBlur
+  } = useField('address', yup.string())
 
   // Phone
-  const { value: phone, errorMessage: pnError, handleBlur: pnBlur } = useField(
-    'phone',
-    yup
-      .number()
-  )
+  const {
+    value: phone,
+    errorMessage: pnError,
+    handleBlur: pnBlur
+  } = useField('phone', yup.number())
 
   // E-mail
-  const { value: email, errorMessage: eError, handleBlur: eBlur } = useField(
+  const {
+    value: email,
+    errorMessage: eError,
+    handleBlur: eBlur
+  } = useField(
     'email',
-    yup
-      .string()
-      .required('Введите E-mail')
-      .trim()
-      .email('Введите валидный E-mail')
+    yup.string().required('Введите E-mail').trim().email('Введите валидный E-mail')
   )
 
   // About
-  const { value: description, errorMessage: dsError, handleBlur: dsBlur } = useField(
-    'description',
-    yup
-      .string()
-  )
+  const {
+    value: description,
+    errorMessage: dsError,
+    handleBlur: dsBlur
+  } = useField('description', yup.string())
 
   const isToManyAttempts = computed(() => submitCount.value >= 3)
   watch(isToManyAttempts, val => {

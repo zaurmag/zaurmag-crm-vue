@@ -5,30 +5,30 @@
       type="button"
       data-bs-toggle="dropdown"
     >
-     <app-icon name="calendar3" />
+      <svg-icon name="calendar3" />
       <span class="ms-2">{{ text }}</span>
     </button>
 
     <div class="dropdown-menu p-3">
       <form-control
         id="filterDateFrom"
+        v-model="from"
         label="от:"
         type="date"
-        v-model="from"
-        classListWrapper="d-flex align-items-center"
-        classListLabel="text-secondary me-2 mb-0"
-        classListInput="form-control-sm form-control-bb"
+        class="d-flex align-items-center"
+        class-list-label="text-secondary me-2 mb-0"
+        class-list-input="form-control-sm form-control-bb"
         @input="changeDateHandler"
       />
 
       <form-control
         id="filterDateTo"
+        v-model="to"
         label="до:"
         type="date"
-        v-model="to"
-        classListWrapper="d-flex align-items-center"
-        classListLabel="text-secondary me-2 mb-0"
-        classListInput="form-control-sm form-control-bb"
+        class="d-flex align-items-center mb-0"
+        class-list-label="text-secondary me-2 mb-0"
+        class-list-input="form-control-sm form-control-bb"
         @input="changeDateHandler"
       />
     </div>
@@ -43,22 +43,22 @@ export default {
   name: 'AppArbitraryPeriod',
   props: ['dateFrom', 'dateTo'],
   emits: ['update:dateFrom', 'update:dateTo', 'datesOut'],
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const text = ref('Произвольно')
     const from = computed({
-      get () {
+      get() {
         return props.dateFrom
       },
-      set (value) {
+      set(value) {
         emit('update:dateFrom', value)
       }
     })
 
     const to = computed({
-      get () {
+      get() {
         return props.dateTo
       },
-      set (value) {
+      set(value) {
         emit('update:dateTo', value)
       }
     })

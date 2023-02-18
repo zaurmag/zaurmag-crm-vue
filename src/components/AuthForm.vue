@@ -1,33 +1,38 @@
 <template>
-  <form action="#" @submit.prevent="onSubmit">
+  <form
+    action="#"
+    @submit.prevent="onSubmit"
+  >
     <form-control
       id="email"
+      v-model="email"
       label="E-mail"
       type="email"
       :error="eError"
       :blur="eBlur"
-      v-model="email"
-      classListInput="form-control-lg"
+      class-list-input="form-control-lg"
       placeholder="email@address.com"
     />
 
     <form-control
       id="password"
+      v-model="password"
       label="Пароль"
       type="password"
       :error="pError"
       :blur="pBlur"
-      v-model="password"
-      classListInput="form-control-lg"
+      class-list-input="form-control-lg"
       placeholder="Не менее 6-ти знаков"
     />
 
     <app-button
-      classListBtn="btn-primary btn-lg w-100"
-      classListWrapper="w-100"
+      class-list-btn="btn-primary btn-lg w-100"
+      class-list-wrapper="w-100"
       type="submit"
       :animate="{ loading: isSubmitting }"
-    >Войти</app-button>
+    >
+      Войти
+    </app-button>
   </form>
 </template>
 
@@ -36,7 +41,7 @@ import { useLoginForm } from '@/use/login-form'
 
 export default {
   name: 'AuthForm',
-  setup () {
+  setup() {
     return {
       ...useLoginForm()
     }

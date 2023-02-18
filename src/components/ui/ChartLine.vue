@@ -2,7 +2,7 @@
   <Line
     :chart-data="chartData"
     :chart-options="chartOptions"
-    :chartId="chartId"
+    :chart-id="chartId"
     :dataset-id-key="datasetIdKey"
     :plugins="plugins"
     :css-classes="cssClasses"
@@ -17,7 +17,10 @@ import { Line } from 'vue-chartjs'
 import 'chart.js/auto'
 
 export default {
-  name: 'chartLine',
+  name: 'ChartLine',
+  components: {
+    Line
+  },
   props: {
     chartData: {
       type: Object,
@@ -59,13 +62,8 @@ export default {
       type: Object,
       default: () => {}
     }
-  },
-  components: {
-    Line
   }
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

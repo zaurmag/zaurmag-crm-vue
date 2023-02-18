@@ -4,8 +4,8 @@
       <div class="d-lg-flex align-items-center">
         <div class="dropdown ms-lg-2 mt-2 mt-lg-0">
           <app-button
-            classListBtn="btn-light"
-            :attrsWrapper="{ 'data-bs-toggle': 'dropdown' }"
+            class-list-btn="btn-light"
+            :attrs-wrapper="{ 'data-bs-toggle': 'dropdown' }"
             :icon="{ name: 'calendar3', placement: 'prepend' }"
           >
             <span class="ms-2">Дата регистрации</span>
@@ -13,11 +13,23 @@
           <div class="dropdown-menu p-3">
             <div class="d-flex align-items-center">
               <label class="text-secondary me-2">от:</label>
-              <input class="form__control" id="filterDateFrom" type="date">
+              <input
+                id="filterDateFrom"
+                class="form__control"
+                type="date"
+              />
             </div>
             <div class="d-flex align-items-center">
-              <label class="form__label me-2" for="filterDateTo">до:</label>
-              <input class="form__control" id="filterDateTo" type="date">
+              <label
+                class="form__label me-2"
+                for="filterDateTo"
+                >до:</label
+              >
+              <input
+                id="filterDateTo"
+                class="form__control"
+                type="date"
+              />
             </div>
           </div>
         </div>
@@ -26,23 +38,27 @@
     <div class="col-xl-auto">
       <div class="d-flex align-items-center">
         <label class="form__label me-3">Статус:</label>
-        <app-select
-          :options="statusOptions"
+        <form-select
           v-model="status"
+          :options="statusOptions"
         />
       </div>
     </div>
     <div class="col-xl-auto">
       <div class="d-flex align-items-center">
         <div class="form__group form__group--icon w-100">
-          <app-icon name="search" />
-          <input class="form__control" type="search" placeholder="Поиск по имени">
+          <svg-icon name="search" />
+          <input
+            class="form__control"
+            type="search"
+            placeholder="Поиск по имени"
+          />
         </div>
 
         <app-button
-          classListWrapper="ms-3"
-          classListBtn="btn-outline-secondary btn-round fz-16 p-0"
           v-tooltip="{ title: 'Сбросить фильтр' }"
+          class-list-wrapper="ms-3"
+          class-list-btn="btn-outline-secondary btn-round fz-16 p-0"
           :icon="{ name: 'x', placement: 'prepend' }"
         />
       </div>
@@ -51,7 +67,6 @@
 </template>
 
 <script setup>
-import AppSelect from '@/components/ui/AppSelect'
 import { USER_STATUS } from '@/constans'
 import { ref } from 'vue'
 

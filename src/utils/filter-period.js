@@ -6,7 +6,7 @@ import { PERIOD_OPTIONS } from '@/constans'
  * @return Object
  * Example: {name: week, value: 2022-05-10}
  */
-export function fpMap () {
+export function fpMap() {
   return PERIOD_OPTIONS.reduce((acc, item) => {
     acc[item.value] = getDateFromPeriod(item.value, true)
 
@@ -20,7 +20,7 @@ export function fpMap () {
  * @param {string} dateTo Дата в формате 2022-05-01
  * @return String Дата, например, 1 — 7 мая 2022, 10 апр. — 10 мая 2022
  */
-export function textRangePeriod (dateFrom, dateTo) {
+export function textRangePeriod(dateFrom, dateTo) {
   if (dateFrom === dateTo) {
     return dateF(Date.now(), { month: 'short' })
   }
