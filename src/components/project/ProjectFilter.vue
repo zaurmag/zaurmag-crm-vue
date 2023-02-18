@@ -41,7 +41,7 @@
           v-model="search"
           type="search"
           placeholder="Поиск по имени"
-          class="d-flex align-items-center"
+          class="d-flex align-items-center mb-0"
           class-list-input="form-control-bb ps-20"
         >
           <template #prepend>
