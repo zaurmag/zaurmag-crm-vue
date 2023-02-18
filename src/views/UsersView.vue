@@ -85,7 +85,7 @@ import { useStore } from 'vuex'
 const users = computed(() => store.getters['users/users'])
 const store = useStore()
 const checkboxes = ref([])
-const PAGE_SIZE = ref({ name: 10, value: 10 })
+const PAGE_SIZE = 10
 const selectChbx = checkboxIds => {
   checkboxes.value = checkboxIds
 }
