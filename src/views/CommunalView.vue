@@ -72,6 +72,7 @@
       <communal-form
         :prev-initial="prevInitialData"
         @close="closeFormModal = true"
+        :key="prevInitialData.id"
       />
     </app-bs-modal>
 
