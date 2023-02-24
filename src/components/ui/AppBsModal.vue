@@ -2,7 +2,7 @@
   <div
     :id="id"
     ref="modalEl"
-    :class="['modal', 'fade', 'shadow', classListWrapper]"
+    :class="['modal', 'fade', 'shadow']"
     tabindex="-1"
   >
     <div class="modal-dialog modal-dialog-centered">
@@ -69,10 +69,6 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    },
-    classListWrapper: {
-      type: String,
-      required: false
     }
   },
   emits: ['show', 'hide'],

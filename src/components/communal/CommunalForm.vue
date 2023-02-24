@@ -118,10 +118,14 @@
       @blur="fields.descBlur"
     />
 
-    <!-- <div class="mb-3">-->
-    <!--   <p class="form-label">Прикрепить фото квитанции</p>-->
-    <!--   <f-upload />-->
-    <!-- </div>-->
+    <div class="mb-3">
+      <p class="form-label">Прикрепить фото квитанции</p>
+      <f-upload
+        :id="currInitial.id"
+        v-model="imageDownloadUrl"
+        :url="imageUploadUrl"
+      />
+    </div>
 
     <div class="text-center mt-30">
       <app-button
@@ -137,15 +141,16 @@
 
 <script setup>
 import { useCommunalForm } from '@/use/communal-form'
-import { ref, reactive, computed, nextTick } from 'vue'
 import { useStore } from 'vuex'
 import { useCalcCommunalData } from '@/use/calc-communal-data'
 import { isHasKeysObject } from '@/utils/helpers'
+import { ref, reactive, computed, defineAsyncComponent, watch } from 'vue'
 
 // import FUpload from '@/components/ui/FUpload.vue'
+const FUpload = defineAsyncComponent(() => import('@/components/ui/FUpload.vue'))
 
 // eslint-disable-next-line no-undef
-const emit = defineEmits(['close', 'submit'])
+const emit = defineEmits(['close', 'submit', 'change-image-url'])
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
@@ -169,6 +174,13 @@ fields = reactive(fields)
 
 const prevIsDisabled = ref(true)
 const rates = computed(() => store.getters['communal/rates'] || {})
+const userId = computed(() => store.getters['users/userID'])
+const imageUploadUrl = `/uploads/${userId.value}/images/`
+const imageDownloadUrl = ref(props.currInitial.image)
+
+watch(imageDownloadUrl, url => {
+  emit('change-image-url', url)
+})
 
 const onSubmit = fields.handleSubmit(async ({ status, date, desc }) => {
   try {
@@ -188,6 +200,7 @@ const onSubmit = fields.handleSubmit(async ({ status, date, desc }) => {
       date: fullDate,
       status,
       desc,
+      image: imageDownloadUrl.value,
       ...calcData
     }
 
