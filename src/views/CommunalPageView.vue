@@ -116,26 +116,40 @@
           <p><strong>Описание</strong></p>
           <p class="mw-md-50">{{ communal.desc }}</p>
         </div>
-        <!--        <div class="col-sm">-->
-        <!--          <p><strong>Фото квитанции</strong></p>-->
-        <!--          <button-->
-        <!--            class="btn btn-empty p-0"-->
-        <!--            type="button"-->
-        <!--            data-bs-toggle="modal"-->
-        <!--            data-bs-target="#openModalImage"-->
-        <!--          >-->
-        <!--            <img-->
-        <!--              class="img-fluid"-->
-        <!--              src="./images/foto-zhkh.jpg"-->
-        <!--              alt="Фото квитанции ЖКХ"-->
-        <!--            />-->
-        <!--          </button>-->
-        <!--        </div>-->
+        <div
+          v-if="communal?.image"
+          class="col-sm-6"
+        >
+          <p><strong>Фото квитанции</strong></p>
+          <button
+            class="btn btn-empty p-0"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#openModalImage"
+          >
+            <img
+              class="img-fluid"
+              :src="communal?.image"
+              :alt="communal?.date"
+            />
+          </button>
+        </div>
       </div>
     </app-card>
   </app-page-header>
 
   <teleport to="body">
+    <app-bs-modal
+      id="openModalImage"
+      class="modal--empty modal-lg"
+    >
+      <img
+        class="img-fluid"
+        :src="communal?.image"
+        :alt="communal?.date"
+      />
+    </app-bs-modal>
+
     <app-bs-modal
       id="editRecordForm"
       title="Редактировать показания счетчиков"
@@ -146,6 +160,7 @@
         v-if="communal"
         :curr-initial="communal"
         @close="closeModal"
+        @change-image-url="loadCommunal"
       />
     </app-bs-modal>
 
@@ -163,17 +178,17 @@
 import CommunalForm from '@/components/communal/CommunalForm.vue'
 import CommunalFullPageCard from '@/components/communal/CommunalFullPageCard.vue'
 import breadcrumbs from '@/use/breadcrumb'
-import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { dateF } from '@/utils/date'
 import { showBsModal, closeBsModal } from '@/use/bs-modal'
+import { onMounted, ref } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
 const store = useStore()
 const communal = ref(null)
-const modal = ref(false)
+let modal = ref(false)
 const confirm = ref(false)
 const id = route.params.id
 
@@ -188,14 +203,20 @@ const removeConfirm = async () => {
   await router.push({ name: 'Communal' })
 }
 
+const loadCommunal = async val => {
+  if (!val) {
+    communal.value = await store.dispatch('communal/loadOne', id)
+  }
+}
+
 const closeModal = async () => {
-  communal.value = await store.dispatch('communal/loadOne', id)
+  await loadCommunal()
   modal.value = true
 }
 
 onMounted(async () => {
   await store.dispatch('communal/loadRates')
-  communal.value = await store.dispatch('communal/loadOne', id)
+  await loadCommunal()
   const title = dateF(communal.value.date) + ' г.'
   breadcrumbs.setCurrentBreadcrumbName(title)
 })
