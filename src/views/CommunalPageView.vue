@@ -8,9 +8,12 @@
     <app-loader />
   </div>
 
-  <app-page-header v-else>
+  <app-page-header
+    v-else
+    class-list="d-block"
+  >
     <template #header>
-      <div class="row align-items-center g-20 w-100">
+      <div class="row align-items-center g-20">
         <div class="col-sm d-flex align-items-center">
           <h1 class="h3 main__header-tlt">
             {{ $dateF(communal.date, { month: 'long' }) + ' г.' }}
@@ -37,23 +40,21 @@
               }"
               :icon="{
                 name: 'pencil-square',
-                placement: 'prepend',
-                classList: 'me-1 d-none d-lg-inline'
+                placement: 'prepend'
               }"
             >
-              Редактировать
+              <span class="d-none d-md-inline ms-2">Редактировать</span>
             </app-button>
 
             <app-button
               class-list-btn="btn-outline-danger px-3 ms-10"
               :icon="{
                 name: 'trash',
-                placement: 'prepend',
-                classList: 'me-1 d-none d-lg-inline'
+                placement: 'prepend'
               }"
               @click="remove"
             >
-              Удалить
+              <span class="d-none d-md-inline ms-2">Удалить</span>
             </app-button>
           </div>
         </div>
@@ -61,7 +62,7 @@
     </template>
 
     <app-card class-list-body="pt-sm-25">
-      <h2 class="h4 mb-xxl-30">Сумма: {{ $currency(communal.amount) }}</h2>
+      <h2 class="h4 mb-xxl-30 mb-20">Сумма: {{ $currency(communal.amount) }}</h2>
 
       <div class="row g-15 mb-30 justify-content-center">
         <communal-full-page-card
