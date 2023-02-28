@@ -5,14 +5,14 @@
     <template #header>
       <div class="d-flex align-items-center">
         <app-button
-          class-list-btn="main__add-btn btn-primary shadow-sm-soft"
+          class-list-btn="btn-primary px-3"
           :attrs="{
             'data-bs-toggle': 'modal',
             'data-bs-target': '#addCommunalRecord'
           }"
           :icon="{ name: 'pencil-square', placement: 'prepend' }"
         >
-          <span class="ms-2 d-sm-inline d-none">Добавить показания</span>
+          <span class="ms-2 d-md-inline d-none">Добавить показания</span>
         </app-button>
 
         <app-button
@@ -21,9 +21,9 @@
             'data-bs-toggle': 'modal',
             'data-bs-target': '#communalSettingForm'
           }"
-          :icon="{ name: 'gear', placement: 'prepend' }"
+          :icon="{ name: 'piggy-bank', placement: 'prepend', classList: 'fz-16' }"
         >
-          <span class="ms-1 d-none d-lg-inline">Тарифы</span>
+          <span class="ms-2 d-none d-md-inline">Тарифы</span>
         </app-button>
       </div>
     </template>
@@ -111,7 +111,7 @@ import { checkboxes, selectCheckboxes, resetCheckboxes } from '@/use/checkboxes'
 import { dateF } from '@/utils/date'
 
 const store = useStore()
-const closeFormModal = ref(false)
+let closeFormModal = ref(false)
 const loader = ref(true)
 const filter = ref({})
 const rates = computed(() => store.getters['communal/rates'] || {})

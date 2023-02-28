@@ -2,6 +2,7 @@
   <header
     v-if="$slots.header || title"
     class="page-header"
+    :class="classList"
   >
     <h1
       v-if="title"
@@ -29,6 +30,10 @@ const props = defineProps({
   center: {
     type: Boolean,
     default: false
+  },
+  classList: {
+    type: String,
+    default: ''
   }
 })
 const pageTitle = props.title ? props.title + ' |' : ''
