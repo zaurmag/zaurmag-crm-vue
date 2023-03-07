@@ -1,7 +1,7 @@
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useStore } from 'vuex'
-import { isHasKeysObject } from '@/utils/helpers'
+import { isHasKeysObject } from '@/utils/common'
 
 export function useCommunalSettingsForm(initialValues, emit) {
   const store = useStore()

@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { useCommunalSettingsForm } from '@/use/communal-settings-form'
+import { useCommunalSettingsForm } from '../composition/communal-settings-form'
 
 export default {
   name: 'CommunalSettingsForm',

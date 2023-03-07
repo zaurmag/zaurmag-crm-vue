@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/HomeView.vue'
 import store from '../store'
+import modules from './add-modules'
 
 const routes = [
   {
@@ -71,32 +72,6 @@ const routes = [
     ]
   },
   {
-    path: '/communal',
-    name: 'CommunalRoot',
-    redirect: { name: 'Communal' },
-    component: () => import('../views/CommunalRootView.vue'),
-    meta: {
-      layout: 'main',
-      auth: true,
-      breadcrumb: 'Оплата коммунальных'
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'Communal',
-        component: () => import('../views/CommunalView.vue'),
-        meta: {
-          breadcrumb: false
-        }
-      },
-      {
-        path: 'page/:id',
-        name: 'CommunalPage',
-        component: () => import('../views/CommunalPageView.vue')
-      }
-    ]
-  },
-  {
     path: '/dbreplacer',
     name: 'dbreplacer',
     component: () => import('../views/DbReplacerView.vue'),
@@ -112,6 +87,10 @@ const router = createRouter({
   routes,
   linkActiveClass: 'is-active',
   linkExactActiveClass: 'is-active'
+})
+
+modules.forEach(module => {
+  router.addRoute(module)
 })
 
 router.beforeEach((to, from, next) => {

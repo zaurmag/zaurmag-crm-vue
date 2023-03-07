@@ -176,13 +176,13 @@
 </template>
 
 <script setup>
-import CommunalForm from '@/components/communal/CommunalForm.vue'
-import CommunalFullPageCard from '@/components/communal/CommunalFullPageCard.vue'
+import CommunalForm from '../components/CommunalForm.vue'
+import CommunalFullPageCard from '../components/CommunalFullPageCard.vue'
 import breadcrumbs from '@/use/breadcrumb'
-import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
 import { dateF } from '@/utils/date'
 import { showBsModal, closeBsModal } from '@/use/bs-modal'
+import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import { onMounted, ref } from 'vue'
 
 const route = useRoute()

@@ -140,13 +140,12 @@
 </template>
 
 <script setup>
-import { useCommunalForm } from '@/use/communal-form'
+import { useCommunalForm } from '../composition/communal-form'
+import { useCalcCommunalData } from '../composition/calc-communal-data'
+import { isHasKeysObject } from '@/utils/common'
 import { useStore } from 'vuex'
-import { useCalcCommunalData } from '@/use/calc-communal-data'
-import { isHasKeysObject } from '@/utils/helpers'
 import { ref, reactive, computed, defineAsyncComponent, watch } from 'vue'
 
-// import FUpload from '@/components/ui/FUpload.vue'
 const FUpload = defineAsyncComponent(() => import('@/components/ui/FUpload.vue'))
 
 // eslint-disable-next-line no-undef

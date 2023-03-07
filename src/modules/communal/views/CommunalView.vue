@@ -99,11 +99,11 @@
 </template>
 
 <script setup>
-import CommunalListHeader from '@/components/communal/CommunalListHeader.vue'
-import CommunalFilter from '@/components/communal/CommunalFilter.vue'
-import CommunalList from '@/components/communal/CommunalList.vue'
-import CommunalForm from '@/components/communal/CommunalForm.vue'
-import CommunalSettingsForm from '@/components/communal/CommunalSettingsForm.vue'
+import CommunalListHeader from '../components/CommunalListHeader.vue'
+import CommunalFilter from '../components/CommunalFilter.vue'
+import CommunalList from '../components/CommunalList.vue'
+import CommunalForm from '../components/CommunalForm.vue'
+import CommunalSettingsForm from '../components/CommunalSettingsForm.vue'
 import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { showBsModal, closeBsModal } from '@/use/bs-modal'
