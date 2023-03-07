@@ -31,16 +31,6 @@ const routes = [
     }
   },
   {
-    path: '/project/:id',
-    name: 'Project',
-    component: () => import('../views/ProjectView.vue'),
-    meta: {
-      layout: 'main',
-      auth: true,
-      breadcrumb: true
-    }
-  },
-  {
     path: '/users',
     name: 'UsersRoot',
     redirect: { name: 'Users' },
