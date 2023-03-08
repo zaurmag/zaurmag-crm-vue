@@ -7,8 +7,7 @@
         class="text-decoration-none"
         to="/sign-in"
       >
-        Войдите
-</router-link
+        Войдите</router-link
       >, если вы уже зарегистрированы.
     </div>
   </div>
@@ -16,5 +15,5 @@
 
 <script setup>
 import RegisterForm from '@/components/RegisterForm.vue'
-document.title = 'Регистрация пользователя | Система подсчета доходов/расходов'
+document.title = 'Регистрация пользователя | ZmCrm'
 </script>

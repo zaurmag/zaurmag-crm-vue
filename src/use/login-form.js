@@ -1,8 +1,9 @@
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
-import { computed, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { PASS_MINLENGTH } from '@/config/consts'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { computed, watch } from 'vue'
 
 export function useLoginForm() {
   const router = useRouter()
@@ -17,7 +18,7 @@ export function useLoginForm() {
     'email',
     yup.string().required('Введите E-mail').trim().email('Введите валидный E-mail')
   )
-  const PASS_MINLENGTH = 3
+
   const {
     value: password,
     errorMessage: pError,
@@ -42,7 +43,9 @@ export function useLoginForm() {
     try {
       await store.dispatch('auth/login', values)
       await router.push('/')
-    } catch (e) {}
+    } catch (e) {
+      throw new Error(e)
+    }
   })
 
   return {

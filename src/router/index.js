@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/HomeView.vue'
 import store from '../store'
+import modules from './modules'
 
 const routes = [
   {
@@ -28,82 +29,6 @@ const routes = [
     meta: {
       layout: 'empty'
     }
-  },
-  {
-    path: '/project/:id',
-    name: 'Project',
-    component: () => import('../views/ProjectView.vue'),
-    meta: {
-      layout: 'main',
-      auth: true,
-      breadcrumb: true
-    }
-  },
-  {
-    path: '/users',
-    name: 'UsersRoot',
-    redirect: { name: 'Users' },
-    component: () => import('../views/UsersRootView.vue'),
-    meta: {
-      breadcrumb: 'Пользователи',
-      layout: 'main',
-      auth: true
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'Users',
-        component: () => import('../views/UsersView.vue'),
-        meta: {
-          breadcrumb: false
-        }
-      },
-      {
-        path: 'profile/:id',
-        name: 'Profile',
-        component: () => import('../views/ProfileView.vue')
-      },
-      {
-        path: 'edit-profile/:id',
-        name: 'EditProfile',
-        component: () => import('../views/EditProfileView.vue')
-      }
-    ]
-  },
-  {
-    path: '/communal',
-    name: 'CommunalRoot',
-    redirect: { name: 'Communal' },
-    component: () => import('../views/CommunalRootView.vue'),
-    meta: {
-      layout: 'main',
-      auth: true,
-      breadcrumb: 'Оплата коммунальных'
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'Communal',
-        component: () => import('../views/CommunalView.vue'),
-        meta: {
-          breadcrumb: false
-        }
-      },
-      {
-        path: 'page/:id',
-        name: 'CommunalPage',
-        component: () => import('../views/CommunalPageView.vue')
-      }
-    ]
-  },
-  {
-    path: '/dbreplacer',
-    name: 'dbreplacer',
-    component: () => import('../views/DbReplacerView.vue'),
-    meta: {
-      layout: 'main',
-      auth: true
-    }
   }
 ]
 
@@ -112,6 +37,10 @@ const router = createRouter({
   routes,
   linkActiveClass: 'is-active',
   linkExactActiveClass: 'is-active'
+})
+
+modules.forEach(module => {
+  router.addRoute(module)
 })
 
 router.beforeEach((to, from, next) => {
