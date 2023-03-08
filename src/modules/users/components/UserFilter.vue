@@ -67,7 +67,7 @@
 </template>
 
 <script setup>
-import { USER_STATUS } from '@/constans'
+import { USER_STATUS } from '@/config/consts'
 import { ref } from 'vue'
 
 const statusOptions = ref(USER_STATUS)

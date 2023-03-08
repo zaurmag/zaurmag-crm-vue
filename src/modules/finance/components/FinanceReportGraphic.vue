@@ -13,7 +13,7 @@
 import AppCard from '@/components/ui/AppCard.vue'
 import ChartLine from '@/components/ui/ChartLine.vue'
 import { computed, watch, ref } from 'vue'
-import { MONTHS } from '@/constans'
+import { MONTHS } from '@/config/consts'
 import { getAmountByMonths, getMonthName } from '@/utils/report'
 import { currency } from '@/utils/currency'
 

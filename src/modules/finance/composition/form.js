@@ -3,7 +3,7 @@ import * as yup from 'yup'
 import { useStore } from 'vuex'
 import { dateF } from '@/utils/date'
 
-export function useProjectForm(emit, initialValues) {
+export function useFinanceForm(emit, initialValues) {
   const store = useStore()
   const { handleSubmit, handleReset, resetForm, isSubmitting, setFieldValue } = useForm({
     initialValues

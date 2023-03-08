@@ -64,8 +64,8 @@
 </template>
 
 <script>
-import { useProjectForm } from '../composition/form'
-import { TYPE_OPTIONS } from '@/constans'
+import { useFinanceForm } from '../composition/form'
+import { TYPE_OPTIONS } from '@/config/consts'
 import { ref } from 'vue'
 
 export default {
@@ -82,7 +82,7 @@ export default {
 
     return {
       typeOptions,
-      ...useProjectForm(emit, props.initial)
+      ...useFinanceForm(emit, props.initial)
     }
   }
 }

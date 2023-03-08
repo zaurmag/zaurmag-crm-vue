@@ -76,7 +76,7 @@
 
 <script setup>
 import AppPeriodDateRange from '@/components/ui/AppPeriodDateRange.vue'
-import { PERIOD_OPTIONS, TYPE_OPTIONS } from '@/constans'
+import { PERIOD_OPTIONS, TYPE_OPTIONS } from '@/config/consts'
 import { ref, watch, computed } from 'vue'
 
 // eslint-disable-next-line no-undef

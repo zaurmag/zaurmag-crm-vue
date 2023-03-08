@@ -1,22 +1,24 @@
 <template>
   <app-page-header title="Dashboard">
     <div class="row">
-      <div class="col">
+      <div
+        v-for="link in links"
+        :key="link.name"
+        class="col"
+      >
         <router-link
           class="btn btn-primary d-flex btn-lg"
-          :to="{ name: 'Finance' }"
+          :to="{ name: link.name }"
         >
-          Финансы
-        </router-link>
-      </div>
-      <div class="col">
-        <router-link
-          class="btn btn-success d-flex btn-lg"
-          :to="{ name: 'Communal' }"
-        >
-          Коммунальные
+          {{ link.title }}
         </router-link>
       </div>
     </div>
   </app-page-header>
 </template>
+
+<script setup>
+import { useLinksFromRoutes } from '@/use/links-from-routes'
+
+const links = useLinksFromRoutes()
+</script>

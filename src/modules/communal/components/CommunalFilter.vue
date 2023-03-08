@@ -62,7 +62,7 @@
 <script setup>
 import AppPeriodDateRange from '@/components/ui/AppPeriodDateRange.vue'
 import { ref, watch, computed } from 'vue'
-import { PERIOD_OPTIONS, STATUS_OPTIONS } from '@/constans'
+import { PERIOD_OPTIONS, STATUS_OPTIONS } from '@/config/consts'
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['update:modelValue'])

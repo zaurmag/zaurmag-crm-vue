@@ -1,5 +1,5 @@
 import { dateF, getDateFromPeriod, getRangeDate } from '@/utils/date'
-import { PERIOD_OPTIONS } from '@/constans'
+import { PERIOD_OPTIONS } from '@/config/consts'
 
 /**
  * Карта дат для селекта "Выбрать период" в фильтре

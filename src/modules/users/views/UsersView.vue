@@ -77,7 +77,7 @@
 <script setup>
 import UserList from '../components/UserList.vue'
 import RegisterForm from '@/components/RegisterForm.vue'
-import { useProductPaginate } from '@/use/product-paginate'
+import { useProductPaginate } from '@/use/paginate'
 import { closeBsModal } from '@/use/bs-modal'
 import { useStore } from 'vuex'
 import { ref, onMounted, computed } from 'vue'

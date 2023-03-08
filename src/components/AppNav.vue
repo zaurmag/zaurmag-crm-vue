@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-import routes from '../router/modules'
+import { useLinksFromRoutes } from '@/use/links-from-routes'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 
@@ -37,14 +37,7 @@ const store = useStore()
 const route = useRoute()
 const isAdmin = store.getters['users/isAdmin']
 
-const links = routes.map(route => {
-  return {
-    path: route.path,
-    name: route.redirect.name,
-    title: route.meta.nav,
-    icon: route.meta.icon
-  }
-})
+const links = useLinksFromRoutes()
 </script>
 
 <style lang="sass">
