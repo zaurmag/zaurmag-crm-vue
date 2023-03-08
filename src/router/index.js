@@ -29,15 +29,6 @@ const routes = [
     meta: {
       layout: 'empty'
     }
-  },
-  {
-    path: '/dbreplacer',
-    name: 'dbreplacer',
-    component: () => import('../views/DbReplacerView.vue'),
-    meta: {
-      layout: 'main',
-      auth: true
-    }
   }
 ]
 

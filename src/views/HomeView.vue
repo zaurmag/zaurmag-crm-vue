@@ -19,6 +19,9 @@
 
 <script setup>
 import { useLinksFromRoutes } from '@/use/links-from-routes'
+import { useStore } from 'vuex'
 
+const store = useStore()
+const isAdmin = store.getters['users/isAdmin']
 const links = useLinksFromRoutes()
 </script>
