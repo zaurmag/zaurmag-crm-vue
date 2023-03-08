@@ -31,37 +31,6 @@ const routes = [
     }
   },
   {
-    path: '/users',
-    name: 'UsersRoot',
-    redirect: { name: 'Users' },
-    component: () => import('../views/UsersRootView.vue'),
-    meta: {
-      breadcrumb: 'Пользователи',
-      layout: 'main',
-      auth: true
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'Users',
-        component: () => import('../views/UsersView.vue'),
-        meta: {
-          breadcrumb: false
-        }
-      },
-      {
-        path: 'profile/:id',
-        name: 'Profile',
-        component: () => import('../views/ProfileView.vue')
-      },
-      {
-        path: 'edit-profile/:id',
-        name: 'EditProfile',
-        component: () => import('../views/EditProfileView.vue')
-      }
-    ]
-  },
-  {
     path: '/dbreplacer',
     name: 'dbreplacer',
     component: () => import('../views/DbReplacerView.vue'),

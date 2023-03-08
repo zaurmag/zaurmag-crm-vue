@@ -75,12 +75,12 @@
 </template>
 
 <script setup>
-import UserList from '@/components/user/UserList.vue'
+import UserList from '../components/UserList.vue'
 import RegisterForm from '@/components/RegisterForm.vue'
 import { useProductPaginate } from '@/use/product-paginate'
 import { closeBsModal } from '@/use/bs-modal'
-import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
+import { ref, onMounted, computed } from 'vue'
 
 const users = computed(() => store.getters['users/users'])
 const store = useStore()

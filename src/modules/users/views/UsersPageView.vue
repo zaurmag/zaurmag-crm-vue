@@ -19,7 +19,7 @@
             <router-link
               v-if="user.id"
               class="btn btn-light py-2"
-              :to="{ name: 'EditProfile', params: { id: user.id } }"
+              :to="{ name: 'UsersEditPage', params: { id: user.id } }"
             >
               <svg-icon
                 name="pencil-square"
@@ -102,8 +102,8 @@
 </template>
 
 <script setup>
-import TheProfile from '@/components/profile/TheProfile.vue'
-import { getUser } from '@/use/user'
+import TheProfile from '../components/UserProfile.vue'
+import { getUser } from '../composition/user'
 
 const user = getUser()
 </script>

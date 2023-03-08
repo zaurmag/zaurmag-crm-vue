@@ -18,7 +18,7 @@
           <template #headerBackProfile>
             <router-link
               class="btn btn-light py-2"
-              :to="{ name: 'Profile', params: { id: user.id } }"
+              :to="{ name: 'Users', params: { id: user.id } }"
             >
               <svg-icon name="box-arrow-in-left" />
               <span class="d-none d-lg-inline ms-lg-2">Вернуться в профиль</span>
@@ -314,14 +314,14 @@
 </template>
 
 <script>
-import TheProfile from '@/components/profile/TheProfile.vue'
+import TheProfile from '../components/UserProfile.vue'
 import FileUpload from '@/components/ui/FileUpload.vue'
-import EditProfileModalFooter from '@/components/profile/EditProfileModalFooter.vue'
-import { useEditProfileForm } from '@/use/edit-profile-form'
+import EditProfileModalFooter from '../components/EditModalFooter.vue'
+import { useEditProfileForm } from '../composition/edit-form'
 import { useChangePasswordForm } from '@/use/change-password-form'
-import { useDeleteAccountForm } from '@/use/delete-account-form'
-import { useUploadImage } from '@/use/upload-image'
-import { getUser } from '@/use/user'
+import { useDeleteAccountForm } from '../composition/delete-account-form'
+import { useUploadImage } from '../composition/upload-image'
+import { getUser } from '../composition/user'
 import { ref } from 'vue'
 
 export default {

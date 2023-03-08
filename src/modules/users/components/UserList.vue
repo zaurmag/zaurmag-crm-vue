@@ -50,7 +50,7 @@
               />
               <router-link
                 class="table-cell-title-link is-transition"
-                :to="{ name: 'Profile', params: { id: user.id } }"
+                :to="{ name: 'UsersPage', params: { id: user.id } }"
               >
                 {{ user.name }}
               </router-link>
@@ -70,7 +70,7 @@
           <td style="min-width: 140px">
             <router-link
               class="btn btn-outline-secondary btn-sm fz-12 px-2 py-1"
-              :to="{ name: 'EditProfile', params: { id: user.id } }"
+              :to="{ name: 'UsersEditPage', params: { id: user.id } }"
             >
               <svg-icon
                 name="pencil"

@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { hideBsModal } from '@/use/bs-modal'
-import { getUser } from '@/use/user'
+import { getUser } from './user'
 
 export function useUploadImage(modalId) {
   const store = useStore()
