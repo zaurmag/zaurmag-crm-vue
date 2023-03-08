@@ -202,3 +202,17 @@ export function toISOString(date) {
     getSeconds()
   )
 }
+
+/**
+ * Вывод периода дат с форматированием
+ * @param {string} dateFrom Дата в формате 2022-05-10
+ * @param {string} dateTo Дата в формате 2022-05-01
+ * @return String Дата, например, 1 — 7 мая 2022, 10 апр. — 10 мая 2022
+ */
+export function textRangePeriod(dateFrom, dateTo) {
+  if (dateFrom === dateTo) {
+    return dateF(Date.now(), { month: 'short' })
+  }
+
+  return `${getRangeDate(dateFrom)} — ${dateF(dateTo, { month: 'short' })}`
+}

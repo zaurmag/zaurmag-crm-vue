@@ -43,8 +43,7 @@
 </template>
 
 <script setup>
-import { getDateFromPeriod, dateF } from '@/utils/date'
-import { textRangePeriod } from '@/utils/filter-period'
+import { getDateFromPeriod, dateF, textRangePeriod } from '@/utils/date'
 import { computed, watch, ref } from 'vue'
 
 // eslint-disable-next-line no-undef
