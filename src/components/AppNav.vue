@@ -10,25 +10,18 @@
           <span class="nav-text">Главная</span>
         </router-link>
       </li>
-      <li class="nav-item">
-        <router-link
-          :to="{ name: 'Communal' }"
-          :class="['nav-link', { 'is-active': route.name === 'Communal' }]"
-        >
-          <svg-icon name="house" />
-          <span class="nav-text">Платежи ЖКХ</span>
-        </router-link>
-      </li>
+
       <li
-        v-if="isAdmin"
+        v-for="link in links"
+        :key="link.name"
         class="nav-item"
       >
         <router-link
-          :to="{ name: 'Users' }"
-          :class="['nav-link', { 'is-active': route.name === 'Profile' }]"
+          :to="{ name: link.name }"
+          :class="['nav-link', { 'is-active': route.matched[0].path === link.path }]"
         >
-          <svg-icon name="people" />
-          <span class="nav-text">Пользователи</span>
+          <svg-icon :name="link.icon" />
+          <span class="nav-text">{{ link.title }}</span>
         </router-link>
       </li>
     </ul>
@@ -36,12 +29,22 @@
 </template>
 
 <script setup>
+import routes from '../router/modules'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 
 const store = useStore()
 const route = useRoute()
 const isAdmin = store.getters['users/isAdmin']
+
+const links = routes.map(route => {
+  return {
+    path: route.path,
+    name: route.redirect.name,
+    title: route.meta.nav,
+    icon: route.meta.icon
+  }
+})
 </script>
 
 <style lang="sass">

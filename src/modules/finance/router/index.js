@@ -4,9 +4,11 @@ export const financeRoute = {
   redirect: { name: 'Finance' },
   component: import('../../../views/RootView.vue'),
   meta: {
-    breadcrumb: 'Финансы',
+    auth: true,
     layout: 'main',
-    auth: true
+    nav: 'Финансы',
+    icon: 'wallet2',
+    breadcrumb: 'Финансы'
   },
   children: [
     {

@@ -6,7 +6,9 @@ export const communalRoute = {
   meta: {
     layout: 'main',
     auth: true,
-    breadcrumb: 'Оплата коммунальных'
+    breadcrumb: 'Оплата коммунальных',
+    nav: 'Платежи ЖКХ',
+    icon: 'house'
   },
   children: [
     {
