@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import ProjectReportCommon from '@/components/project/ProjectReportCommon.vue'
-import ProjectReportGraphic from '@/components/project/ProjectReportGraphic.vue'
+import ProjectReportCommon from '../components/FinanceReportCommon.vue'
+import ProjectReportGraphic from '../components/FinanceReportGraphic.vue'
 
 export default {
   name: 'ProjectReport',

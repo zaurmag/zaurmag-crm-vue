@@ -48,7 +48,7 @@
             <td style="min-width: 215px">
               <router-link
                 class="table-cell-title-link is-transition"
-                :to="{ name: 'Project', params: { id: project.id } }"
+                :to="{ name: 'FinancePage', params: { id: project.id } }"
               >
                 {{ project.title }}
               </router-link>
@@ -60,7 +60,7 @@
             <td style="min-width: 140px">
               <app-button
                 class-list-btn="btn-outline-primary btn-sm py-1 fz-12"
-                @click="$router.push(`/project/${project.id}`)"
+                @click="$router.push({ name: 'FinancePage', params: { id: project.id } })"
               >
                 Открыть
               </app-button>

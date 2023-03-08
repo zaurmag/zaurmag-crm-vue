@@ -21,7 +21,7 @@ export default {
         const { data } = await axios.get(`/projects/${uID}.json`)
         commit('setItems', transform(data))
       } catch (e) {
-        throw e
+        throw new Error(e)
       }
     },
     async loadOne(_, id) {
@@ -30,7 +30,7 @@ export default {
         const { data } = await axios.get(`/projects/${uID}/${id}.json`)
         return { ...data, id }
       } catch (e) {
-        throw e
+        throw new Error(e)
       }
     },
     async add({ commit, dispatch }, item) {
