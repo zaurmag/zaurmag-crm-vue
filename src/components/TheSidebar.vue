@@ -2,13 +2,13 @@
   <aside
     id="sidebarMenu"
     class="sidebar"
-    :class="{ 'is-compact': toggleSb }"
+    :class="{ 'is-compact': sidebarState }"
   >
     <button
-      :key="toogleBtnTooltip"
-      v-tooltip="{ title: toogleBtnTooltip, placement: 'right' }"
+      :key="toggleBtnTooltip"
+      v-tooltip="{ title: toggleBtnTooltip, placement: 'right' }"
       class="btn-round p-0 sidebar__collapse-btn"
-      :class="{ 'is-active': toggleSb }"
+      :class="{ 'is-active': sidebarState }"
       type="button"
       data-bs-toggle="tooltip"
       data-bs-placement="right"
@@ -30,31 +30,27 @@
 <script setup>
 import AppLogo from '@/components/AppLogo.vue'
 import AppNav from '@/components/AppNav.vue'
-import { ref } from 'vue'
+import { useStore } from 'vuex'
+import { ref, computed, watch } from 'vue'
 
-// eslint-disable-next-line no-undef
-defineProps({
-  toggleClass: {
-    type: Boolean,
-    required: false,
-    default: true
-  }
-})
-
-const toggleSb = ref(false)
-const toogleBtnTooltip = ref('свернуть')
+const store = useStore()
+const sidebarState = computed(() => store.getters.sidebar)
+const toggleBtnTooltip = ref('свернуть')
 const body = document.body
-const toggleSbHandler = () => {
-  toggleSb.value = !toggleSb.value
 
-  if (toggleSb.value) {
+const toggleSbHandler = () => {
+  store.commit('setSidebar', !sidebarState.value)
+}
+
+watch(sidebarState, val => {
+  if (val) {
     body.classList.add('is-sb-collapsed')
-    toogleBtnTooltip.value = 'развернуть'
+    toggleBtnTooltip.value = 'развернуть'
   } else {
     body.classList.remove('is-sb-collapsed')
-    toogleBtnTooltip.value = 'свернуть'
+    toggleBtnTooltip.value = 'свернуть'
   }
-}
+})
 </script>
 
 <style scoped lang="sass">

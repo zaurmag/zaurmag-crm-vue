@@ -14,8 +14,8 @@ export const useLinksFromRoutes = () => {
     const name = route?.redirect?.name || route?.name
 
     return {
-      path: route.path,
       name,
+      path: route.path,
       title: route.meta.nav,
       icon: route.meta.icon
     }

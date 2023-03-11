@@ -1,15 +1,18 @@
 <template>
   <the-page>
-    <the-sidebar :toggle-class="isCompactSb" />
+    <the-sidebar />
+
+    <div
+      v-if="isOverlay"
+      :class="['overlay', { 'is-active': sidebarState }]"
+      @click="closeSidebarHandler"
+    />
 
     <the-content
       class="content content--right"
-      :class="{ 'is-full': isCompactSb }"
+      :class="{ 'is-full': sidebarState }"
     >
-      <the-header
-        :tooltip-tlt="isCompactSb ? 'Развернуть' : 'Свернуть'"
-        @toggle="isCompactSb = !isCompactSb"
-      />
+      <the-header :tooltip-tlt="sidebarState ? 'Развернуть' : 'Свернуть'" />
 
       <the-main>
         <router-view />
@@ -18,16 +21,6 @@
       <the-footer />
     </the-content>
   </the-page>
-
-  <teleport
-    v-if="isOverlay"
-    to="body"
-  >
-    <div
-      :class="['overlay', { 'is-active': isCompactSb }]"
-      @click="isCompactSb = false"
-    />
-  </teleport>
 
   <teleport to="body">
     <app-message />
@@ -43,9 +36,11 @@ import TheHeader from '@/components/TheHeader.vue'
 import TheFooter from '@/components/TheFooter.vue'
 import AppMessage from '@/components/ui/AppMessage.vue'
 import enquire from 'enquire.js'
-import { ref } from 'vue'
+import { useStore } from 'vuex'
+import { computed, ref } from 'vue'
 
-const isCompactSb = ref(false)
+const store = useStore()
+const sidebarState = computed(() => store.getters.sidebar)
 const isOverlay = ref(false)
 enquire.register('screen and (max-width: 992px)', {
   match() {
@@ -55,4 +50,26 @@ enquire.register('screen and (max-width: 992px)', {
     isOverlay.value = false
   }
 })
+
+const closeSidebarHandler = () => {
+  store.commit('setSidebar', false)
+}
 </script>
+
+<style scoped lang="sass">
+.overlay
+	position: fixed
+	left: 0
+	right: 0
+	top: 0
+	bottom: 0
+	z-index: 100
+	display: none
+	background-color: rgba($black, 60%)
+	//opacity: 0
+	//transition: opacity 0.2s ease
+
+	&.is-active
+		display: block
+		//opacity: 1
+</style>

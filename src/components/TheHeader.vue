@@ -56,9 +56,6 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
 // eslint-disable-next-line no-undef
-defineEmits(['toggle'])
-
-// eslint-disable-next-line no-undef
 defineProps({
   tooltipTlt: {
     type: String,
