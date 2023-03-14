@@ -12,10 +12,10 @@ export function useCalcCommunalData(curr, prev, rates) {
 
   // Calculate
   const amount = computed(() => {
-    const electr = diffElectr.value * rates.value.electr
-    const gas = diffGas.value * rates.value.gas
-    const water = diffWater.value * rates.value.water
-    const trash = rates.value.people * rates.value.trash
+    const electr = (diffElectr.value * rates.value.electr).toFixed(2)
+    const gas = (diffGas.value * rates.value.gas).toFixed(2)
+    const water = (diffWater.value * rates.value.water).toFixed(2)
+    const trash = (rates.value.people * rates.value.trash).toFixed(2)
     const total = electr + gas + water + trash + rates.value.maintanceGe
 
     return {

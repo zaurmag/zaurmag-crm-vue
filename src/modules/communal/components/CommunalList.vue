@@ -17,7 +17,7 @@
           <th style="min-width: 100px">Электр., квт/ч</th>
           <th style="min-width: 100px">Газ, м<sup>3</sup></th>
           <th style="min-width: 100px">Вода, м<sup>3</sup></th>
-          <th style="min-width: 100px">Мусор</th>
+          <th style="min-width: 100px">Мусор, чел.</th>
           <th>Сумма</th>
           <th style="min-width: 120px">Статус</th>
           <th style="min-width: 150px">Действие</th>
@@ -58,7 +58,7 @@
             <td>{{ item.electr.current }}</td>
             <td>{{ item.gas.current }}</td>
             <td>{{ item.water.current }}</td>
-            <td>{{ item.trash.amount }}</td>
+            <td>{{ item.trash.people }}</td>
             <td>{{ $currency(item.amount) }}</td>
             <td>
               <app-indicator :class-list="`me-2 ${item.status ? 'bg-success' : 'bg-warning'}`" />

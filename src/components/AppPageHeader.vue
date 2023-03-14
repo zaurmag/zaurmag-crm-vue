@@ -57,12 +57,6 @@ document.title = `${pageTitle} Система подсчета доходов/р
 		font-weight: 600
 		margin-bottom: 0
 
-	&__add-btn,
-	:slotted(&__add-btn)
-		padding-left: 20px
-		padding-right: 20px
-		height: 45px
-
 		@include media-breakpoint-down(md)
 			border-radius: 50%
 			position: fixed

@@ -5,7 +5,7 @@
     <template #header>
       <div class="d-flex align-items-center">
         <app-button
-          class-list-btn="btn-primary px-3"
+          class-list-btn="btn-primary shadow-sm-soft px-3"
           :attrs="{
             'data-bs-toggle': 'modal',
             'data-bs-target': '#addCommunalRecord'

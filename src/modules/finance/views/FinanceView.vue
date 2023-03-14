@@ -2,7 +2,7 @@
   <app-page-header title="Проекты">
     <template #header>
       <app-button
-        class-list-btn="main__add-btn btn btn-primary shadow-sm-soft"
+        class-list-btn="btn btn-primary shadow-sm-soft px-3"
         :attrs="{ 'data-bs-toggle': 'modal', 'data-bs-target': '#addRecord' }"
         :icon="{ name: 'pencil-square', placement: 'prepend' }"
       >
