@@ -1,6 +1,6 @@
 <template>
   <app-page-header title="Dashboard">
-    <div class="row">
+    <div class="row g-3">
       <div
         v-for="link in links"
         :key="link.name"

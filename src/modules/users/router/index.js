@@ -6,9 +6,9 @@ export const usersRoute = {
   meta: {
     breadcrumb: 'Пользователи',
     layout: 'main',
-    auth: true,
     nav: 'Пользователи',
-    icon: 'people'
+    icon: 'people',
+    auth: true
   },
   children: [
     {
@@ -16,7 +16,8 @@ export const usersRoute = {
       name: 'Users',
       component: () => import('../views/UsersView.vue'),
       meta: {
-        breadcrumb: false
+        breadcrumb: false,
+        isAdmin: true
       }
     },
     {

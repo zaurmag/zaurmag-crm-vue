@@ -28,7 +28,7 @@
               v-if="typeof user.id !== 'undefined'"
               class="dropdown-item"
               :to="{
-                name: 'Users',
+                name: 'UsersPage',
                 params: { id: user.id }
               }"
             >

@@ -1,13 +1,17 @@
-import routes from '../router/modules'
+import routesModules from '../router/modules'
 import { useStore } from 'vuex'
 
 export const useLinksFromRoutes = () => {
   const store = useStore()
   const isAdmin = store.getters['users/isAdmin']
+  let routes = [...routesModules]
 
   if (!isAdmin) {
-    const index = routes.findIndex(route => route.meta.isAdmin)
-    routes.splice(-1, index)
+    routes = routes.filter(route => {
+      const isChildHasAdmin = route?.children?.some(childRoute => childRoute?.meta?.isAdmin)
+
+      return !route.meta?.isAdmin && !isChildHasAdmin
+    })
   }
 
   return routes.map(route => {
