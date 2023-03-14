@@ -14,7 +14,8 @@ if (import.meta.env.NODE_ENV === 'development') {
 export default createStore({
   plugins,
   state: {
-    message: null
+    message: null,
+    sidebar: false
   },
   mutations: {
     setMessage(state, message) {
@@ -22,6 +23,9 @@ export default createStore({
     },
     clearMessage(state) {
       state.message = null
+    },
+    setSidebar(state, value) {
+      state.sidebar = value
     }
   },
   actions: {
@@ -29,6 +33,9 @@ export default createStore({
       commit('setMessage', message)
       setTimeout(() => commit('clearMessage'), 5000)
     }
+  },
+  getters: {
+    sidebar: state => state.sidebar
   },
   modules: {
     auth,

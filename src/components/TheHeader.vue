@@ -28,7 +28,7 @@
               v-if="typeof user.id !== 'undefined'"
               class="dropdown-item"
               :to="{
-                name: 'Users',
+                name: 'UsersPage',
                 params: { id: user.id }
               }"
             >
@@ -54,9 +54,6 @@
 import { onMounted, onBeforeMount, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-
-// eslint-disable-next-line no-undef
-defineEmits(['toggle'])
 
 // eslint-disable-next-line no-undef
 defineProps({

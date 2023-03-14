@@ -2,13 +2,13 @@
   <nav class="navbar sidebar__nav">
     <ul class="nav flex-column navbar-nav">
       <li class="nav-item">
-        <router-link
-          class="nav-link"
-          :to="{ name: 'Home' }"
+        <button
+          :class="['nav-link', 'btn', 'btn-link', { 'is-active': mathPath === '/' }]"
+          @click="linkClickHandler({ name: 'Home', path: '/' })"
         >
           <svg-icon name="speedometer2" />
           <span class="nav-text">Главная</span>
-        </router-link>
+        </button>
       </li>
 
       <li
@@ -16,13 +16,13 @@
         :key="link.name"
         class="nav-item"
       >
-        <router-link
-          :to="{ name: link.name }"
-          :class="['nav-link', { 'is-active': route.matched[0].path === link.path }]"
+        <button
+          :class="['nav-link', 'btn', 'btn-link', { 'is-active': mathPath === link.path }]"
+          @click="linkClickHandler(link)"
         >
           <svg-icon :name="link.icon" />
           <span class="nav-text">{{ link.title }}</span>
-        </router-link>
+        </button>
       </li>
     </ul>
   </nav>
@@ -31,13 +31,22 @@
 <script setup>
 import { useLinksFromRoutes } from '@/use/links-from-routes'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { computed } from 'vue'
 
 const store = useStore()
 const route = useRoute()
-const isAdmin = store.getters['users/isAdmin']
+const router = useRouter()
 
 const links = useLinksFromRoutes()
+const mathPath = computed(() => route.matched[0].path)
+
+const linkClickHandler = ({ path, name }) => {
+  if (route.path !== path) {
+    router.push({ name })
+    store.commit('setSidebar', false)
+  }
+}
 </script>
 
 <style lang="sass">

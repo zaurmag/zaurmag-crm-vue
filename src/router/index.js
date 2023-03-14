@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/HomeView.vue'
 import store from '../store'
 import modules from './modules'
+import { error } from '@/utils/error'
 
 const routes = [
   {
@@ -45,15 +46,20 @@ modules.forEach(module => {
 
 router.beforeEach((to, from, next) => {
   const requireAuth = to.meta.auth
-  const requireAdmin = to.meta.admin
+  const requireAdmin = to.meta.isAdmin
   const isAuthenticated = store.getters['auth/isAuthenticated']
 
   if (requireAdmin) {
-    if (store.getters['auth/isAdmin']) {
+    if (store.getters['users/isAdmin']) {
       return next()
     }
 
-    return next('/sign-in?message=admin')
+    store.dispatch('setMessage', {
+      value: error('admin'),
+      type: 'danger'
+    })
+
+    return next(from.fullPath || '/')
   }
 
   if (requireAuth) {
