@@ -65,12 +65,12 @@
       <register-form @complete="closeBsModal('#addUser')" />
     </app-bs-modal>
 
-    <app-confirm
-      ref="confirm"
-      :title="'Вы удаляете ' + checkboxes.length + ' элемента'"
-      text="Вы уверены? Операцию нельзя будет отменить."
-      @resolve="removeAllConfirm"
-    />
+    <!-- <app-confirm-->
+    <!--   id="removeConfirm"-->
+    <!--   :title="'Вы удаляете ' + checkboxes.length + ' элемента'"-->
+    <!--   text="Вы уверены? Операцию нельзя будет отменить."-->
+    <!--   @resolve="removeAllConfirm"-->
+    <!-- />-->
   </teleport>
 </template>
 

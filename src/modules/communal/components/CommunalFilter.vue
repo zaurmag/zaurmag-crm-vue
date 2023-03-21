@@ -77,9 +77,9 @@ defineProps({
 const periodOptions = ref(PERIOD_OPTIONS.slice(3))
 const periodSelect = ref()
 const statusOptions = ref(STATUS_OPTIONS)
-const status = ref()
-const dateFrom = ref()
-const dateTo = ref()
+const status = ref('')
+const dateFrom = ref('')
+const dateTo = ref('')
 
 const isActive = computed(() => {
   return dateFrom.value || dateTo.value || (status.value && status.value !== 'all')

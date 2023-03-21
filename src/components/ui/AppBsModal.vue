@@ -55,7 +55,7 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      default: ''
     },
     id: {
       type: String,
@@ -63,11 +63,10 @@ export default {
     },
     progress: {
       type: Number,
-      required: false
+      default: 0
     },
     close: {
       type: Boolean,
-      required: false,
       default: false
     }
   },

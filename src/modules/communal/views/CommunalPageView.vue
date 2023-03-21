@@ -190,11 +190,9 @@ const router = useRouter()
 const store = useStore()
 const communal = ref(null)
 let modal = ref(false)
-const confirm = ref(false)
 const id = route.params.id
 
 const remove = () => {
-  confirm.value = true
   showBsModal('#removeConfirm')
 }
 

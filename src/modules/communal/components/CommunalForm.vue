@@ -175,7 +175,7 @@ const prevIsDisabled = ref(true)
 const rates = computed(() => store.getters['communal/rates'] || {})
 const userId = computed(() => store.getters['users/userID'])
 const imageUploadUrl = `/uploads/${userId.value}/images/`
-const imageDownloadUrl = ref(props.currInitial.image)
+const imageDownloadUrl = ref(props.currInitial?.image || '')
 
 watch(imageDownloadUrl, url => {
   emit('change-image-url', url)

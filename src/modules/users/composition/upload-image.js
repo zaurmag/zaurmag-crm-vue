@@ -5,7 +5,7 @@ import { getUser } from './user'
 
 export function useUploadImage(modalId) {
   const store = useStore()
-  const progressModal = ref(null)
+  const progressModal = ref(0)
   const cancel = ref(false)
   const save = ref(false)
   const user = getUser()

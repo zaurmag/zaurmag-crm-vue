@@ -28,7 +28,7 @@
       </div>
     </template>
 
-    <app-card class-list="mb-30">
+    <app-card class="mb-30">
       <template #header>
         <div class="row align-items-start align-items-md-center">
           <communal-list-header
@@ -36,10 +36,7 @@
             @remove="showBsModal('#confirmAllSelected')"
           />
 
-          <div
-            v-if="items.length"
-            class="col"
-          >
+          <div class="col">
             <communal-filter v-model="filter" />
           </div>
         </div>
@@ -70,9 +67,9 @@
       @hide="closeFormModal = false"
     >
       <communal-form
+        :key="prevInitialData?.id"
         :prev-initial="prevInitialData"
         @close="closeFormModal = true"
-        :key="prevInitialData.id"
       />
     </app-bs-modal>
 

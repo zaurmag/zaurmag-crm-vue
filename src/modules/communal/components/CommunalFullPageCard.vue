@@ -1,7 +1,7 @@
 <template>
   <div class="col-xxl col-lg-6 col-md-4 col-sm-6">
     <app-card
-      :class-list="`h-100 card--${color}`"
+      :class="`h-100 card--${color}`"
       class-list-body="p-25"
     >
       <h3

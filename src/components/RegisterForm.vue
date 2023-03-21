@@ -36,7 +36,7 @@
     />
 
     <form-control
-      id="password"
+      id="password2"
       v-model="password2"
       label="Повторить пароль"
       type="password"

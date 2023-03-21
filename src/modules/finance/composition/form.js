@@ -38,6 +38,8 @@ export function useFinanceForm(emit, initialValues) {
   // Set type initial
   if (initialValues) {
     setFieldValue('type', initialValues.type)
+  } else {
+    setFieldValue('type', 0)
   }
 
   // Amount
