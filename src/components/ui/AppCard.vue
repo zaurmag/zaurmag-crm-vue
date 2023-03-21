@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="card shadow-sm-soft"
-    :class="classList"
-  >
+  <div class="card shadow-sm-soft">
     <slot name="prepend" />
 
     <header
@@ -43,15 +40,11 @@ export default {
   props: {
     title: {
       type: String,
-      required: false
-    },
-    classList: {
-      type: String,
-      required: false
+      default: ''
     },
     classListBody: {
       type: String,
-      required: false
+      default: ''
     }
   }
 }

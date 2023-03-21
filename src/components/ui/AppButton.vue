@@ -39,7 +39,7 @@ defineEmits(['click'])
 defineProps({
   id: {
     type: String,
-    default: ''
+    default: null
   },
   classListBtn: {
     type: String,

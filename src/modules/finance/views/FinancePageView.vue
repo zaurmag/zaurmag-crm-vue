@@ -1,9 +1,9 @@
 <template>
-  <app-loader v-if="loader" />
-  <template v-else-if="project">
+  <app-loader v-if="!project" />
+  <template v-else>
     <app-breadcrumb />
 
-    <app-page-header :title="project.title">
+    <app-page-header :title="project?.title">
       <app-card>
         <template #append>
           <div class="p-sm-30 p-20">
@@ -11,11 +11,11 @@
               <div class="col-md-6">
                 <div class="text-secondary fz-16">
                   <time class="d-block mb-3"
-                    >Дата: <span class="fw-medium">{{ project.date }}</span></time
+                    >Дата: <span class="fw-medium">{{ project?.date }}</span></time
                   >
                   <div class="mb-3">
                     Сумма:
-                    <span class="fw-medium">{{ $currency(project.amount) }}</span>
+                    <span class="fw-medium">{{ $currency(project?.amount) }}</span>
                   </div>
                   <div class="mb-4 d-flex align-items-center">
                     <span class="me-2">Тип операции:</span>
@@ -23,7 +23,7 @@
                   </div>
                   <div class="mb-3">
                     <h5 class="mb-2">Описание:</h5>
-                    <p>{{ project.desc }}</p>
+                    <p>{{ project?.desc }}</p>
                   </div>
                 </div>
                 <div class="d-flex">
@@ -79,8 +79,8 @@
     </app-bs-modal>
 
     <app-confirm
-      ref="confirm"
-      :title="'Вы удаляете проект ' + project.title"
+      :id="REMOVE_CONFIRM"
+      :title="'Вы удаляете проект ' + project?.title"
       text="Вы уверены? Операцию нельзя будет отменить."
       @resolve="removeConfirm"
     />
@@ -91,38 +91,41 @@
 import AppType from '@/components/ui/AppType.vue'
 import ProjectForm from '../components/FinanceForm.vue'
 import breadcrumbs from '@/use/breadcrumb'
+import { showBsModal, closeBsModal } from '@/use/bs-modal'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 
-const loader = ref(true)
+const REMOVE_CONFIRM = 'removeConfirm'
 const route = useRoute()
 const router = useRouter()
 const store = useStore()
 const project = ref()
 const closeModal = ref(false)
-const confirm = ref(false)
 const initial = ref()
 const id = route.params.id
 
 onMounted(async () => {
-  project.value = await store.dispatch('project/loadOne', id)
-  initial.value = { ...project.value }
-  loader.value = false
-  breadcrumbs.setCurrentBreadcrumbName(project.value.title)
+  try {
+    project.value = await store.dispatch('project/loadOne', id)
+    initial.value = { ...project.value }
+    breadcrumbs.setCurrentBreadcrumbName(project.value.title)
+  } catch (e) {
+    throw new Error(e)
+  }
 })
 
 const removeBtn = () => {
-  confirm.value.confirm = true
+  showBsModal(`#${REMOVE_CONFIRM}`)
 }
 
 const removeConfirm = async () => {
   try {
     await store.dispatch('project/delete', id)
-    confirm.value.confirm = false
-    await router.push({ name: 'Home' })
+    closeBsModal(`#${REMOVE_CONFIRM}`)
+    await router.push({ name: 'Finance' })
   } catch (e) {
-    /* empty */
+    throw new Error(e)
   }
 }
 

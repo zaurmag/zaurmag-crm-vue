@@ -317,6 +317,7 @@
 import TheProfile from '../components/UserProfile.vue'
 import FileUpload from '@/components/ui/FileUpload.vue'
 import EditProfileModalFooter from '../components/EditModalFooter.vue'
+import WEditor from '@/components/ui/WEditor.vue'
 import { useEditProfileForm } from '../composition/edit-form'
 import { useChangePasswordForm } from '../composition/change-password-form'
 import { useDeleteAccountForm } from '../composition/delete-account-form'
@@ -325,11 +326,12 @@ import { getUser } from '../composition/user'
 import { ref } from 'vue'
 
 export default {
-  name: 'EditProfile',
+  name: 'UsersEditPageView',
   components: {
     TheProfile,
     FileUpload,
-    EditProfileModalFooter
+    EditProfileModalFooter,
+    WEditor
   },
   setup() {
     const user = getUser()

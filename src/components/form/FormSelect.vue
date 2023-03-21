@@ -44,8 +44,7 @@ export default {
   name: 'FormSelect',
   props: {
     modelValue: {
-      type: String,
-      default: '',
+      type: [String, Number],
       required: true
     },
     placeholder: {

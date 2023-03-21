@@ -2,7 +2,7 @@ export const financeRoute = {
   path: '/finance',
   name: 'FinanceRoot',
   redirect: { name: 'Finance' },
-  component: import('../../../views/RootView.vue'),
+  component: () => import('../../../views/RootView.vue'),
   meta: {
     auth: true,
     layout: 'main',
@@ -14,7 +14,7 @@ export const financeRoute = {
     {
       path: 'list',
       name: 'Finance',
-      component: import('../views/FinanceView.vue'),
+      component: () => import('../views/FinanceView.vue'),
       meta: {
         breadcrumb: false
       }

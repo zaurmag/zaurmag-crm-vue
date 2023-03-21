@@ -32,8 +32,7 @@ const emit = defineEmits(['resolve'])
 defineProps({
   id: {
     type: String,
-    required: true,
-    default: 'confirm'
+    required: true
   },
   title: {
     type: String,

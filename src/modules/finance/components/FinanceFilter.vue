@@ -83,16 +83,16 @@ import { ref, watch, computed } from 'vue'
 const emit = defineEmits(['update:modelValue'])
 // eslint-disable-next-line no-undef
 defineProps({
-  modelValue: { type: String, default: '' }
+  modelValue: { type: Object, default: () => {} }
 })
 
 const periodOptions = ref(PERIOD_OPTIONS)
-const periodSelect = ref()
+const periodSelect = ref('')
 const typeOptions = ref(TYPE_OPTIONS)
-const type = ref()
-const dateFrom = ref()
-const dateTo = ref()
-const search = ref()
+const type = ref('')
+const dateFrom = ref('')
+const dateTo = ref('')
+const search = ref('')
 
 const isActive = computed(() => {
   return dateFrom.value || dateTo.value || (type.value && type.value !== 'all') || search.value

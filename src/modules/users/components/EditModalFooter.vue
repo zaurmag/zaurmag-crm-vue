@@ -44,7 +44,7 @@ defineProps({
     required: true
   },
   cancel: {
-    type: Boolean,
+    type: Function,
     required: true
   },
   progress: {
