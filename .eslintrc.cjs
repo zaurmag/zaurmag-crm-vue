@@ -10,9 +10,11 @@ module.exports = {
     'prettier',
   ],
   extends: [
-    'plugin:vue/vue3-recommended',
+    'plugin:vue/vue3-essential',
     'eslint:recommended',
-    'prettier'
+    'prettier',
+    '@vue/eslint-config-typescript'
+    // '@vue/eslint-config-prettier/skip-formatting'
   ],
   parserOptions: {
     ecmaVersion: '2020'

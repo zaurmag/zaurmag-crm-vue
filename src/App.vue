@@ -5,13 +5,13 @@
   />
 </template>
 
-<script>
+<script lang="ts">
 import EmptyLayout from '@/layout/EmptyLayout.vue'
 import MainLayout from '@/layout/MainLayout.vue'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { computed, defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   components: {
     EmptyLayout,
     MainLayout
@@ -23,7 +23,7 @@ export default {
       layout: computed(() => route.meta.layout)
     }
   }
-}
+})
 </script>
 
 <style>

@@ -1,4 +1,5 @@
-export const PERIOD_OPTIONS = [
+export const APP_NAME: string = 'ZmCrm'
+export const PERIOD_OPTIONS: Array<object> = [
   {
     name: 'Сегодня',
     value: 'today'
@@ -25,7 +26,7 @@ export const PERIOD_OPTIONS = [
   }
 ]
 
-export const TYPE_OPTIONS = [
+export const TYPE_OPTIONS: object[] = [
   {
     name: 'Все',
     value: 'all'
@@ -44,7 +45,7 @@ export const TYPE_OPTIONS = [
   }
 ]
 
-export const STATUS_OPTIONS = [
+export const STATUS_OPTIONS: object[] = [
   {
     name: 'Все',
     value: 'all'
@@ -59,7 +60,7 @@ export const STATUS_OPTIONS = [
   }
 ]
 
-export const MONTHS = [
+export const MONTHS: string[] = [
   'Янв',
   'Фев',
   'Март',
@@ -75,7 +76,7 @@ export const MONTHS = [
 ]
 
 // Users
-export const USER_STATUS = [
+export const USER_STATUS: object[] = [
   {
     name: 'Все',
     value: 'all'
@@ -90,4 +91,4 @@ export const USER_STATUS = [
   }
 ]
 
-export const PASS_MINLENGTH = 3
+export const PASS_MINLENGTH: number = 3

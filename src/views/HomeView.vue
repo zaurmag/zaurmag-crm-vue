@@ -17,7 +17,7 @@
   </app-page-header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useLinksFromRoutes } from '@/use/links-from-routes'
 import { useStore } from 'vuex'
 
