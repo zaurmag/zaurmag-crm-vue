@@ -13,27 +13,27 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AuthForm from '@/components/AuthForm.vue'
+import { APP_NAME } from '@/config/consts'
+import { error } from '@/utils/error'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
-import { error } from '@/utils/error'
-import { computed } from 'vue'
 
 const store = useStore()
 const route = useRoute()
 const router = useRouter()
-const isAuth = computed(() => store.getters['auth/isAuthenticated'])
-document.title = 'Вход в систему | ZmCrm'
+const isAuth = store.getters['auth/isAuthenticated']
+document.title = `Вход в систему | ${APP_NAME}`
 
-if (route.query.message && !isAuth.value) {
+if (route.query.message) {
   store.dispatch('setMessage', {
     value: error(route.query.message),
     type: 'info'
   })
 }
 
-if (isAuth.value) {
+if (isAuth) {
   router.push({ name: 'Home' })
 }
 </script>
