@@ -1,44 +1,46 @@
 <template>
-  <app-modal ref="modal" :title="title" @close="close">
+  <app-bs-modal
+    :id="id"
+    :title="title"
+  >
     <p class="mb-0">{{ text }}</p>
 
     <template #footer>
-      <button class="btn btn-success" type="button" @click="$emit('resolve')">Да</button>
-      <button class="btn btn-secondary" type="button" @click="close">Отмена</button>
+      <button
+        class="btn btn-success"
+        type="button"
+        @click="emit('resolve')"
+      >
+        Да
+      </button>
+      <button
+        class="btn btn-secondary"
+        type="button"
+        data-bs-dismiss="modal"
+      >
+        Отмена
+      </button>
     </template>
-  </app-modal>
+  </app-bs-modal>
 </template>
 
-<script>
-import AppModal from '@/components/ui/AppModal.vue'
-import { ref, watch } from 'vue'
+<script setup>
+// eslint-disable-next-line no-undef
+const emit = defineEmits(['resolve'])
 
-export default {
-  name: 'AppConfirm',
-  props: ['title', 'text'],
-  emits: ['resolve'],
-  setup () {
-    const confirm = ref(false)
-    const modal = ref(false)
-    watch(confirm, val => {
-      val ? modal.value.modal = true : modal.value.modal = false
-    })
-    const close = () => {
-      confirm.value = false
-    }
-
-    return {
-      close,
-      modal,
-      confirm
-    }
+// eslint-disable-next-line no-undef
+defineProps({
+  id: {
+    type: String,
+    required: true
   },
-  components: {
-    AppModal
+  title: {
+    type: String,
+    required: true
+  },
+  text: {
+    type: String,
+    required: true
   }
-}
+})
 </script>
-
-<style scoped>
-
-</style>

@@ -2,23 +2,23 @@ import { reactive } from 'vue'
 import router from '@/router'
 
 /*
-* Инструкция
-* https://libraries.io/npm/vue-3-breadcrumbs
-* */
+ * Инструкция
+ * https://libraries.io/npm/vue-3-breadcrumbs
+ * */
 
-const replaceSplit = (str) => {
+const replaceSplit = str => {
   return str.replace(/\/$/, '').split('/')
 }
 
 class Breadcrumbs {
-  constructor (router) {
+  constructor(router) {
     this.router = router
     this.name = null
     this.routes = reactive([]) // breadcrumbs array
     this.init()
   }
 
-  init () {
+  init() {
     this.router.afterEach((route, from, failure) => {
       if (failure || (route.path === from.path && from.matched.length)) return false
       this.setBreadcrumbsByRoute(route)
@@ -26,7 +26,7 @@ class Breadcrumbs {
   }
 
   // Creates and sets breadcrumbs chain for route
-  setBreadcrumbsByRoute (route) {
+  setBreadcrumbsByRoute(route) {
     if (!route) return false
     let arPath = replaceSplit(route.path)
     if (route.meta.breadcrumb === false) {
@@ -37,7 +37,7 @@ class Breadcrumbs {
 
     arPath.forEach((item, i) => {
       // 1. Get path for crumb
-      iterablePath += (i === 1) ? item : '/' + item
+      iterablePath += i === 1 ? item : '/' + item
       const isCurrentCrumb = i + 1 >= arPath.length
 
       // 2. Check if this crumb already exist, delete excess crumbs
@@ -59,7 +59,7 @@ class Breadcrumbs {
     })
   }
 
-  setCurrentBreadcrumbName (name) {
+  setCurrentBreadcrumbName(name) {
     const current = this.routes.find(r => r.current)
     if (current) {
       current.label = name
@@ -67,7 +67,7 @@ class Breadcrumbs {
   }
 
   // Resolves route meta by path and creates breadcrumb object
-  createBreadcrumb (path, isCurrent = false) {
+  createBreadcrumb(path, isCurrent = false) {
     if (!path) return false
     const crumbRoute = this.router.resolve(path)
     const breadcrumb = crumbRoute.meta?.breadcrumb

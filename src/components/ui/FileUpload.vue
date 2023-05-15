@@ -1,14 +1,14 @@
 <template>
   <file-pond
-    :name="id"
     ref="pond"
+    :name="id"
     credits=""
     :allow-multiple="false"
-    imageResizeTargetWidth="400"
-    imageResizeTargetHeight="400"
-    allowImageResize="true"
-    allowImageCrop="true"
-    imageCropAspectRatio="16:9"
+    image-resize-target-width="400"
+    image-resize-target-height="400"
+    allow-image-resize="true"
+    allow-image-crop="true"
+    image-crop-aspect-ratio="16:9"
     label-idle="Перенесите файлы сюда, или <br /><span class='btn btn-link py-0'>Загрузите</span>"
     accepted-file-types="image/jpeg, image/png"
     @addfile="addFile"
@@ -30,11 +30,7 @@ import { getStorage, ref as fbRef, uploadBytesResumable, getDownloadURL } from '
 
 // Emits
 // eslint-disable-next-line no-undef
-const emits = defineEmits([
-  'progress',
-  'uploadCancel',
-  'uploadSuccess'
-])
+const emits = defineEmits(['progress', 'uploadCancel', 'uploadSuccess'])
 
 // Props
 // eslint-disable-next-line no-undef
@@ -104,8 +100,9 @@ watch(save, val => {
     uploadTask.value.resume()
 
     if (uploadTask.value) {
-      uploadTask.value.on('state_changed',
-        (snapshot) => {
+      uploadTask.value.on(
+        'state_changed',
+        snapshot => {
           progress.value = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           emits('progress', progress.value)
         },
@@ -119,11 +116,11 @@ watch(save, val => {
           } catch (e) {
             switch (e.code) {
               case 'storage/object-not-found':
-                console.error('File doesn\'t exist')
+                console.error("File doesn't exist")
                 break
 
               case 'storage/unauthorized':
-                console.error('User doesn\'t have permission to access the object')
+                console.error("User doesn't have permission to access the object")
                 break
 
               case 'storage/canceled':
@@ -144,15 +141,4 @@ const addFile = () => {
   uploadTask.value = uploadBytesResumable(spaceRef.value, file)
   uploadTask.value.pause()
 }
-
-// const label = `
-//   <div class="f-upload">
-//     <div class="f-upload__area">
-//       <app-icon name="image" classList="f-upload__image" />
-//       <h5 class="h6 f-upload__title">Перетащите файл сюда</h5>
-//       <p class="f-upload__desc">или</p>
-//       <span class="btn btn-primary">Загрузите</span>
-//     </div>
-//   </div>
-// `
 </script>

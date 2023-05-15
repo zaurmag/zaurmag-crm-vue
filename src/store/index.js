@@ -1,5 +1,5 @@
 import { createStore, createLogger } from 'vuex'
-import project from './modules/project.module'
+import project from './modules/finance.module'
 import auth from './modules/auth.module'
 import users from './modules/users.module'
 import upload from './modules/upload.module'
@@ -14,21 +14,28 @@ if (import.meta.env.NODE_ENV === 'development') {
 export default createStore({
   plugins,
   state: {
-    message: null
+    message: null,
+    sidebar: false
   },
   mutations: {
-    setMessage (state, message) {
+    setMessage(state, message) {
       state.message = message
     },
-    clearMessage (state) {
+    clearMessage(state) {
       state.message = null
+    },
+    setSidebar(state, value) {
+      state.sidebar = value
     }
   },
   actions: {
-    setMessage ({ commit }, message) {
+    setMessage({ commit }, message) {
       commit('setMessage', message)
       setTimeout(() => commit('clearMessage'), 5000)
     }
+  },
+  getters: {
+    sidebar: state => state.sidebar
   },
   modules: {
     auth,

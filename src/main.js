@@ -7,8 +7,8 @@ import currency from '@/plugins/currency-format'
 import tooltipDirective from '@/directives/tooltip.directive'
 import globalComponents from '@/components/globals'
 import 'bootstrap'
-import './registerServiceWorker'
-import '@/assets/css/main.css'
+import '@/assets/styles/main.scss'
+import 'virtual:svg-icons-register'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 const app = createApp(App)

@@ -6,6 +6,6 @@ const ERROR_CODES = {
   EMAIL_EXISTS: 'Пользователь уже зарегистрирован в системе. Пожалуйста авторизуйтесь.'
 }
 
-export function error (code) {
+export function error(code) {
   return ERROR_CODES[code] ? ERROR_CODES[code] : 'Неизвестная ошибка!'
 }

@@ -3,8 +3,12 @@
     <h1 class="h4 text-center mb-25">Авторизация</h1>
     <auth-form />
     <div class="text-secondary fz-14 mt-4 text-center">
-      <router-link class="text-decoration-none" to="/sign-up">Зарегистрируйтесь</router-link>,
-      если нет учетной записи.
+      <router-link
+        class="text-decoration-none"
+        to="/sign-up"
+      >
+        Зарегистрируйтесь </router-link
+      >, если нет учетной записи.
     </div>
   </div>
 </template>
@@ -20,7 +24,7 @@ const store = useStore()
 const route = useRoute()
 const router = useRouter()
 const isAuth = computed(() => store.getters['auth/isAuthenticated'])
-document.title = 'Вход в систему | Система подсчета доходв/расходов'
+document.title = 'Вход в систему | ZmCrm'
 
 if (route.query.message && !isAuth.value) {
   store.dispatch('setMessage', {
@@ -30,19 +34,6 @@ if (route.query.message && !isAuth.value) {
 }
 
 if (isAuth.value) {
-  router.push({ name: 'home' })
+  router.push({ name: 'Home' })
 }
-
-// const redirectIsAuth = val => {
-//   const auth = val || isAuth.value
-//   if (auth && route.path === '/sign-in') {
-//     router.push('/')
-//   }
-// }
-//
-// redirectIsAuth()
-//
-// watch(isAuth.value, val => {
-//   redirectIsAuth(val)
-// })
 </script>

@@ -34,7 +34,8 @@
     "vue-filepond": "^7.0.3",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
-    "yup": "latest"
+    "yup": "latest",
+    "fast-glob": "^3.2.12"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.1.2",
@@ -42,10 +43,12 @@
     "@vue/eslint-config-standard": "^5.1.2",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^8.7.1",
     "prettier": "2.8.1",
     "sass": "latest",
     "sass-loader": "^8.0.2",
-    "vite": "^3.1.8"
+    "vite": "^3.1.8",
+    "vite-plugin-svg-icons": "^2.0.1"
   }
 }

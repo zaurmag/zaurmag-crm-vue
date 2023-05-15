@@ -1,19 +1,34 @@
 <template>
-  <div class="card shadow-sm-soft" :class="classList">
+  <div class="card shadow-sm-soft">
     <slot name="prepend" />
 
-    <header class="card-header" v-if="$slots.header || title">
-      <h5 class="card-header-title h6 mb-0" v-if="title">{{ title }}</h5>
+    <header
+      v-if="$slots.header || title"
+      class="card-header"
+    >
+      <h5
+        v-if="title"
+        class="card-header-title h6 mb-0"
+      >
+        {{ title }}
+      </h5>
       <slot name="header" />
     </header>
 
-    <div class="card-body" :class="classListBody" v-if="$slots.default">
+    <div
+      v-if="$slots.default"
+      class="card-body"
+      :class="classListBody"
+    >
       <slot name="default" />
     </div>
 
     <slot name="append" />
 
-    <footer class="card-footer" v-if="$slots.footer">
+    <footer
+      v-if="$slots.footer"
+      class="card-footer"
+    >
       <slot name="footer" />
     </footer>
   </div>
@@ -25,15 +40,11 @@ export default {
   props: {
     title: {
       type: String,
-      required: false
-    },
-    classList: {
-      type: String,
-      required: false
+      default: ''
     },
     classListBody: {
       type: String,
-      required: false
+      default: ''
     }
   }
 }

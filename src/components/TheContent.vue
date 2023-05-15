@@ -1,0 +1,24 @@
+<template>
+  <div class="content">
+    <slot />
+  </div>
+</template>
+
+<style scoped lang="sass">
+.content
+	position: relative
+	z-index: 10
+	display: flex
+	flex-direction: column
+	height: 100%
+
+	&--right
+		@include media-breakpoint-up(lg)
+			transition: padding-left .2s ease
+			padding-left: 260px
+
+			.is-sb-collapsed &,
+			&.is-full
+				padding-left: 80px
+				transition: padding-left .2s ease
+</style>

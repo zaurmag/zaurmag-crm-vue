@@ -9,9 +9,11 @@ const cors = require('cors')
 const host = '127.0.0.1'
 const port = 2222
 
-app.use(cors({
-  origin: ['http://localhost:8080']
-}))
+app.use(
+  cors({
+    origin: ['http://localhost:8080']
+  })
+)
 
 app.post('/api/upload', (req, res) => {
   console.log('BEGIN /upload')
@@ -25,7 +27,10 @@ app.post('/api/upload', (req, res) => {
       return
     }
 
-    fs.writeFileSync(uploadFolder + fileUpload.originalFilename, fs.readFileSync(fileUpload.filepath))
+    fs.writeFileSync(
+      uploadFolder + fileUpload.originalFilename,
+      fs.readFileSync(fileUpload.filepath)
+    )
 
     // res.writeHead(200, { 'Content-Type': 'text/plain' })
     return res.status(200).json({
