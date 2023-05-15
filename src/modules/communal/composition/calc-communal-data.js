@@ -16,7 +16,7 @@ export function useCalcCommunalData(curr, prev, rates) {
     const gas = (diffGas.value * rates.value.gas).toFixed(2)
     const water = (diffWater.value * rates.value.water).toFixed(2)
     const trash = (rates.value.people * rates.value.trash).toFixed(2)
-    const total = electr + gas + water + trash + rates.value.maintanceGe
+    const total = +electr + +gas + +water + +trash + rates.value.maintanceGe
 
     return {
       electr,
