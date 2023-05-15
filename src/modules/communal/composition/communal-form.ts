@@ -1,8 +1,14 @@
-import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { dateF } from '@/utils/date'
+import { useCalcCommunalData } from './calc-communal-data'
+import { useField, useForm } from 'vee-validate'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
+import { isHasKeysObject } from '@/utils/common'
 
-export function useCommunalForm(currInitial, prevInitial) {
+export function useCommunalForm(currInitial, prevInitial, emit, imageDownloadUrl) {
+  const store = useStore()
+
   const { handleSubmit, resetForm, isSubmitting, setFieldValue } = useForm({
     initialValues: {
       date: currInitial.date
@@ -18,6 +24,8 @@ export function useCommunalForm(currInitial, prevInitial) {
       desc: currInitial.desc
     }
   })
+
+  const rates = computed(() => store.getters['communal/rates'] || {})
 
   // Status
   const { value: status } = useField('status')
@@ -77,6 +85,59 @@ export function useCommunalForm(currInitial, prevInitial) {
   // Description
   const { value: desc, errorMessage: descError, handleBlur: descBlur } = useField('desc')
 
+  const onSubmit = handleSubmit(async ({ status, date, desc }) => {
+    try {
+      const dateNow = new Date()
+      const dateHours = dateNow.getHours()
+      const dateMinutes = dateNow.getMinutes()
+      const dateSeconds = dateNow.getSeconds()
+      const fullDate = `${date} ${dateHours}:${dateMinutes}:${dateSeconds}`
+
+      const isInitial = isHasKeysObject(currInitial)
+      const currValues = {
+        electr: electr,
+        gas: gas,
+        water: water
+      }
+      const prevValues = {
+        electr: prevElectr,
+        gas: prevGas,
+        water: prevWater
+      }
+
+      const { ...calcData } = useCalcCommunalData(currValues, prevValues, rates.value)
+
+      const payload = {
+        date: fullDate,
+        status,
+        desc,
+        image: imageDownloadUrl.value,
+        ...calcData
+      }
+
+      if (isInitial) {
+        await store.dispatch('communal/update', {
+          id: currInitial?.id,
+          ...payload
+        })
+        emit('close')
+
+        return
+      }
+
+      await store.dispatch('communal/add', {
+        id: Date.now().toString(),
+        ...payload
+      })
+
+      emit('close')
+      resetForm()
+      await store.dispatch('communal/load')
+    } catch (e) {
+      console.error(e.message)
+    }
+  })
+
   return {
     status,
     date,
@@ -106,6 +167,7 @@ export function useCommunalForm(currInitial, prevInitial) {
     handleSubmit,
     resetForm,
     setFieldValue,
-    isSubmitting
+    isSubmitting,
+    onSubmit
   }
 }

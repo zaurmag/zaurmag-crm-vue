@@ -63,12 +63,12 @@
   </form>
 </template>
 
-<script>
+<script lang="ts">
 import { useFinanceForm } from '../composition/form'
 import { TYPE_OPTIONS } from '@/config/consts'
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'ProjectForm',
   props: {
     initial: {
@@ -85,5 +85,5 @@ export default {
       ...useFinanceForm(emit, props.initial)
     }
   }
-}
+})
 </script>

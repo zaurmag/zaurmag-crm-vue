@@ -59,7 +59,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AppPeriodDateRange from '@/components/ui/AppPeriodDateRange.vue'
 import { ref, watch, computed } from 'vue'
 import { PERIOD_OPTIONS, STATUS_OPTIONS } from '@/config/consts'

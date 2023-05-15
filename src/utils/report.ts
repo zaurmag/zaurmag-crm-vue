@@ -1,12 +1,12 @@
 import { getMonth } from '@/utils/date'
 
 /**
- * Get summ amount in items
+ * Получить сумму в массиве объектов с клюем amount
  */
-
-export const getSumm = items => {
-  return items.reduce((acc, item) => {
-    acc += +item.amount
+type amount = { amount: number }
+export const getSumm = (items: Array<amount>): number => {
+  return items.reduce((acc: number, item: amount): number => {
+    acc += +item?.amount
 
     return acc
   }, 0)
@@ -15,7 +15,7 @@ export const getSumm = items => {
 /**
  * Get summ amount in filter items
  */
-export const getAmountSumm = (type, projects) => {
+export const getAmountSumm = (type: string, projects) => {
   const itemsType = projects.filter(item => item.type === type)
 
   return getSumm(itemsType)
@@ -27,9 +27,8 @@ export const getAmountSumm = (type, projects) => {
  * @param total Общая сумма
  * @return String В формате number + %, например - 95%
  */
-export const progress = (value, total) => {
-  return Math.round((value / total) * 100) + '%'
-}
+export const progress = (value: number, total: number): string =>
+  Math.round((value / total) * 100) + '%'
 
 /**
  * Функция, которая возвращает массив сумм за определенные месяцы
@@ -60,7 +59,7 @@ export const getAmountByMonths = (arrayProjects, months) => {
  * @return {Array} Массив строк месяцев
  */
 
-export const getMonthName = (items, months) => {
+export const getMonthName = (items, months: Array<string>): Array<string> => {
   const monthsMap = months.reduce((acc, el, idx) => {
     acc.push({
       name: el,
@@ -75,5 +74,5 @@ export const getMonthName = (items, months) => {
     .sort((a, b) => a.index - b.index)
     .map(item => item.name)
 
-  return [...new Set(result)]
+  return Array.from(new Set(result))
 }

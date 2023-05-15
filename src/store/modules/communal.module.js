@@ -1,6 +1,6 @@
 import store from '../../store'
 import axios from '@/axios/dbase'
-import { transform, transform2 } from '@/utils/transform'
+import { transform } from '@/utils/transform'
 
 export default {
   namespaced: true,
@@ -143,7 +143,7 @@ export default {
         const uID = store.getters['users/userID']
         const { data } = await axios.get(`/communal/rates/${uID}.json`)
 
-        commit('setRates', transform2(data))
+        commit('setRates', data)
       } catch (e) {
         dispatch(
           'setMessage',

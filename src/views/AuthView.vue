@@ -23,12 +23,13 @@ import { useRoute, useRouter } from 'vue-router'
 const store = useStore()
 const route = useRoute()
 const router = useRouter()
-const isAuth = store.getters['auth/isAuthenticated']
+const message: string = route.query.message as string
+const isAuth: boolean = store.getters['auth/isAuthenticated']
 document.title = `Вход в систему | ${APP_NAME}`
 
-if (route.query.message) {
+if (message) {
   store.dispatch('setMessage', {
-    value: error(route.query.message),
+    value: error(message),
     type: 'info'
   })
 }

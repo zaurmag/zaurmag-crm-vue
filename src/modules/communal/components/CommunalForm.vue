@@ -7,19 +7,19 @@
       <div class="col-sm mb-3 mb-sm-0">
         <form-control
           id="date"
-          v-model="fields.date"
+          v-model="date"
           type="date"
           class="m-0"
-          :error="fields.dError"
-          @blur="fields.dBlur"
+          :error="dError"
+          @blur="dBlur"
         />
       </div>
       <div class="col-sm d-flex justify-content-sm-end">
         <form-switch
           id="status"
-          v-model="fields.status"
-          :label="fields.status ? 'Оплачено' : 'Не оплачено'"
-          :class-list-label="fields.status ? 'text-primary' : 'text-secondary'"
+          v-model="status"
+          :label="status ? 'Оплачено' : 'Не оплачено'"
+          :class-list-label="status ? 'text-primary' : 'text-secondary'"
         />
       </div>
     </div>
@@ -37,38 +37,38 @@
     <div class="row g-10 mb-15">
       <form-control
         id="prevEl"
-        v-model.number="fields.prevElectr"
+        v-model.number="prevElectr"
         label="Электричество"
         type="number"
         class="col-sm"
         class-list-input="form-control-lg"
         :disabled="prevIsDisabled"
-        :error="fields.prevElectrError"
-        @blur="fields.prevElectrBlur"
+        :error="prevElectrError"
+        @blur="prevElectrBlur"
       />
 
       <form-control
         id="prevGas"
-        v-model.number="fields.prevGas"
+        v-model.number="prevGas"
         label="Газ"
         type="number"
         class="col-sm"
         class-list-input="form-control-lg"
         :disabled="prevIsDisabled"
-        :error="fields.prevGasError"
-        @blur="fields.prevGasBlur"
+        :error="prevGasError"
+        @blur="prevGasBlur"
       />
 
       <form-control
         id="prevWater"
-        v-model.number="fields.prevWater"
+        v-model.number="prevWater"
         label="Вода"
         type="number"
         class="col-sm"
         class-list-input="form-control-lg"
         :disabled="prevIsDisabled"
-        :error="fields.prevWaterError"
-        @blur="fields.prevWaterBlur"
+        :error="prevWaterError"
+        @blur="prevWaterBlur"
       />
     </div>
 
@@ -76,46 +76,46 @@
     <div class="row g-10">
       <form-control
         id="addRecordEl"
-        v-model.number="fields.electr"
+        v-model.number="electr"
         label="Электричество"
         type="number"
         class="col-sm"
         class-list-input="form-control-lg"
-        :error="fields.electrError"
-        @blur="fields.electrBlur"
+        :error="electrError"
+        @blur="electrBlur"
       />
 
       <form-control
         id="addRecordGas"
-        v-model.number="fields.gas"
+        v-model.number="gas"
         label="Газ"
         type="number"
         class="col-sm"
         class-list-input="form-control-lg"
-        :error="fields.gasError"
-        @blur="fields.gasBlur"
+        :error="gasError"
+        @blur="gasBlur"
       />
 
       <form-control
         id="addRecordWater"
-        v-model.number="fields.water"
+        v-model.number="water"
         label="Вода"
         type="number"
         class="col-sm"
         class-list-input="form-control-lg"
-        :error="fields.waterError"
-        @blur="fields.waterBlur"
+        :error="waterError"
+        @blur="waterBlur"
       />
     </div>
 
     <form-control
       id="addRecordDesc"
-      v-model="fields.desc"
+      v-model="desc"
       label="Описание"
       type="textarea"
-      :error="fields.descError"
+      :error="descError"
       class-list-input="form-control-lg h-100"
-      @blur="fields.descBlur"
+      @blur="descBlur"
     />
 
     <div class="mb-3">
@@ -131,7 +131,7 @@
       <app-button
         class-list-btn="btn-primary w-100 px-4"
         type="submit"
-        :animate="{ loading: fields.isSubmitting }"
+        :animate="{ loading: isSubmitting }"
       >
         Отправить
       </app-button>
@@ -139,90 +139,52 @@
   </form>
 </template>
 
-<script setup>
+<script lang="ts">
 import { useCommunalForm } from '../composition/communal-form'
-import { useCalcCommunalData } from '../composition/calc-communal-data'
-import { isHasKeysObject } from '@/utils/common'
 import { useStore } from 'vuex'
-import { ref, reactive, computed, defineAsyncComponent, watch } from 'vue'
+import { ref, computed, defineComponent } from 'vue'
 
-const FUpload = defineAsyncComponent(() => import('@/components/ui/FUpload.vue'))
-
-// eslint-disable-next-line no-undef
-const emit = defineEmits(['close', 'submit', 'change-image-url'])
-
-// eslint-disable-next-line no-undef
-const props = defineProps({
-  currInitial: {
-    type: Object,
-    default() {
-      return {}
+export default defineComponent({
+  components: {
+    FUpload: () => import('@/components/ui/FUpload.vue')
+  },
+  props: {
+    currInitial: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
+    prevInitial: {
+      type: Object,
+      default() {
+        return {}
+      }
     }
   },
-  prevInitial: {
-    type: Object,
-    default() {
-      return {}
-    }
-  }
-})
+  emits: ['close', 'submit', 'change-image-url'],
+  setup(props, { emit }) {
+    const store = useStore()
 
-const store = useStore()
-let { ...fields } = useCommunalForm(props.currInitial, props.prevInitial)
-fields = reactive(fields)
+    const prevIsDisabled = ref(true)
+    const userId = computed(() => store.getters['users/userID'])
+    const imageUploadUrl: string = `/uploads/${userId.value}/images/`
 
-const prevIsDisabled = ref(true)
-const rates = computed(() => store.getters['communal/rates'] || {})
-const userId = computed(() => store.getters['users/userID'])
-const imageUploadUrl = `/uploads/${userId.value}/images/`
-const imageDownloadUrl = ref(props.currInitial?.image || '')
-
-watch(imageDownloadUrl, url => {
-  emit('change-image-url', url)
-})
-
-const onSubmit = fields.handleSubmit(async ({ status, date, desc }) => {
-  try {
-    const dateNow = new Date()
-    const fullDate = `${date} ${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`
-    const isInitial = isHasKeysObject(props.currInitial)
-    const currValues = { electr: fields.electr, gas: fields.gas, water: fields.water }
-    const prevValues = {
-      electr: fields.prevElectr,
-      gas: fields.prevGas,
-      water: fields.prevWater
-    }
-
-    const { ...calcData } = useCalcCommunalData(currValues, prevValues, rates)
-
-    const payload = {
-      date: fullDate,
-      status,
-      desc,
-      image: imageDownloadUrl.value,
-      ...calcData
-    }
-
-    if (isInitial) {
-      await store.dispatch('communal/update', {
-        id: props.currInitial?.id,
-        ...payload
-      })
-      emit('close')
-
-      return
-    }
-
-    await store.dispatch('communal/add', {
-      id: Date.now().toString(),
-      ...payload
+    const imageDownloadUrl = computed({
+      get() {
+        return props.currInitial?.image || ''
+      },
+      set(url) {
+        emit('change-image-url', url)
+      }
     })
 
-    emit('close')
-    fields.resetForm()
-    await store.dispatch('communal/load')
-  } catch (e) {
-    /* empty */
+    return {
+      prevIsDisabled,
+      imageUploadUrl,
+      imageDownloadUrl,
+      ...useCommunalForm(props.currInitial, props.prevInitial, emit, imageDownloadUrl)
+    }
   }
 })
 </script>
